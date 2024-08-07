@@ -16,6 +16,11 @@
 package test;
 
 import com.google.gwt.junit.client.GWTTestCase;
+
+import walkingkooka.environment.EnvironmentValueName;
+
+
+@walkingkooka.j2cl.locale.LocaleAware
 public class TestGwtTest extends GWTTestCase {
 
     @Override
@@ -28,5 +33,9 @@ public class TestGwtTest extends GWTTestCase {
                 1,
                 1
         );
+    }
+
+    public void testEnvironmentValueName() {
+        EnvironmentValueName.with("Hello123");
     }
 }
