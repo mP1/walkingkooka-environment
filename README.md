@@ -6,4 +6,9 @@
 [![J2CL compatible](https://img.shields.io/badge/J2CL-compatible-brightgreen.svg)](https://github.com/mP1/j2cl-central)
 
 # walkingkooka-environment
-Support for providing a scoped / context with targetted environment values
+Support for providing a scoped / context with targetted environment values.
+
+This is intended primarily to support custom values to a component(s) such as a [plugin](https://github.com/mP1/walkingkooka-plugin).
+
+- Secret values such as a username and password to a component.
+- Non secret values such as an address.
