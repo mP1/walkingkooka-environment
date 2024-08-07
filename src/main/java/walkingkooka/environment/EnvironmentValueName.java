@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.InvalidCharacterException;
 import walkingkooka.InvalidTextLengthException;
 import walkingkooka.compare.Comparators;
 import walkingkooka.naming.Name;
@@ -44,7 +45,7 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
     private final static CharPredicate PART = INITIAL.or(
             CharPredicates.range('0', '9') // numbers
     ).or(
-            CharPredicates.any("-")
+            CharPredicates.any("-.")
     );
 
     /**
@@ -60,6 +61,11 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
 
         if (name.length() >= MAX_LENGTH) {
             throw new InvalidTextLengthException("environmentValueName", name, 0, MAX_LENGTH);
+        }
+
+        final int dotdot = name.indexOf("..");
+        if (-1 != dotdot) {
+            throw new InvalidCharacterException(name, 1 + dotdot);
         }
 
         return new EnvironmentValueName<>(name);

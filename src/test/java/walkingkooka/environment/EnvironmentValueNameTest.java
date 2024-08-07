@@ -53,6 +53,15 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         );
     }
 
+    @Test
+    public void testWithDotDotFails() {
+        this.withFails(
+                "abc..def",
+                InvalidCharacterException.class,
+                "Invalid character '.' at 4 in \"abc..def\""
+        );
+    }
+
     private <T extends IllegalArgumentException> void withFails(final String text,
                                                                 final Class<T> throwsClass,
                                                                 final String message) {
