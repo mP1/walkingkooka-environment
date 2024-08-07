@@ -119,11 +119,9 @@
 
                             <classpath-required/>
                             <ignored-dependencies>
-                                <param>javax.servlet:javax.servlet-api:*</param>
                                 <param>org.junit.jupiter:junit-jupiter-engine:*</param>
                                 <param>org.junit.platform:junit-platform-commons:*</param>
                                 <param>org.junit.jupiter:junit-jupiter-api:*</param>
-                                <param>walkingkooka:walkingkooka-classloader:*</param>
                             </ignored-dependencies>
                             <javascript-source-required/>
 

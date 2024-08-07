@@ -19,11 +19,19 @@ package test;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.junit.Assert;
 import org.junit.Test;
+
+import walkingkooka.environment.EnvironmentValueName;
+
 @J2clTestInput(JunitTest.class)
 public class JunitTest {
     @Test
     public void testAssert() {
         Assert.assertEquals(1, 3 - 2);
+    }
+
+    @Test
+    public void testEnvironmentValueName() {
+        EnvironmentValueName.with("Hello123");
     }
 }
 
