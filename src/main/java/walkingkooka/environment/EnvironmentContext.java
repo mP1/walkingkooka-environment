@@ -30,4 +30,13 @@ public interface EnvironmentContext extends Context {
      * Returns the value for the given {@link EnvironmentValueName}.
      */
     <T> Optional<T> environmentValue(final EnvironmentValueName<T> name);
+
+    /**
+     * Returns the value for the given {@link EnvironmentValueName} throwing a {@link IllegalArgumentException} if
+     * the value is unknown or missing.
+     */
+    default <T> T environmentValueOrFail(final EnvironmentValueName<T> name) {
+        return this.environmentValue(name)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown environment value " + name));
+    }
 }
