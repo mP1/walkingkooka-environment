@@ -37,12 +37,12 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
     /**
      * EnvironmentValueName must start with a letter.
      */
-    private final static CharPredicate INITIAL = CharPredicates.letter();
+    public final static CharPredicate INITIAL = CharPredicates.letter();
 
     /**
      * EnvironmentValueName characters not the first may be a letter, digit or dash.
      */
-    private final static CharPredicate PART = INITIAL.or(
+    public final static CharPredicate PART = INITIAL.or(
             CharPredicates.range('0', '9') // numbers
     ).or(
             CharPredicates.any("-.")
