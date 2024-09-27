@@ -57,10 +57,15 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
      * Factory that creates a {@link EnvironmentValueName}
      */
     public static <T> EnvironmentValueName<T> with(final String name) {
-        CharPredicates.failIfNullOrEmptyOrInitialAndPartFalse(name, "environmentValueName", INITIAL, PART);
+        CharPredicates.failIfNullOrEmptyOrInitialAndPartFalse(
+                name,
+                "name",
+                INITIAL,
+                PART
+        );
 
         if (name.length() >= MAX_LENGTH) {
-            throw new InvalidTextLengthException("environmentValueName", name, 0, MAX_LENGTH);
+            throw new InvalidTextLengthException("name", name, 0, MAX_LENGTH);
         }
 
         final int dotdot = name.indexOf("..");
