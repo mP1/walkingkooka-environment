@@ -35,12 +35,12 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 final public class EnvironmentValueName<T> implements Name, Comparable<EnvironmentValueName<T>> {
 
     /**
-     * EnvironmentValueName must start with a letter.
+     * Names must start with a letter.
      */
     public final static CharPredicate INITIAL = CharPredicates.letter();
 
     /**
-     * EnvironmentValueName characters not the first may be a letter, digit or dash.
+     * Valid characters for characters following the first, which may be a letter, digit or dash.
      */
     public final static CharPredicate PART = INITIAL.or(
             CharPredicates.range('0', '9') // numbers
@@ -49,7 +49,7 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
     );
 
     /**
-     * The maximum valid length for a label name.
+     * The maximum valid length for a environment value name.
      */
     public final static int MAX_LENGTH = 255;
 
