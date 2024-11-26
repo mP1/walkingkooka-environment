@@ -24,7 +24,7 @@ import walkingkooka.props.PropertiesPath;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting<CollectionEnvironmentContext> {
+public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting2<CollectionEnvironmentContext> {
 
     private final static String NAME1 = "hello.111";
 
