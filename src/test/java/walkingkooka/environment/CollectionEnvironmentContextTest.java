@@ -45,7 +45,6 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEnvironmentalValue1() {
         this.environmentValueAndCheck(
-                this.createContext(),
                 EnvironmentValueName.with(NAME1),
                 VALUE1
         );
@@ -54,7 +53,6 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEnvironmentalValue2() {
         this.environmentValueAndCheck(
-                this.createContext(),
                 EnvironmentValueName.with(NAME2),
                 VALUE2
         );
@@ -63,7 +61,6 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEnvironmentalValue1Missing() {
         this.environmentValueAndCheck(
-                this.createContext(),
                 EnvironmentValueName.with("Unknown")
         );
     }
