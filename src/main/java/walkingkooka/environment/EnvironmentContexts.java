@@ -17,12 +17,10 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.collect.list.Lists;
 import walkingkooka.props.Properties;
 import walkingkooka.reflect.PublicStaticHelper;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A collection of {@link EnvironmentContext} factory methods.
