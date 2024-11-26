@@ -17,7 +17,10 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.props.Properties;
 import walkingkooka.reflect.PublicStaticHelper;
+
+import java.util.Objects;
 
 /**
  * A collection of {@link EnvironmentContext} factory methods.
@@ -29,6 +32,13 @@ public final class EnvironmentContexts implements PublicStaticHelper {
      */
     public static EnvironmentContext fake() {
         return new FakeEnvironmentContext();
+    }
+
+    /**
+     * {@see PropertiesEnvironmentContext}
+     */
+    public static EnvironmentContext with(final Properties properties) {
+        return PropertiesEnvironmentContext.with(properties);
     }
 
     /**
