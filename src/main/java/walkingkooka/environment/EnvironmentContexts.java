@@ -17,15 +17,24 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.collect.list.Lists;
 import walkingkooka.props.Properties;
 import walkingkooka.reflect.PublicStaticHelper;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
  * A collection of {@link EnvironmentContext} factory methods.
  */
 public final class EnvironmentContexts implements PublicStaticHelper {
+
+    /**
+     * {@see CollectionEnvironmentContext}
+     */
+    public static EnvironmentContext collection(final List<EnvironmentContext> environmentContexts) {
+        return CollectionEnvironmentContext.with(environmentContexts);
+    }
 
     /**
      * {@see FakeEnvironmentContext}
