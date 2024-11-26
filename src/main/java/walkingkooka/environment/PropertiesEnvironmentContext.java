@@ -17,10 +17,11 @@
 
 package walkingkooka.environment;
 
-import java.util.Objects;
-import java.util.Optional;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * An {@link EnvironmentContext} that sources all values from a given {@link Properties}.
