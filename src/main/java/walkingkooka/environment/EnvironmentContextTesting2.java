@@ -19,40 +19,44 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ContextTesting;
-import walkingkooka.test.Testing;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public interface EnvironmentContextTesting extends Testing {
+public interface EnvironmentContextTesting2<C extends EnvironmentContext> extends EnvironmentContextTesting,
+        ContextTesting<C> {
 
-    default <T> void environmentValueAndCheck(final EnvironmentContext context,
-                                              final EnvironmentValueName<T> name) {
-        this.environmentValueAndCheck(
-                context,
-                name,
-                Optional.empty()
+    @Test
+    default void testEnvironmentValueWithNullFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> this.createContext().environmentValue(null)
         );
     }
 
-    default <T> void environmentValueAndCheck(final EnvironmentContext context,
-                                              final EnvironmentValueName<T> name,
+    default <T> void environmentValueAndCheck(final EnvironmentValueName<T> name) {
+        this.environmentValueAndCheck(
+                this.createContext(),
+                name
+        );
+    }
+
+    default <T> void environmentValueAndCheck(final EnvironmentValueName<T> name,
                                               final T expected) {
         this.environmentValueAndCheck(
-                context,
+                this.createContext(),
                 name,
-                Optional.of(expected)
+                expected
         );
     }
 
-    default <T> void environmentValueAndCheck(final EnvironmentContext context,
-                                              final EnvironmentValueName<T> name,
+    default <T> void environmentValueAndCheck(final EnvironmentValueName<T> name,
                                               final Optional<T> expected) {
-        this.checkEquals(
-                expected,
-                context.environmentValue(name),
-                () -> "environmentValue " + name
+        this.environmentValueAndCheck(
+                this.createContext(),
+                name,
+                expected
         );
     }
 }
