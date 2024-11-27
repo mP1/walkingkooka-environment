@@ -35,6 +35,13 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     }
 
     /**
+     * {@see EmptyEnvironmentContext}
+     */
+    public static EnvironmentContext empty() {
+        return EmptyEnvironmentContext.INSTANCE;
+    }
+
+    /**
      * {@see FakeEnvironmentContext}
      */
     public static EnvironmentContext fake() {
