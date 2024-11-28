@@ -51,7 +51,7 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see PropertiesEnvironmentContext}
      */
-    public static EnvironmentContext with(final Properties properties) {
+    public static EnvironmentContext properties(final Properties properties) {
         return PropertiesEnvironmentContext.with(properties);
     }
 
