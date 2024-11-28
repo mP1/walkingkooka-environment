@@ -18,13 +18,15 @@
 package walkingkooka.environment;
 
 import walkingkooka.Context;
+import walkingkooka.datetime.HasNow;
 
 import java.util.Optional;
 
 /**
  * A {@link Context} that includes methods to fetch environment values.
  */
-public interface EnvironmentContext extends Context {
+public interface EnvironmentContext extends Context,
+        HasNow {
 
     /**
      * Returns the value for the given {@link EnvironmentValueName}.

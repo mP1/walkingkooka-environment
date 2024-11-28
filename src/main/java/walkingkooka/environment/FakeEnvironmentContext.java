@@ -17,11 +17,17 @@
 
 package walkingkooka.environment;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class FakeEnvironmentContext implements EnvironmentContext {
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public LocalDateTime now() {
         throw new UnsupportedOperationException();
     }
 }

@@ -17,9 +17,11 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.datetime.HasNow;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -28,14 +30,18 @@ import java.util.Optional;
  */
 final class PropertiesEnvironmentContext implements EnvironmentContext {
 
-    static PropertiesEnvironmentContext with(final Properties properties) {
+    static PropertiesEnvironmentContext with(final Properties properties,
+                                             final HasNow hasNow) {
         return new PropertiesEnvironmentContext(
-                Objects.requireNonNull(properties, "properties")
+                Objects.requireNonNull(properties, "properties"),
+                Objects.requireNonNull(hasNow, "hasNow")
         );
     }
 
-    private PropertiesEnvironmentContext(final Properties properties) {
+    private PropertiesEnvironmentContext(final Properties properties,
+                                         final HasNow hasNow) {
         this.properties = properties;
+        this.hasNow = hasNow;
     }
 
     @Override
@@ -46,6 +52,13 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     }
 
     private final Properties properties;
+
+    @Override
+    public LocalDateTime now() {
+        return this.hasNow.now();
+    }
+
+    private final HasNow hasNow;
 
     @Override
     public String toString() {
