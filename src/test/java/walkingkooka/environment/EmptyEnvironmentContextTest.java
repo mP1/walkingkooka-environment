@@ -20,8 +20,24 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public final class EmptyEnvironmentContextTest implements EnvironmentContextTesting2<EmptyEnvironmentContext>,
         ToStringTesting<EmptyEnvironmentContext> {
+
+    private final static LocalDateTime NOW = LocalDateTime.MIN;
+
+    @Test
+    public void testWithNullHasNowFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> EmptyEnvironmentContext.with(null)
+        );
+    }
+
+    // environmentValue.................................................................................................
 
     @Test
     public void testEnvironmentalValue() {
@@ -33,7 +49,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
 
     @Override
     public EmptyEnvironmentContext createContext() {
-        return EmptyEnvironmentContext.INSTANCE;
+        return EmptyEnvironmentContext.with(() -> NOW);
     }
 
     // toString.........................................................................................................

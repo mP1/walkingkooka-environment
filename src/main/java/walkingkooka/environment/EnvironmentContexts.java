@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.datetime.HasNow;
 import walkingkooka.props.Properties;
 import walkingkooka.reflect.PublicStaticHelper;
 
@@ -30,15 +31,19 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see CollectionEnvironmentContext}
      */
-    public static EnvironmentContext collection(final List<EnvironmentContext> environmentContexts) {
-        return CollectionEnvironmentContext.with(environmentContexts);
+    public static EnvironmentContext collection(final List<EnvironmentContext> environmentContexts,
+                                                final HasNow hasNow) {
+        return CollectionEnvironmentContext.with(
+                environmentContexts,
+                hasNow
+        );
     }
 
     /**
      * {@see EmptyEnvironmentContext}
      */
-    public static EnvironmentContext empty() {
-        return EmptyEnvironmentContext.INSTANCE;
+    public static EnvironmentContext empty(final HasNow hasNow) {
+        return EmptyEnvironmentContext.with(hasNow);
     }
 
     /**
@@ -51,8 +56,12 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see PropertiesEnvironmentContext}
      */
-    public static EnvironmentContext properties(final Properties properties) {
-        return PropertiesEnvironmentContext.with(properties);
+    public static EnvironmentContext properties(final Properties properties,
+                                                final HasNow hasNow) {
+        return PropertiesEnvironmentContext.with(
+                properties,
+                hasNow
+        );
     }
 
     /**

@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface EnvironmentContextDelegator extends EnvironmentContext {
@@ -25,6 +26,12 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     default <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return this.environmentContext()
                 .environmentValue(name);
+    }
+
+    @Override
+    default LocalDateTime now() {
+        return this.environmentContext()
+                .now();
     }
 
     EnvironmentContext environmentContext();

@@ -18,7 +18,9 @@
 package walkingkooka.environment;
 
 import walkingkooka.collect.list.Lists;
+import walkingkooka.datetime.HasNow;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,16 +30,20 @@ import java.util.Optional;
  */
 final class CollectionEnvironmentContext implements EnvironmentContext {
 
-    static CollectionEnvironmentContext with(final List<EnvironmentContext> environmentContexts) {
+    static CollectionEnvironmentContext with(final List<EnvironmentContext> environmentContexts,
+                                             final HasNow hasNow) {
         return new CollectionEnvironmentContext(
                 Lists.immutable(
                         Objects.requireNonNull(environmentContexts, "environmentContexts")
-                )
+                ),
+                Objects.requireNonNull(hasNow, "hasNow")
         );
     }
 
-    private CollectionEnvironmentContext(final List<EnvironmentContext> environmentContexts) {
+    private CollectionEnvironmentContext(final List<EnvironmentContext> environmentContexts,
+                                         final HasNow hasNow) {
         this.environmentContexts = environmentContexts;
+        this.hasNow = hasNow;
     }
 
     @Override
@@ -50,6 +56,13 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     }
 
     private List<EnvironmentContext> environmentContexts;
+
+    @Override
+    public LocalDateTime now() {
+        return this.hasNow.now();
+    }
+
+    private final HasNow hasNow;
 
     @Override
     public String toString() {

@@ -22,22 +22,42 @@ import walkingkooka.ToStringTesting;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class PropertiesEnvironmentContextTest implements EnvironmentContextTesting2<PropertiesEnvironmentContext>,
         ToStringTesting<PropertiesEnvironmentContext> {
+
+    private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static String NAME = "hello.123";
 
     private final static String VALUE = "Gday";
 
     @Test
-    public void testWithNullFails() {
+    public void testWithNullPropertiesFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> PropertiesEnvironmentContext.with(null)
+                () -> PropertiesEnvironmentContext.with(
+                        null,
+                        () -> NOW
+                )
         );
     }
+
+    @Test
+    public void testWithNullHasNowFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> PropertiesEnvironmentContext.with(
+                        Properties.EMPTY,
+                        null
+                )
+        );
+    }
+
+    // environmentValue.................................................................................................
 
     @Test
     public void testEnvironmentalValue() {
@@ -62,7 +82,8 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                 Properties.EMPTY.set(
                         PropertiesPath.parse(NAME),
                         VALUE
-                )
+                ),
+                () -> NOW
         );
     }
 

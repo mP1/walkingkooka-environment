@@ -17,6 +17,9 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.datetime.HasNow;
+
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,10 +28,15 @@ import java.util.Optional;
  */
 final class EmptyEnvironmentContext implements EnvironmentContext {
 
-    final static EmptyEnvironmentContext INSTANCE = new EmptyEnvironmentContext();
+    final static EmptyEnvironmentContext with(final HasNow hasNow) {
+        return new EmptyEnvironmentContext(
+                Objects.requireNonNull(hasNow, "hasNow")
+        );
+    }
 
-    private EmptyEnvironmentContext() {
+    private EmptyEnvironmentContext(final HasNow hasNow) {
         super();
+        this.hasNow = hasNow;
     }
 
     @Override
@@ -36,6 +44,13 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         return Optional.empty();
     }
+
+    @Override
+    public LocalDateTime now() {
+        return this.hasNow.now();
+    }
+
+    private final HasNow hasNow;
 
     @Override
     public String toString() {

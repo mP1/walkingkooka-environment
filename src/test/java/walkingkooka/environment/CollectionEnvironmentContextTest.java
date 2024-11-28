@@ -22,6 +22,8 @@ import walkingkooka.collect.list.Lists;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting2<CollectionEnvironmentContext> {
@@ -34,11 +36,27 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
     private final static String VALUE2 = "Orange";
 
+    private final LocalDateTime NOW = LocalDateTime.MIN;
+
     @Test
-    public void testWithNullFails() {
+    public void testWithNullPropertiesFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> PropertiesEnvironmentContext.with(null)
+                () -> PropertiesEnvironmentContext.with(
+                        null,
+                        () -> NOW
+                )
+        );
+    }
+
+    @Test
+    public void testWithNullHasNowFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> PropertiesEnvironmentContext.with(
+                        Properties.EMPTY,
+                        null
+                )
         );
     }
 
@@ -68,22 +86,26 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Override
     public CollectionEnvironmentContext createContext() {
         return CollectionEnvironmentContext.with(
-                Lists.of(PropertiesEnvironmentContext.with(
+                Lists.of(
+                        EnvironmentContexts.properties(
                                 Properties.EMPTY.set(
                                         PropertiesPath.parse(NAME1),
                                         VALUE1
-                                )
+                                ),
+                                () -> NOW
                         ),
-                        PropertiesEnvironmentContext.with(
+                        EnvironmentContexts.properties(
                                 Properties.EMPTY.set(
                                         PropertiesPath.parse(NAME1),
                                         "ignored!!!"
                                 ).set(
                                         PropertiesPath.parse(NAME2),
                                         VALUE2
-                                )
+                                ),
+                                () -> NOW
                         )
-                )
+                ),
+                () -> NOW
         );
     }
 
