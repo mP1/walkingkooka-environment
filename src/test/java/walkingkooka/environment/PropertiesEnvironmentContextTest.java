@@ -41,7 +41,8 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                 NullPointerException.class,
                 () -> PropertiesEnvironmentContext.with(
                         null,
-                        () -> NOW
+                        () -> NOW,
+                        EnvironmentContext.ANONYMOUS
                 )
         );
     }
@@ -52,6 +53,19 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                 NullPointerException.class,
                 () -> PropertiesEnvironmentContext.with(
                         Properties.EMPTY,
+                        null,
+                        EnvironmentContext.ANONYMOUS
+                )
+        );
+    }
+
+    @Test
+    public void testWithNullUserFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> PropertiesEnvironmentContext.with(
+                        Properties.EMPTY,
+                        () -> NOW,
                         null
                 )
         );
@@ -83,7 +97,8 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                         PropertiesPath.parse(NAME),
                         VALUE
                 ),
-                () -> NOW
+                () -> NOW,
+                EnvironmentContext.ANONYMOUS
         );
     }
 

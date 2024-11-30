@@ -17,6 +17,8 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.net.email.EmailAddress;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -32,6 +34,12 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     default LocalDateTime now() {
         return this.environmentContext()
                 .now();
+    }
+
+    @Override
+    default Optional<EmailAddress> user() {
+        return this.environmentContext()
+                .user();
     }
 
     EnvironmentContext environmentContext();

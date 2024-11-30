@@ -19,6 +19,7 @@ package walkingkooka.environment;
 
 import walkingkooka.collect.list.Lists;
 import walkingkooka.datetime.HasNow;
+import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,19 +32,23 @@ import java.util.Optional;
 final class CollectionEnvironmentContext implements EnvironmentContext {
 
     static CollectionEnvironmentContext with(final List<EnvironmentContext> environmentContexts,
-                                             final HasNow hasNow) {
+                                             final HasNow hasNow,
+                                             final Optional<EmailAddress> user) {
         return new CollectionEnvironmentContext(
                 Lists.immutable(
                         Objects.requireNonNull(environmentContexts, "environmentContexts")
                 ),
-                Objects.requireNonNull(hasNow, "hasNow")
+                Objects.requireNonNull(hasNow, "hasNow"),
+                Objects.requireNonNull(user, "user")
         );
     }
 
     private CollectionEnvironmentContext(final List<EnvironmentContext> environmentContexts,
-                                         final HasNow hasNow) {
+                                         final HasNow hasNow,
+                                         final Optional<EmailAddress> user) {
         this.environmentContexts = environmentContexts;
         this.hasNow = hasNow;
+        this.user = user;
     }
 
     @Override
@@ -63,6 +68,13 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     }
 
     private final HasNow hasNow;
+
+    @Override
+    public Optional<EmailAddress> user() {
+        return this.user;
+    }
+
+    private final Optional<EmailAddress> user;
 
     @Override
     public String toString() {

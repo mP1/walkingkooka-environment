@@ -33,7 +33,21 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testWithNullHasNowFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> EmptyEnvironmentContext.with(null)
+                () -> EmptyEnvironmentContext.with(
+                        null,
+                        EnvironmentContext.ANONYMOUS
+                )
+        );
+    }
+
+    @Test
+    public void testWithNullUserFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> EmptyEnvironmentContext.with(
+                        () -> NOW,
+                        null
+                )
         );
     }
 
@@ -49,7 +63,10 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
 
     @Override
     public EmptyEnvironmentContext createContext() {
-        return EmptyEnvironmentContext.with(() -> NOW);
+        return EmptyEnvironmentContext.with(
+                () -> NOW,
+                EnvironmentContext.ANONYMOUS
+        );
     }
 
     // toString.........................................................................................................

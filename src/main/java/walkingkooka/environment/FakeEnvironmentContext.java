@@ -17,6 +17,8 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.net.email.EmailAddress;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -28,6 +30,11 @@ public class FakeEnvironmentContext implements EnvironmentContext {
 
     @Override
     public LocalDateTime now() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Optional<EmailAddress> user() {
         throw new UnsupportedOperationException();
     }
 }

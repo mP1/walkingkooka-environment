@@ -44,7 +44,8 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                 NullPointerException.class,
                 () -> PropertiesEnvironmentContext.with(
                         null,
-                        () -> NOW
+                        () -> NOW,
+                        EnvironmentContext.ANONYMOUS
                 )
         );
     }
@@ -55,6 +56,19 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                 NullPointerException.class,
                 () -> PropertiesEnvironmentContext.with(
                         Properties.EMPTY,
+                        null,
+                        EnvironmentContext.ANONYMOUS
+                )
+        );
+    }
+
+    @Test
+    public void testWithNullUserFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> PropertiesEnvironmentContext.with(
+                        Properties.EMPTY,
+                        () -> NOW,
                         null
                 )
         );
@@ -92,7 +106,8 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                                         PropertiesPath.parse(NAME1),
                                         VALUE1
                                 ),
-                                () -> NOW
+                                () -> NOW,
+                                EnvironmentContext.ANONYMOUS
                         ),
                         EnvironmentContexts.properties(
                                 Properties.EMPTY.set(
@@ -102,10 +117,12 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                                         PropertiesPath.parse(NAME2),
                                         VALUE2
                                 ),
-                                () -> NOW
+                                () -> NOW,
+                                EnvironmentContext.ANONYMOUS
                         )
                 ),
-                () -> NOW
+                () -> NOW,
+                EnvironmentContext.ANONYMOUS
         );
     }
 

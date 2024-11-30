@@ -19,6 +19,7 @@ package walkingkooka.environment;
 
 import walkingkooka.Context;
 import walkingkooka.datetime.HasNow;
+import walkingkooka.net.email.EmailAddress;
 
 import java.util.Optional;
 
@@ -27,6 +28,8 @@ import java.util.Optional;
  */
 public interface EnvironmentContext extends Context,
         HasNow {
+
+    static Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
     /**
      * Returns the value for the given {@link EnvironmentValueName}.
@@ -41,4 +44,9 @@ public interface EnvironmentContext extends Context,
         return this.environmentValue(name)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown environment value " + name));
     }
+
+    /**
+     * Returns the current user, or empty if none/anonymous.
+     */
+    Optional<EmailAddress> user();
 }

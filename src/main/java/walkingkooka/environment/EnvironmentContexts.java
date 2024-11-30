@@ -18,10 +18,12 @@
 package walkingkooka.environment;
 
 import walkingkooka.datetime.HasNow;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.reflect.PublicStaticHelper;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A collection of {@link EnvironmentContext} factory methods.
@@ -32,18 +34,24 @@ public final class EnvironmentContexts implements PublicStaticHelper {
      * {@see CollectionEnvironmentContext}
      */
     public static EnvironmentContext collection(final List<EnvironmentContext> environmentContexts,
-                                                final HasNow hasNow) {
+                                                final HasNow hasNow,
+                                                final Optional<EmailAddress> user) {
         return CollectionEnvironmentContext.with(
                 environmentContexts,
-                hasNow
+                hasNow,
+                user
         );
     }
 
     /**
      * {@see EmptyEnvironmentContext}
      */
-    public static EnvironmentContext empty(final HasNow hasNow) {
-        return EmptyEnvironmentContext.with(hasNow);
+    public static EnvironmentContext empty(final HasNow hasNow,
+                                           final Optional<EmailAddress> user) {
+        return EmptyEnvironmentContext.with(
+                hasNow,
+                user
+        );
     }
 
     /**
@@ -57,10 +65,12 @@ public final class EnvironmentContexts implements PublicStaticHelper {
      * {@see PropertiesEnvironmentContext}
      */
     public static EnvironmentContext properties(final Properties properties,
-                                                final HasNow hasNow) {
+                                                final HasNow hasNow,
+                                                final Optional<EmailAddress> user) {
         return PropertiesEnvironmentContext.with(
                 properties,
-                hasNow
+                hasNow,
+                user
         );
     }
 
