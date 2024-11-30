@@ -17,13 +17,10 @@
 
 package walkingkooka.environment;
 
-import org.junit.jupiter.api.Test;
-import walkingkooka.ContextTesting;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.test.Testing;
 
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting extends Testing {
 
@@ -53,6 +50,29 @@ public interface EnvironmentContextTesting extends Testing {
                 expected,
                 context.environmentValue(name),
                 () -> "environmentValue " + name
+        );
+    }
+
+    default void userAndCheck(final EnvironmentContext context) {
+        this.userAndCheck(
+                context,
+                Optional.empty()
+        );
+    }
+
+    default void userAndCheck(final EnvironmentContext context,
+                              final EmailAddress expected) {
+        this.userAndCheck(
+                context,
+                Optional.of(expected)
+        );
+    }
+
+    default void userAndCheck(final EnvironmentContext context,
+                              final Optional<EmailAddress> expected) {
+        this.checkEquals(
+                expected,
+                context.user()
         );
     }
 }
