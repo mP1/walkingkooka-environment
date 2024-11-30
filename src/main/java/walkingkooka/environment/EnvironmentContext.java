@@ -49,4 +49,12 @@ public interface EnvironmentContext extends Context,
      * Returns the current user, or empty if none/anonymous.
      */
     Optional<EmailAddress> user();
+
+    /**
+     * User getter that fails if the user is absent or anonymous.
+     */
+    default EmailAddress userOrFail() {
+        return this.user()
+                .orElseThrow(() -> new IllegalStateException("User not authenticated"));
+    }
 }
