@@ -18,7 +18,6 @@
 package walkingkooka.environment;
 
 import walkingkooka.collect.list.Lists;
-import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
@@ -28,27 +27,24 @@ import java.util.Optional;
 
 /**
  * A {@link EnvironmentContext} that tries given context for a value until success.
+ * Note the {@link EnvironmentContext} 2nd parameter provides now and user.
  */
 final class CollectionEnvironmentContext implements EnvironmentContext {
 
     static CollectionEnvironmentContext with(final List<EnvironmentContext> environmentContexts,
-                                             final HasNow hasNow,
-                                             final Optional<EmailAddress> user) {
+                                             final EnvironmentContext context) {
         return new CollectionEnvironmentContext(
                 Lists.immutable(
                         Objects.requireNonNull(environmentContexts, "environmentContexts")
                 ),
-                Objects.requireNonNull(hasNow, "hasNow"),
-                Objects.requireNonNull(user, "user")
+                Objects.requireNonNull(context, "context")
         );
     }
 
     private CollectionEnvironmentContext(final List<EnvironmentContext> environmentContexts,
-                                         final HasNow hasNow,
-                                         final Optional<EmailAddress> user) {
+                                         final EnvironmentContext context) {
         this.environmentContexts = environmentContexts;
-        this.hasNow = hasNow;
-        this.user = user;
+        this.context = context;
     }
 
     @Override
@@ -64,17 +60,15 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
 
     @Override
     public LocalDateTime now() {
-        return this.hasNow.now();
+        return this.context.now();
     }
-
-    private final HasNow hasNow;
 
     @Override
     public Optional<EmailAddress> user() {
-        return this.user;
+        return this.context.user();
     }
 
-    private final Optional<EmailAddress> user;
+    private final EnvironmentContext context;
 
     @Override
     public String toString() {
