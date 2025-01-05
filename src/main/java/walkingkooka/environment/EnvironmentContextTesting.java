@@ -22,6 +22,8 @@ import walkingkooka.test.Testing;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public interface EnvironmentContextTesting extends Testing {
 
     default <T> void environmentValueAndCheck(final EnvironmentContext context,
@@ -52,6 +54,24 @@ public interface EnvironmentContextTesting extends Testing {
                 () -> "environmentValue " + name
         );
     }
+
+    // environmentValueOrFail...........................................................................................
+
+    default void environmentValueOrFailAndCheck(final EnvironmentContext context,
+                                                final EnvironmentValueName<?> name,
+                                                final MissingEnvironmentValueException expected) {
+        final MissingEnvironmentValueException thrown = assertThrows(
+                MissingEnvironmentValueException.class,
+                () -> context.environmentValueOrFail(name)
+        );
+
+        this.checkEquals(
+                expected,
+                thrown
+        );
+    }
+
+    // user.............................................................................................................
 
     default void userAndCheck(final EnvironmentContext context) {
         this.userAndCheck(
