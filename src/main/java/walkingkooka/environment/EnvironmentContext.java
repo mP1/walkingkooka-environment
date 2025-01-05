@@ -57,4 +57,14 @@ public interface EnvironmentContext extends Context,
         return this.user()
                 .orElseThrow(() -> new IllegalStateException("User not authenticated"));
     }
+
+    /**
+     * Returns a new {@link EnvironmentContext} that now prefixes all lookups with the given {@link EnvironmentValueName prefix}.
+     */
+    default EnvironmentContext setEnvironmentValueNamePrefix(final EnvironmentValueName<?> prefix) {
+        return EnvironmentContexts.prefixed(
+                prefix,
+                this
+        );
+    }
 }
