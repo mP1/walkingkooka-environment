@@ -63,12 +63,10 @@ public final class EnvironmentContexts implements PublicStaticHelper {
      * {@see PropertiesEnvironmentContext}
      */
     public static EnvironmentContext properties(final Properties properties,
-                                                final HasNow hasNow,
-                                                final Optional<EmailAddress> user) {
+                                                final EnvironmentContext context) {
         return PropertiesEnvironmentContext.with(
                 properties,
-                hasNow,
-                user
+                context
         );
     }
 

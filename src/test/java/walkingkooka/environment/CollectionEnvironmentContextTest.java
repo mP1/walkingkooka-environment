@@ -103,8 +103,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                                         PropertiesPath.parse(NAME1),
                                         VALUE1
                                 ),
-                                () -> NOW,
-                                EnvironmentContext.ANONYMOUS
+                                CONTEXT
                         ),
                         EnvironmentContexts.properties(
                                 Properties.EMPTY.set(
@@ -114,8 +113,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                                         PropertiesPath.parse(NAME2),
                                         VALUE2
                                 ),
-                                () -> NOW,
-                                EnvironmentContext.ANONYMOUS
+                                CONTEXT
                         )
                 ),
                 CONTEXT

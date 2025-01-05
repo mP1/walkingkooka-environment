@@ -17,7 +17,6 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
@@ -32,21 +31,17 @@ import java.util.Optional;
 final class PropertiesEnvironmentContext implements EnvironmentContext {
 
     static PropertiesEnvironmentContext with(final Properties properties,
-                                             final HasNow hasNow,
-                                             final Optional<EmailAddress> user) {
+                                             final EnvironmentContext context) {
         return new PropertiesEnvironmentContext(
                 Objects.requireNonNull(properties, "properties"),
-                Objects.requireNonNull(hasNow, "hasNow"),
-                Objects.requireNonNull(user, "user")
+                Objects.requireNonNull(context, "context")
         );
     }
 
     private PropertiesEnvironmentContext(final Properties properties,
-                                         final HasNow hasNow,
-                                         final Optional<EmailAddress> user) {
+                                         final EnvironmentContext context) {
         this.properties = properties;
-        this.hasNow = hasNow;
-        this.user = user;
+        this.context = context;
     }
 
     @Override
@@ -60,17 +55,15 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
     @Override
     public LocalDateTime now() {
-        return this.hasNow.now();
+        return this.context.now();
     }
-
-    private final HasNow hasNow;
 
     @Override
     public Optional<EmailAddress> user() {
-        return this.user;
+        return this.context.user();
     }
 
-    private final Optional<EmailAddress> user;
+    private final EnvironmentContext context;
 
     @Override
     public String toString() {
