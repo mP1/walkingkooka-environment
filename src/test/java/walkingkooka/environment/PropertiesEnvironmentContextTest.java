@@ -31,9 +31,16 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
 
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
+    private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+            () -> NOW,
+            EnvironmentContext.ANONYMOUS
+    );
+
     private final static String NAME = "hello.123";
 
     private final static String VALUE = "Gday";
+
+    // with.............................................................................................................
 
     @Test
     public void testWithNullPropertiesFails() {
@@ -41,31 +48,17 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                 NullPointerException.class,
                 () -> PropertiesEnvironmentContext.with(
                         null,
-                        () -> NOW,
-                        EnvironmentContext.ANONYMOUS
+                        CONTEXT
                 )
         );
     }
 
     @Test
-    public void testWithNullHasNowFails() {
+    public void testWithNullContextFails() {
         assertThrows(
                 NullPointerException.class,
                 () -> PropertiesEnvironmentContext.with(
                         Properties.EMPTY,
-                        null,
-                        EnvironmentContext.ANONYMOUS
-                )
-        );
-    }
-
-    @Test
-    public void testWithNullUserFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> PropertiesEnvironmentContext.with(
-                        Properties.EMPTY,
-                        () -> NOW,
                         null
                 )
         );
@@ -97,8 +90,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                         PropertiesPath.parse(NAME),
                         VALUE
                 ),
-                () -> NOW,
-                EnvironmentContext.ANONYMOUS
+                CONTEXT
         );
     }
 
