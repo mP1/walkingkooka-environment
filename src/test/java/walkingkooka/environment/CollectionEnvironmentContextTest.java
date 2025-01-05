@@ -36,43 +36,40 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
     private final static String VALUE2 = "Orange";
 
-    private final LocalDateTime NOW = LocalDateTime.MIN;
+    private final static LocalDateTime NOW = LocalDateTime.MIN;
+
+    private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+            () -> NOW,
+            EnvironmentContext.ANONYMOUS
+    );
+
+    // with.............................................................................................................
 
     @Test
     public void testWithNullPropertiesFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> PropertiesEnvironmentContext.with(
+                () -> CollectionEnvironmentContext.with(
                         null,
-                        () -> NOW,
-                        EnvironmentContext.ANONYMOUS
+                        CONTEXT
                 )
         );
     }
 
     @Test
-    public void testWithNullHasNowFails() {
+    public void testWithNullContextFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> PropertiesEnvironmentContext.with(
-                        Properties.EMPTY,
-                        null,
-                        EnvironmentContext.ANONYMOUS
-                )
-        );
-    }
-
-    @Test
-    public void testWithNullUserFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> PropertiesEnvironmentContext.with(
-                        Properties.EMPTY,
-                        () -> NOW,
+                () -> CollectionEnvironmentContext.with(
+                        Lists.of(
+                                EnvironmentContexts.fake()
+                        ),
                         null
                 )
         );
     }
+
+    // environmentValue.................................................................................................
 
     @Test
     public void testEnvironmentalValue1() {
@@ -121,8 +118,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                                 EnvironmentContext.ANONYMOUS
                         )
                 ),
-                () -> NOW,
-                EnvironmentContext.ANONYMOUS
+                CONTEXT
         );
     }
 

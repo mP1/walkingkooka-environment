@@ -34,12 +34,10 @@ public final class EnvironmentContexts implements PublicStaticHelper {
      * {@see CollectionEnvironmentContext}
      */
     public static EnvironmentContext collection(final List<EnvironmentContext> environmentContexts,
-                                                final HasNow hasNow,
-                                                final Optional<EmailAddress> user) {
+                                                final EnvironmentContext context) {
         return CollectionEnvironmentContext.with(
                 environmentContexts,
-                hasNow,
-                user
+                context
         );
     }
 
