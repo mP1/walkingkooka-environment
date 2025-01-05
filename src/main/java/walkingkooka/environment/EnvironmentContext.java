@@ -42,7 +42,7 @@ public interface EnvironmentContext extends Context,
      */
     default <T> T environmentValueOrFail(final EnvironmentValueName<T> name) {
         return this.environmentValue(name)
-                .orElseThrow(() -> new IllegalArgumentException("Unknown environment value " + name));
+                .orElseThrow(() -> new MissingEnvironmentValueException(name));
     }
 
     /**
