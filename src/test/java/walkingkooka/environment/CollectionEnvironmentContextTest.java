@@ -94,6 +94,50 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         );
     }
 
+    // environmentValueNames............................................................................................
+
+    @Test
+    public void testEnvironmentalValueNames() {
+        final String key11 = "key1";
+        final String key12 = "prefix.key1";
+        final String key21 = "key2";
+        final String key22 = "prefix.key2";
+
+        final String prefix = "PREFIX.";
+
+        this.environmentValueNamesAndCheck(
+                CollectionEnvironmentContext.with(
+                        Lists.of(
+                                EnvironmentContexts.properties(
+                                        Properties.EMPTY.set(
+                                                PropertiesPath.parse(key11),
+                                                "value111"
+                                        ).set(
+                                                PropertiesPath.parse(key12),
+                                                "value222"
+                                        ),
+                                        CONTEXT
+                                ),
+                                EnvironmentContexts.properties(
+                                        Properties.EMPTY.set(
+                                                PropertiesPath.parse(key21),
+                                                "value111"
+                                        ).set(
+                                                PropertiesPath.parse(key22),
+                                                "value222"
+                                        ),
+                                        CONTEXT
+                                )
+                        ),
+                        CONTEXT
+                ),
+                EnvironmentValueName.with(key11),
+                EnvironmentValueName.with(key12),
+                EnvironmentValueName.with(key21),
+                EnvironmentValueName.with(key22)
+        );
+    }
+
     @Override
     public CollectionEnvironmentContext createContext() {
         return CollectionEnvironmentContext.with(

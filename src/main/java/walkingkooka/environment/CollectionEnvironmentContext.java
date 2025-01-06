@@ -18,12 +18,15 @@
 package walkingkooka.environment;
 
 import walkingkooka.collect.list.Lists;
+import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * A {@link EnvironmentContext} that tries given context for a value until success.
@@ -55,6 +58,24 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
                         .findFirst()
                 .orElse(Optional.empty());
     }
+
+    // assumes ALL wrapped EnvironmentContext are immutable.
+    @Override
+    public Set<EnvironmentValueName<?>> environmentValueNames() {
+        if (null == this.names) {
+            final SortedSet<EnvironmentValueName<?>> names = SortedSets.tree();
+
+            for (final EnvironmentContext context : this.environmentContexts) {
+                names.addAll(context.environmentValueNames());
+            }
+
+            this.names = SortedSets.immutable(names);
+        }
+
+        return this.names;
+    }
+
+    private Set<EnvironmentValueName<?>> names;
 
     private List<EnvironmentContext> environmentContexts;
 

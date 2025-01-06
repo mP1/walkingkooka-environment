@@ -17,10 +17,12 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.test.Testing;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -68,6 +70,24 @@ public interface EnvironmentContextTesting extends Testing {
         this.checkEquals(
                 expected,
                 thrown
+        );
+    }
+
+    // environmentValueNames............................................................................................
+
+    default void environmentValueNamesAndCheck(final EnvironmentContext context,
+                                               final EnvironmentValueName<?>... expected) {
+        this.environmentValueNamesAndCheck(
+                context,
+                Sets.of(expected)
+        );
+    }
+
+    default void environmentValueNamesAndCheck(final EnvironmentContext context,
+                                               final Set<EnvironmentValueName<?>> expected) {
+        this.checkEquals(
+                expected,
+                context.environmentValueNames()
         );
     }
 

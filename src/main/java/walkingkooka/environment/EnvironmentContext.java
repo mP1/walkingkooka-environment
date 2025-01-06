@@ -22,6 +22,7 @@ import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A {@link Context} that includes methods to fetch environment values.
@@ -44,6 +45,11 @@ public interface EnvironmentContext extends Context,
         return this.environmentValue(name)
                 .orElseThrow(() -> new MissingEnvironmentValueException(name));
     }
+
+    /**
+     * Returns a read-only view of all {@link EnvironmentValueName names}.
+     */
+    Set<EnvironmentValueName<?>> environmentValueNames();
 
     /**
      * Returns the current user, or empty if none/anonymous.

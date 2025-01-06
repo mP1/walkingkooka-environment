@@ -17,12 +17,14 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.collect.set.ImmutableSet;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A {@link EnvironmentContext} that expects and removes a prefix before performing a lookup.
@@ -84,6 +86,21 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
 
         return value;
     }
+
+    // assumes the wrapped EnvironmentContext is immutable.
+    @Override
+    public Set<EnvironmentValueName<?>> environmentValueNames() {
+        if (null == this.names) {
+            this.names = this.context.environmentValueNames()
+                    .stream()
+                    .map(n -> EnvironmentValueName.with(this.prefix + n.value()))
+                    .collect(ImmutableSet.collector());
+        }
+
+        return this.names;
+    }
+
+    private Set<EnvironmentValueName<?>> names;
 
     // @VisibleForTesting
     final String prefix;

@@ -83,6 +83,29 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         );
     }
 
+    // environmentValueNames............................................................................................
+
+    @Test
+    public void testEnvironmentalValueNames() {
+        final String key1 = "prefix.name1";
+        final String key2 = "prefix.name2";
+
+        this.environmentValueNamesAndCheck(
+                PropertiesEnvironmentContext.with(
+                        Properties.EMPTY.set(
+                                PropertiesPath.parse(key1),
+                                "value111"
+                        ).set(
+                                PropertiesPath.parse(key2),
+                                "value222"
+                        ),
+                        CONTEXT
+                ),
+                EnvironmentValueName.with(key1),
+                EnvironmentValueName.with(key2)
+        );
+    }
+
     @Override
     public PropertiesEnvironmentContext createContext() {
         return PropertiesEnvironmentContext.with(
