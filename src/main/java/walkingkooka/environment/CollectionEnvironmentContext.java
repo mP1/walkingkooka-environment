@@ -77,7 +77,7 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
 
     private Set<EnvironmentValueName<?>> names;
 
-    private List<EnvironmentContext> environmentContexts;
+    private final List<EnvironmentContext> environmentContexts;
 
     @Override
     public LocalDateTime now() {
