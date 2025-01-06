@@ -17,12 +17,14 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.collect.set.Sets;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A {@link EnvironmentContext} that always returns no value.
@@ -48,6 +50,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
         return Optional.empty();
+    }
+
+    @Override
+    public Set<EnvironmentValueName<?>> environmentValueNames() {
+        return Sets.empty();
     }
 
     @Override

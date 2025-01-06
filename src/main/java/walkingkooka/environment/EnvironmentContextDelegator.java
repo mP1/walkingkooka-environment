@@ -21,6 +21,7 @@ import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 public interface EnvironmentContextDelegator extends EnvironmentContext {
 
@@ -28,6 +29,11 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     default <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return this.environmentContext()
                 .environmentValue(name);
+    }
+
+    @Override
+    default Set<EnvironmentValueName<?>> environmentValueNames() {
+        return this.environmentContext().environmentValueNames();
     }
 
     @Override

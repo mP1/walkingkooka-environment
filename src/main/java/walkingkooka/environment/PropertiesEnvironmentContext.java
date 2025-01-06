@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.collect.set.ImmutableSet;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
@@ -24,6 +25,7 @@ import walkingkooka.props.PropertiesPath;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * An {@link EnvironmentContext} that sources all values from a given {@link Properties}.
@@ -50,6 +52,20 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
                 PropertiesPath.parse(name.value())
         );
     }
+
+    @Override
+    public Set<EnvironmentValueName<?>> environmentValueNames() {
+        if (null == this.names) {
+            this.names = this.properties.keys()
+                    .stream()
+                    .map(p -> EnvironmentValueName.with(p.value()))
+                    .collect(ImmutableSet.collector());
+        }
+
+        return this.names;
+    }
+
+    private Set<EnvironmentValueName<?>> names;
 
     private final Properties properties;
 

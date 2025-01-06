@@ -22,6 +22,7 @@ import walkingkooka.environment.EnvironmentContextDelegatorTest.TestEnvironmentC
 import java.time.LocalDateTime;
 
 public final class EnvironmentContextDelegatorTest implements EnvironmentContextTesting2<TestEnvironmentContextDelegator> {
+
     @Override
     public TestEnvironmentContextDelegator createContext() {
         return new TestEnvironmentContextDelegator();

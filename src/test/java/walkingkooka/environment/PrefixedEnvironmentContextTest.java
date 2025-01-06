@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
+import walkingkooka.props.PropertiesPath;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -162,6 +163,34 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
                 new MissingEnvironmentValueException(
                         EnvironmentValueName.with("prefix111.Missing222")
                 )
+        );
+    }
+
+    // environmentValueNames............................................................................................
+
+    @Test
+    public void testEnvironmentalValueNames() {
+        final String key1 = "prefix.name1";
+        final String key2 = "prefix.name2";
+
+        final String prefix = "PREFIX.";
+
+        this.environmentValueNamesAndCheck(
+                PrefixedEnvironmentContext.with(
+                        EnvironmentValueName.with(prefix),
+                        EnvironmentContexts.properties(
+                                Properties.EMPTY.set(
+                                        PropertiesPath.parse(key1),
+                                        "value111"
+                                ).set(
+                                        PropertiesPath.parse(key2),
+                                        "value222"
+                                ),
+                                CONTEXT
+                        )
+                ),
+                EnvironmentValueName.with(prefix + key1),
+                EnvironmentValueName.with(prefix + key2)
         );
     }
 

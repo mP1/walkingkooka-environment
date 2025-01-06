@@ -21,10 +21,16 @@ import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 public class FakeEnvironmentContext implements EnvironmentContext {
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Set<EnvironmentValueName<?>> environmentValueNames() {
         throw new UnsupportedOperationException();
     }
 

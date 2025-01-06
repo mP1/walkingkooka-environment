@@ -69,6 +69,13 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         );
     }
 
+    // environmentValueNames............................................................................................
+
+    @Test
+    public void testEnvironmentalValueNames() {
+        this.environmentValueNamesAndCheck();
+    }
+
     // toString.........................................................................................................
 
     @Test
