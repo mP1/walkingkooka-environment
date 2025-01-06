@@ -122,7 +122,7 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     }
 
     @Override
-    public EnvironmentValueName createName(final String name) {
+    public EnvironmentValueName<String> createName(final String name) {
         return EnvironmentValueName.with(name);
     }
 
