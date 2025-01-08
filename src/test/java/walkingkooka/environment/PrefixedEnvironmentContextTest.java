@@ -30,53 +30,53 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class PrefixedEnvironmentContextTest implements EnvironmentContextTesting2<PrefixedEnvironmentContext>,
-        ToStringTesting<PrefixedEnvironmentContext> {
+    ToStringTesting<PrefixedEnvironmentContext> {
 
     private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with("prefix111.");
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
-            () -> LocalDateTime.of(
-                    1999,
-                    12,
-                    31,
-                    12,
-                    59
-            ),
-            Optional.of(
-                    EmailAddress.parse("user@example.com")
-            )
+        () -> LocalDateTime.of(
+            1999,
+            12,
+            31,
+            12,
+            59
+        ),
+        Optional.of(
+            EmailAddress.parse("user@example.com")
+        )
     );
 
     @Test
     public void testWithNullPrefixFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> PrefixedEnvironmentContext.with(
-                        null,
-                        CONTEXT
-                )
+            NullPointerException.class,
+            () -> PrefixedEnvironmentContext.with(
+                null,
+                CONTEXT
+            )
         );
     }
 
     @Test
     public void testWithPrefixMissingDotFails() {
         assertThrows(
-                IllegalArgumentException.class,
-                () -> PrefixedEnvironmentContext.with(
-                        EnvironmentValueName.with("bad-prefix-123"),
-                        CONTEXT
-                )
+            IllegalArgumentException.class,
+            () -> PrefixedEnvironmentContext.with(
+                EnvironmentValueName.with("bad-prefix-123"),
+                CONTEXT
+            )
         );
     }
 
     @Test
     public void testWithNullContextFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> PrefixedEnvironmentContext.with(
-                        PREFIX,
-                        null
-                )
+            NullPointerException.class,
+            () -> PrefixedEnvironmentContext.with(
+                PREFIX,
+                null
+            )
         );
     }
 
@@ -85,20 +85,20 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         final PrefixedEnvironmentContext prefixed = this.createContext();
 
         final PrefixedEnvironmentContext context = PrefixedEnvironmentContext.with(
-                EnvironmentValueName.with("prefix222."),
-                prefixed
+            EnvironmentValueName.with("prefix222."),
+            prefixed
         );
 
         this.checkEquals(
-                "prefix111.prefix222.",
-                context.prefix,
-                "prefix"
+            "prefix111.prefix222.",
+            context.prefix,
+            "prefix"
         );
 
         assertSame(
-                prefixed.context,
-                context.context,
-                "context"
+            prefixed.context,
+            context.context,
+            "context"
         );
     }
 
@@ -107,38 +107,38 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     @Test
     public void testEnvironmentalValueMissingPrefix() {
         this.environmentValueAndCheck(
-                this.createContext(),
-                EnvironmentValueName.with("Hello123")
+            this.createContext(),
+            EnvironmentValueName.with("Hello123")
         );
     }
 
     @Test
     public void testEnvironmentalValueWithPrefixAndValueMissing() {
         this.environmentValueAndCheck(
-                this.createContext(),
-                EnvironmentValueName.with("prefix111.missing")
+            this.createContext(),
+            EnvironmentValueName.with("prefix111.missing")
         );
     }
 
     @Test
     public void testEnvironmentalValueWithPrefix() {
         this.environmentValueAndCheck(
-                this.createContext(),
-                EnvironmentValueName.with("prefix111.key111"),
-                "value111"
+            this.createContext(),
+            EnvironmentValueName.with("prefix111.key111"),
+            "value111"
         );
     }
 
     @Override
     public PrefixedEnvironmentContext createContext() {
         return PrefixedEnvironmentContext.with(
-                PREFIX,
-                EnvironmentContexts.properties(
-                        Properties.parse(
-                                "key111=value111"
-                        ),
-                        CONTEXT
-                )
+            PREFIX,
+            EnvironmentContexts.properties(
+                Properties.parse(
+                    "key111=value111"
+                ),
+                CONTEXT
+            )
         );
     }
 
@@ -147,22 +147,22 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     @Test
     public void testEnvironmentalValueOrFailMissingPrefix() {
         this.environmentValueOrFailAndCheck(
-                this.createContext(),
-                EnvironmentValueName.with("Missing222"),
-                new MissingEnvironmentValueException(
-                        EnvironmentValueName.with("Missing222")
-                )
+            this.createContext(),
+            EnvironmentValueName.with("Missing222"),
+            new MissingEnvironmentValueException(
+                EnvironmentValueName.with("Missing222")
+            )
         );
     }
 
     @Test
     public void testEnvironmentalValueOrFailWithPrefixAndValueMissing() {
         this.environmentValueOrFailAndCheck(
-                this.createContext(),
-                EnvironmentValueName.with("prefix111.Missing222"),
-                new MissingEnvironmentValueException(
-                        EnvironmentValueName.with("prefix111.Missing222")
-                )
+            this.createContext(),
+            EnvironmentValueName.with("prefix111.Missing222"),
+            new MissingEnvironmentValueException(
+                EnvironmentValueName.with("prefix111.Missing222")
+            )
         );
     }
 
@@ -176,21 +176,21 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         final String prefix = "PREFIX.";
 
         this.environmentValueNamesAndCheck(
-                PrefixedEnvironmentContext.with(
-                        EnvironmentValueName.with(prefix),
-                        EnvironmentContexts.properties(
-                                Properties.EMPTY.set(
-                                        PropertiesPath.parse(key1),
-                                        "value111"
-                                ).set(
-                                        PropertiesPath.parse(key2),
-                                        "value222"
-                                ),
-                                CONTEXT
-                        )
-                ),
-                EnvironmentValueName.with(prefix + key1),
-                EnvironmentValueName.with(prefix + key2)
+            PrefixedEnvironmentContext.with(
+                EnvironmentValueName.with(prefix),
+                EnvironmentContexts.properties(
+                    Properties.EMPTY.set(
+                        PropertiesPath.parse(key1),
+                        "value111"
+                    ).set(
+                        PropertiesPath.parse(key2),
+                        "value222"
+                    ),
+                    CONTEXT
+                )
+            ),
+            EnvironmentValueName.with(prefix + key1),
+            EnvironmentValueName.with(prefix + key2)
         );
     }
 
@@ -199,8 +199,8 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     @Test
     public void testToString() {
         this.toStringAndCheck(
-                this.createContext(),
-                "{key111=value111}"
+            this.createContext(),
+            "{key111=value111}"
         );
     }
 

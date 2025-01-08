@@ -35,8 +35,8 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     static PropertiesEnvironmentContext with(final Properties properties,
                                              final EnvironmentContext context) {
         return new PropertiesEnvironmentContext(
-                Objects.requireNonNull(properties, "properties"),
-                Objects.requireNonNull(context, "context")
+            Objects.requireNonNull(properties, "properties"),
+            Objects.requireNonNull(context, "context")
         );
     }
 
@@ -49,7 +49,7 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return (Optional<T>) this.properties.get(
-                PropertiesPath.parse(name.value())
+            PropertiesPath.parse(name.value())
         );
     }
 
@@ -57,9 +57,9 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         if (null == this.names) {
             this.names = this.properties.keys()
-                    .stream()
-                    .map(p -> EnvironmentValueName.with(p.value()))
-                    .collect(ImmutableSet.collector());
+                .stream()
+                .map(p -> EnvironmentValueName.with(p.value()))
+                .collect(ImmutableSet.collector());
         }
 
         return this.names;

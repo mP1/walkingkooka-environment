@@ -31,34 +31,34 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentValueName<String>, EnvironmentValueName<String>>,
-        ComparableTesting2<EnvironmentValueName<String>>,
-        TreePrintableTesting,
-        JsonNodeMarshallingTesting<EnvironmentValueName<String>> {
+    ComparableTesting2<EnvironmentValueName<String>>,
+    TreePrintableTesting,
+    JsonNodeMarshallingTesting<EnvironmentValueName<String>> {
 
     @Test
     public void testWithInvalidInitialFails() {
         this.withFails(
-                "1abc",
-                InvalidCharacterException.class,
-                "Invalid character '1' at 0 in \"1abc\""
+            "1abc",
+            InvalidCharacterException.class,
+            "Invalid character '1' at 0 in \"1abc\""
         );
     }
 
     @Test
     public void testWithInvalidPartFails() {
         this.withFails(
-                "abc$def",
-                InvalidCharacterException.class,
-                "Invalid character '$' at 3 in \"abc$def\""
+            "abc$def",
+            InvalidCharacterException.class,
+            "Invalid character '$' at 3 in \"abc$def\""
         );
     }
 
     @Test
     public void testWithDotDotFails() {
         this.withFails(
-                "abc..def",
-                InvalidCharacterException.class,
-                "Invalid character '.' at 4 in \"abc..def\""
+            "abc..def",
+            InvalidCharacterException.class,
+            "Invalid character '.' at 4 in \"abc..def\""
         );
     }
 
@@ -66,15 +66,15 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
                                                                 final Class<T> throwsClass,
                                                                 final String message) {
         final T thrown = assertThrows(
-                throwsClass,
-                () -> EnvironmentValueName.with(text)
+            throwsClass,
+            () -> EnvironmentValueName.with(text)
         );
 
         if (null != message) {
             this.checkEquals(
-                    message,
-                    thrown.getMessage(),
-                    "message"
+                message,
+                thrown.getMessage(),
+                "message"
             );
         }
     }
@@ -97,22 +97,22 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     @Test
     public void testWithLetterDigits() {
         this.createNameAndCheck(
-                "A1234567"
+            "A1234567"
         );
     }
 
     @Test
     public void testWithLetterDigitsLetters() {
         this.createNameAndCheck(
-                "A1B"
+            "A1B"
         );
     }
 
     @Test
     public void testEqualsDifferentCase() {
         this.checkEqualsAndHashCode(
-                EnvironmentValueName.with("Label123"),
-                EnvironmentValueName.with("LABEL123")
+            EnvironmentValueName.with("Label123"),
+            EnvironmentValueName.with("LABEL123")
         );
     }
 
@@ -154,15 +154,15 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     @Override
     public String possibleValidChars(final int position) {
         return 0 == position ?
-                ASCII_LETTERS :
-                ASCII_LETTERS_DIGITS + "-.";
+            ASCII_LETTERS :
+            ASCII_LETTERS_DIGITS + "-.";
     }
 
     @Override
     public String possibleInvalidChars(final int position) {
         return 0 == position ?
-                ASCII_DIGITS + CONTROL + "!@#$%^&*()" :
-                CONTROL + "!@#$%^&*()";
+            ASCII_DIGITS + CONTROL + "!@#$%^&*()" :
+            CONTROL + "!@#$%^&*()";
     }
 
     // Comparator ......................................................................................................
@@ -175,8 +175,8 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         final EnvironmentValueName<String> d4 = EnvironmentValueName.with("d4");
 
         this.compareToArraySortAndCheck(
-                d4, c3, a1, b2,
-                a1, b2, c3, d4
+            d4, c3, a1, b2,
+            a1, b2, c3, d4
         );
     }
 
@@ -189,8 +189,8 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
 
         final EnvironmentValueName<?> name = EnvironmentValueName.with(value);
         this.toStringAndCheck(
-                name,
-                name.text()
+            name,
+            name.text()
         );
     }
 
@@ -200,7 +200,7 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     public void testUnmarshallString() {
         final String value = "environment-value-123";
         this.unmarshallAndCheck(JsonNode.string(value),
-                EnvironmentValueName.with(value));
+            EnvironmentValueName.with(value));
     }
 
     // JsonNodeMarshallingTesting...........................................................................................
@@ -209,10 +209,10 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     public EnvironmentValueName<String> unmarshall(final JsonNode json,
                                                    final JsonNodeUnmarshallContext context) {
         return Cast.to(
-                EnvironmentValueName.unmarshall(
-                        json,
-                        context
-                )
+            EnvironmentValueName.unmarshall(
+                json,
+                context
+            )
         );
     }
 

@@ -31,9 +31,9 @@ public interface EnvironmentContextTesting extends Testing {
     default <T> void environmentValueAndCheck(final EnvironmentContext context,
                                               final EnvironmentValueName<T> name) {
         this.environmentValueAndCheck(
-                context,
-                name,
-                Optional.empty()
+            context,
+            name,
+            Optional.empty()
         );
     }
 
@@ -41,9 +41,9 @@ public interface EnvironmentContextTesting extends Testing {
                                               final EnvironmentValueName<T> name,
                                               final T expected) {
         this.environmentValueAndCheck(
-                context,
-                name,
-                Optional.of(expected)
+            context,
+            name,
+            Optional.of(expected)
         );
     }
 
@@ -51,9 +51,9 @@ public interface EnvironmentContextTesting extends Testing {
                                               final EnvironmentValueName<T> name,
                                               final Optional<T> expected) {
         this.checkEquals(
-                expected,
-                context.environmentValue(name),
-                () -> "environmentValue " + name
+            expected,
+            context.environmentValue(name),
+            () -> "environmentValue " + name
         );
     }
 
@@ -63,13 +63,13 @@ public interface EnvironmentContextTesting extends Testing {
                                                 final EnvironmentValueName<?> name,
                                                 final MissingEnvironmentValueException expected) {
         final MissingEnvironmentValueException thrown = assertThrows(
-                MissingEnvironmentValueException.class,
-                () -> context.environmentValueOrFail(name)
+            MissingEnvironmentValueException.class,
+            () -> context.environmentValueOrFail(name)
         );
 
         this.checkEquals(
-                expected,
-                thrown
+            expected,
+            thrown
         );
     }
 
@@ -78,16 +78,16 @@ public interface EnvironmentContextTesting extends Testing {
     default void environmentValueNamesAndCheck(final EnvironmentContext context,
                                                final EnvironmentValueName<?>... expected) {
         this.environmentValueNamesAndCheck(
-                context,
-                Sets.of(expected)
+            context,
+            Sets.of(expected)
         );
     }
 
     default void environmentValueNamesAndCheck(final EnvironmentContext context,
                                                final Set<EnvironmentValueName<?>> expected) {
         this.checkEquals(
-                expected,
-                context.environmentValueNames()
+            expected,
+            context.environmentValueNames()
         );
     }
 
@@ -95,24 +95,24 @@ public interface EnvironmentContextTesting extends Testing {
 
     default void userAndCheck(final EnvironmentContext context) {
         this.userAndCheck(
-                context,
-                Optional.empty()
+            context,
+            Optional.empty()
         );
     }
 
     default void userAndCheck(final EnvironmentContext context,
                               final EmailAddress expected) {
         this.userAndCheck(
-                context,
-                Optional.of(expected)
+            context,
+            Optional.of(expected)
         );
     }
 
     default void userAndCheck(final EnvironmentContext context,
                               final Optional<EmailAddress> expected) {
         this.checkEquals(
-                expected,
-                context.user()
+            expected,
+            context.user()
         );
     }
 }

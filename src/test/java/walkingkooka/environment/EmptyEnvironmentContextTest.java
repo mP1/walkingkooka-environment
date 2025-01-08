@@ -25,29 +25,29 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EmptyEnvironmentContextTest implements EnvironmentContextTesting2<EmptyEnvironmentContext>,
-        ToStringTesting<EmptyEnvironmentContext> {
+    ToStringTesting<EmptyEnvironmentContext> {
 
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     @Test
     public void testWithNullHasNowFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> EmptyEnvironmentContext.with(
-                        null,
-                        EnvironmentContext.ANONYMOUS
-                )
+            NullPointerException.class,
+            () -> EmptyEnvironmentContext.with(
+                null,
+                EnvironmentContext.ANONYMOUS
+            )
         );
     }
 
     @Test
     public void testWithNullUserFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> EmptyEnvironmentContext.with(
-                        () -> NOW,
-                        null
-                )
+            NullPointerException.class,
+            () -> EmptyEnvironmentContext.with(
+                () -> NOW,
+                null
+            )
         );
     }
 
@@ -56,16 +56,16 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testEnvironmentalValue() {
         this.environmentValueAndCheck(
-                this.createContext(),
-                EnvironmentValueName.with("Hello123")
+            this.createContext(),
+            EnvironmentValueName.with("Hello123")
         );
     }
 
     @Override
     public EmptyEnvironmentContext createContext() {
         return EmptyEnvironmentContext.with(
-                () -> NOW,
-                EnvironmentContext.ANONYMOUS
+            () -> NOW,
+            EnvironmentContext.ANONYMOUS
         );
     }
 
@@ -81,8 +81,8 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testToString() {
         this.toStringAndCheck(
-                this.createContext(),
-                "{}"
+            this.createContext(),
+            "{}"
         );
     }
 

@@ -27,15 +27,15 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<MissingEnvironmentValueException>,
-        JsonNodeMarshallingTesting<MissingEnvironmentValueException> {
+    JsonNodeMarshallingTesting<MissingEnvironmentValueException> {
 
     // with.............................................................................................................
 
     @Test
     public void testWithNullEnvironmentValueNameFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> new MissingEnvironmentValueException(null)
+            NullPointerException.class,
+            () -> new MissingEnvironmentValueException(null)
         );
     }
 
@@ -44,8 +44,8 @@ public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<M
         final EnvironmentValueName<?> name = EnvironmentValueName.with("missing-123");
 
         this.checkEquals(
-                name,
-                new MissingEnvironmentValueException(name).environmentValueName()
+            name,
+            new MissingEnvironmentValueException(name).environmentValueName()
         );
     }
 
@@ -54,10 +54,10 @@ public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<M
     @Test
     public void testGetMessage() {
         this.checkMessage(
-                new MissingEnvironmentValueException(
-                        EnvironmentValueName.with("missing-123")
-                ),
-                "Missing environment value \"missing-123\""
+            new MissingEnvironmentValueException(
+                EnvironmentValueName.with("missing-123")
+            ),
+            "Missing environment value \"missing-123\""
         );
     }
 
@@ -66,16 +66,16 @@ public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<M
     @Test
     public void testMarshall() {
         this.marshallAndCheck(
-                this.createJsonNodeMarshallingValue(),
-                JsonNode.string("missing-environmental-value-name-123")
+            this.createJsonNodeMarshallingValue(),
+            JsonNode.string("missing-environmental-value-name-123")
         );
     }
 
     @Test
     public void testUnmarshall() {
         this.unmarshallAndCheck(
-                JsonNode.string("missing-environmental-value-name-123"),
-                this.createJsonNodeMarshallingValue()
+            JsonNode.string("missing-environmental-value-name-123"),
+            this.createJsonNodeMarshallingValue()
         );
     }
 
@@ -83,15 +83,15 @@ public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<M
     public MissingEnvironmentValueException unmarshall(final JsonNode json,
                                                        final JsonNodeUnmarshallContext context) {
         return MissingEnvironmentValueException.unmarshall(
-                json,
-                context
+            json,
+            context
         );
     }
 
     @Override
     public MissingEnvironmentValueException createJsonNodeMarshallingValue() {
         return new MissingEnvironmentValueException(
-                EnvironmentValueName.with("missing-environmental-value-name-123")
+            EnvironmentValueName.with("missing-environmental-value-name-123")
         );
     }
 

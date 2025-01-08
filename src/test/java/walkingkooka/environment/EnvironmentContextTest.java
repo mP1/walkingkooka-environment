@@ -32,16 +32,16 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
     @Test
     public void testEnvironmentValueOrFail() {
         final MissingEnvironmentValueException thrown = assertThrows(
-                MissingEnvironmentValueException.class,
-                () -> EnvironmentContexts.empty(
-                        () -> LocalDateTime.MAX,
-                        EnvironmentContext.ANONYMOUS
-                ).environmentValueOrFail(EnvironmentValueName.with("Hello"))
+            MissingEnvironmentValueException.class,
+            () -> EnvironmentContexts.empty(
+                () -> LocalDateTime.MAX,
+                EnvironmentContext.ANONYMOUS
+            ).environmentValueOrFail(EnvironmentValueName.with("Hello"))
         );
 
         this.checkEquals(
-                "Missing environment value \"Hello\"",
-                thrown.getMessage()
+            "Missing environment value \"Hello\"",
+            thrown.getMessage()
         );
     }
 

@@ -28,38 +28,38 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting2<C extends EnvironmentContext> extends EnvironmentContextTesting,
-        ContextTesting<C> {
+    ContextTesting<C> {
 
     @Test
     default void testEnvironmentValueWithNullFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> this.createContext().environmentValue(null)
+            NullPointerException.class,
+            () -> this.createContext().environmentValue(null)
         );
     }
 
     default <T> void environmentValueAndCheck(final EnvironmentValueName<T> name) {
         this.environmentValueAndCheck(
-                this.createContext(),
-                name
+            this.createContext(),
+            name
         );
     }
 
     default <T> void environmentValueAndCheck(final EnvironmentValueName<T> name,
                                               final T expected) {
         this.environmentValueAndCheck(
-                this.createContext(),
-                name,
-                expected
+            this.createContext(),
+            name,
+            expected
         );
     }
 
     default <T> void environmentValueAndCheck(final EnvironmentValueName<T> name,
                                               final Optional<T> expected) {
         this.environmentValueAndCheck(
-                this.createContext(),
-                name,
-                expected
+            this.createContext(),
+            name,
+            expected
         );
     }
 
@@ -67,14 +67,14 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
     default void environmentValueNamesAndCheck(final EnvironmentValueName<?>... expected) {
         this.environmentValueNamesAndCheck(
-                Sets.of(expected)
+            Sets.of(expected)
         );
     }
 
     default void environmentValueNamesAndCheck(final Set<EnvironmentValueName<?>> expected) {
         this.environmentValueNamesAndCheck(
-                this.createContext(),
-                expected
+            this.createContext(),
+            expected
         );
     }
 
@@ -83,28 +83,28 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     @Test
     default void testUser() {
         this.checkNotEquals(
-                null,
-                this.createContext().user()
+            null,
+            this.createContext().user()
         );
     }
 
     default void userAndCheck() {
         this.userAndCheck(
-                this.createContext()
+            this.createContext()
         );
     }
 
     default void userAndCheck(final EmailAddress expected) {
         this.userAndCheck(
-                this.createContext(),
-                expected
+            this.createContext(),
+            expected
         );
     }
 
     default void userAndCheck(final Optional<EmailAddress> expected) {
         this.userAndCheck(
-                this.createContext(),
-                expected
+            this.createContext(),
+            expected
         );
     }
 }

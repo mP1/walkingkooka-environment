@@ -28,7 +28,7 @@ import java.util.Set;
  * A {@link Context} that includes methods to fetch environment values.
  */
 public interface EnvironmentContext extends Context,
-        HasNow {
+    HasNow {
 
     static Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
@@ -43,7 +43,7 @@ public interface EnvironmentContext extends Context,
      */
     default <T> T environmentValueOrFail(final EnvironmentValueName<T> name) {
         return this.environmentValue(name)
-                .orElseThrow(() -> new MissingEnvironmentValueException(name));
+            .orElseThrow(() -> new MissingEnvironmentValueException(name));
     }
 
     /**
@@ -61,7 +61,7 @@ public interface EnvironmentContext extends Context,
      */
     default EmailAddress userOrFail() {
         return this.user()
-                .orElseThrow(() -> new IllegalStateException("User not authenticated"));
+            .orElseThrow(() -> new IllegalStateException("User not authenticated"));
     }
 
     /**
@@ -69,8 +69,8 @@ public interface EnvironmentContext extends Context,
      */
     default EnvironmentContext setEnvironmentValueNamePrefix(final EnvironmentValueName<?> prefix) {
         return EnvironmentContexts.prefixed(
-                prefix,
-                this
+            prefix,
+            this
         );
     }
 }

@@ -27,13 +27,13 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class PropertiesEnvironmentContextTest implements EnvironmentContextTesting2<PropertiesEnvironmentContext>,
-        ToStringTesting<PropertiesEnvironmentContext> {
+    ToStringTesting<PropertiesEnvironmentContext> {
 
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
-            () -> NOW,
-            EnvironmentContext.ANONYMOUS
+        () -> NOW,
+        EnvironmentContext.ANONYMOUS
     );
 
     private final static String NAME = "hello.123";
@@ -45,22 +45,22 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testWithNullPropertiesFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> PropertiesEnvironmentContext.with(
-                        null,
-                        CONTEXT
-                )
+            NullPointerException.class,
+            () -> PropertiesEnvironmentContext.with(
+                null,
+                CONTEXT
+            )
         );
     }
 
     @Test
     public void testWithNullContextFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> PropertiesEnvironmentContext.with(
-                        Properties.EMPTY,
-                        null
-                )
+            NullPointerException.class,
+            () -> PropertiesEnvironmentContext.with(
+                Properties.EMPTY,
+                null
+            )
         );
     }
 
@@ -69,17 +69,17 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEnvironmentalValue() {
         this.environmentValueAndCheck(
-                this.createContext(),
-                EnvironmentValueName.with(NAME),
-                VALUE
+            this.createContext(),
+            EnvironmentValueName.with(NAME),
+            VALUE
         );
     }
 
     @Test
     public void testEnvironmentalValueMissing() {
         this.environmentValueAndCheck(
-                this.createContext(),
-                EnvironmentValueName.with("Unknown")
+            this.createContext(),
+            EnvironmentValueName.with("Unknown")
         );
     }
 
@@ -91,29 +91,29 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         final String key2 = "prefix.name2";
 
         this.environmentValueNamesAndCheck(
-                PropertiesEnvironmentContext.with(
-                        Properties.EMPTY.set(
-                                PropertiesPath.parse(key1),
-                                "value111"
-                        ).set(
-                                PropertiesPath.parse(key2),
-                                "value222"
-                        ),
-                        CONTEXT
+            PropertiesEnvironmentContext.with(
+                Properties.EMPTY.set(
+                    PropertiesPath.parse(key1),
+                    "value111"
+                ).set(
+                    PropertiesPath.parse(key2),
+                    "value222"
                 ),
-                EnvironmentValueName.with(key1),
-                EnvironmentValueName.with(key2)
+                CONTEXT
+            ),
+            EnvironmentValueName.with(key1),
+            EnvironmentValueName.with(key2)
         );
     }
 
     @Override
     public PropertiesEnvironmentContext createContext() {
         return PropertiesEnvironmentContext.with(
-                Properties.EMPTY.set(
-                        PropertiesPath.parse(NAME),
-                        VALUE
-                ),
-                CONTEXT
+            Properties.EMPTY.set(
+                PropertiesPath.parse(NAME),
+                VALUE
+            ),
+            CONTEXT
         );
     }
 
@@ -122,8 +122,8 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testToString() {
         this.toStringAndCheck(
-                this.createContext(),
-                "{hello.123=Gday}"
+            this.createContext(),
+            "{hello.123=Gday}"
         );
     }
 

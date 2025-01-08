@@ -43,9 +43,9 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
      * Valid characters for characters following the first, which may be a letter, digit or dash.
      */
     public final static CharPredicate PART = INITIAL.or(
-            CharPredicates.range('0', '9') // numbers
+        CharPredicates.range('0', '9') // numbers
     ).or(
-            CharPredicates.any("-.")
+        CharPredicates.any("-.")
     );
 
     /**
@@ -58,10 +58,10 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
      */
     public static <T> EnvironmentValueName<T> with(final String name) {
         CharPredicates.failIfNullOrEmptyOrInitialAndPartFalse(
-                name,
-                "name",
-                INITIAL,
-                PART
+            name,
+            "name",
+            INITIAL,
+            PART
         );
 
         if (name.length() >= MAX_LENGTH) {
@@ -108,7 +108,7 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-                other instanceof EnvironmentValueName && this.equals0((EnvironmentValueName<?>) other);
+            other instanceof EnvironmentValueName && this.equals0((EnvironmentValueName<?>) other);
     }
 
     private boolean equals0(final EnvironmentValueName<?> other) {
@@ -138,16 +138,16 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
     static EnvironmentValueName<?> unmarshall(final JsonNode node,
                                               final JsonNodeUnmarshallContext context) {
         return with(
-                node.stringOrFail()
+            node.stringOrFail()
         );
     }
 
     static {
         JsonNodeContext.register(
-                JsonNodeContext.computeTypeName(EnvironmentValueName.class),
-                EnvironmentValueName::unmarshall,
-                EnvironmentValueName::marshall,
-                EnvironmentValueName.class
+            JsonNodeContext.computeTypeName(EnvironmentValueName.class),
+            EnvironmentValueName::unmarshall,
+            EnvironmentValueName::marshall,
+            EnvironmentValueName.class
         );
     }
 }

@@ -34,8 +34,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
     static EmptyEnvironmentContext with(final HasNow hasNow,
                                         final Optional<EmailAddress> user) {
         return new EmptyEnvironmentContext(
-                Objects.requireNonNull(hasNow, "hasNow"),
-                Objects.requireNonNull(user, "user")
+            Objects.requireNonNull(hasNow, "hasNow"),
+            Objects.requireNonNull(user, "user")
         );
     }
 

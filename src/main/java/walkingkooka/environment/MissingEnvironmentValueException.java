@@ -34,10 +34,10 @@ public final class MissingEnvironmentValueException extends IllegalArgumentExcep
 
     public MissingEnvironmentValueException(final EnvironmentValueName<?> environmentValueName) {
         super("Missing environment value " +
-                CharSequences.quoteAndEscape(
-                        Objects.requireNonNull(environmentValueName, "environmentValueName")
-                                .value()
-                )
+            CharSequences.quoteAndEscape(
+                Objects.requireNonNull(environmentValueName, "environmentValueName")
+                    .value()
+            )
         );
         this.environmentValueName = environmentValueName;
     }
@@ -58,7 +58,7 @@ public final class MissingEnvironmentValueException extends IllegalArgumentExcep
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-                other instanceof MissingEnvironmentValueException && this.equals0((MissingEnvironmentValueException) other);
+            other instanceof MissingEnvironmentValueException && this.equals0((MissingEnvironmentValueException) other);
     }
 
     private boolean equals0(final MissingEnvironmentValueException other) {
@@ -69,16 +69,16 @@ public final class MissingEnvironmentValueException extends IllegalArgumentExcep
 
     static {
         JsonNodeContext.register(
-                JsonNodeContext.computeTypeName(MissingEnvironmentValueException.class),
-                MissingEnvironmentValueException::unmarshall,
-                MissingEnvironmentValueException::marshall,
-                MissingEnvironmentValueException.class
+            JsonNodeContext.computeTypeName(MissingEnvironmentValueException.class),
+            MissingEnvironmentValueException::unmarshall,
+            MissingEnvironmentValueException::marshall,
+            MissingEnvironmentValueException.class
         );
     }
 
     private JsonNode marshall(final JsonNodeMarshallContext context) {
         return context.marshall(
-                this.environmentValueName.value() // EnvironmentValueName
+            this.environmentValueName.value() // EnvironmentValueName
         );
     }
 
@@ -86,12 +86,12 @@ public final class MissingEnvironmentValueException extends IllegalArgumentExcep
     static MissingEnvironmentValueException unmarshall(final JsonNode node,
                                                        final JsonNodeUnmarshallContext context) {
         return new MissingEnvironmentValueException(
-                EnvironmentValueName.with(
-                        context.unmarshall(
-                                node,
-                                String.class
-                        )
+            EnvironmentValueName.with(
+                context.unmarshall(
+                    node,
+                    String.class
                 )
+            )
         );
     }
 }
