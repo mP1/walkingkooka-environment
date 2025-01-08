@@ -37,10 +37,10 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     static CollectionEnvironmentContext with(final List<EnvironmentContext> environmentContexts,
                                              final EnvironmentContext context) {
         return new CollectionEnvironmentContext(
-                Lists.immutable(
-                        Objects.requireNonNull(environmentContexts, "environmentContexts")
-                ),
-                Objects.requireNonNull(context, "context")
+            Lists.immutable(
+                Objects.requireNonNull(environmentContexts, "environmentContexts")
+            ),
+            Objects.requireNonNull(context, "context")
         );
     }
 
@@ -53,10 +53,10 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return this.environmentContexts.stream()
-                .map(c -> c.environmentValue(name))
-                        .filter(Optional::isPresent)
-                        .findFirst()
-                .orElse(Optional.empty());
+            .map(c -> c.environmentValue(name))
+            .filter(Optional::isPresent)
+            .findFirst()
+            .orElse(Optional.empty());
     }
 
     // assumes ALL wrapped EnvironmentContext are immutable.

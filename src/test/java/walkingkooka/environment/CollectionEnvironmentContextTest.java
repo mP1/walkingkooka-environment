@@ -39,8 +39,8 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
-            () -> NOW,
-            EnvironmentContext.ANONYMOUS
+        () -> NOW,
+        EnvironmentContext.ANONYMOUS
     );
 
     // with.............................................................................................................
@@ -48,24 +48,24 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testWithNullPropertiesFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> CollectionEnvironmentContext.with(
-                        null,
-                        CONTEXT
-                )
+            NullPointerException.class,
+            () -> CollectionEnvironmentContext.with(
+                null,
+                CONTEXT
+            )
         );
     }
 
     @Test
     public void testWithNullContextFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> CollectionEnvironmentContext.with(
-                        Lists.of(
-                                EnvironmentContexts.fake()
-                        ),
-                        null
-                )
+            NullPointerException.class,
+            () -> CollectionEnvironmentContext.with(
+                Lists.of(
+                    EnvironmentContexts.fake()
+                ),
+                null
+            )
         );
     }
 
@@ -74,23 +74,23 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEnvironmentalValue1() {
         this.environmentValueAndCheck(
-                EnvironmentValueName.with(NAME1),
-                VALUE1
+            EnvironmentValueName.with(NAME1),
+            VALUE1
         );
     }
 
     @Test
     public void testEnvironmentalValue2() {
         this.environmentValueAndCheck(
-                EnvironmentValueName.with(NAME2),
-                VALUE2
+            EnvironmentValueName.with(NAME2),
+            VALUE2
         );
     }
 
     @Test
     public void testEnvironmentalValue1Missing() {
         this.environmentValueAndCheck(
-                EnvironmentValueName.with("Unknown")
+            EnvironmentValueName.with("Unknown")
         );
     }
 
@@ -106,61 +106,61 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         final String prefix = "PREFIX.";
 
         this.environmentValueNamesAndCheck(
-                CollectionEnvironmentContext.with(
-                        Lists.of(
-                                EnvironmentContexts.properties(
-                                        Properties.EMPTY.set(
-                                                PropertiesPath.parse(key11),
-                                                "value111"
-                                        ).set(
-                                                PropertiesPath.parse(key12),
-                                                "value222"
-                                        ),
-                                        CONTEXT
-                                ),
-                                EnvironmentContexts.properties(
-                                        Properties.EMPTY.set(
-                                                PropertiesPath.parse(key21),
-                                                "value111"
-                                        ).set(
-                                                PropertiesPath.parse(key22),
-                                                "value222"
-                                        ),
-                                        CONTEXT
-                                )
+            CollectionEnvironmentContext.with(
+                Lists.of(
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(key11),
+                            "value111"
+                        ).set(
+                            PropertiesPath.parse(key12),
+                            "value222"
                         ),
                         CONTEXT
+                    ),
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(key21),
+                            "value111"
+                        ).set(
+                            PropertiesPath.parse(key22),
+                            "value222"
+                        ),
+                        CONTEXT
+                    )
                 ),
-                EnvironmentValueName.with(key11),
-                EnvironmentValueName.with(key12),
-                EnvironmentValueName.with(key21),
-                EnvironmentValueName.with(key22)
+                CONTEXT
+            ),
+            EnvironmentValueName.with(key11),
+            EnvironmentValueName.with(key12),
+            EnvironmentValueName.with(key21),
+            EnvironmentValueName.with(key22)
         );
     }
 
     @Override
     public CollectionEnvironmentContext createContext() {
         return CollectionEnvironmentContext.with(
-                Lists.of(
-                        EnvironmentContexts.properties(
-                                Properties.EMPTY.set(
-                                        PropertiesPath.parse(NAME1),
-                                        VALUE1
-                                ),
-                                CONTEXT
-                        ),
-                        EnvironmentContexts.properties(
-                                Properties.EMPTY.set(
-                                        PropertiesPath.parse(NAME1),
-                                        "ignored!!!"
-                                ).set(
-                                        PropertiesPath.parse(NAME2),
-                                        VALUE2
-                                ),
-                                CONTEXT
-                        )
+            Lists.of(
+                EnvironmentContexts.properties(
+                    Properties.EMPTY.set(
+                        PropertiesPath.parse(NAME1),
+                        VALUE1
+                    ),
+                    CONTEXT
                 ),
-                CONTEXT
+                EnvironmentContexts.properties(
+                    Properties.EMPTY.set(
+                        PropertiesPath.parse(NAME1),
+                        "ignored!!!"
+                    ).set(
+                        PropertiesPath.parse(NAME2),
+                        VALUE2
+                    ),
+                    CONTEXT
+                )
+            ),
+            CONTEXT
         );
     }
 
@@ -169,8 +169,8 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testToString() {
         this.toStringAndCheck(
-                this.createContext(),
-                "[{hello.111=Gday}, {hello.111=ignored!!!, zebra.222=Orange}]"
+            this.createContext(),
+            "[{hello.111=Gday}, {hello.111=ignored!!!, zebra.222=Orange}]"
         );
     }
 

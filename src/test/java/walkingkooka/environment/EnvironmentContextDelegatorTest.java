@@ -45,8 +45,8 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         @Override
         public EnvironmentContext environmentContext() {
             return EnvironmentContexts.empty(
-                    LocalDateTime::now,
-                    EnvironmentContext.ANONYMOUS
+                LocalDateTime::now,
+                EnvironmentContext.ANONYMOUS
             );
         }
 

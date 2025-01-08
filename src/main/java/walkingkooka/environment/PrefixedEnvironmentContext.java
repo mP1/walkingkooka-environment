@@ -45,15 +45,15 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         if (context instanceof PrefixedEnvironmentContext) {
             final PrefixedEnvironmentContext prefixedEnvironmentContext = (PrefixedEnvironmentContext) context;
             result = new PrefixedEnvironmentContext(
-                    EnvironmentValueName.with(
-                            prefixedEnvironmentContext.prefix + prefixValue
-                    ),
-                    prefixedEnvironmentContext.context
+                EnvironmentValueName.with(
+                    prefixedEnvironmentContext.prefix + prefixValue
+                ),
+                prefixedEnvironmentContext.context
             );
         } else {
             result = new PrefixedEnvironmentContext(
-                    prefix,
-                    context
+                prefix,
+                context
             );
         }
 
@@ -77,10 +77,10 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         final String prefix = this.prefix;
         if (name.value().startsWith(prefix)) {
             value = this.context.environmentValue(
-                    EnvironmentValueName.with(
-                            name.value()
-                                    .substring(prefix.length())
-                    )
+                EnvironmentValueName.with(
+                    name.value()
+                        .substring(prefix.length())
+                )
             );
         }
 
@@ -92,9 +92,9 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         if (null == this.names) {
             this.names = this.context.environmentValueNames()
-                    .stream()
-                    .map(n -> EnvironmentValueName.with(this.prefix + n.value()))
-                    .collect(ImmutableSet.collector());
+                .stream()
+                .map(n -> EnvironmentValueName.with(this.prefix + n.value()))
+                .collect(ImmutableSet.collector());
         }
 
         return this.names;

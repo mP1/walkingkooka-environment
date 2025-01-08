@@ -36,8 +36,8 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     public static EnvironmentContext collection(final List<EnvironmentContext> environmentContexts,
                                                 final EnvironmentContext context) {
         return CollectionEnvironmentContext.with(
-                environmentContexts,
-                context
+            environmentContexts,
+            context
         );
     }
 
@@ -47,8 +47,8 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     public static EnvironmentContext empty(final HasNow hasNow,
                                            final Optional<EmailAddress> user) {
         return EmptyEnvironmentContext.with(
-                hasNow,
-                user
+            hasNow,
+            user
         );
     }
 
@@ -65,8 +65,8 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     public static EnvironmentContext prefixed(final EnvironmentValueName<?> prefix,
                                               final EnvironmentContext context) {
         return PrefixedEnvironmentContext.with(
-                prefix,
-                context
+            prefix,
+            context
         );
     }
 
@@ -76,8 +76,8 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     public static EnvironmentContext properties(final Properties properties,
                                                 final EnvironmentContext context) {
         return PropertiesEnvironmentContext.with(
-                properties,
-                context
+            properties,
+            context
         );
     }
 

@@ -28,7 +28,7 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     @Override
     default <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return this.environmentContext()
-                .environmentValue(name);
+            .environmentValue(name);
     }
 
     @Override
@@ -39,13 +39,13 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     @Override
     default LocalDateTime now() {
         return this.environmentContext()
-                .now();
+            .now();
     }
 
     @Override
     default Optional<EmailAddress> user() {
         return this.environmentContext()
-                .user();
+            .user();
     }
 
     EnvironmentContext environmentContext();
