@@ -82,6 +82,58 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
         );
     }
 
+    // refreshModifiedAuditInfo.........................................................................................
+
+    @Test
+    public void testRefreshModifiedAuditInfo() {
+        final EmailAddress createdUser = EmailAddress.parse("created@example.com");
+        final LocalDateTime createdTimestamp = LocalDateTime.of(
+            1999,
+            12,
+            31,
+            12,
+            58,
+            59
+        );
+
+        final EmailAddress updatedUser = EmailAddress.parse("modified@example.com");
+        final LocalDateTime updatedTimestamp = LocalDateTime.of(
+            2000,
+            1,
+            2,
+            3,
+            4,
+            5
+        );
+
+        this.checkEquals(
+            AuditInfo.with(
+                createdUser,
+                createdTimestamp,
+                updatedUser,
+                updatedTimestamp
+            ),
+            new FakeEnvironmentContext() {
+                @Override
+                public LocalDateTime now() {
+                    return updatedTimestamp;
+                }
+
+                @Override
+                public Optional<EmailAddress> user() {
+                    return Optional.of(updatedUser);
+                }
+            }.refreshModifiedAuditInfo(
+                AuditInfo.with(
+                    createdUser,
+                    createdTimestamp,
+                    createdUser,
+                    createdTimestamp
+                )
+            )
+        );
+    }
+
     // class............................................................................................................
 
     @Override

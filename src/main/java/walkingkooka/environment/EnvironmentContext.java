@@ -22,6 +22,7 @@ import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -88,5 +89,16 @@ public interface EnvironmentContext extends Context,
             user,
             timestamp
         );
+    }
+
+    /**
+     * Returns an {@link AuditInfo} updating its modified properties leaving the createXXX properties.
+     */
+    default AuditInfo refreshModifiedAuditInfo(final AuditInfo auditInfo) {
+        Objects.requireNonNull(auditInfo, "auditInfo");
+
+        return auditInfo.setModifiedBy(
+            this.userOrFail()
+        ).setModifiedTimestamp(this.now());
     }
 }
