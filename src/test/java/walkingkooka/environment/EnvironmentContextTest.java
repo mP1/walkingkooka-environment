@@ -18,10 +18,12 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -42,6 +44,41 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
         this.checkEquals(
             "Missing environment value \"Hello\"",
             thrown.getMessage()
+        );
+    }
+
+    // createdAuditInfo.................................................................................................
+
+    @Test
+    public void testCreatedAuditInfo() {
+        final EmailAddress email = EmailAddress.parse("test@example.com");
+        final LocalDateTime now = LocalDateTime.of(
+            1999,
+            12,
+            31,
+            12,
+            58,
+            59
+        );
+
+        this.checkEquals(
+            AuditInfo.with(
+                email,
+                now,
+                email,
+                now
+            ),
+            new FakeEnvironmentContext() {
+                @Override
+                public LocalDateTime now() {
+                    return now;
+                }
+
+                @Override
+                public Optional<EmailAddress> user() {
+                    return Optional.of(email);
+                }
+            }.createdAuditInfo()
         );
     }
 
