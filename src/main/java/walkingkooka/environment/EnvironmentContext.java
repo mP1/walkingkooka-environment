@@ -21,6 +21,7 @@ import walkingkooka.Context;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -71,6 +72,21 @@ public interface EnvironmentContext extends Context,
         return EnvironmentContexts.prefixed(
             prefix,
             this
+        );
+    }
+
+    /**
+     * Returns an {@link AuditInfo} querying the timestamp and user.
+     */
+    default AuditInfo createdAuditInfo() {
+        final EmailAddress user = this.userOrFail();
+        final LocalDateTime timestamp = this.now();
+
+        return AuditInfo.with(
+            user,
+            timestamp,
+            user,
+            timestamp
         );
     }
 }
