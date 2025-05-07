@@ -40,7 +40,7 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         this.withFails(
             "1abc",
             InvalidCharacterException.class,
-            "Invalid character '1' at 0 in \"1abc\""
+            "Invalid character '1' at 0"
         );
     }
 
@@ -49,7 +49,7 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         this.withFails(
             "abc$def",
             InvalidCharacterException.class,
-            "Invalid character '$' at 3 in \"abc$def\""
+            "Invalid character '$' at 3"
         );
     }
 
@@ -58,7 +58,7 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         this.withFails(
             "abc..def",
             InvalidCharacterException.class,
-            "Invalid character '.' at 4 in \"abc..def\""
+            "Invalid character '.' at 4"
         );
     }
 
