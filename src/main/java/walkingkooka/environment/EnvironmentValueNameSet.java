@@ -135,6 +135,11 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
     }
 
     @Override
+    public void elementCheck(final EnvironmentValueName<?> name) {
+        Objects.requireNonNull(name, "name");
+    }
+
+    @Override
     public SortedSet<EnvironmentValueName<?>> toSet() {
         return new TreeSet<>(this);
     }
