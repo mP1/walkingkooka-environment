@@ -80,7 +80,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     // user.............................................................................................................
 
     @Test
-    default void testUser() {
+    default void testUserNotNull() {
         this.checkNotEquals(
             null,
             this.createContext().user()
