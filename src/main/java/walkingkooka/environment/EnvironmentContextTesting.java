@@ -19,14 +19,14 @@ package walkingkooka.environment;
 
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
-import walkingkooka.test.Testing;
+import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public interface EnvironmentContextTesting extends Testing {
+public interface EnvironmentContextTesting extends TreePrintableTesting {
 
     default <T> void environmentValueAndCheck(final EnvironmentContext context,
                                               final EnvironmentValueName<T> name) {
