@@ -48,9 +48,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     default <T> void environmentValueAndCheck(final EnvironmentValueName<T> name,
                                               final T expected) {
         this.environmentValueAndCheck(
-            this.createContext(),
             name,
-            expected
+            Optional.of(expected)
         );
     }
 
