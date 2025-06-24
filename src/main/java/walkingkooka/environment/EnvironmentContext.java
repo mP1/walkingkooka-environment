@@ -32,7 +32,7 @@ import java.util.Set;
 public interface EnvironmentContext extends Context,
     HasNow {
 
-    static Optional<EmailAddress> ANONYMOUS = Optional.empty();
+    Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
     /**
      * Returns the value for the given {@link EnvironmentValueName}.
