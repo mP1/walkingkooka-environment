@@ -18,6 +18,8 @@
 package walkingkooka.environment;
 
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.TreePrintable;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.JsonPropertyName;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
@@ -30,7 +32,7 @@ import java.util.Objects;
 /**
  * Captures the created and modified entries for an entity.
  */
-public final class AuditInfo {
+public final class AuditInfo implements TreePrintable {
 
     public static AuditInfo with(final EmailAddress createdBy,
                                  final LocalDateTime createdTimestamp,
@@ -165,6 +167,38 @@ public final class AuditInfo {
             this.modifiedBy +
             " " +
             this.modifiedTimestamp;
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        this.printTreePair(
+            "created",
+            this.createdBy,
+            this.createdTimestamp,
+            printer
+        );
+        this.printTreePair(
+            "modified",
+            this.modifiedBy,
+            this.modifiedTimestamp,
+            printer
+        );
+    }
+
+    private void printTreePair(final String label,
+                               final EmailAddress user,
+                               final LocalDateTime timestamp,
+                               final IndentingPrinter printer) {
+        printer.println(label);
+        printer.indent();
+        {
+            printer.print(user.toString());
+            printer.print(" ");
+            printer.println(timestamp.toString());
+        }
+        printer.outdent();
     }
 
     // Json.............................................................................................................
