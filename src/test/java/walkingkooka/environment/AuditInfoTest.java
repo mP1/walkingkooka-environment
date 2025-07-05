@@ -378,6 +378,19 @@ public final class AuditInfoTest implements HashCodeEqualsDefinedTesting2<AuditI
         );
     }
 
+    // TreePrintable....................................................................................................
+
+    @Test
+    public void testTreePrint() {
+        this.treePrintAndCheck(
+            this.createObject(),
+            "created\n" +
+                "  created-by@example.com 1999-12-31T12:58:59\n" +
+                "modified\n" +
+                "  modified-by@example.com 2000-01-02T12:58:59\n"
+        );
+    }
+
     // equals...........................................................................................................
 
     @Test
