@@ -55,11 +55,13 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
      * Factory that creates a {@link EnvironmentValueNameSet} after taking a copy.
      */
     public static EnvironmentValueNameSet with(final SortedSet<EnvironmentValueName<?>> names) {
-        Objects.requireNonNull(names, "names");
-
-        return withCopy(
-            SortedSets.immutable(names)
-        );
+        return names instanceof EnvironmentValueNameSet ?
+            (EnvironmentValueNameSet) names :
+            withCopy(
+                SortedSets.immutable(
+                    Objects.requireNonNull(names, "names")
+                )
+            );
     }
 
     private static EnvironmentValueNameSet withCopy(final SortedSet<EnvironmentValueName<?>> names) {
