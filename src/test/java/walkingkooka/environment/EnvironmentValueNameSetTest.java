@@ -45,6 +45,15 @@ public final class EnvironmentValueNameSetTest implements ImmutableSortedSetTest
     }
 
     @Test
+    public void testWithEnvironmentValueNameSetDoesntWrap() {
+        final EnvironmentValueNameSet set = this.createSet();
+        assertSame(
+            set,
+            EnvironmentValueNameSet.with(set)
+        );
+    }
+
+    @Test
     public void testDeleteBecomesEmpty() {
         final EnvironmentValueName<?> name = EnvironmentValueName.with("value111");
 
