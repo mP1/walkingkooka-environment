@@ -33,6 +33,9 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 /**
  * The name of an environment value. Names must start with a letter, followed by letters/digits/dash and are case-sensitive.
+ * <br>
+ * A {@link EnvironmentValueName} is also a {@link ExpressionReference} allowing usage as a default value for a parameter
+ * which can then be resolved to an actual value.
  */
 final public class EnvironmentValueName<T> implements Name,
     Comparable<EnvironmentValueName<T>>,
