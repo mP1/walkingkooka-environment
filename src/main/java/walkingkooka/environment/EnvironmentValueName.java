@@ -24,6 +24,8 @@ import walkingkooka.naming.Name;
 import walkingkooka.predicate.character.CharPredicate;
 import walkingkooka.predicate.character.CharPredicates;
 import walkingkooka.text.CaseSensitivity;
+import walkingkooka.tree.expression.ExpressionReference;
+import walkingkooka.tree.expression.function.ExpressionFunctionParameterName;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
@@ -32,7 +34,9 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 /**
  * The name of an environment value. Names must start with a letter, followed by letters/digits/dash and are case-sensitive.
  */
-final public class EnvironmentValueName<T> implements Name, Comparable<EnvironmentValueName<T>> {
+final public class EnvironmentValueName<T> implements Name,
+    Comparable<EnvironmentValueName<T>>,
+    ExpressionReference {
 
     /**
      * Names must start with a letter.
@@ -96,6 +100,13 @@ final public class EnvironmentValueName<T> implements Name, Comparable<Environme
     @Override
     public int compareTo(final EnvironmentValueName other) {
         return CASE_SENSITIVITY.comparator().compare(this.name, other.name);
+    }
+
+    // ExpressionReference..............................................................................................
+
+    @Override
+    public boolean testParameterName(final ExpressionFunctionParameterName name) {
+        return false; // dont care if this matches the name.
     }
 
     // Object...........................................................................................................
