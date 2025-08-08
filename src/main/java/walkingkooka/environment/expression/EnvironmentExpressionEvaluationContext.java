@@ -17,21 +17,13 @@
 
 package walkingkooka.environment.expression;
 
-import walkingkooka.reflect.PublicStaticHelper;
+import walkingkooka.Context;
+import walkingkooka.environment.EnvironmentContext;
+import walkingkooka.tree.expression.ExpressionEvaluationContext;
 
-public final class EnvironmentExpressionEvaluationContexts implements PublicStaticHelper {
-
-    /**
-     * {@see FakeEnvironmentExpressionEvaluationContext}
-     */
-    public static EnvironmentExpressionEvaluationContext fake() {
-        return new FakeEnvironmentExpressionEvaluationContext();
-    }
-
-    /**
-     * Stop creation
-     */
-    private EnvironmentExpressionEvaluationContexts() {
-        throw new UnsupportedOperationException();
-    }
+/**
+ * A {@link Context} that adds {@link EnvironmentContext in addition to {@link ExpressionEvaluationContext}.
+ */
+public interface EnvironmentExpressionEvaluationContext extends ExpressionEvaluationContext,
+    EnvironmentContext {
 }
