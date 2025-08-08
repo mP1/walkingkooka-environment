@@ -20,4 +20,5 @@ This is intended primarily to support custom values to a component(s) such as a 
 
 Functions that will be useful with terminal session or other similar general environment queries.
 
+- [getEnv](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetEnv.java)
 - [getUser](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetUser.java)

@@ -17,10 +17,15 @@
 
 package walkingkooka.environment.expression.function;
 
+import walkingkooka.Cast;
+import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContext;
 import walkingkooka.tree.expression.ExpressionFunctionName;
 import walkingkooka.tree.expression.ExpressionPurityContext;
 import walkingkooka.tree.expression.function.ExpressionFunction;
+import walkingkooka.tree.expression.function.ExpressionFunctionParameter;
+import walkingkooka.tree.expression.function.ExpressionFunctionParameterKind;
+import walkingkooka.tree.expression.function.ExpressionFunctionParameterName;
 
 import java.util.Optional;
 
@@ -54,4 +59,10 @@ abstract class EnvironmentExpressionFunction<T, C extends EnvironmentExpressionE
             .get()
             .toString();
     }
+
+    final static Class<EnvironmentValueName<?>> ENVIRONMENT_VALUE_NAME_CLASS = Cast.to(EnvironmentValueName.class);
+
+    final static ExpressionFunctionParameter<EnvironmentValueName<?>> ENVIRONMENT_VALUE_NAME = ExpressionFunctionParameterName.with("env")
+        .required(ENVIRONMENT_VALUE_NAME_CLASS)
+        .setKinds(ExpressionFunctionParameterKind.CONVERT_EVALUATE);
 }
