@@ -19,6 +19,7 @@ package walkingkooka.environment.expression;
 
 import walkingkooka.Context;
 import walkingkooka.environment.EnvironmentContext;
+import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.tree.expression.ExpressionEvaluationContext;
 
 /**
@@ -26,4 +27,8 @@ import walkingkooka.tree.expression.ExpressionEvaluationContext;
  */
 public interface EnvironmentExpressionEvaluationContext extends ExpressionEvaluationContext,
     EnvironmentContext {
+
+    @Override
+    <T> EnvironmentExpressionEvaluationContext setEnvironmentValue(final EnvironmentValueName<T> name,
+                                                                   final T value);
 }

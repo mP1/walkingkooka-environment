@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.environment.EnvironmentContextDelegatorTest.TestEnvironmentContextDelegator;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public final class EnvironmentContextDelegatorTest implements EnvironmentContextTesting2<TestEnvironmentContextDelegator> {
 
@@ -48,6 +49,15 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
                 LocalDateTime::now,
                 EnvironmentContext.ANONYMOUS
             );
+        }
+
+        @Override
+        public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
+                                                          final T value) {
+            Objects.requireNonNull(name, "name");
+            Objects.requireNonNull(value, "value");
+
+            throw new UnsupportedOperationException();
         }
 
         @Override

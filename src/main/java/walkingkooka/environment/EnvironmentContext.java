@@ -54,6 +54,12 @@ public interface EnvironmentContext extends Context,
     Set<EnvironmentValueName<?>> environmentValueNames();
 
     /**
+     * Sets or replaces the given environment variable with a new value.
+     */
+    <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
+                                               final T value);
+
+    /**
      * Returns the current user, or empty if none/anonymous.
      */
     Optional<EmailAddress> user();
@@ -69,7 +75,7 @@ public interface EnvironmentContext extends Context,
     /**
      * Returns a new {@link EnvironmentContext} that now prefixes all lookups with the given {@link EnvironmentValueName prefix}.
      */
-    default EnvironmentContext setEnvironmentValueNamePrefix(final EnvironmentValueName<?> prefix) {
+    default EnvironmentContext setEnvironmentValuePrefix(final EnvironmentValueName<?> prefix) {
         return EnvironmentContexts.prefixed(
             prefix,
             this

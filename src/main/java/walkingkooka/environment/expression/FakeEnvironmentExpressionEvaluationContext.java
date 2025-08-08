@@ -44,6 +44,12 @@ public class FakeEnvironmentExpressionEvaluationContext extends FakeExpressionEv
     }
 
     @Override
+    public <T> EnvironmentExpressionEvaluationContext setEnvironmentValue(final EnvironmentValueName<T> name,
+                                                                          final T value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Optional<EmailAddress> user() {
         throw new UnsupportedOperationException();
     }
