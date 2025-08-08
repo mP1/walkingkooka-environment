@@ -17,6 +17,8 @@
 
 package walkingkooka.environment.convert;
 
+import walkingkooka.convert.Converter;
+import walkingkooka.convert.ConverterContext;
 import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContext;
 import walkingkooka.reflect.PublicStaticHelper;
 
@@ -24,6 +26,13 @@ import walkingkooka.reflect.PublicStaticHelper;
  * A collection of {@link walkingkooka.convert.Converter} related to a {@link EnvironmentExpressionEvaluationContext}.
  */
 public final class EnvironmentConverters implements PublicStaticHelper {
+
+    /**
+     * {@see EnvironmentConverterStringToValueName}
+     */
+    public static <C extends ConverterContext> Converter<C> textToEnvironmentValueName() {
+        return EnvironmentConverterStringToValueName.instance();
+    }
 
     /**
      * Stop creation
