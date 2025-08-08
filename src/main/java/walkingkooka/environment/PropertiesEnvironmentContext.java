@@ -67,6 +67,15 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
     private Set<EnvironmentValueName<?>> names;
 
+    @Override
+    public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
+                                                      final T value) {
+        Objects.requireNonNull(name, "name");
+        Objects.requireNonNull(value, "value");
+
+        throw new UnsupportedOperationException();
+    }
+
     private final Properties properties;
 
     @Override

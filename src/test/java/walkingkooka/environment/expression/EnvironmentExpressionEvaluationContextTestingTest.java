@@ -240,6 +240,15 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         }
 
         @Override
+        public <T> EnvironmentExpressionEvaluationContext setEnvironmentValue(final EnvironmentValueName<T> name,
+                                                                              final T value) {
+            Objects.requireNonNull(name, "name");
+            Objects.requireNonNull(value, "value");
+
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public Optional<EmailAddress> user() {
             return Optional.of(
                 EmailAddress.parse("user@example.com")

@@ -77,6 +77,32 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
+    // setEnvironmentValue..............................................................................................
+
+    @Test
+    default void testSetEnvironmentValueNameWithNullNameFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .setEnvironmentValue(
+                    null,
+                    this
+                )
+        );
+    }
+
+    @Test
+    default void testSetEnvironmentValueNameWithNullValueFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .setEnvironmentValue(
+                    EnvironmentValueName.with("Hello"),
+                    null
+                )
+        );
+    }
+
     // user.............................................................................................................
 
     @Test
