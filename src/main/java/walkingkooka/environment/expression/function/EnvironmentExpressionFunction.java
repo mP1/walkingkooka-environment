@@ -24,7 +24,7 @@ import walkingkooka.tree.expression.function.ExpressionFunction;
 
 import java.util.Optional;
 
-abstract class EnvironmentExpressionFunction<T> implements ExpressionFunction<T, EnvironmentExpressionEvaluationContext> {
+abstract class EnvironmentExpressionFunction<T, C extends EnvironmentExpressionEvaluationContext> implements ExpressionFunction<T, C> {
 
     EnvironmentExpressionFunction(final String name) {
         super();

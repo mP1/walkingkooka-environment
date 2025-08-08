@@ -17,21 +17,33 @@
 
 package walkingkooka.environment.expression.function;
 
-import walkingkooka.Cast;
+import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContext;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.tree.expression.function.ExpressionFunctionTesting;
 
-public final class EnvironmentExpressionFunctionTest implements ClassTesting<EnvironmentExpressionFunction<?, ?>> {
+public abstract class EnvironmentExpressionFunctionTestCase<F extends EnvironmentExpressionFunction<T, EnvironmentExpressionEvaluationContext>, T>
+    implements ExpressionFunctionTesting<F, T, EnvironmentExpressionEvaluationContext>,
+    ClassTesting<F> {
+
+    EnvironmentExpressionFunctionTestCase() {
+        super();
+    }
 
     // class............................................................................................................
 
     @Override
-    public Class<EnvironmentExpressionFunction<?, ?>> type() {
-        return Cast.to(EnvironmentExpressionFunction.class);
+    public final JavaVisibility typeVisibility() {
+        return JavaVisibility.PACKAGE_PRIVATE;
     }
 
     @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PACKAGE_PRIVATE;
+    public String typeNamePrefix() {
+        return EnvironmentExpressionFunction.class.getSimpleName();
+    }
+
+    @Override
+    public String typeNameSuffix() {
+        return "";
     }
 }

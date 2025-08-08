@@ -17,13 +17,23 @@
 
 package walkingkooka.environment.expression.function;
 
+import walkingkooka.Cast;
 import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContext;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.PublicStaticHelper;
+import walkingkooka.tree.expression.function.ExpressionFunction;
 
 /**
  * A collection of {@link EnvironmentExpressionEvaluationContext} functions.
  */
 public final class EnvironmentExpressionFunctions implements PublicStaticHelper {
+
+    /**
+     * {@see EnvironmentExpressionFunctionGetUser}
+     */
+    public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<EmailAddress, C> getUser() {
+        return Cast.to(EnvironmentExpressionFunctionGetUser.instance());
+    }
 
     /**
      * Stop creation
