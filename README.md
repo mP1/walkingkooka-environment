@@ -15,3 +15,9 @@ This is intended primarily to support custom values to a component(s) such as a 
 - Non secret values such as an address.
 - A [EnvironmentValueName](https://github.com/mP1/walkingkooka-environment/blob/master/src/main/java/walkingkooka/environment/EnvironmentValueName.java) 
  supports supplying a default to a function parameter from a environment context.
+
+### [Functions](https://github.com/mP1/walkingkooka-tree/blob/master/src/main/java/walkingkooka/tree/expression/function/ExpressionFunction.java)
+
+Functions that will be useful with terminal session or other similar general environment queries.
+
+- [getUser](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetUser.java)
