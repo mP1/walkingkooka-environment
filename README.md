@@ -16,6 +16,13 @@ This is intended primarily to support custom values to a component(s) such as a 
 - A [EnvironmentValueName](https://github.com/mP1/walkingkooka-environment/blob/master/src/main/java/walkingkooka/environment/EnvironmentValueName.java) 
  supports supplying a default to a function parameter from a environment context.
 
+### [Converters](https://github.com/mP1/walkingkooka-convert/blob/master/src/main/java/walkingkooka/convert/Converter.java)
+
+A collection of converters that are particularly useful within expressions and support passing environment values.
+
+- [EnvironmentConverterStringToValueName](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterStringToValueName.java)
+
+
 ### [Functions](https://github.com/mP1/walkingkooka-tree/blob/master/src/main/java/walkingkooka/tree/expression/function/ExpressionFunction.java)
 
 Functions that will be useful with terminal session or other similar general environment queries.
