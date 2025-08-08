@@ -29,6 +29,13 @@ import walkingkooka.tree.expression.function.ExpressionFunction;
 public final class EnvironmentExpressionFunctions implements PublicStaticHelper {
 
     /**
+     * {@see EnvironmentExpressionFunctionGetEnv}
+     */
+    public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<Object, C> getEnv() {
+        return Cast.to(EnvironmentExpressionFunctionGetEnv.instance());
+    }
+
+    /**
      * {@see EnvironmentExpressionFunctionGetUser}
      */
     public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<EmailAddress, C> getUser() {
