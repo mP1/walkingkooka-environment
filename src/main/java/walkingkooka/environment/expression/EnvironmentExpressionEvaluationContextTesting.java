@@ -17,21 +17,14 @@
 
 package walkingkooka.environment.expression;
 
-import walkingkooka.reflect.PublicStaticHelper;
+import walkingkooka.environment.EnvironmentContextTesting2;
+import walkingkooka.tree.expression.ExpressionEvaluationContextTesting;
 
-public final class EnvironmentExpressionEvaluationContexts implements PublicStaticHelper {
+public interface EnvironmentExpressionEvaluationContextTesting<C extends EnvironmentExpressionEvaluationContext> extends ExpressionEvaluationContextTesting<C>,
+    EnvironmentContextTesting2<C> {
 
-    /**
-     * {@see FakeEnvironmentExpressionEvaluationContext}
-     */
-    public static EnvironmentExpressionEvaluationContext fake() {
-        return new FakeEnvironmentExpressionEvaluationContext();
-    }
-
-    /**
-     * Stop creation
-     */
-    private EnvironmentExpressionEvaluationContexts() {
-        throw new UnsupportedOperationException();
+    @Override
+    default String typeNameSuffix() {
+        return EnvironmentExpressionEvaluationContext.class.getSimpleName();
     }
 }
