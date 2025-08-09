@@ -27,19 +27,19 @@ import walkingkooka.environment.EnvironmentValueName;
 /**
  * A converter that converts a {@link String} or text like value into a {@link EnvironmentValueName}.
  */
-final class EnvironmentConverterStringToValueName<C extends ConverterContext> implements TextToTryingShortCircuitingConverter<C> {
+final class EnvironmentConverterStringToEnvironmentValueName<C extends ConverterContext> implements TextToTryingShortCircuitingConverter<C> {
 
     /**
      * Type-safe getter.
      */
-    static <C extends ConverterContext> EnvironmentConverterStringToValueName<C> instance() {
+    static <C extends ConverterContext> EnvironmentConverterStringToEnvironmentValueName<C> instance() {
         return Cast.to(INSTANCE);
     }
 
     /**
      * Singleton
      */
-    private final static EnvironmentConverterStringToValueName<?> INSTANCE = new EnvironmentConverterStringToValueName<>();
+    private final static EnvironmentConverterStringToEnvironmentValueName<?> INSTANCE = new EnvironmentConverterStringToEnvironmentValueName<>();
 
 
     @Override
