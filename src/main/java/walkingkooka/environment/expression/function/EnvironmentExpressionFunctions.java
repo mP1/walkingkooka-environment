@@ -43,6 +43,13 @@ public final class EnvironmentExpressionFunctions implements PublicStaticHelper 
     }
 
     /**
+     * {@see EnvironmentExpressionFunctionSetEnv}
+     */
+    public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<Object, C> setEnv() {
+        return EnvironmentExpressionFunctionSetEnv.instance();
+    }
+
+    /**
      * Stop creation
      */
     private EnvironmentExpressionFunctions() {

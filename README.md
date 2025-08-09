@@ -29,3 +29,4 @@ Functions that will be useful with terminal session or other similar general env
 
 - [getEnv](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetEnv.java)
 - [getUser](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetUser.java)
+- [setEnv](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionSetEnv.java)
