@@ -65,4 +65,8 @@ abstract class EnvironmentExpressionFunction<T, C extends EnvironmentExpressionE
     final static ExpressionFunctionParameter<EnvironmentValueName<?>> ENVIRONMENT_VALUE_NAME = ExpressionFunctionParameterName.with("env")
         .required(ENVIRONMENT_VALUE_NAME_CLASS)
         .setKinds(ExpressionFunctionParameterKind.CONVERT_EVALUATE);
+
+    final static ExpressionFunctionParameter<Object> VALUE = ExpressionFunctionParameterName.with("value")
+        .optional(Object.class)
+        .setKinds(ExpressionFunctionParameterKind.EVALUATE_RESOLVE_REFERENCES);
 }
