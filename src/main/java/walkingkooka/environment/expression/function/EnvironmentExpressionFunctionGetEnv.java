@@ -48,7 +48,7 @@ final class EnvironmentExpressionFunctionGetEnv<C extends EnvironmentExpressionE
 
     @Override
     public List<ExpressionFunctionParameter<?>> parameters(final int count) {
-        return NO_PARAMETERS;
+        return PARAMETERS;
     }
 
     private final static List<ExpressionFunctionParameter<?>> PARAMETERS = Lists.of(
