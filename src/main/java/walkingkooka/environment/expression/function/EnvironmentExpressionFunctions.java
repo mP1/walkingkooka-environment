@@ -17,7 +17,6 @@
 
 package walkingkooka.environment.expression.function;
 
-import walkingkooka.Cast;
 import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContext;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.PublicStaticHelper;
@@ -32,14 +31,14 @@ public final class EnvironmentExpressionFunctions implements PublicStaticHelper 
      * {@see EnvironmentExpressionFunctionGetEnv}
      */
     public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<Object, C> getEnv() {
-        return Cast.to(EnvironmentExpressionFunctionGetEnv.instance());
+        return EnvironmentExpressionFunctionGetEnv.instance();
     }
 
     /**
      * {@see EnvironmentExpressionFunctionGetUser}
      */
     public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<EmailAddress, C> getUser() {
-        return Cast.to(EnvironmentExpressionFunctionGetUser.instance());
+        return EnvironmentExpressionFunctionGetUser.instance();
     }
 
     /**
