@@ -80,7 +80,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     // setEnvironmentValue..............................................................................................
 
     @Test
-    default void testSetEnvironmentValueNameWithNullNameFails() {
+    default void testSetEnvironmentValueWithNullNameFails() {
         assertThrows(
             NullPointerException.class,
             () -> this.createContext()
@@ -92,7 +92,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     }
 
     @Test
-    default void testSetEnvironmentValueNameWithNullValueFails() {
+    default void testSetEnvironmentValueWithNullValueFails() {
         assertThrows(
             NullPointerException.class,
             () -> this.createContext()
