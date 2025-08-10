@@ -31,4 +31,7 @@ public interface EnvironmentExpressionEvaluationContext extends ExpressionEvalua
     @Override
     <T> EnvironmentExpressionEvaluationContext setEnvironmentValue(final EnvironmentValueName<T> name,
                                                                    final T value);
+
+    @Override
+    EnvironmentExpressionEvaluationContext removeEnvironmentValue(final EnvironmentValueName<?> name);
 }

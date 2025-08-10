@@ -41,6 +41,11 @@ public class FakeEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public LocalDateTime now() {
         throw new UnsupportedOperationException();
     }

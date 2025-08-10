@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,6 +35,15 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     @Override
     default Set<EnvironmentValueName<?>> environmentValueNames() {
         return this.environmentContext().environmentValueNames();
+    }
+
+    @Override
+    default EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+        Objects.requireNonNull(name, "name");
+
+        this.environmentContext()
+            .removeEnvironmentValue(name);
+        return this;
     }
 
     @Override

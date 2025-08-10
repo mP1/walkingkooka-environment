@@ -86,6 +86,13 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+        Objects.requireNonNull(name, "name");
+
+        throw new UnsupportedOperationException();
+    }
+
     private final List<EnvironmentContext> environmentContexts;
 
     @Override
