@@ -249,6 +249,13 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         }
 
         @Override
+        public EnvironmentExpressionEvaluationContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+            Objects.requireNonNull(name, "name");
+
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public Optional<EmailAddress> user() {
             return Optional.of(
                 EmailAddress.parse("user@example.com")

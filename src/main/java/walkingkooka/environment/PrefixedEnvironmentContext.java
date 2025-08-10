@@ -115,6 +115,13 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+        Objects.requireNonNull(name, "name");
+
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public LocalDateTime now() {
         return this.context.now();
     }

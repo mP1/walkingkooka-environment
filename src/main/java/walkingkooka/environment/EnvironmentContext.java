@@ -60,6 +60,11 @@ public interface EnvironmentContext extends Context,
                                                final T value);
 
     /**
+     * Removes the value with the given {@link EnvironmentValueName}.
+     */
+    EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name);
+
+    /**
      * Returns the current user, or empty if none/anonymous.
      */
     Optional<EmailAddress> user();
