@@ -38,6 +38,17 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     }
 
     @Override
+    default <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
+                                                       final T value) {
+        this.environmentContext()
+            .setEnvironmentValue(
+                name,
+                value
+            );
+        return this;
+    }
+
+    @Override
     default EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
