@@ -106,7 +106,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     // removeEnvironmentValue...........................................................................................
 
     @Test
-    default void testRemoveEnvironmentValueNameWithNullNameFails() {
+    default void testRemoveEnvironmentValueWithNullNameFails() {
         assertThrows(
             NullPointerException.class,
             () -> this.createContext()
