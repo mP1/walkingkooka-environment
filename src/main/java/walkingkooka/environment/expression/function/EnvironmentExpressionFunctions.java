@@ -49,6 +49,13 @@ public final class EnvironmentExpressionFunctions implements PublicStaticHelper 
     }
 
     /**
+     * {@see EnvironmentExpressionFunctionRemoveEnv}
+     */
+    public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<Object, C> removeEnv() {
+        return EnvironmentExpressionFunctionRemoveEnv.instance();
+    }
+
+    /**
      * Stop creation
      */
     private EnvironmentExpressionFunctions() {
