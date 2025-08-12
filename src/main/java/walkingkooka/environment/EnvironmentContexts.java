@@ -60,6 +60,13 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     }
 
     /**
+     * {@see MapEnvironmentContext}
+     */
+    public static EnvironmentContext map(final EnvironmentContext context) {
+        return MapEnvironmentContext.with(context);
+    }
+
+    /**
      * {@see PrefixedEnvironmentContext}
      */
     public static EnvironmentContext prefixed(final EnvironmentValueName<?> prefix,
