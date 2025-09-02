@@ -28,7 +28,8 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A {@link Context} that includes methods to fetch environment values.
+ * A {@link Context} that includes methods to get/set/remove environment values including the locale and the {@link EmailAddress}
+ * of the current user.
  */
 public interface EnvironmentContext extends Context,
     HasLocale,
