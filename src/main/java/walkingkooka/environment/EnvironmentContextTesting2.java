@@ -30,6 +30,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public interface EnvironmentContextTesting2<C extends EnvironmentContext> extends EnvironmentContextTesting,
     ContextTesting<C> {
 
+    // setLocale........................................................................................................
+
+    @Test
+    default void testSetLocaleWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext().setLocale(null)
+        );
+    }
+
+    // environmentValue.................................................................................................
+
     @Test
     default void testEnvironmentValueWithNullFails() {
         assertThrows(
