@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.Context;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.util.HasLocale;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -30,6 +31,7 @@ import java.util.Set;
  * A {@link Context} that includes methods to fetch environment values.
  */
 public interface EnvironmentContext extends Context,
+    HasLocale,
     HasNow {
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();

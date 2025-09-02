@@ -21,19 +21,34 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EmptyEnvironmentContextTest implements EnvironmentContextTesting2<EmptyEnvironmentContext>,
     ToStringTesting<EmptyEnvironmentContext> {
 
+    private final static Locale LOCALE = Locale.ENGLISH;
     private final static LocalDateTime NOW = LocalDateTime.MIN;
+
+    @Test
+    public void testWithNullLocaleFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EmptyEnvironmentContext.with(
+                null,
+                () -> NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
 
     @Test
     public void testWithNullHasNowFails() {
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                LOCALE,
                 null,
                 EnvironmentContext.ANONYMOUS
             )
@@ -45,9 +60,20 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                LOCALE,
                 () -> NOW,
                 null
             )
+        );
+    }
+
+    // locale...........................................................................................................
+
+    @Test
+    public void testLocale() {
+        this.localeAndCheck(
+            this.createContext(),
+            LOCALE
         );
     }
 
@@ -64,6 +90,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Override
     public EmptyEnvironmentContext createContext() {
         return EmptyEnvironmentContext.with(
+            LOCALE,
             () -> NOW,
             EnvironmentContext.ANONYMOUS
         );

@@ -23,6 +23,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -44,6 +45,16 @@ final class MapEnvironmentContext implements EnvironmentContext {
         super();
         this.values = Maps.sorted();
         this.context = context;
+
+        this.setEnvironmentValue(
+            EnvironmentValueName.LOCALE,
+            context.locale()
+        );
+    }
+
+    @Override
+    public Locale locale() {
+        return this.environmentValueOrFail(EnvironmentValueName.LOCALE);
     }
 
     @Override

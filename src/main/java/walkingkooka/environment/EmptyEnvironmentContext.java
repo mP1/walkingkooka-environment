@@ -22,6 +22,7 @@ import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -31,20 +32,31 @@ import java.util.Set;
  */
 final class EmptyEnvironmentContext implements EnvironmentContext {
 
-    static EmptyEnvironmentContext with(final HasNow hasNow,
+    static EmptyEnvironmentContext with(final Locale locale,
+                                        final HasNow hasNow,
                                         final Optional<EmailAddress> user) {
         return new EmptyEnvironmentContext(
+            Objects.requireNonNull(locale, "locale"),
             Objects.requireNonNull(hasNow, "hasNow"),
             Objects.requireNonNull(user, "user")
         );
     }
 
-    private EmptyEnvironmentContext(final HasNow hasNow,
+    private EmptyEnvironmentContext(final Locale locale,
+                                    final HasNow hasNow,
                                     final Optional<EmailAddress> user) {
         super();
+        this.locale = locale;
         this.hasNow = hasNow;
         this.user = user;
     }
+
+    @Override
+    public Locale locale() {
+        return this.locale;
+    }
+
+    private final Locale locale;
 
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {

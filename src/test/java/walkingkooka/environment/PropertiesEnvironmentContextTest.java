@@ -23,6 +23,7 @@ import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -32,6 +33,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        Locale.ENGLISH,
         () -> NOW,
         EnvironmentContext.ANONYMOUS
     );

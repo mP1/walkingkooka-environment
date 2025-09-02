@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.environment.EnvironmentContextDelegatorTest.TestEnvironmentContextDelegator;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 public final class EnvironmentContextDelegatorTest implements EnvironmentContextTesting2<TestEnvironmentContextDelegator> {
 
@@ -45,6 +46,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         @Override
         public EnvironmentContext environmentContext() {
             return EnvironmentContexts.empty(
+                Locale.ENGLISH,
                 LocalDateTime::now,
                 EnvironmentContext.ANONYMOUS
             );

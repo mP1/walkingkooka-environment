@@ -21,15 +21,19 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class MapEnvironmentContextTest implements EnvironmentContextTesting2<MapEnvironmentContext>,
     ToStringTesting<MapEnvironmentContext> {
 
+    private final static Locale LOCALE = Locale.FRENCH;
+
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        LOCALE,
         () -> NOW,
         EnvironmentContext.ANONYMOUS
     );
@@ -47,6 +51,16 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             () -> MapEnvironmentContext.with(
                 null
             )
+        );
+    }
+
+    // locale...........................................................................................................
+
+    @Test
+    public void testLocale() {
+        this.localeAndCheck(
+            this.createContext(),
+            LOCALE
         );
     }
 
@@ -108,6 +122,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.environmentValueNamesAndCheck(
             context,
+            EnvironmentValueName.LOCALE,
             name1,
             name2
         );
@@ -130,7 +145,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.toStringAndCheck(
             context,
-            "{hello.123=Gday}"
+            "{hello.123=Gday, locale=fr}"
         );
     }
 
