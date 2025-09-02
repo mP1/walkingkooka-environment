@@ -22,6 +22,8 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.PublicStaticHelper;
 import walkingkooka.tree.expression.function.ExpressionFunction;
 
+import java.util.Locale;
+
 /**
  * A collection of {@link EnvironmentExpressionEvaluationContext} functions.
  */
@@ -32,6 +34,13 @@ public final class EnvironmentExpressionFunctions implements PublicStaticHelper 
      */
     public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<Object, C> getEnv() {
         return EnvironmentExpressionFunctionGetEnv.instance();
+    }
+
+    /**
+     * {@see EnvironmentExpressionFunctionGetLocale}
+     */
+    public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<Locale, C> getLocale() {
+        return EnvironmentExpressionFunctionGetLocale.instance();
     }
 
     /**
