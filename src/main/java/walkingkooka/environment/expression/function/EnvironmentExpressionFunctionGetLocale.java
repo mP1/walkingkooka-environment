@@ -46,7 +46,7 @@ final class EnvironmentExpressionFunctionGetLocale<C extends EnvironmentExpressi
     private final static EnvironmentExpressionFunctionGetLocale<?> INSTANCE = new EnvironmentExpressionFunctionGetLocale<>();
 
     private EnvironmentExpressionFunctionGetLocale() {
-        super("locale");
+        super("getLocale");
     }
 
     @Override
