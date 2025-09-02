@@ -22,11 +22,16 @@ import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.tree.expression.ExpressionEvaluationContext;
 
+import java.util.Locale;
+
 /**
  * A {@link Context} that adds {@link EnvironmentContext in addition to {@link ExpressionEvaluationContext}.
  */
 public interface EnvironmentExpressionEvaluationContext extends ExpressionEvaluationContext,
     EnvironmentContext {
+
+    @Override
+    EnvironmentExpressionEvaluationContext setLocale(final Locale locale);
 
     @Override
     <T> EnvironmentExpressionEvaluationContext setEnvironmentValue(final EnvironmentValueName<T> name,

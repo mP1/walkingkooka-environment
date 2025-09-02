@@ -21,6 +21,7 @@ import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.tree.expression.FakeExpressionEvaluationContext;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,6 +33,11 @@ public class FakeEnvironmentExpressionEvaluationContext extends FakeExpressionEv
     }
 
     // EnvironmentContext...............................................................................................
+
+    @Override
+    public EnvironmentExpressionEvaluationContext setLocale(final Locale locale) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {

@@ -18,9 +18,11 @@
 package walkingkooka.environment;
 
 import walkingkooka.environment.EnvironmentContextDelegatorTest.TestEnvironmentContextDelegator;
+import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContext;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Objects;
 
 public final class EnvironmentContextDelegatorTest implements EnvironmentContextTesting2<TestEnvironmentContextDelegator> {
 
@@ -42,6 +44,12 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
     }
 
     final static class TestEnvironmentContextDelegator implements EnvironmentContextDelegator {
+
+        @Override
+        public EnvironmentExpressionEvaluationContext setLocale(final Locale locale) {
+            Objects.requireNonNull(locale, "locale");
+            throw new UnsupportedOperationException();
+        }
 
         @Override
         public EnvironmentContext environmentContext() {
