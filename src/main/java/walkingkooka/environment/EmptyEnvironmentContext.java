@@ -57,6 +57,13 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
         return this.locale;
     }
 
+    @Override
+    public EnvironmentContext setLocale(final Locale locale) {
+        Objects.requireNonNull(locale, "locale");
+
+        throw new UnsupportedOperationException();
+    }
+
     private final Locale locale;
 
     @Override

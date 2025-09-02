@@ -61,6 +61,14 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public EnvironmentContext setLocale(final Locale locale) {
+        return this.setEnvironmentValue(
+            EnvironmentValueName.LOCALE,
+            locale
+        );
+    }
+
+    @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return this.environmentContexts.stream()
             .map(c -> c.environmentValue(name))

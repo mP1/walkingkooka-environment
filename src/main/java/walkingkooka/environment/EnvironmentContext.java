@@ -23,6 +23,7 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.util.HasLocale;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -34,6 +35,11 @@ import java.util.Set;
 public interface EnvironmentContext extends Context,
     HasLocale,
     HasNow {
+
+    /**
+     * Sets or replaces the current {@link Locale}
+     */
+    EnvironmentContext setLocale(final Locale locale);
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 

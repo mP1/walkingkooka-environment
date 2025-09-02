@@ -32,6 +32,11 @@ public class FakeEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public EnvironmentContext setLocale(final Locale locale) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         throw new UnsupportedOperationException();
     }

@@ -74,6 +74,14 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         return this.context.locale();
     }
 
+    @Override
+    public EnvironmentContext setLocale(final Locale locale) {
+        return this.setEnvironmentValue(
+            EnvironmentValueName.LOCALE,
+            locale
+        );
+    }
+
     // EnvironmentContext...............................................................................................
 
     @Override
