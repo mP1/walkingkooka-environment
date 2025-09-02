@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
 import walkingkooka.collect.set.ImmutableSet;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
@@ -54,8 +55,18 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
-        return (Optional<T>) this.properties.get(
+        Objects.requireNonNull(name, "name");
+
+        Object value = this.properties.get(
             PropertiesPath.parse(name.value())
+        ).orElse(null);
+
+        if (null == value && EnvironmentValueName.LOCALE.equals(name)) {
+            value = this.context.locale();
+        }
+
+        return Optional.ofNullable(
+            Cast.to(value)
         );
     }
 
