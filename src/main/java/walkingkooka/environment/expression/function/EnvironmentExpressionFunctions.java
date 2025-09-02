@@ -65,6 +65,13 @@ public final class EnvironmentExpressionFunctions implements PublicStaticHelper 
     }
 
     /**
+     * {@see EnvironmentExpressionFunctionSetLocale}
+     */
+    public static <C extends EnvironmentExpressionEvaluationContext> ExpressionFunction<Void, C> setLocale() {
+        return EnvironmentExpressionFunctionSetLocale.instance();
+    }
+
+    /**
      * Stop creation
      */
     private EnvironmentExpressionFunctions() {
