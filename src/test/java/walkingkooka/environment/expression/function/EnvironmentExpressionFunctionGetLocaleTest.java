@@ -53,7 +53,7 @@ public final class EnvironmentExpressionFunctionGetLocaleTest extends Environmen
     public void testToString() {
         this.toStringAndCheck(
             EnvironmentExpressionFunctionGetLocale.instance(),
-            "locale"
+            "getLocale"
         );
     }
 
