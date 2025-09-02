@@ -20,20 +20,26 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
 import walkingkooka.InvalidCharacterException;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.compare.ComparableTesting2;
 import walkingkooka.naming.NameTesting2;
+import walkingkooka.reflect.ConstantsTesting;
 import walkingkooka.text.CaseSensitivity;
 import walkingkooka.text.printer.TreePrintableTesting;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallingTesting;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentValueName<String>, EnvironmentValueName<String>>,
     ComparableTesting2<EnvironmentValueName<String>>,
     TreePrintableTesting,
-    JsonNodeMarshallingTesting<EnvironmentValueName<String>> {
+    JsonNodeMarshallingTesting<EnvironmentValueName<String>>,
+    ConstantsTesting<EnvironmentValueName<String>> {
 
     @Test
     public void testWithInvalidInitialFails() {
@@ -105,6 +111,16 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     public void testWithLetterDigitsLetters() {
         this.createNameAndCheck(
             "A1B"
+        );
+    }
+
+    @Test
+    public void testWithLocale() {
+        assertSame(
+            EnvironmentValueName.LOCALE,
+            EnvironmentValueName.with(
+                EnvironmentValueName.LOCALE.value()
+            )
         );
     }
 
@@ -219,6 +235,13 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     @Override
     public EnvironmentValueName<String> createJsonNodeMarshallingValue() {
         return EnvironmentValueName.with("environment-value-123");
+    }
+
+    // constants........................................................................................................
+
+    @Override
+    public Set<EnvironmentValueName<String>> intentionalDuplicateConstants() {
+        return Sets.empty();
     }
 
     // ClassTesting.....................................................................................................

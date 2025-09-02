@@ -17,8 +17,10 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
 import walkingkooka.InvalidCharacterException;
 import walkingkooka.InvalidTextLengthException;
+import walkingkooka.collect.map.Maps;
 import walkingkooka.compare.Comparators;
 import walkingkooka.naming.Name;
 import walkingkooka.predicate.character.CharPredicate;
@@ -30,6 +32,9 @@ import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
+
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * The name of an environment value. Names must start with a letter, followed by letters/digits/dash and are case-sensitive.
@@ -60,6 +65,16 @@ final public class EnvironmentValueName<T> implements Name,
      */
     public final static int MAX_LENGTH = 255;
 
+    private final static Map<String, EnvironmentValueName<?>> CONSTANTS = Maps.sorted();
+
+    private static <T> EnvironmentValueName<T> registerConstant(final String name) {
+        final EnvironmentValueName<?> constant = new EnvironmentValueName<>(name);
+        CONSTANTS.put(name, constant);
+        return Cast.to(constant);
+    }
+
+    public final static EnvironmentValueName<Locale> LOCALE = registerConstant("locale");
+
     /**
      * Factory that creates a {@link EnvironmentValueName}
      */
@@ -71,16 +86,21 @@ final public class EnvironmentValueName<T> implements Name,
             PART
         );
 
-        if (name.length() >= MAX_LENGTH) {
-            throw new InvalidTextLengthException("name", name, 0, MAX_LENGTH);
+        EnvironmentValueName<T> environmentValueName = Cast.to(CONSTANTS.get(name));
+        if (null == environmentValueName) {
+            if (name.length() >= MAX_LENGTH) {
+                throw new InvalidTextLengthException("name", name, 0, MAX_LENGTH);
+            }
+
+            final int dotdot = name.indexOf("..");
+            if (-1 != dotdot) {
+                throw new InvalidCharacterException(name, 1 + dotdot);
+            }
+
+            environmentValueName = new EnvironmentValueName<>(name);
         }
 
-        final int dotdot = name.indexOf("..");
-        if (-1 != dotdot) {
-            throw new InvalidCharacterException(name, 1 + dotdot);
-        }
-
-        return new EnvironmentValueName<>(name);
+        return environmentValueName;
     }
 
     /**
