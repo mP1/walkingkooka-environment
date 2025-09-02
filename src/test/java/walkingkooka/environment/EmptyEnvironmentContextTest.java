@@ -87,6 +87,15 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         );
     }
 
+    @Test
+    public void testEnvironmentValueWithLocale() {
+        this.environmentValueAndCheck(
+            this.createContext(),
+            EnvironmentValueName.LOCALE,
+            LOCALE
+        );
+    }
+
     @Override
     public EmptyEnvironmentContext createContext() {
         return EmptyEnvironmentContext.with(
