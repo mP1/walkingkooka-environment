@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
@@ -61,7 +62,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
-        return Optional.empty();
+        return Optional.ofNullable(
+            EnvironmentValueName.LOCALE.equals(name) ?
+                Cast.to(this.locale) :
+                null
+        );
     }
 
     @Override
