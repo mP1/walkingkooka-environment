@@ -225,6 +225,12 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
             return this.localeContext.localeText(locale);
         }
 
+        @Override
+        public ExpressionEvaluationContext setLocale(final Locale locale) {
+            this.localeContext.setLocale(locale);
+            return this;
+        }
+
         private final LocaleContext localeContext = LocaleContexts.jre(Locale.ENGLISH);
 
         @Override
