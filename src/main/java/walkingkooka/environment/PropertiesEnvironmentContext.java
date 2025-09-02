@@ -23,6 +23,7 @@ import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -44,6 +45,11 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
                                          final EnvironmentContext context) {
         this.properties = properties;
         this.context = context;
+    }
+
+    @Override
+    public Locale locale() {
+        return this.context.locale();
     }
 
     @Override

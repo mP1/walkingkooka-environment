@@ -23,6 +23,7 @@ import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -48,6 +49,15 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
                                          final EnvironmentContext context) {
         this.environmentContexts = environmentContexts;
         this.context = context;
+    }
+
+    /**
+     * Try all given {@link EnvironmentContext} for a locale or default to the given {@link EnvironmentContext} as the default.
+     */
+    @Override
+    public Locale locale() {
+        return this.environmentValue(EnvironmentValueName.LOCALE)
+            .orElseGet(() -> this.context.locale());
     }
 
     @Override

@@ -24,6 +24,7 @@ import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -34,7 +35,10 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
     private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with("prefix111.");
 
+    private final static Locale LOCALE = Locale.FRENCH;
+
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        LOCALE,
         () -> LocalDateTime.of(
             1999,
             12,
@@ -99,6 +103,16 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
             prefixed.context,
             context.context,
             "context"
+        );
+    }
+
+    // locale...........................................................................................................
+
+    @Test
+    public void testLocale() {
+        this.localeAndCheck(
+            this.createContext(),
+            LOCALE
         );
     }
 

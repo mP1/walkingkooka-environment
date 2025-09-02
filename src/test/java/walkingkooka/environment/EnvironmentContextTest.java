@@ -23,6 +23,7 @@ import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,6 +37,7 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
         final MissingEnvironmentValueException thrown = assertThrows(
             MissingEnvironmentValueException.class,
             () -> EnvironmentContexts.empty(
+                Locale.ENGLISH,
                 () -> LocalDateTime.MAX,
                 EnvironmentContext.ANONYMOUS
             ).environmentValueOrFail(EnvironmentValueName.with("Hello"))

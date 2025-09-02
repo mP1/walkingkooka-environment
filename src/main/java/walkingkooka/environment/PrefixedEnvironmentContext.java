@@ -22,6 +22,7 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -64,6 +65,13 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
                                        final EnvironmentContext context) {
         this.prefix = prefix.value();
         this.context = context;
+    }
+
+    // HasLocale........................................................................................................
+
+    @Override
+    public Locale locale() {
+        return this.context.locale();
     }
 
     // EnvironmentContext...............................................................................................

@@ -20,11 +20,18 @@ package walkingkooka.environment;
 import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 public interface EnvironmentContextDelegator extends EnvironmentContext {
+
+    @Override
+    default Locale locale() {
+        return this.environmentContext()
+            .locale();
+    }
 
     @Override
     default <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
