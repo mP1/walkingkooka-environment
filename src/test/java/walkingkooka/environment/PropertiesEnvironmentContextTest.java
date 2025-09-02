@@ -85,6 +85,15 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         );
     }
 
+    @Test
+    public void testEnvironmentalValueDefaultsLocale() {
+        this.environmentValueAndCheck(
+            this.createContext(),
+            EnvironmentValueName.LOCALE,
+            CONTEXT.locale()
+        );
+    }
+
     // environmentValueNames............................................................................................
 
     @Test
