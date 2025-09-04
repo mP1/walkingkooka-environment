@@ -46,6 +46,11 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
     final static class TestEnvironmentContextDelegator implements EnvironmentContextDelegator {
 
         @Override
+        public TestEnvironmentContextDelegator cloneEnvironment() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public EnvironmentExpressionEvaluationContext setLocale(final Locale locale) {
             Objects.requireNonNull(locale, "locale");
             throw new UnsupportedOperationException();

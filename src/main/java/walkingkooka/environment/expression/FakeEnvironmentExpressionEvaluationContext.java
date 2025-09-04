@@ -35,6 +35,11 @@ public class FakeEnvironmentExpressionEvaluationContext extends FakeExpressionEv
     // EnvironmentContext...............................................................................................
 
     @Override
+    public EnvironmentExpressionEvaluationContext cloneEnvironment() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public EnvironmentExpressionEvaluationContext setLocale(final Locale locale) {
         throw new UnsupportedOperationException();
     }

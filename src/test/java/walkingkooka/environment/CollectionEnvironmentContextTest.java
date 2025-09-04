@@ -25,6 +25,7 @@ import walkingkooka.props.PropertiesPath;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting2<CollectionEnvironmentContext> {
@@ -70,6 +71,36 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                 ),
                 null
             )
+        );
+    }
+
+    // cloneEnvironment.................................................................................................
+
+    @Test
+    public void testCloneEnvironment() {
+        final EnvironmentContext context = this.createContext();
+        final EnvironmentContext clone = context.cloneEnvironment();
+
+        assertNotSame(
+            context,
+            clone
+        );
+
+        this.getAllEnvironmentValueAndCheck(
+            context,
+            clone
+        );
+
+        this.environmentValueAndCheck(
+            clone,
+            EnvironmentValueName.with(NAME1),
+            VALUE1
+        );
+
+        this.environmentValueAndCheck(
+            clone,
+            EnvironmentValueName.with(NAME2),
+            VALUE2
         );
     }
 

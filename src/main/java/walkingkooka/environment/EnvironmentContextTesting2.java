@@ -19,9 +19,11 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ContextTesting;
+import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,6 +31,30 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting2<C extends EnvironmentContext> extends EnvironmentContextTesting,
     ContextTesting<C> {
+
+    // cloneEnvironment.................................................................................................
+
+    default void getAllEnvironmentValueAndCheck(final EnvironmentContext context,
+                                                final EnvironmentContext expected) {
+        this.checkEquals(
+            this.values(context),
+            this.values(expected)
+        );
+    }
+
+    private Map<EnvironmentValueName<?>, Object> values(final EnvironmentContext context) {
+        final Map<EnvironmentValueName<?>, Object> values = Maps.ordered();
+
+        for (final EnvironmentValueName<?> name : context.environmentValueNames()) {
+            values.put(
+                name,
+                context.environmentValue(name)
+                    .orElse(null)
+            );
+        }
+
+        return values;
+    }
 
     // setLocale........................................................................................................
 

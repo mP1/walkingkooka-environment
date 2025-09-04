@@ -36,20 +36,38 @@ import java.util.Set;
 final class MapEnvironmentContext implements EnvironmentContext {
 
     static MapEnvironmentContext with(final EnvironmentContext context) {
-        return new MapEnvironmentContext(
+        final MapEnvironmentContext map = new MapEnvironmentContext(
             Objects.requireNonNull(context, "context")
         );
+
+        map.setEnvironmentValue(
+            EnvironmentValueName.LOCALE,
+            context.locale()
+        );
+
+        return map;
     }
 
     private MapEnvironmentContext(final EnvironmentContext context) {
         super();
         this.values = Maps.sorted();
         this.context = context;
+    }
 
-        this.setEnvironmentValue(
-            EnvironmentValueName.LOCALE,
-            context.locale()
+    @Override
+    public EnvironmentContext cloneEnvironment() {
+        final MapEnvironmentContext clone = new MapEnvironmentContext(
+            Objects.requireNonNull(
+                this.context.cloneEnvironment(),
+                "context"
+            )
         );
+
+        clone.values.putAll(
+            this.values
+        );
+
+        return clone;
     }
 
     @Override

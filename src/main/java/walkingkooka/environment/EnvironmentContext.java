@@ -44,6 +44,12 @@ public interface EnvironmentContext extends Context,
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
     /**
+     * Returns a {@link EnvironmentContext} taking a snapshot of environment values. This is useful for environments
+     * where a copy of the environment is needed so new updates do not modify the original.
+     */
+    EnvironmentContext cloneEnvironment();
+
+    /**
      * Returns the value for the given {@link EnvironmentValueName}.
      */
     <T> Optional<T> environmentValue(final EnvironmentValueName<T> name);
