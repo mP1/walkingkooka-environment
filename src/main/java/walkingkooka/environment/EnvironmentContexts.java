@@ -92,6 +92,13 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     }
 
     /**
+     * {@see ReadOnlyEnvironmentContext}
+     */
+    public static EnvironmentContext readOnly(final EnvironmentContext context) {
+        return ReadOnlyEnvironmentContext.with(context);
+    }
+
+    /**
      * Stop creation
      */
     private EnvironmentContexts() {
