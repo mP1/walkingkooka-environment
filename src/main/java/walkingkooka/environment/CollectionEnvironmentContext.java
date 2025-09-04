@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
 
 /**
  * A {@link EnvironmentContext} that tries given context for a value until success.
@@ -49,6 +50,22 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
                                          final EnvironmentContext context) {
         this.environmentContexts = environmentContexts;
         this.context = context;
+    }
+
+    /**
+     * Creates a new {@link CollectionEnvironmentContext} cloning each of the given {@link EnvironmentContext}.
+     */
+    @Override
+    public EnvironmentContext cloneEnvironment() {
+        return new CollectionEnvironmentContext(
+            this.environmentContexts.stream()
+                .map(EnvironmentContext::cloneEnvironment)
+                .peek(Objects::requireNonNull)
+                .collect(Collectors.toList()),
+            Objects.requireNonNull(
+                this.context.cloneEnvironment()
+            )
+        );
     }
 
     /**

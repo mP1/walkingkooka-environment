@@ -23,6 +23,7 @@ import walkingkooka.ToStringTesting;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EmptyEnvironmentContextTest implements EnvironmentContextTesting2<EmptyEnvironmentContext>,
@@ -64,6 +65,18 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 () -> NOW,
                 null
             )
+        );
+    }
+
+    // cloneEnvironment.................................................................................................
+
+    @Test
+    public void testCloneEnvironment() {
+        final EmptyEnvironmentContext context = this.createContext();
+
+        assertSame(
+            context,
+            context.cloneEnvironment()
         );
     }
 

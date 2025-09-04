@@ -66,6 +66,14 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
 
     private final Locale locale;
 
+    /**
+     * No need to clone because instances are immutable.
+     */
+    @Override
+    public EnvironmentContext cloneEnvironment() {
+        return this;
+    }
+
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");

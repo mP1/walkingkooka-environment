@@ -49,6 +49,18 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public EnvironmentContext cloneEnvironment() {
+        final EnvironmentContext clone = with(
+            this.properties, // immutable no need to clone
+            this.context.cloneEnvironment()
+        );
+
+        return this.equals(clone) ?
+            this :
+            clone;
+    }
+
+    @Override
     public Locale locale() {
         return this.context.locale();
     }

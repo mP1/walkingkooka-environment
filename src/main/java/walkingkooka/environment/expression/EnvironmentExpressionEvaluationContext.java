@@ -31,6 +31,9 @@ public interface EnvironmentExpressionEvaluationContext extends ExpressionEvalua
     EnvironmentContext {
 
     @Override
+    EnvironmentExpressionEvaluationContext cloneEnvironment();
+
+    @Override
     EnvironmentExpressionEvaluationContext setLocale(final Locale locale);
 
     @Override

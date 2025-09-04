@@ -48,12 +48,12 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
             result = new PrefixedEnvironmentContext(
                 EnvironmentValueName.with(
                     prefixedEnvironmentContext.prefix + prefixValue
-                ),
+                ).value(),
                 prefixedEnvironmentContext.context
             );
         } else {
             result = new PrefixedEnvironmentContext(
-                prefix,
+                prefix.value(),
                 context
             );
         }
@@ -61,9 +61,9 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         return result;
     }
 
-    private PrefixedEnvironmentContext(final EnvironmentValueName<?> prefix,
+    private PrefixedEnvironmentContext(final String prefix,
                                        final EnvironmentContext context) {
-        this.prefix = prefix.value();
+        this.prefix = prefix;
         this.context = context;
     }
 
@@ -83,6 +83,16 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     }
 
     // EnvironmentContext...............................................................................................
+
+    @Override
+    public EnvironmentContext cloneEnvironment() {
+        return new PrefixedEnvironmentContext(
+            this.prefix,
+            Objects.requireNonNull(
+                this.context.cloneEnvironment()
+            )
+        );
+    }
 
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
