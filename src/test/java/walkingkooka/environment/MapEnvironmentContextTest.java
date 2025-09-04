@@ -18,7 +18,9 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
+import walkingkooka.datetime.HasNow;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -26,15 +28,18 @@ import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class MapEnvironmentContextTest implements EnvironmentContextTesting2<MapEnvironmentContext>,
+    HashCodeEqualsDefinedTesting2<MapEnvironmentContext>,
     ToStringTesting<MapEnvironmentContext> {
 
     private final static Locale LOCALE = Locale.FRENCH;
 
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
+    private final static HasNow HAS_NOW = () -> NOW;
+
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
         LOCALE,
-        () -> NOW,
+        HAS_NOW,
         EnvironmentContext.ANONYMOUS
     );
 
@@ -131,6 +136,51 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
     @Override
     public MapEnvironmentContext createContext() {
         return MapEnvironmentContext.with(CONTEXT);
+    }
+
+    // hashCode/equals..................................................................................................
+
+    @Test
+    public void testEqualsDifferentContext() {
+        this.checkNotEquals(
+            MapEnvironmentContext.with(
+                EnvironmentContexts.empty(
+                    Locale.FRANCE,
+                    HAS_NOW,
+                    EnvironmentContext.ANONYMOUS
+                )
+            ),
+            MapEnvironmentContext.with(
+                EnvironmentContexts.empty(
+                    Locale.GERMAN,
+                    HAS_NOW,
+                    EnvironmentContext.ANONYMOUS
+                )
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentValues() {
+        final EnvironmentValueName<String> name = EnvironmentValueName.with("Hello");
+
+        this.checkNotEquals(
+            this.createContext()
+                .setEnvironmentValue(
+                    name,
+                    "World1"
+                ),
+            this.createContext()
+                .setEnvironmentValue(
+                    name,
+                    "World22"
+                )
+        );
+    }
+
+    @Override
+    public MapEnvironmentContext createObject() {
+        return this.createContext();
     }
 
     // toString.........................................................................................................
