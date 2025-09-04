@@ -138,6 +138,23 @@ final class MapEnvironmentContext implements EnvironmentContext {
     // Object...........................................................................................................
 
     @Override
+    public int hashCode() {
+        return this.context.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        return this == other ||
+            (other instanceof MapEnvironmentContext &&
+                this.equals0((MapEnvironmentContext) other));
+    }
+
+    private boolean equals0(final MapEnvironmentContext other) {
+        return this.values.equals(other.values) &&
+            this.context.equals(other.context);
+    }
+
+    @Override
     public String toString() {
         return this.values.toString();
     }
