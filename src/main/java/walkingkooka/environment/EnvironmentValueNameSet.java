@@ -31,6 +31,7 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.util.AbstractSet;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Objects;
@@ -54,11 +55,11 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
     /**
      * Factory that creates a {@link EnvironmentValueNameSet} after taking a copy.
      */
-    public static EnvironmentValueNameSet with(final SortedSet<EnvironmentValueName<?>> names) {
+    public static EnvironmentValueNameSet with(final Collection<EnvironmentValueName<?>> names) {
         return names instanceof EnvironmentValueNameSet ?
             (EnvironmentValueNameSet) names :
             withCopy(
-                SortedSets.immutable(
+                new TreeSet<>(
                     Objects.requireNonNull(names, "names")
                 )
             );
@@ -127,7 +128,7 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
     }
 
     @Override
-    public EnvironmentValueNameSet setElements(final SortedSet<EnvironmentValueName<?>> names) {
+    public EnvironmentValueNameSet setElements(final Collection<EnvironmentValueName<?>> names) {
         final TreeSet<EnvironmentValueName<?>> copy = new TreeSet<>(
             Objects.requireNonNull(names, "names")
         );
