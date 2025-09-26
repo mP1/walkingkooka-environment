@@ -69,4 +69,9 @@ public class FakeEnvironmentExpressionEvaluationContext extends FakeExpressionEv
     public Optional<EmailAddress> user() {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public EnvironmentExpressionEvaluationContext setUser(final Optional<EmailAddress> email) {
+        throw new UnsupportedOperationException();
+    }
 }

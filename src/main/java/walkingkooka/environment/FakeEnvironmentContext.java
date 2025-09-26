@@ -71,4 +71,9 @@ public class FakeEnvironmentContext implements EnvironmentContext {
     public Optional<EmailAddress> user() {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+        throw new UnsupportedOperationException();
+    }
 }

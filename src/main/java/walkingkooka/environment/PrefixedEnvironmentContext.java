@@ -157,6 +157,12 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         return this.context.user();
     }
 
+    @Override
+    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+        this.context.setUser(user);
+        return this;
+    }
+
     // Object...........................................................................................................
 
     @Override

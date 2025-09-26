@@ -25,6 +25,7 @@ import walkingkooka.util.HasLocaleTesting;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting extends HasLocaleTesting,
@@ -117,6 +118,28 @@ public interface EnvironmentContextTesting extends HasLocaleTesting,
         this.checkEquals(
             expected,
             context.user()
+        );
+    }
+
+    // setUser..........................................................................................................
+
+    default void setUserAndCheck(final EnvironmentContext context,
+                                 final EmailAddress emailAddress) {
+        this.setUserAndCheck(
+            context,
+            Optional.of(emailAddress)
+        );
+    }
+
+    default void setUserAndCheck(final EnvironmentContext context,
+                                 final Optional<EmailAddress> emailAddress) {
+        assertSame(
+            context,
+            context.setUser(emailAddress)
+        );
+        this.userAndCheck(
+            context,
+            emailAddress
         );
     }
 }

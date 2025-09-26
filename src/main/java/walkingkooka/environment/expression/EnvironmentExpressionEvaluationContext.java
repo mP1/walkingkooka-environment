@@ -20,9 +20,11 @@ package walkingkooka.environment.expression;
 import walkingkooka.Context;
 import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentValueName;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.tree.expression.ExpressionEvaluationContext;
 
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * A {@link Context} that adds {@link EnvironmentContext in addition to {@link ExpressionEvaluationContext}.
@@ -35,6 +37,9 @@ public interface EnvironmentExpressionEvaluationContext extends ExpressionEvalua
 
     @Override
     EnvironmentExpressionEvaluationContext setLocale(final Locale locale);
+
+    @Override
+    EnvironmentExpressionEvaluationContext setUser(final Optional<EmailAddress> user);
 
     @Override
     <T> EnvironmentExpressionEvaluationContext setEnvironmentValue(final EnvironmentValueName<T> name,

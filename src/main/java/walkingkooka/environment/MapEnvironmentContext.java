@@ -142,7 +142,21 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
     @Override
     public Optional<EmailAddress> user() {
-        return this.context.user();
+        return this.environmentValue(EnvironmentValueName.USER);
+    }
+
+    @Override
+    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+        Objects.requireNonNull(user, "user");
+
+        return user.isPresent() ?
+            this.setEnvironmentValue(
+                EnvironmentValueName.USER,
+                user.orElse(null)
+            ) :
+            this.removeEnvironmentValue(
+                EnvironmentValueName.USER
+            );
     }
 
     private final EnvironmentContext context;

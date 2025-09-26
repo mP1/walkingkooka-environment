@@ -267,5 +267,11 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
                 EmailAddress.parse("user@example.com")
             );
         }
+
+        @Override
+        public EnvironmentExpressionEvaluationContext setUser(final Optional<EmailAddress> user) {
+            Objects.requireNonNull(user, "user");
+            return this;
+        }
     }
 }
