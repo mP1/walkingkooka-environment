@@ -94,6 +94,15 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         );
     }
 
+    @Test
+    public void testEnvironmentalValueWithLocale() {
+        this.environmentValueAndCheck(
+            this.createContext(),
+            EnvironmentValueName.LOCALE,
+            LOCALE
+        );
+    }
+
     // environmentValueNames............................................................................................
 
     @Test
