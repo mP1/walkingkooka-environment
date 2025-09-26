@@ -83,10 +83,14 @@ final class MapEnvironmentContext implements EnvironmentContext {
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
+
+        Object value = this.values.get(name);
+        if (null == value && EnvironmentValueName.LOCALE.equals(name)) {
+            value = this.context.locale();
+        }
+
         return Optional.ofNullable(
-            Cast.to(
-                this.values.get(name)
-            )
+            Cast.to(value)
         );
     }
 

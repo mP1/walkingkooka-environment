@@ -103,6 +103,37 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         );
     }
 
+    @Test
+    public void testEnvironmentalValueWithLocaleAfterWrappedContextLocaleChange() {
+        final MapEnvironmentContext context = MapEnvironmentContext.with(
+            new FakeEnvironmentContext() {
+
+                @Override
+                public Locale locale() {
+                    return MapEnvironmentContextTest.this.locale;
+                }
+            }
+        );
+
+        this.locale = LOCALE;
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentValueName.LOCALE,
+            LOCALE
+        );
+
+        this.locale = Locale.FRENCH;
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentValueName.LOCALE,
+            this.locale
+        );
+    }
+
+    private Locale locale;
+
     // environmentValueNames............................................................................................
 
     @Test
@@ -204,7 +235,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.toStringAndCheck(
             context,
-            "{hello.123=Gday, locale=fr}"
+            "{hello.123=Gday}"
         );
     }
 
