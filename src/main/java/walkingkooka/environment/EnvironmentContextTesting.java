@@ -30,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public interface EnvironmentContextTesting extends HasLocaleTesting,
     TreePrintableTesting {
 
+    // environmentValue.................................................................................................
+
     default <T> void environmentValueAndCheck(final EnvironmentContext context,
                                               final EnvironmentValueName<T> name) {
         this.environmentValueAndCheck(
