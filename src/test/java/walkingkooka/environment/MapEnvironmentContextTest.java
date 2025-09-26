@@ -136,10 +136,56 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
     private Locale locale;
 
+    private final static EmailAddress USER = EmailAddress.parse("user@example.com");
+
+    @Test
+    public void testEnvironmentalValueWithUser() {
+        this.environmentValueAndCheck(
+            this.createContext(
+                Optional.of(USER)
+            ),
+            EnvironmentValueName.USER,
+            USER
+        );
+    }
+
+    @Test
+    public void testEnvironmentalValueWithUserAfterWrappedContextUserChange() {
+        final MapEnvironmentContext context = MapEnvironmentContext.with(
+            new FakeEnvironmentContext() {
+
+                @Override
+                public Optional<EmailAddress> user() {
+                    return Optional.ofNullable(
+                        MapEnvironmentContextTest.this.user
+                    );
+                }
+            }
+        );
+
+        this.user = USER;
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentValueName.USER,
+            USER
+        );
+
+        this.user = EmailAddress.parse("user-changed@example.com");
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentValueName.USER,
+            this.user
+        );
+    }
+
+    private EmailAddress user;
+
     // environmentValueNames............................................................................................
 
     @Test
-    public void testEnvironmentalValueNames() {
+    public void testEnvironmentalValueNamesWhenAnonymous() {
         final EnvironmentValueName<String> name1 = EnvironmentValueName.with("prefix.name1");
 
         final MapEnvironmentContext context = MapEnvironmentContext.with(CONTEXT);
@@ -175,9 +221,61 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         );
     }
 
+    @Test
+    public void testEnvironmentalValueNamesWhenUserPresent() {
+        final EnvironmentValueName<String> name1 = EnvironmentValueName.with("prefix.name1");
+
+        final MapEnvironmentContext context = this.createContext(
+            Optional.of(
+                EmailAddress.parse("user183@example.com")
+            )
+        );
+        context.setEnvironmentValue(
+            name1,
+            VALUE
+        );
+
+        final EnvironmentValueName<String> name2 = EnvironmentValueName.with("prefix.name2");
+
+        context.setEnvironmentValue(
+            name2,
+            VALUE
+        );
+
+        {
+            final EnvironmentValueName<String> name3 = EnvironmentValueName.with("REMOVED");
+
+            context.setEnvironmentValue(
+                name3,
+                VALUE
+            );
+            context.removeEnvironmentValue(
+                name3
+            );
+        }
+
+        this.environmentValueNamesAndCheck(
+            context,
+            EnvironmentValueName.LOCALE,
+            EnvironmentValueName.USER,
+            name1,
+            name2
+        );
+    }
+
     @Override
     public MapEnvironmentContext createContext() {
-        return MapEnvironmentContext.with(CONTEXT);
+        return this.createContext(EnvironmentContext.ANONYMOUS);
+    }
+
+    public MapEnvironmentContext createContext(final Optional<EmailAddress> user) {
+        return MapEnvironmentContext.with(
+            EnvironmentContexts.empty(
+                LOCALE,
+                HAS_NOW,
+                user
+            )
+        );
     }
 
     // hashCode/equals..................................................................................................

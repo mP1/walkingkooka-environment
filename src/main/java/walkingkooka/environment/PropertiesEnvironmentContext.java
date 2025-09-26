@@ -81,8 +81,14 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
             PropertiesPath.parse(name.value())
         ).orElse(null);
 
-        if (null == value && EnvironmentValueName.LOCALE.equals(name)) {
-            value = this.context.locale();
+        if (null == value) {
+            if (EnvironmentValueName.LOCALE.equals(name)) {
+                value = this.context.locale();
+            } else {
+                if (EnvironmentValueName.USER.equals(name)) {
+                    value = this.context.user();
+                }
+            }
         }
 
         return Optional.ofNullable(

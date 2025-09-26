@@ -23,6 +23,7 @@ import walkingkooka.InvalidTextLengthException;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.compare.Comparators;
 import walkingkooka.naming.Name;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.character.CharPredicate;
 import walkingkooka.predicate.character.CharPredicates;
 import walkingkooka.text.CaseSensitivity;
@@ -74,6 +75,8 @@ final public class EnvironmentValueName<T> implements Name,
     }
 
     public final static EnvironmentValueName<Locale> LOCALE = registerConstant("locale");
+
+    public final static EnvironmentValueName<EmailAddress> USER = registerConstant("user");
 
     /**
      * Factory that creates a {@link EnvironmentValueName}
