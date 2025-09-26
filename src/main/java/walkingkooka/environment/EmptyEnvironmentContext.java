@@ -29,7 +29,8 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A {@link EnvironmentContext} that always returns no value.
+ * A {@link EnvironmentContext} that always returns no value. All setter like methods including {@link Locale} or
+ * {@link EnvironmentValueName} values throw {@link UnsupportedOperationException}.
  */
 final class EmptyEnvironmentContext implements EnvironmentContext {
 
