@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.Cast;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
+import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
@@ -39,11 +40,6 @@ final class MapEnvironmentContext implements EnvironmentContext {
     static MapEnvironmentContext with(final EnvironmentContext context) {
         final MapEnvironmentContext map = new MapEnvironmentContext(
             Objects.requireNonNull(context, "context")
-        );
-
-        map.setEnvironmentValue(
-            EnvironmentValueName.LOCALE,
-            context.locale()
         );
 
         return map;
@@ -96,9 +92,11 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
     @Override
     public Set<EnvironmentValueName<?>> environmentValueNames() {
-        return Sets.readOnly(
-            this.values.keySet()
-        );
+        final Set<EnvironmentValueName<?>> names = SortedSets.tree();
+        names.addAll(this.values.keySet());
+        names.add(EnvironmentValueName.LOCALE);
+
+        return Sets.readOnly(names);
     }
 
     @Override
