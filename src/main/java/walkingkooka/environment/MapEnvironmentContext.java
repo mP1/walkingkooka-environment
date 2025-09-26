@@ -31,7 +31,8 @@ import java.util.Set;
 
 /**
  * A {@link EnvironmentContext} that stores {@link EnvironmentValueName} values in a {@link Map} delegating other
- * methods to the given {@link EnvironmentContext}.
+ * methods to the given {@link EnvironmentContext}. Note values from the given {@link EnvironmentContext} are ignored,
+ * and it is never queried for values or names, cascading is not supported.
  */
 final class MapEnvironmentContext implements EnvironmentContext {
 
