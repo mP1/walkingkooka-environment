@@ -124,6 +124,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
         return this.user;
     }
 
+    @Override
+    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+        Objects.requireNonNull(user, "user");
+        throw new UnsupportedOperationException();
+    }
+
     private final Optional<EmailAddress> user;
 
     // Object...........................................................................................................

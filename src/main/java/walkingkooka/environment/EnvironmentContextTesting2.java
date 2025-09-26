@@ -183,4 +183,16 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             expected
         );
     }
+
+    // setUser..........................................................................................................
+
+    @Test
+    default void testSetUserWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext().setUser(
+                null
+            )
+        );
+    }
 }

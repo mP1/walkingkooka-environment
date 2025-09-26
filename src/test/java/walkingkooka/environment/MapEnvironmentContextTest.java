@@ -263,6 +263,22 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         );
     }
 
+    // setUser..........................................................................................................
+
+    @Test
+    public void testSetUser() {
+        final MapEnvironmentContext context = MapEnvironmentContext.with(CONTEXT);
+
+        final EmailAddress email = EmailAddress.parse("different@example.com");
+
+        this.setUserAndCheck(
+            context,
+            email
+        );
+    }
+
+    // Context..........................................................................................................
+
     @Override
     public MapEnvironmentContext createContext() {
         return this.createContext(EnvironmentContext.ANONYMOUS);

@@ -93,6 +93,11 @@ public interface EnvironmentContext extends Context,
     }
 
     /**
+     * Sets or replaces the user.
+     */
+    EnvironmentContext setUser(final Optional<EmailAddress> user);
+
+    /**
      * Returns a new {@link EnvironmentContext} that now prefixes all lookups with the given {@link EnvironmentValueName prefix}.
      */
     default EnvironmentContext setEnvironmentValuePrefix(final EnvironmentValueName<?> prefix) {

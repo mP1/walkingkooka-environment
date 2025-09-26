@@ -107,6 +107,12 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
         return this.context.user();
     }
 
+    @Override
+    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+        Objects.requireNonNull(user, "user");
+        throw new UnsupportedOperationException();
+    }
+
     private final EnvironmentContext context;
 
     // Object...........................................................................................................
