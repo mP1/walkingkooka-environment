@@ -18,15 +18,19 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
+import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EmptyEnvironmentContextTest implements EnvironmentContextTesting2<EmptyEnvironmentContext>,
+    HashCodeEqualsDefinedTesting2<EmptyEnvironmentContext>,
     ToStringTesting<EmptyEnvironmentContext> {
 
     private final static Locale LOCALE = Locale.ENGLISH;
@@ -123,6 +127,62 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck();
+    }
+
+    // equals...........................................................................................................
+
+    @Test
+    public void testEqualsDifferentLocale() {
+        this.checkNotEquals(
+            EmptyEnvironmentContext.with(
+                LOCALE,
+                () -> NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            EmptyEnvironmentContext.with(
+                Locale.FRANCE,
+                () -> NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentUser() {
+        this.checkNotEquals(
+            EmptyEnvironmentContext.with(
+                LOCALE,
+                () -> NOW,
+                Optional.of(
+                    EmailAddress.parse("different@example.com")
+                )
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentUser2() {
+        this.checkNotEquals(
+            EmptyEnvironmentContext.with(
+                LOCALE,
+                () -> NOW,
+                Optional.of(
+                    EmailAddress.parse("user1@example.com")
+                )
+            ),
+            EmptyEnvironmentContext.with(
+                LOCALE,
+                () -> NOW,
+                Optional.of(
+                    EmailAddress.parse("user222@example.com")
+                )
+            )
+        );
+    }
+
+    @Override
+    public EmptyEnvironmentContext createObject() {
+        return this.createContext();
     }
 
     // toString.........................................................................................................

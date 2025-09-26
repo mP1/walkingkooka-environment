@@ -21,9 +21,11 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
+import walkingkooka.net.email.EmailAddress;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -194,7 +196,9 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
                 EnvironmentContexts.empty(
                     Locale.GERMAN,
                     HAS_NOW,
-                    EnvironmentContext.ANONYMOUS
+                    Optional.of(
+                        EmailAddress.parse("different@example.com")
+                    )
                 )
             )
         );

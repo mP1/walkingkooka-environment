@@ -31,6 +31,8 @@ import java.util.Set;
 /**
  * A {@link EnvironmentContext} that always returns no value. All setter like methods including {@link Locale} or
  * {@link EnvironmentValueName} values throw {@link UnsupportedOperationException}.
+ * <br>
+ * Note only the {@link #locale()} and {@link #user()} are included in hashCode/equals.
  */
 final class EmptyEnvironmentContext implements EnvironmentContext {
 
@@ -119,6 +121,28 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
     }
 
     private final Optional<EmailAddress> user;
+
+    // Object...........................................................................................................
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            this.locale,
+            this.user
+        );
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        return this == other ||
+            (other instanceof EmptyEnvironmentContext &&
+                this.equals0((EmptyEnvironmentContext) other));
+    }
+
+    private boolean equals0(final EmptyEnvironmentContext other) {
+        return this.locale.equals(other.locale) &&
+            this.user.equals(other.user);
+    }
 
     @Override
     public String toString() {
