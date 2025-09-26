@@ -85,8 +85,13 @@ final class MapEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
 
         Object value = this.values.get(name);
-        if (null == value && EnvironmentValueName.LOCALE.equals(name)) {
-            value = this.context.locale();
+        if (null == value) {
+            if (EnvironmentValueName.LOCALE.equals(name)) {
+                value = this.context.locale();
+            } else if (EnvironmentValueName.USER.equals(name)) {
+                value = this.context.user()
+                    .orElse(null);
+            }
         }
 
         return Optional.ofNullable(
@@ -99,6 +104,10 @@ final class MapEnvironmentContext implements EnvironmentContext {
         final Set<EnvironmentValueName<?>> names = SortedSets.tree();
         names.addAll(this.values.keySet());
         names.add(EnvironmentValueName.LOCALE);
+
+        if(this.context.user().isPresent()) {
+            names.add(EnvironmentValueName.USER);
+        }
 
         return Sets.readOnly(names);
     }

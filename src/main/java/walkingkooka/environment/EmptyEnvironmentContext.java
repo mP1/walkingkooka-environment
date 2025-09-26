@@ -83,7 +83,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
         return Optional.ofNullable(
             EnvironmentValueName.LOCALE.equals(name) ?
                 Cast.to(this.locale) :
-                null
+                EnvironmentValueName.USER.equals(name) ?
+                    Cast.to(
+                        this.user.orElse(null)
+                    ) :
+                    null
         );
     }
 

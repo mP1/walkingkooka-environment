@@ -113,12 +113,41 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         );
     }
 
+    @Test
+    public void testEnvironmentValueWithUserMissing() {
+        this.environmentValueAndCheck(
+            this.createContext(
+                EnvironmentContext.ANONYMOUS
+            ),
+            EnvironmentValueName.USER
+        );
+    }
+
+    @Test
+    public void testEnvironmentValueWithUserPresent() {
+        final EmailAddress user = EmailAddress.parse("user127@example.com");
+
+        this.environmentValueAndCheck(
+            this.createContext(
+                Optional.of(user)
+            ),
+            EnvironmentValueName.USER,
+            user
+        );
+    }
+
     @Override
     public EmptyEnvironmentContext createContext() {
+        return this.createContext(
+            EnvironmentContext.ANONYMOUS
+        );
+    }
+
+    private EmptyEnvironmentContext createContext(final Optional<EmailAddress> user) {
         return EmptyEnvironmentContext.with(
             LOCALE,
             () -> NOW,
-            EnvironmentContext.ANONYMOUS
+            user
         );
     }
 
