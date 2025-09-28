@@ -23,6 +23,7 @@ import walkingkooka.ToStringTesting;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -58,9 +59,32 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testCloneEnvironment() {
         final ReadOnlyEnvironmentContext context = this.createContext();
 
-        assertSame(
+        assertNotSame(
             context,
             context.cloneEnvironment()
+        );
+    }
+
+    @Test
+    public void testCloneEnvironmentNotReadOnly() {
+        final ReadOnlyEnvironmentContext context = this.createContext();
+
+        final EnvironmentContext cloned = context.cloneEnvironment();
+        assertNotSame(
+            context,
+            cloned
+        );
+
+        final EnvironmentValueName<String> name = EnvironmentValueName.with("hello");
+        final String value = "World123";
+
+        this.environmentValueAndCheck(
+            cloned.setEnvironmentValue(
+                name,
+                value
+            ),
+            name,
+            value
         );
     }
 
