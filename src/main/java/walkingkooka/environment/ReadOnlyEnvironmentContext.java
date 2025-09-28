@@ -26,7 +26,10 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Wraps another {@link EnvironmentContext} presenting a read only view.
+ * Wraps another {@link EnvironmentContext} presenting a read only view, with all setXXX and removeXXX
+ * throwing {@link UnsupportedOperationException}.
+ * Note {@link #cloneEnvironment()} returns a clone not the original, which may not be read-only.
+ * If the wrapped {@link EnvironmentContext} allows modification then the clone will allow modifications.
  */
 final class ReadOnlyEnvironmentContext implements EnvironmentContext {
 
@@ -61,14 +64,12 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Makes a clone of the wrapped {@link EnvironmentContext} returning that.
+     */
     @Override
     public EnvironmentContext cloneEnvironment() {
-        final EnvironmentContext context = this.context;
-        final EnvironmentContext cloned = context.cloneEnvironment();
-
-        return context.equals(cloned) ?
-            this :
-            with(cloned);
+        return context.cloneEnvironment();
     }
 
     @Override
