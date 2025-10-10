@@ -17,9 +17,12 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.PublicStaticHelper;
 import walkingkooka.tree.json.TreeJsonStartup;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
+
+import java.time.LocalDateTime;
 
 /**
  * Used to force all values types to register their {@link JsonNodeContext#register}
@@ -30,6 +33,15 @@ public final class EnvironmentStartup implements PublicStaticHelper {
         TreeJsonStartup.init();
 
         // register json marshallers/unmarshallers.
+        final EmailAddress user = EmailAddress.parse("user@example.com");
+        final LocalDateTime now = LocalDateTime.now();
+
+        AuditInfo.with(
+            user,
+            now,
+            user,
+            now
+        );
         EnvironmentValueNameSet.EMPTY.size();
     }
 
