@@ -22,6 +22,7 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.printer.TreePrintableTesting;
 import walkingkooka.util.HasLocaleTesting;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -93,6 +94,20 @@ public interface EnvironmentContextTesting extends HasLocaleTesting,
         this.checkEquals(
             expected,
             context.environmentValueNames()
+        );
+    }
+
+    // setLocale..........................................................................................................
+
+    default void setLocaleAndCheck(final EnvironmentContext context,
+                                   final Locale locale) {
+        assertSame(
+            context,
+            context.setLocale(locale)
+        );
+        this.localeAndCheck(
+            context,
+            locale
         );
     }
 
