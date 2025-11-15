@@ -71,6 +71,20 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         );
     }
 
+    @Test
+    public void testSetLocale() {
+        final MapEnvironmentContext context = this.createContext();
+
+        final Locale locale = Locale.GERMANY;
+
+        context.setLocale(locale);
+
+        this.localeAndCheck(
+            context,
+            locale
+        );
+    }
+
     // environmentValue.................................................................................................
 
     @Test

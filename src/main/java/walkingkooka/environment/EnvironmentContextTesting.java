@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.printer.TreePrintableTesting;
+import walkingkooka.util.HasLocale;
 import walkingkooka.util.HasLocaleTesting;
 
 import java.util.Locale;
@@ -174,6 +175,45 @@ public interface EnvironmentContextTesting extends HasLocaleTesting,
         this.userAndCheck(
             context,
             emailAddress
+        );
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentContext.USER,
+            emailAddress
+        );
+    }
+
+    // locale...........................................................................................................
+
+    @Override
+    default void localeAndCheck(final HasLocale has,
+                                final Locale expected) {
+        HasLocaleTesting.super.localeAndCheck(
+            has,
+            expected
+        );
+
+        if (has instanceof EnvironmentContext) {
+            this.environmentValueAndCheck(
+                (EnvironmentContext) has,
+                EnvironmentContext.LOCALE,
+                expected
+            );
+        }
+    }
+
+    default void localeAndCheck(final EnvironmentContext has,
+                                final Locale expected) {
+        HasLocaleTesting.super.localeAndCheck(
+            has,
+            expected
+        );
+
+        this.environmentValueAndCheck(
+            has,
+            EnvironmentContext.LOCALE,
+            expected
         );
     }
 }

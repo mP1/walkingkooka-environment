@@ -29,6 +29,11 @@ import java.util.Optional;
 public final class EnvironmentContextDelegatorTest implements EnvironmentContextTesting2<TestEnvironmentContextDelegator> {
 
     @Override
+    public void testSetLocaleWithDifferent() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public TestEnvironmentContextDelegator createContext() {
         return new TestEnvironmentContextDelegator();
     }

@@ -114,6 +114,11 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         );
     }
 
+    @Override
+    public void testSetLocaleWithDifferent() {
+        throw new UnsupportedOperationException();
+    }
+
     // environmentValue.................................................................................................
 
     @Test

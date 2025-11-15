@@ -17,6 +17,7 @@
 
 package walkingkooka.environment.expression;
 
+import walkingkooka.Cast;
 import walkingkooka.datetime.DateTimeSymbols;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContextTestingTest.TestEnvironmentExpressionEvaluationContext;
@@ -221,6 +222,11 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         }
 
         @Override
+        public Locale locale() {
+            return this.localeContext.locale();
+        }
+
+        @Override
         public Optional<String> localeText(final Locale locale) {
             return this.localeContext.localeText(locale);
         }
@@ -242,7 +248,16 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         @Override
         public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
             Objects.requireNonNull(name, "name");
-            throw new UnsupportedOperationException();
+
+            return Cast.to(
+                USER.equals(name) ?
+                this.user() :
+                LOCALE.equals(name) ?
+                    Optional.of(
+                        this.locale()
+                    ) :
+                    Optional.empty()
+            );
         }
 
         @Override
