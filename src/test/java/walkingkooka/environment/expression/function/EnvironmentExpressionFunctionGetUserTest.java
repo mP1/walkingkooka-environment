@@ -53,7 +53,7 @@ public final class EnvironmentExpressionFunctionGetUserTest extends EnvironmentE
         return new FakeEnvironmentExpressionEvaluationContext() {
             @Override
             public Optional<EmailAddress> user() {
-                return Optional.of(USER);
+                return Optional.of(EnvironmentExpressionFunctionGetUserTest.USER);
             }
         };
     }
