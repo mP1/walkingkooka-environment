@@ -77,23 +77,23 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
 
-        Object value = this.properties.get(
-            PropertiesPath.parse(name.value())
-        ).orElse(null);
+        final Optional<?> value;
 
-        if (null == value) {
-            if (EnvironmentValueName.LOCALE.equals(name)) {
-                value = this.context.locale();
+        if (LOCALE.equals(name)) {
+            value = Optional.of(
+                this.context.locale()
+            );
+        } else {
+            if (USER.equals(name)) {
+                value = this.context.user();
             } else {
-                if (EnvironmentValueName.USER.equals(name)) {
-                    value = this.context.user();
-                }
+                value = this.properties.get(
+                    PropertiesPath.parse(name.value())
+                );
             }
         }
 
-        return Optional.ofNullable(
-            Cast.to(value)
-        );
+        return Cast.to(value);
     }
 
     @Override
