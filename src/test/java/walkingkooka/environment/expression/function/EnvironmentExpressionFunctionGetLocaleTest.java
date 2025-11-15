@@ -67,7 +67,7 @@ public final class EnvironmentExpressionFunctionGetLocaleTest extends Environmen
         return new FakeEnvironmentExpressionEvaluationContext() {
             @Override
             public Locale locale() {
-                return LOCALE;
+                return EnvironmentExpressionFunctionGetLocaleTest.LOCALE;
             }
         };
     }

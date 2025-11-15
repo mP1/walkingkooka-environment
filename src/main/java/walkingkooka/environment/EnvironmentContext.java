@@ -36,12 +36,16 @@ public interface EnvironmentContext extends Context,
     HasLocale,
     HasNow {
 
+    Optional<EmailAddress> ANONYMOUS = Optional.empty();
+
+    EnvironmentValueName LOCALE = EnvironmentValueName.LOCALE;
+
+    EnvironmentValueName USER = EnvironmentValueName.USER;
+
     /**
      * Sets or replaces the current {@link Locale}
      */
     EnvironmentContext setLocale(final Locale locale);
-
-    Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
     /**
      * Returns a {@link EnvironmentContext} taking a snapshot of environment values. This is useful for environments

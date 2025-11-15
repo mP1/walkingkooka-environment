@@ -88,7 +88,7 @@ public final class EnvironmentExpressionFunctionSetLocaleTest extends Environmen
                 return this;
             }
 
-            private Locale locale = LOCALE;
+            private Locale locale = EnvironmentExpressionFunctionSetLocaleTest.LOCALE;
         };
     }
 
