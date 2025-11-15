@@ -38,9 +38,9 @@ public interface EnvironmentContext extends Context,
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
-    EnvironmentValueName LOCALE = EnvironmentValueName.LOCALE;
+    EnvironmentValueName<Locale> LOCALE = EnvironmentValueName.LOCALE;
 
-    EnvironmentValueName USER = EnvironmentValueName.USER;
+    EnvironmentValueName<EmailAddress> USER = EnvironmentValueName.USER;
 
     /**
      * Sets or replaces the current {@link Locale}
