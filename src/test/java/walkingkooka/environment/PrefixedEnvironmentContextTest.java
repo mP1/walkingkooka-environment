@@ -19,6 +19,7 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
+import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
@@ -37,19 +38,19 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
     private final static Locale LOCALE = Locale.FRENCH;
 
-    private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
-        LOCALE,
-        () -> LocalDateTime.of(
-            1999,
-            12,
-            31,
-            12,
-            59
-        ),
-        Optional.of(
-            EmailAddress.parse("user@example.com")
-        )
+    private final static HasNow HAS_NOW = () -> LocalDateTime.of(
+        1999,
+        12,
+        31,
+        12,
+        59
     );
+
+    private final static Optional<EmailAddress> USER = Optional.of(
+        EmailAddress.parse("user@example.com")
+    );
+
+    private final static EnvironmentContext CONTEXT = EnvironmentContexts.fake();
 
     @Test
     public void testWithNullPrefixFails() {
@@ -173,7 +174,11 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
                 Properties.parse(
                     "key111=value111"
                 ),
-                CONTEXT
+                EnvironmentContexts.empty(
+                    LOCALE,
+                    HAS_NOW,
+                    USER
+                )
             )
         );
     }
@@ -229,6 +234,32 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
             EnvironmentValueName.with(prefix + key2),
             EnvironmentContext.LOCALE,
             EnvironmentValueName.USER
+        );
+    }
+
+    // setEnvironmentValue..............................................................................................
+
+    @Test
+    public void testSetEnvironmentValueWithLocale() {
+        final PrefixedEnvironmentContext context = this.createContext();
+
+        final Locale locale = Locale.GERMAN;
+        this.setEnvironmentValueAndCheck(
+            context,
+            EnvironmentValueName.LOCALE,
+            locale
+        );
+    }
+
+    @Test
+    public void testSetEnvironmentValueWithUser() {
+        final PrefixedEnvironmentContext context = this.createContext();
+
+        final EmailAddress user = EmailAddress.parse("different@example.com");
+        this.setEnvironmentValueAndCheck(
+            context,
+            EnvironmentContext.USER,
+            user
         );
     }
 
