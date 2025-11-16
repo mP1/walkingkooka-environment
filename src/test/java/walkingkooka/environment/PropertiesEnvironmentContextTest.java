@@ -19,6 +19,7 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 
@@ -110,6 +111,32 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
             this.createContext(),
             EnvironmentValueName.LOCALE,
             CONTEXT.locale()
+        );
+    }
+
+    // setEnvironmentValue..............................................................................................
+
+    @Test
+    public void testSetEnvironmentValueWithLocale() {
+        final PropertiesEnvironmentContext context = this.createContext();
+
+        final Locale locale = Locale.GERMAN;
+        this.setEnvironmentValueAndCheck(
+            context,
+            EnvironmentValueName.LOCALE,
+            locale
+        );
+    }
+
+    @Test
+    public void testSetEnvironmentValueWithUser() {
+        final PropertiesEnvironmentContext context = this.createContext();
+
+        final EmailAddress user = EmailAddress.parse("different@example.com");
+        this.setEnvironmentValueAndCheck(
+            context,
+            EnvironmentContext.USER,
+            user
         );
     }
 
