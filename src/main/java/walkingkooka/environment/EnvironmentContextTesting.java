@@ -63,6 +63,25 @@ public interface EnvironmentContextTesting extends HasLocaleTesting,
         );
     }
 
+    // setEnvironmentValue..............................................................................................
+
+    default <T> void setEnvironmentValueAndCheck(final EnvironmentContext context,
+                                                 final EnvironmentValueName<T> name,
+                                                 final T value) {
+        assertSame(
+            context,
+            context.setEnvironmentValue(
+                name,
+                value
+            )
+        );
+        this.environmentValueAndCheck(
+            context,
+            name,
+            value
+        );
+    }
+
     // environmentValueOrFail...........................................................................................
 
     default void environmentValueOrFailAndCheck(final EnvironmentContext context,
