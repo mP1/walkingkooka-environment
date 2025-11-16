@@ -143,6 +143,28 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
+    @Test
+    public void testEnvironmentValueWithLocale() {
+        final PrefixedEnvironmentContext context = this.createContext();
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentContext.LOCALE,
+            context.locale()
+        );
+    }
+
+    @Test
+    public void testEnvironmentValueWithUser() {
+        final PrefixedEnvironmentContext context = this.createContext();
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentContext.USER,
+            context.user()
+        );
+    }
+
     @Override
     public PrefixedEnvironmentContext createContext() {
         return PrefixedEnvironmentContext.with(
