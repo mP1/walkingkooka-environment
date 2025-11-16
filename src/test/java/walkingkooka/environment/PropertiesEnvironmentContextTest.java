@@ -132,7 +132,9 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                 CONTEXT
             ),
             EnvironmentValueName.with(key1),
-            EnvironmentValueName.with(key2)
+            EnvironmentValueName.with(key2),
+            EnvironmentContext.LOCALE,
+            EnvironmentValueName.USER
         );
     }
 

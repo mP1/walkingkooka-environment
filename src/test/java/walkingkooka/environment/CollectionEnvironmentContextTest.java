@@ -179,7 +179,9 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             EnvironmentValueName.with(key11),
             EnvironmentValueName.with(key12),
             EnvironmentValueName.with(key21),
-            EnvironmentValueName.with(key22)
+            EnvironmentValueName.with(key22),
+            EnvironmentContext.LOCALE,
+            EnvironmentValueName.USER
         );
     }
 
