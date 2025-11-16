@@ -17,7 +17,7 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.collect.set.ImmutableSet;
+import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
 
@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * A {@link EnvironmentContext} that expects and removes a prefix before performing a lookup.
@@ -117,10 +118,22 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     @Override
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         if (null == this.names) {
-            this.names = this.context.environmentValueNames()
-                .stream()
-                .map(n -> EnvironmentValueName.with(this.prefix + n.value()))
-                .collect(ImmutableSet.collector());
+            final SortedSet<EnvironmentValueName<?>> names = SortedSets.tree();
+            names.add(LOCALE);
+            names.add(USER);
+
+            for (final EnvironmentValueName<?> name : this.context.environmentValueNames()) {
+                if (LOCALE.equals(name) || USER.equals(name)) {
+                    continue;
+                }
+                names.add(
+                    EnvironmentValueName.with(
+                        this.prefix + name.value()
+                    )
+                );
+            }
+
+            this.names = SortedSets.immutable(names);
         }
 
         return this.names;
