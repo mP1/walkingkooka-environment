@@ -64,10 +64,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
     public EnvironmentContext setLocale(final Locale locale) {
         Objects.requireNonNull(locale, "locale");
 
-        throw new UnsupportedOperationException();
+        this.locale = locale;
+        return this;
     }
 
-    private final Locale locale;
+    private Locale locale;
 
     /**
      * No need to clone because instances are immutable.
@@ -102,7 +103,19 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        throw new UnsupportedOperationException();
+        if (LOCALE.equals(name)) {
+            this.setLocale((Locale) value);
+        } else {
+            if (USER.equals(name)) {
+                this.setUser(
+                    Optional.of((EmailAddress) value)
+                );
+            } else {
+                throw new UnsupportedOperationException();
+            }
+        }
+
+        return this;
     }
 
     @Override
@@ -127,10 +140,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
     @Override
     public EnvironmentContext setUser(final Optional<EmailAddress> user) {
         Objects.requireNonNull(user, "user");
-        throw new UnsupportedOperationException();
+
+        this.user = user;
+        return this;
     }
 
-    private final Optional<EmailAddress> user;
+    private Optional<EmailAddress> user;
 
     // Object...........................................................................................................
 
