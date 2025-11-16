@@ -94,8 +94,13 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
 
     @Override
     public Set<EnvironmentValueName<?>> environmentValueNames() {
-        return Sets.empty();
+        return NAMES;
     }
+
+    private final static Set<EnvironmentValueName<?>> NAMES = Sets.of(
+        LOCALE,
+        USER
+    );
 
     @Override
     public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
