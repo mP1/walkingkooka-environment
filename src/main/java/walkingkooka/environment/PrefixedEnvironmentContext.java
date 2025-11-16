@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
@@ -99,7 +100,7 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
 
-        Optional<T> value = Optional.empty();
+        Optional<?> value;
 
         final String prefix = this.prefix;
         if (name.value().startsWith(prefix)) {
@@ -109,9 +110,21 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
                         .substring(prefix.length())
                 )
             );
+        } else {
+            if(LOCALE.equals(name)) {
+                value = Optional.of(
+                    this.context.locale()
+                );
+            } else {
+                if(USER.equals(name)) {
+                    value = this.context.user();
+                } else {
+                    value = Optional.empty();
+                }
+            }
         }
 
-        return value;
+        return Cast.to(value);
     }
 
     // assumes the wrapped EnvironmentContext is immutable.
