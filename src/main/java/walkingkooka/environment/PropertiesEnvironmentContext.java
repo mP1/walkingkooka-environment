@@ -123,7 +123,19 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        throw new UnsupportedOperationException();
+        if (LOCALE.equals(name)) {
+            this.context.setLocale((Locale) value);
+        } else {
+            if (USER.equals(name)) {
+                this.context.setUser(
+                    Optional.of((EmailAddress) value)
+                );
+            } else {
+                throw new UnsupportedOperationException();
+            }
+        }
+
+        return this;
     }
 
     @Override
