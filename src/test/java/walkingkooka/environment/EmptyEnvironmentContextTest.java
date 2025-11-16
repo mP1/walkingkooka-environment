@@ -94,6 +94,14 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         );
     }
 
+    @Test
+    public void testSetLocale() {
+        this.setLocaleAndCheck(
+            this.createContext(),
+            Locale.FRENCH
+        );
+    }
+
     // environmentValue.................................................................................................
 
     @Test
@@ -133,6 +141,42 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             ),
             EnvironmentValueName.USER,
             user
+        );
+    }
+
+    // setEnvironmentValue..............................................................................................
+
+    @Test
+    public void testSetEnvironmentValueWithLocale() {
+        final EmptyEnvironmentContext context = this.createContext();
+
+        final Locale locale = Locale.GERMAN;
+        this.setEnvironmentValueAndCheck(
+            context,
+            EnvironmentValueName.LOCALE,
+            locale
+        );
+    }
+
+    @Test
+    public void testSetEnvironmentValueWithUser() {
+        final EmptyEnvironmentContext context = this.createContext();
+
+        final EmailAddress user = EmailAddress.parse("different@example.com");
+        this.setEnvironmentValueAndCheck(
+            context,
+            EnvironmentContext.USER,
+            user
+        );
+    }
+
+    // setUser..........................................................................................................
+
+    @Test
+    public void testSetUserWithDifferent() {
+        this.setUserAndCheck(
+            this.createContext(),
+            EmailAddress.parse("different@example.com")
         );
     }
 
