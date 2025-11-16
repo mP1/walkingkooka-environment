@@ -117,26 +117,21 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     // assumes the wrapped EnvironmentContext is immutable.
     @Override
     public Set<EnvironmentValueName<?>> environmentValueNames() {
-        if (null == this.names) {
-            final SortedSet<EnvironmentValueName<?>> names = SortedSets.tree();
-            names.add(LOCALE);
-            names.add(USER);
+        final SortedSet<EnvironmentValueName<?>> names = SortedSets.tree();
+        names.add(LOCALE);
+        names.add(USER);
 
-            for (final EnvironmentValueName<?> name : this.context.environmentValueNames()) {
-                if (LOCALE.equals(name) || USER.equals(name)) {
-                    continue;
-                }
-                names.add(
-                    EnvironmentValueName.with(
-                        this.prefix + name.value()
-                    )
-                );
+        for (final EnvironmentValueName<?> name : this.context.environmentValueNames()) {
+            if (LOCALE.equals(name) || USER.equals(name)) {
+                continue;
             }
-
-            this.names = SortedSets.immutable(names);
+            names.add(
+                EnvironmentValueName.with(
+                    this.prefix + name.value()
+                )
+            );
         }
-
-        return this.names;
+        return names;
     }
 
     private Set<EnvironmentValueName<?>> names;
