@@ -23,6 +23,7 @@ import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -66,6 +67,21 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
+    @Test
+    default void testSetLocaleWithDifferent() {
+        final C context = this.createContext();
+
+        Locale locale = Locale.FRENCH;
+        if(context.locale().equals(locale)) {
+            locale = Locale.GERMAN;
+        };
+
+        this.setLocaleAndCheck(
+            context,
+            locale
+        );
+    }
+
     // environmentValue.................................................................................................
 
     @Test
@@ -73,6 +89,28 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         assertThrows(
             NullPointerException.class,
             () -> this.createContext().environmentValue(null)
+        );
+    }
+
+    @Test
+    default void testEnvironmentValueLocaleEqualsLocale() {
+        final C context = this.createContext();
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentContext.LOCALE,
+            context.locale()
+        );
+    }
+
+    @Test
+    default void testEnvironmentValueUserEqualsUser() {
+        final C context = this.createContext();
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentContext.USER,
+            context.user()
         );
     }
 

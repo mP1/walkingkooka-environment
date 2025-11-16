@@ -98,6 +98,13 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
+    // setLocale........................................................................................................
+
+    @Override
+    public void testSetLocaleWithDifferent() {
+        throw new UnsupportedOperationException();
+    }
+
     // environmentValue.................................................................................................
 
     @Test
