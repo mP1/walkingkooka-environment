@@ -204,7 +204,9 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
                 )
             ),
             EnvironmentValueName.with(prefix + key1),
-            EnvironmentValueName.with(prefix + key2)
+            EnvironmentValueName.with(prefix + key2),
+            EnvironmentContext.LOCALE,
+            EnvironmentValueName.USER
         );
     }
 
