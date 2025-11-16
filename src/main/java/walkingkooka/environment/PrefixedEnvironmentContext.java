@@ -134,8 +134,6 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         return names;
     }
 
-    private Set<EnvironmentValueName<?>> names;
-
     // @VisibleForTesting
     final String prefix;
 
