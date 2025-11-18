@@ -19,12 +19,10 @@ package walkingkooka.environment;
 
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.printer.TreePrintableTesting;
-import walkingkooka.util.HasLocaleTesting;
 
 import java.util.Optional;
 
-public interface HasUserTesting extends HasLocaleTesting,
-    TreePrintableTesting {
+public interface HasUserTesting extends TreePrintableTesting {
 
     // user.............................................................................................................
 
