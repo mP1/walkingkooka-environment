@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting extends HasLocaleTesting,
+    HasUserTesting,
     TreePrintableTesting {
 
     // environmentValue.................................................................................................
@@ -133,19 +134,21 @@ public interface EnvironmentContextTesting extends HasLocaleTesting,
 
     // user.............................................................................................................
 
-    default void userAndCheck(final EnvironmentContext context) {
-        this.userAndCheck(
-            context,
-            Optional.empty()
+    @Override
+    default void userAndCheck(final HasUser has,
+                              final Optional<EmailAddress> expected) {
+        HasUserTesting.super.userAndCheck(
+            has,
+            expected
         );
-    }
 
-    default void userAndCheck(final EnvironmentContext context,
-                              final EmailAddress expected) {
-        this.userAndCheck(
-            context,
-            Optional.of(expected)
-        );
+        if (has instanceof EnvironmentContext) {
+            this.environmentValueAndCheck(
+                (EnvironmentContext) has,
+                EnvironmentContext.USER,
+                expected
+            );
+        }
     }
 
     default void userAndCheck(final EnvironmentContext context,
