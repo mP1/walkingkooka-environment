@@ -154,6 +154,12 @@ public interface EnvironmentContextTesting extends HasLocaleTesting,
             expected,
             context.user()
         );
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentContext.USER,
+            expected
+        );
     }
 
     // setUser..........................................................................................................
