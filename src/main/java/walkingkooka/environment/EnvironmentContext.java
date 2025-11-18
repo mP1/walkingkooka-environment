@@ -34,7 +34,8 @@ import java.util.Set;
  */
 public interface EnvironmentContext extends Context,
     HasLocale,
-    HasNow {
+    HasNow,
+    HasUser {
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
@@ -82,19 +83,6 @@ public interface EnvironmentContext extends Context,
      * Removes the value with the given {@link EnvironmentValueName}.
      */
     EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name);
-
-    /**
-     * Returns the current user, or empty if none/anonymous.
-     */
-    Optional<EmailAddress> user();
-
-    /**
-     * User getter that fails if the user is absent or anonymous.
-     */
-    default EmailAddress userOrFail() {
-        return this.user()
-            .orElseThrow(() -> new IllegalStateException("User not authenticated"));
-    }
 
     /**
      * Sets or replaces the user.
