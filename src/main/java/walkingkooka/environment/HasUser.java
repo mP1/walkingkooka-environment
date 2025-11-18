@@ -1,0 +1,42 @@
+/*
+ * Copyright 2024 Miroslav Pokorny (github.com/mP1)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+package walkingkooka.environment;
+
+import walkingkooka.net.email.EmailAddress;
+
+import java.util.Optional;
+
+/**
+ * Supports querying to determine the current user. This is typically extended by {@link walkingkooka.Context}, starting
+ * with {@link EnvironmentContext}
+ */
+public interface HasUser {
+
+    /**
+     * Returns the current user, or empty if none/anonymous.
+     */
+    Optional<EmailAddress> user();
+
+    /**
+     * User getter that fails if the user is absent or anonymous.
+     */
+    default EmailAddress userOrFail() {
+        return this.user()
+            .orElseThrow(() -> new IllegalStateException("User not authenticated"));
+    }
+}
