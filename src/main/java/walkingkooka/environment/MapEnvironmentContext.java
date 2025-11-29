@@ -22,6 +22,7 @@ import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -68,6 +69,19 @@ final class MapEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public LineEnding lineEnding() {
+        return this.environmentValueOrFail(LINE_ENDING);
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        return this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
+    }
+    
+    @Override
     public Locale locale() {
         return this.environmentValueOrFail(LOCALE);
     }
@@ -86,11 +100,17 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
         Object value = this.values.get(name);
         if (null == value) {
-            if (LOCALE.equals(name)) {
-                value = this.context.locale();
-            } else if (USER.equals(name)) {
-                value = this.context.user()
-                    .orElse(null);
+            if (LINE_ENDING.equals(name)) {
+                value = this.context.lineEnding();
+            } else {
+                if (LOCALE.equals(name)) {
+                    value = this.context.locale();
+                } else {
+                    if (USER.equals(name)) {
+                        value = this.context.user()
+                            .orElse(null);
+                    }
+                }
             }
         }
 
@@ -103,6 +123,7 @@ final class MapEnvironmentContext implements EnvironmentContext {
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         final Set<EnvironmentValueName<?>> names = SortedSets.tree();
         names.addAll(this.values.keySet());
+        names.add(LINE_ENDING);
         names.add(LOCALE);
 
         if(this.context.user().isPresent()) {

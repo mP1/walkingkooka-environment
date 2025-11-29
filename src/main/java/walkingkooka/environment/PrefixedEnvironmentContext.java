@@ -21,6 +21,7 @@ import walkingkooka.Cast;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -69,6 +70,21 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         this.context = context;
     }
 
+    // HasLineEnding....................................................................................................
+
+    @Override
+    public LineEnding lineEnding() {
+        return this.context.lineEnding();
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        return this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
+    }
+    
     // HasLocale........................................................................................................
 
     @Override
@@ -131,11 +147,12 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     @Override
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         final SortedSet<EnvironmentValueName<?>> names = SortedSets.tree();
+        names.add(LINE_ENDING);
         names.add(LOCALE);
         names.add(USER);
 
         for (final EnvironmentValueName<?> name : this.context.environmentValueNames()) {
-            if (LOCALE.equals(name) || USER.equals(name)) {
+            if (LINE_ENDING.equals(name) || LOCALE.equals(name) || USER.equals(name)) {
                 continue;
             }
             names.add(
@@ -156,15 +173,19 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (LOCALE.equals(name)) {
-            this.context.setLocale((Locale) value);
+        if (LINE_ENDING.equals(name)) {
+            this.context.setLineEnding((LineEnding) value);
         } else {
-            if (USER.equals(name)) {
-                this.context.setUser(
-                    Optional.of((EmailAddress) value)
-                );
+            if (LOCALE.equals(name)) {
+                this.context.setLocale((Locale) value);
             } else {
-                throw new UnsupportedOperationException();
+                if (USER.equals(name)) {
+                    this.context.setUser(
+                        Optional.of((EmailAddress) value)
+                    );
+                } else {
+                    throw new UnsupportedOperationException();
+                }
             }
         }
 

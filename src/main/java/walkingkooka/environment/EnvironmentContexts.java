@@ -21,6 +21,7 @@ import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.reflect.PublicStaticHelper;
+import walkingkooka.text.LineEnding;
 
 import java.util.List;
 import java.util.Locale;
@@ -45,10 +46,12 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see EmptyEnvironmentContext}
      */
-    public static EnvironmentContext empty(final Locale locale,
+    public static EnvironmentContext empty(final LineEnding lineEnding,
+                                           final Locale locale,
                                            final HasNow hasNow,
                                            final Optional<EmailAddress> user) {
         return EmptyEnvironmentContext.with(
+            lineEnding,
             locale,
             hasNow,
             user

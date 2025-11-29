@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -28,6 +29,16 @@ public class FakeEnvironmentContext implements EnvironmentContext {
 
     @Override
     public Locale locale() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public LineEnding lineEnding() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
         throw new UnsupportedOperationException();
     }
 

@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -33,14 +34,29 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     HashCodeEqualsDefinedTesting2<EmptyEnvironmentContext>,
     ToStringTesting<EmptyEnvironmentContext> {
 
+    private final static LineEnding LINE_ENDING = LineEnding.NL;
     private final static Locale LOCALE = Locale.ENGLISH;
     private final static LocalDateTime NOW = LocalDateTime.MIN;
+
+    @Test
+    public void testWithNullLineEndingFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EmptyEnvironmentContext.with(
+                null,
+                LOCALE,
+                () -> NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
 
     @Test
     public void testWithNullLocaleFails() {
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                LINE_ENDING,
                 null,
                 () -> NOW,
                 EnvironmentContext.ANONYMOUS
@@ -53,6 +69,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                LINE_ENDING,
                 LOCALE,
                 null,
                 EnvironmentContext.ANONYMOUS
@@ -65,6 +82,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                LINE_ENDING,
                 LOCALE,
                 () -> NOW,
                 null
@@ -189,6 +207,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
 
     private EmptyEnvironmentContext createContext(final Optional<EmailAddress> user) {
         return EmptyEnvironmentContext.with(
+            LINE_ENDING,
             LOCALE,
             () -> NOW,
             user
@@ -208,14 +227,34 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     // equals...........................................................................................................
 
     @Test
-    public void testEqualsDifferentLocale() {
+    public void testEqualsDifferentLineEnding() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                LineEnding.NL,
                 LOCALE,
                 () -> NOW,
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
+                LineEnding.CR,
+                LOCALE,
+                () -> NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentLocale() {
+        this.checkNotEquals(
+            EmptyEnvironmentContext.with(
+                LINE_ENDING,
+                LOCALE,
+                () -> NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            EmptyEnvironmentContext.with(
+                LINE_ENDING,
                 Locale.FRANCE,
                 () -> NOW,
                 EnvironmentContext.ANONYMOUS
@@ -227,6 +266,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentUser() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                LINE_ENDING,
                 LOCALE,
                 () -> NOW,
                 Optional.of(
@@ -240,6 +280,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentUser2() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                LINE_ENDING,
                 LOCALE,
                 () -> NOW,
                 Optional.of(
@@ -247,6 +288,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 )
             ),
             EmptyEnvironmentContext.with(
+                LINE_ENDING,
                 LOCALE,
                 () -> NOW,
                 Optional.of(

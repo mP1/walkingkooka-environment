@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -68,6 +69,23 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
         );
     }
 
+    /**
+     * Try all given {@link EnvironmentContext} for a {@link LineEnding} or default to the given {@link EnvironmentContext} as the default.
+     */
+    @Override
+    public LineEnding lineEnding() {
+        return this.environmentValue(LINE_ENDING)
+            .orElseGet(() -> this.context.lineEnding());
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        return this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
+    }
+    
     /**
      * Try all given {@link EnvironmentContext} for a locale or default to the given {@link EnvironmentContext} as the default.
      */

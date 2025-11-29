@@ -23,6 +23,7 @@ import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -35,6 +36,8 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     ToStringTesting<PrefixedEnvironmentContext> {
 
     private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with("prefix111.");
+
+    private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     private final static Locale LOCALE = Locale.FRENCH;
 
@@ -175,6 +178,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
                     "key111=value111"
                 ),
                 EnvironmentContexts.empty(
+                    LINE_ENDING,
                     LOCALE,
                     HAS_NOW,
                     USER
@@ -232,6 +236,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
             ),
             EnvironmentValueName.with(prefix + key1),
             EnvironmentValueName.with(prefix + key2),
+            EnvironmentValueName.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentValueName.USER
         );

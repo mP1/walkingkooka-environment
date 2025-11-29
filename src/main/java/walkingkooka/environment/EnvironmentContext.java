@@ -20,6 +20,8 @@ package walkingkooka.environment;
 import walkingkooka.Context;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.HasLineEnding;
+import walkingkooka.text.LineEnding;
 import walkingkooka.util.HasLocale;
 
 import java.time.LocalDateTime;
@@ -33,15 +35,23 @@ import java.util.Set;
  * of the current user.
  */
 public interface EnvironmentContext extends Context,
+    HasLineEnding,
     HasLocale,
     HasNow,
     HasUser {
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
+    EnvironmentValueName<LineEnding> LINE_ENDING = EnvironmentValueName.LINE_ENDING;
+
     EnvironmentValueName<Locale> LOCALE = EnvironmentValueName.LOCALE;
 
     EnvironmentValueName<EmailAddress> USER = EnvironmentValueName.USER;
+
+    /**
+     * Sets or replaces the current {@link LineEnding}
+     */
+    EnvironmentContext setLineEnding(final LineEnding lineEnding);
 
     /**
      * Sets or replaces the current {@link Locale}

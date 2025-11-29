@@ -21,6 +21,7 @@ import walkingkooka.Context;
 import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionEvaluationContext;
 
 import java.util.Locale;
@@ -34,6 +35,9 @@ public interface EnvironmentExpressionEvaluationContext extends ExpressionEvalua
 
     @Override
     EnvironmentExpressionEvaluationContext cloneEnvironment();
+
+    @Override
+    EnvironmentExpressionEvaluationContext setLineEnding(final LineEnding lineEnding);
 
     @Override
     EnvironmentExpressionEvaluationContext setLocale(final Locale locale);

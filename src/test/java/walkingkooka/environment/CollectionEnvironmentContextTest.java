@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -29,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting2<CollectionEnvironmentContext> {
+
+    private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     private final static Locale LOCALE = Locale.ENGLISH;
 
@@ -43,6 +46,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        LINE_ENDING,
         LOCALE,
         () -> NOW,
         EnvironmentContext.ANONYMOUS
@@ -185,6 +189,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             EnvironmentValueName.with(key12),
             EnvironmentValueName.with(key21),
             EnvironmentValueName.with(key22),
+            EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentValueName.USER
         );

@@ -19,6 +19,7 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -129,6 +130,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         return ReadOnlyEnvironmentContext.with(
             EnvironmentContexts.map(
                 EnvironmentContexts.empty(
+                    LineEnding.NL,
                     Locale.FRANCE,
                     () -> NOW,
                     EnvironmentContext.ANONYMOUS
@@ -142,6 +144,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     @Test
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
+            EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE
         );
     }

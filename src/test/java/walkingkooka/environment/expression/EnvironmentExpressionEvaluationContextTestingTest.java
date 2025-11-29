@@ -27,6 +27,7 @@ import walkingkooka.math.DecimalNumberContext;
 import walkingkooka.math.DecimalNumberContexts;
 import walkingkooka.math.DecimalNumberSymbols;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionEvaluationContext;
 import walkingkooka.tree.expression.ExpressionFunctionName;
 import walkingkooka.tree.expression.ExpressionReference;
@@ -208,6 +209,12 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         @Override
         public Optional<DecimalNumberSymbols> decimalNumberSymbolsForLocale(final Locale locale) {
             return this.localeContext.decimalNumberSymbolsForLocale(locale);
+        }
+
+        @Override
+        public EnvironmentExpressionEvaluationContext setLineEnding(final LineEnding lineEnding) {
+            Objects.requireNonNull(lineEnding, "lineEnding");
+            throw new UnsupportedOperationException();
         }
 
         @Override

@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.environment.EnvironmentContextDelegatorTest.TestEnvironmentContextDelegator;
 import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContext;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -72,6 +73,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         @Override
         public EnvironmentContext environmentContext() {
             return EnvironmentContexts.empty(
+                LineEnding.NL,
                 Locale.ENGLISH,
                 LocalDateTime::now,
                 EnvironmentContext.ANONYMOUS
