@@ -69,13 +69,13 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
     @Override
     public Locale locale() {
-        return this.environmentValueOrFail(EnvironmentValueName.LOCALE);
+        return this.environmentValueOrFail(LOCALE);
     }
 
     @Override
     public EnvironmentContext setLocale(final Locale locale) {
         return this.setEnvironmentValue(
-            EnvironmentValueName.LOCALE,
+            LOCALE,
             locale
         );
     }
@@ -86,9 +86,9 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
         Object value = this.values.get(name);
         if (null == value) {
-            if (EnvironmentValueName.LOCALE.equals(name)) {
+            if (LOCALE.equals(name)) {
                 value = this.context.locale();
-            } else if (EnvironmentValueName.USER.equals(name)) {
+            } else if (USER.equals(name)) {
                 value = this.context.user()
                     .orElse(null);
             }
@@ -103,10 +103,10 @@ final class MapEnvironmentContext implements EnvironmentContext {
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         final Set<EnvironmentValueName<?>> names = SortedSets.tree();
         names.addAll(this.values.keySet());
-        names.add(EnvironmentValueName.LOCALE);
+        names.add(LOCALE);
 
         if(this.context.user().isPresent()) {
-            names.add(EnvironmentValueName.USER);
+            names.add(USER);
         }
 
         return Sets.readOnly(names);
@@ -142,7 +142,7 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
     @Override
     public Optional<EmailAddress> user() {
-        return this.environmentValue(EnvironmentValueName.USER);
+        return this.environmentValue(USER);
     }
 
     @Override
@@ -151,11 +151,11 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
         return user.isPresent() ?
             this.setEnvironmentValue(
-                EnvironmentValueName.USER,
+                USER,
                 user.orElse(null)
             ) :
             this.removeEnvironmentValue(
-                EnvironmentValueName.USER
+                USER
             );
     }
 
