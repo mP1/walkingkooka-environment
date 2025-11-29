@@ -82,9 +82,9 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
         return Optional.ofNullable(
-            EnvironmentValueName.LOCALE.equals(name) ?
+            LOCALE.equals(name) ?
                 Cast.to(this.locale) :
-                EnvironmentValueName.USER.equals(name) ?
+                USER.equals(name) ?
                     Cast.to(
                         this.user.orElse(null)
                     ) :
