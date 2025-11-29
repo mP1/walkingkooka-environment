@@ -21,6 +21,7 @@ import walkingkooka.Cast;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -36,24 +37,43 @@ import java.util.Set;
  */
 final class EmptyEnvironmentContext implements EnvironmentContext {
 
-    static EmptyEnvironmentContext with(final Locale locale,
+    static EmptyEnvironmentContext with(final LineEnding lineEnding,
+                                        final Locale locale,
                                         final HasNow hasNow,
                                         final Optional<EmailAddress> user) {
         return new EmptyEnvironmentContext(
+            Objects.requireNonNull(lineEnding, "hasLineEnding"),
             Objects.requireNonNull(locale, "locale"),
             Objects.requireNonNull(hasNow, "hasNow"),
             Objects.requireNonNull(user, "user")
         );
     }
 
-    private EmptyEnvironmentContext(final Locale locale,
+    private EmptyEnvironmentContext(final LineEnding lineEnding,
+                                    final Locale locale,
                                     final HasNow hasNow,
                                     final Optional<EmailAddress> user) {
         super();
+        this.lineEnding = lineEnding;
         this.locale = locale;
         this.hasNow = hasNow;
         this.user = user;
     }
+
+    @Override
+    public LineEnding lineEnding() {
+        return this.lineEnding;
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        Objects.requireNonNull(lineEnding, "lineEnding");
+
+        this.lineEnding = lineEnding;
+        return this;
+    }
+
+    private LineEnding lineEnding;
 
     @Override
     public Locale locale() {
@@ -81,14 +101,17 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
-        return Optional.ofNullable(
-            LOCALE.equals(name) ?
-                Cast.to(this.locale) :
-                USER.equals(name) ?
-                    Cast.to(
-                        this.user.orElse(null)
-                    ) :
-                    null
+
+        return Cast.to(
+            Optional.ofNullable(
+                LINE_ENDING.equals(name) ?
+                    this.lineEnding :
+                        LOCALE.equals(name) ?
+                            this.locale :
+                            USER.equals(name) ?
+                                this.user.orElse(null) :
+                                null
+            )
         );
     }
 
@@ -108,15 +131,19 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (LOCALE.equals(name)) {
-            this.setLocale((Locale) value);
+        if (LINE_ENDING.equals(name)) {
+            this.setLineEnding((LineEnding) value);
         } else {
-            if (USER.equals(name)) {
-                this.setUser(
-                    Optional.of((EmailAddress) value)
-                );
+            if (LOCALE.equals(name)) {
+                this.setLocale((Locale) value);
             } else {
-                throw new UnsupportedOperationException();
+                if (USER.equals(name)) {
+                    this.setUser(
+                        Optional.of((EmailAddress) value)
+                    );
+                } else {
+                    throw new UnsupportedOperationException();
+                }
             }
         }
 
@@ -170,7 +197,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
     }
 
     private boolean equals0(final EmptyEnvironmentContext other) {
-        return this.locale.equals(other.locale) &&
+        return this.lineEnding.equals(other.lineEnding) &&
+            this.locale.equals(other.locale) &&
             this.user.equals(other.user);
     }
 

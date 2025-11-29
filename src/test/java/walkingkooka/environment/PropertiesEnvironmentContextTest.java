@@ -22,6 +22,7 @@ import walkingkooka.ToStringTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -35,6 +36,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        LineEnding.NL,
         Locale.ENGLISH,
         () -> NOW,
         EnvironmentContext.ANONYMOUS
@@ -160,6 +162,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
             ),
             EnvironmentValueName.with(key1),
             EnvironmentValueName.with(key2),
+            EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentValueName.USER
         );

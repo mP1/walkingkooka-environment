@@ -19,6 +19,8 @@ package walkingkooka.environment;
 
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.HasLineEndingTesting;
+import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 import walkingkooka.util.HasLocale;
 import walkingkooka.util.HasLocaleTesting;
@@ -30,7 +32,8 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public interface EnvironmentContextTesting extends HasLocaleTesting,
+public interface EnvironmentContextTesting extends HasLineEndingTesting,
+    HasLocaleTesting,
     HasUserTesting,
     TreePrintableTesting {
 
@@ -115,6 +118,20 @@ public interface EnvironmentContextTesting extends HasLocaleTesting,
         this.checkEquals(
             expected,
             context.environmentValueNames()
+        );
+    }
+
+    // setLineEnding....................................................................................................
+
+    default void setLineEndingAndCheck(final EnvironmentContext context,
+                                       final LineEnding lineEnding) {
+        assertSame(
+            context,
+            context.setLineEnding(lineEnding)
+        );
+        this.lineEndingAndCheck(
+            context,
+            lineEnding
         );
     }
 

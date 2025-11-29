@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -52,6 +53,18 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
         this.context = context;
     }
 
+    @Override
+    public LineEnding lineEnding() {
+        return this.context.lineEnding();
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        Objects.requireNonNull(lineEnding, "lineEnding");
+
+        throw new UnsupportedOperationException();
+    }
+    
     @Override
     public Locale locale() {
         return this.context.locale();

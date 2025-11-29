@@ -19,6 +19,7 @@ package walkingkooka.environment.expression;
 
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.FakeExpressionEvaluationContext;
 
 import java.util.Locale;
@@ -32,10 +33,22 @@ public class FakeEnvironmentExpressionEvaluationContext extends FakeExpressionEv
         super();
     }
 
+    // HasLineEnding....................................................................................................
+
+    @Override
+    public LineEnding lineEnding() {
+        throw new UnsupportedOperationException();
+    }
+
     // EnvironmentContext...............................................................................................
 
     @Override
     public EnvironmentExpressionEvaluationContext cloneEnvironment() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public EnvironmentExpressionEvaluationContext setLineEnding(final LineEnding lineEnding) {
         throw new UnsupportedOperationException();
     }
 

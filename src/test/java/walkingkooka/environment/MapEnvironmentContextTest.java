@@ -22,6 +22,7 @@ import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -33,6 +34,8 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
     HashCodeEqualsDefinedTesting2<MapEnvironmentContext>,
     ToStringTesting<MapEnvironmentContext> {
 
+    private final static LineEnding LINE_ENDING = LineEnding.NL;
+
     private final static Locale LOCALE = Locale.FRENCH;
 
     private final static LocalDateTime NOW = LocalDateTime.MIN;
@@ -40,6 +43,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
     private final static HasNow HAS_NOW = () -> NOW;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        LINE_ENDING,
         LOCALE,
         HAS_NOW,
         EnvironmentContext.ANONYMOUS
@@ -61,6 +65,32 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         );
     }
 
+    // lineEnding...........................................................................................................
+
+    @Test
+    public void testLineEnding() {
+        this.lineEndingAndCheck(
+            this.createContext(),
+            LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testSetLineEnding() {
+        final MapEnvironmentContext context = this.createContext();
+
+        final LineEnding lineEnding = LineEnding.CR;
+        this.checkNotEquals(
+            LINE_ENDING,
+            lineEnding
+        );
+
+        this.setLineEndingAndCheck(
+            context,
+            lineEnding
+        );
+    }
+    
     // locale...........................................................................................................
 
     @Test
@@ -229,6 +259,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.environmentValueNamesAndCheck(
             context,
+            EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
             name1,
             name2
@@ -270,6 +301,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.environmentValueNamesAndCheck(
             context,
+            EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
             EnvironmentValueName.USER,
             name1,
@@ -301,6 +333,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
     public MapEnvironmentContext createContext(final Optional<EmailAddress> user) {
         return MapEnvironmentContext.with(
             EnvironmentContexts.empty(
+                LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
                 user
@@ -315,6 +348,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         this.checkNotEquals(
             MapEnvironmentContext.with(
                 EnvironmentContexts.empty(
+                    LINE_ENDING,
                     Locale.FRANCE,
                     HAS_NOW,
                     EnvironmentContext.ANONYMOUS
@@ -322,6 +356,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             ),
             MapEnvironmentContext.with(
                 EnvironmentContexts.empty(
+                    LINE_ENDING,
                     Locale.GERMAN,
                     HAS_NOW,
                     Optional.of(

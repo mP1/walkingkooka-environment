@@ -22,6 +22,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
+import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -60,6 +61,19 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
             clone;
     }
 
+    @Override
+    public LineEnding lineEnding() {
+        return this.context.lineEnding();
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        return this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
+    }
+    
     @Override
     public Locale locale() {
         return this.context.locale();
@@ -106,6 +120,7 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
                 .map(p -> EnvironmentValueName.with(p.value()))
                 .forEach(names::add);
 
+            names.add(LINE_ENDING);
             names.add(LOCALE);
             names.add(USER);
 
@@ -123,15 +138,19 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (LOCALE.equals(name)) {
-            this.context.setLocale((Locale) value);
+        if (LINE_ENDING.equals(name)) {
+            this.context.setLineEnding((LineEnding) value);
         } else {
-            if (USER.equals(name)) {
-                this.context.setUser(
-                    Optional.of((EmailAddress) value)
-                );
+            if (LOCALE.equals(name)) {
+                this.context.setLocale((Locale) value);
             } else {
-                throw new UnsupportedOperationException();
+                if (USER.equals(name)) {
+                    this.context.setUser(
+                        Optional.of((EmailAddress) value)
+                    );
+                } else {
+                    throw new UnsupportedOperationException();
+                }
             }
         }
 

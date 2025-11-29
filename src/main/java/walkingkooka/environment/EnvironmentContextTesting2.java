@@ -57,6 +57,17 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         return values;
     }
 
+    // setLineEnding....................................................................................................
+
+    @Test
+    default void testSetLineEndingWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .setLineEnding(null)
+        );
+    }
+    
     // setLocale........................................................................................................
 
     @Test
