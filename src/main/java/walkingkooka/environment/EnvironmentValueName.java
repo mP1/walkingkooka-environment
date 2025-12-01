@@ -48,6 +48,8 @@ final public class EnvironmentValueName<T> implements Name,
     Comparable<EnvironmentValueName<T>>,
     ExpressionReference {
 
+    public static Class<EnvironmentValueName<?>> CLASS_WILDCARD = Cast.to(EnvironmentValueName.class);
+
     /**
      * Names must start with a letter.
      */
