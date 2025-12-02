@@ -33,14 +33,9 @@ public final class EnvironmentStartup implements PublicStaticHelper {
         TreeJsonStartup.init();
 
         // register json marshallers/unmarshallers.
-        final EmailAddress user = EmailAddress.parse("user@example.com");
-        final LocalDateTime now = LocalDateTime.now();
-
-        AuditInfo.with(
-            user,
-            now,
-            user,
-            now
+        AuditInfo.create(
+            EmailAddress.parse("user@example.com"),
+            LocalDateTime.now()
         );
         EnvironmentValueNameSet.EMPTY.size();
     }
