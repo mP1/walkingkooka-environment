@@ -306,10 +306,24 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     // toString.........................................................................................................
 
     @Test
-    public void testToString() {
+    public void testToStringWithoutUser() {
         this.toStringAndCheck(
-            this.createContext(),
-            "{}"
+            this.createContext(
+                EnvironmentContext.ANONYMOUS
+            ),
+            "{lineEnding=\"\\n\", locale=\"en\"}"
+        );
+    }
+
+    @Test
+    public void testToStringWithUser() {
+        this.toStringAndCheck(
+            this.createContext(
+                Optional.of(
+                    EmailAddress.parse("user@example.com")
+                )
+            ),
+            "{lineEnding=\"\\n\", locale=\"en\", user=\"user@example.com\"}"
         );
     }
 

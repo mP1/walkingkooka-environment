@@ -18,9 +18,12 @@
 package walkingkooka.environment;
 
 import walkingkooka.Cast;
+import walkingkooka.ToStringBuilder;
+import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -35,7 +38,8 @@ import java.util.Set;
  * <br>
  * Note only the {@link #locale()} and {@link #user()} are included in hashCode/equals.
  */
-final class EmptyEnvironmentContext implements EnvironmentContext {
+final class EmptyEnvironmentContext implements EnvironmentContext,
+    UsesToStringBuilder {
 
     static EmptyEnvironmentContext with(final LineEnding lineEnding,
                                         final Locale locale,
@@ -214,6 +218,28 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
 
     @Override
     public String toString() {
-        return "{}";
+        return ToStringBuilder.buildFrom(this);
+    }
+
+    // UsesToStringBuilder..............................................................................................
+
+    @Override
+    public void buildToString(final ToStringBuilder b) {
+        b.labelSeparator("=")
+            .separator(", ");
+        b.append('{');
+
+        b.label("lineEnding");
+        b.value(
+            CharSequences.escape(this.lineEnding)
+        );
+
+        b.label("locale");
+        b.value(this.locale.toLanguageTag());
+
+        b.label("user");
+        b.value(this.user.map(EmailAddress::toString));
+
+        b.append('}');
     }
 }
