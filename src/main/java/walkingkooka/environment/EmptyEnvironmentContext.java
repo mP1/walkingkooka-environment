@@ -198,6 +198,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     @Override
     public int hashCode() {
         return Objects.hash(
+            this.lineEnding,
             this.locale,
             this.user
         );
