@@ -46,6 +46,49 @@ public final class AuditInfoTest implements HashCodeEqualsDefinedTesting2<AuditI
 
     private final static LocalDateTime MODIFIED_TIMESTAMP = LocalDateTime.parse("2000-01-02T12:58:59");
 
+    // create...........................................................................................................
+
+    @Test
+    public void testCreateNullCreatedByFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> AuditInfo.create(
+                null,
+                CREATED_TIMESTAMP
+            )
+        );
+    }
+
+    @Test
+    public void testCreateNullCreatedTimestampFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> AuditInfo.create(
+                CREATED_BY,
+                null
+            )
+        );
+    }
+
+    @Test
+    public void testCreate() {
+        final AuditInfo info = AuditInfo.create(
+            CREATED_BY,
+            CREATED_TIMESTAMP
+        );
+
+        this.createdByAndCheck(info);
+        this.createdTimestampAndCheck(info);
+        this.modifiedByAndCheck(
+            info,
+            CREATED_BY
+        );
+        this.modifiedTimestampAndCheck(
+            info,
+            CREATED_TIMESTAMP
+        );
+    }
+
     // with.............................................................................................................
 
     @Test

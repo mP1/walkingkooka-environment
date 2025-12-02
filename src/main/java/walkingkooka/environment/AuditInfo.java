@@ -34,6 +34,16 @@ import java.util.Objects;
  */
 public final class AuditInfo implements TreePrintable {
 
+    public static AuditInfo create(final EmailAddress createdBy,
+                                   final LocalDateTime createdTimestamp) {
+        return with(
+            Objects.requireNonNull(createdBy, "createdBy"),
+            Objects.requireNonNull(createdTimestamp, "createdTimestamp"),
+            createdBy,
+            createdTimestamp
+        );
+    }
+
     public static AuditInfo with(final EmailAddress createdBy,
                                  final LocalDateTime createdTimestamp,
                                  final EmailAddress modifiedBy,
