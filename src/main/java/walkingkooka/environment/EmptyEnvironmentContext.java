@@ -60,35 +60,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
         this.user = user;
     }
 
-    @Override
-    public LineEnding lineEnding() {
-        return this.lineEnding;
-    }
-
-    @Override
-    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
-        Objects.requireNonNull(lineEnding, "lineEnding");
-
-        this.lineEnding = lineEnding;
-        return this;
-    }
-
-    private LineEnding lineEnding;
-
-    @Override
-    public Locale locale() {
-        return this.locale;
-    }
-
-    @Override
-    public EnvironmentContext setLocale(final Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-
-        this.locale = locale;
-        return this;
-    }
-
-    private Locale locale;
+    // EnvironmentContext...............................................................................................
 
     /**
      * No need to clone because instances are immutable.
@@ -106,11 +78,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
             Optional.ofNullable(
                 LINE_ENDING.equals(name) ?
                     this.lineEnding :
-                        LOCALE.equals(name) ?
-                            this.locale :
-                            USER.equals(name) ?
-                                this.user.orElse(null) :
-                                null
+                    LOCALE.equals(name) ?
+                        this.locale :
+                        USER.equals(name) ?
+                            this.user.orElse(null) :
+                            null
             )
         );
     }
@@ -157,12 +129,50 @@ final class EmptyEnvironmentContext implements EnvironmentContext {
         throw new UnsupportedOperationException();
     }
 
+    // HasLineEnding....................................................................................................
+
+    @Override
+    public LineEnding lineEnding() {
+        return this.lineEnding;
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        Objects.requireNonNull(lineEnding, "lineEnding");
+
+        this.lineEnding = lineEnding;
+        return this;
+    }
+
+    private LineEnding lineEnding;
+
+    // HasLocale........................................................................................................
+
+    @Override
+    public Locale locale() {
+        return this.locale;
+    }
+
+    @Override
+    public EnvironmentContext setLocale(final Locale locale) {
+        Objects.requireNonNull(locale, "locale");
+
+        this.locale = locale;
+        return this;
+    }
+
+    private Locale locale;
+
+    // HasNow...........................................................................................................
+
     @Override
     public LocalDateTime now() {
         return this.hasNow.now();
     }
 
     private final HasNow hasNow;
+
+    // HasUser..........................................................................................................
 
     @Override
     public Optional<EmailAddress> user() {
