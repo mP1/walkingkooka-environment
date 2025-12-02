@@ -24,7 +24,6 @@ import walkingkooka.text.HasLineEnding;
 import walkingkooka.text.LineEnding;
 import walkingkooka.util.HasLocale;
 
-import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -113,14 +112,9 @@ public interface EnvironmentContext extends Context,
      * Returns an {@link AuditInfo} querying the timestamp and user.
      */
     default AuditInfo createdAuditInfo() {
-        final EmailAddress user = this.userOrFail();
-        final LocalDateTime timestamp = this.now();
-
-        return AuditInfo.with(
-            user,
-            timestamp,
-            user,
-            timestamp
+        return AuditInfo.create(
+            this.userOrFail(),
+            this.now()
         );
     }
 
