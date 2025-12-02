@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class PropertiesEnvironmentContextTest implements EnvironmentContextTesting2<PropertiesEnvironmentContext>,
@@ -85,6 +86,26 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         this.getAllEnvironmentValueAndCheck(
             context,
             clone
+        );
+    }
+
+    // setEnvironmentContext............................................................................................
+
+    @Test
+    public void testSetEnvironmentContext() {
+        final PropertiesEnvironmentContext context = this.createContext();
+
+        final EnvironmentContext different = this.createContext()
+            .setLineEnding(LineEnding.CRNL);
+
+        this.checkNotEquals(
+            context,
+            different
+        );
+
+        assertSame(
+            different,
+            context.setEnvironmentContext(different)
         );
     }
 

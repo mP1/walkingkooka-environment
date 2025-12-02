@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EmptyEnvironmentContextTest implements EnvironmentContextTesting2<EmptyEnvironmentContext>,
@@ -105,6 +106,26 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         this.checkEquals(
             cloned,
             context
+        );
+    }
+
+    // setEnvironmentContext............................................................................................
+
+    @Test
+    public void testSetEnvironmentContext() {
+        final EmptyEnvironmentContext context = this.createContext();
+
+        final EnvironmentContext different = this.createContext()
+            .setLineEnding(LineEnding.CRNL);
+
+        this.checkNotEquals(
+            context,
+            different
+        );
+
+        assertSame(
+            different,
+            context.setEnvironmentContext(different)
         );
     }
 

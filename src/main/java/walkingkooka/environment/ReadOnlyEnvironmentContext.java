@@ -86,6 +86,15 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
+        final EnvironmentContext before = this.context;
+        final EnvironmentContext after = before.setEnvironmentContext(context);
+        return before.equals(after) ?
+            this :
+            with(after);
+    }
+
+    @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return this.context.environmentValue(name);
     }

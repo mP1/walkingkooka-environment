@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting2<CollectionEnvironmentContext> {
@@ -105,6 +106,41 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             clone,
             EnvironmentValueName.with(NAME2),
             VALUE2
+        );
+    }
+
+    // setEnvironmentContext............................................................................................
+
+    @Test
+    public void testSetEnvironmentContext() {
+        final CollectionEnvironmentContext context = this.createContext();
+
+        final EnvironmentContext different = CollectionEnvironmentContext.with(
+            Lists.of(
+                EnvironmentContexts.empty(
+                    LineEnding.CR,
+                    Locale.FRENCH,
+                    () -> NOW,
+                    EnvironmentContext.ANONYMOUS
+                ),
+                EnvironmentContexts.empty(
+                    LineEnding.CR,
+                    Locale.GERMAN,
+                    () -> NOW,
+                    EnvironmentContext.ANONYMOUS
+                )
+            ),
+            CONTEXT
+        );
+
+        this.checkNotEquals(
+            context,
+            different
+        );
+
+        assertSame(
+            different,
+            context.setEnvironmentContext(different)
         );
     }
 

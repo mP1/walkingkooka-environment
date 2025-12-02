@@ -19,6 +19,7 @@ package walkingkooka.environment.expression;
 
 import walkingkooka.Cast;
 import walkingkooka.datetime.DateTimeSymbols;
+import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContextTestingTest.TestEnvironmentExpressionEvaluationContext;
 import walkingkooka.locale.LocaleContext;
@@ -245,6 +246,13 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         }
 
         private final LocaleContext localeContext = LocaleContexts.jre(Locale.ENGLISH);
+
+        @Override
+        public TestEnvironmentExpressionEvaluationContext setEnvironmentContext(final EnvironmentContext context) {
+            Objects.requireNonNull(context, "context");
+
+            throw new UnsupportedOperationException();
+        }
 
         @Override
         public ExpressionEvaluationContext enterScope(final Function<ExpressionReference, Optional<Optional<Object>>> scoped) {

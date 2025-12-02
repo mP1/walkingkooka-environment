@@ -169,6 +169,28 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
+    // setEnvironmentContext............................................................................................
+
+    @Test
+    public void testSetEnvironmentContext() {
+        final PrefixedEnvironmentContext context = this.createContext();
+
+        final EnvironmentContext different = this.createContext()
+            .setLineEnding(LineEnding.CRNL);
+
+        this.checkNotEquals(
+            context,
+            different
+        );
+
+        assertSame(
+            different,
+            context.setEnvironmentContext(different)
+        );
+    }
+
+    // EnvironmentContextTesting........................................................................................
+
     @Override
     public PrefixedEnvironmentContext createContext() {
         return PrefixedEnvironmentContext.with(

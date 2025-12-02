@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class MapEnvironmentContextTest implements EnvironmentContextTesting2<MapEnvironmentContext>,
@@ -320,6 +321,26 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         this.setUserAndCheck(
             context,
             email
+        );
+    }
+
+    // setEnvironmentContext............................................................................................
+
+    @Test
+    public void testSetEnvironmentContext() {
+        final MapEnvironmentContext context = this.createContext();
+
+        final EnvironmentContext different = this.createContext()
+            .setLineEnding(LineEnding.CRNL);
+
+        this.checkNotEquals(
+            context,
+            different
+        );
+
+        assertSame(
+            different,
+            context.setEnvironmentContext(different)
         );
     }
 
