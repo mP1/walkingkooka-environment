@@ -33,10 +33,9 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A {@link EnvironmentContext} that always returns no value. All setter like methods including {@link Locale} or
- * {@link EnvironmentValueName} values throw {@link UnsupportedOperationException}.
- * <br>
- * Note only the {@link #locale()} and {@link #user()} are included in hashCode/equals.
+ * A {@link EnvironmentContext} that is mutable but only contains the minimum required values of {@link #LINE_ENDING},
+ * {@link #LOCALE} and {@link #USER}.
+ * Attempts to get any other {@link EnvironmentValueName} will return nothing, setting/removing will throw {@link UnsupportedOperationException}.
  */
 final class EmptyEnvironmentContext implements EnvironmentContext,
     UsesToStringBuilder {
