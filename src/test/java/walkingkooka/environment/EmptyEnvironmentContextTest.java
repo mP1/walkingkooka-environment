@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EmptyEnvironmentContextTest implements EnvironmentContextTesting2<EmptyEnvironmentContext>,
@@ -95,10 +95,16 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testCloneEnvironment() {
         final EmptyEnvironmentContext context = this.createContext();
+        final EnvironmentContext cloned = context.cloneEnvironment();
 
-        assertSame(
+        assertNotSame(
             context,
-            context.cloneEnvironment()
+            cloned
+        );
+
+        this.checkEquals(
+            cloned,
+            context
         );
     }
 
