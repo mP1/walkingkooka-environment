@@ -39,11 +39,9 @@ import java.util.Set;
 final class MapEnvironmentContext implements EnvironmentContext {
 
     static MapEnvironmentContext with(final EnvironmentContext context) {
-        final MapEnvironmentContext map = new MapEnvironmentContext(
+        return new MapEnvironmentContext(
             Objects.requireNonNull(context, "context")
         );
-
-        return map;
     }
 
     private MapEnvironmentContext(final EnvironmentContext context) {
