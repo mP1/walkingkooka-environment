@@ -69,32 +69,6 @@ final class MapEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public LineEnding lineEnding() {
-        return this.environmentValueOrFail(LINE_ENDING);
-    }
-
-    @Override
-    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
-        return this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
-        );
-    }
-    
-    @Override
-    public Locale locale() {
-        return this.environmentValueOrFail(LOCALE);
-    }
-
-    @Override
-    public EnvironmentContext setLocale(final Locale locale) {
-        return this.setEnvironmentValue(
-            LOCALE,
-            locale
-        );
-    }
-
-    @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
 
@@ -126,7 +100,7 @@ final class MapEnvironmentContext implements EnvironmentContext {
         names.add(LINE_ENDING);
         names.add(LOCALE);
 
-        if(this.context.user().isPresent()) {
+        if (this.context.user().isPresent()) {
             names.add(USER);
         }
 
@@ -156,10 +130,44 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
     private final Map<EnvironmentValueName<?>, Object> values;
 
+    // HasLineEnding....................................................................................................
+
+    @Override
+    public LineEnding lineEnding() {
+        return this.environmentValueOrFail(LINE_ENDING);
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        return this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
+    }
+
+    // HasLocale........................................................................................................
+
+    @Override
+    public Locale locale() {
+        return this.environmentValueOrFail(LOCALE);
+    }
+
+    @Override
+    public EnvironmentContext setLocale(final Locale locale) {
+        return this.setEnvironmentValue(
+            LOCALE,
+            locale
+        );
+    }
+
+    // HasNow...........................................................................................................
+
     @Override
     public LocalDateTime now() {
         return this.context.now();
     }
+
+    // HasUser..........................................................................................................
 
     @Override
     public Optional<EmailAddress> user() {
