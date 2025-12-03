@@ -67,6 +67,11 @@ final class MapEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
+        return Objects.requireNonNull(context, "context");
+    }
+
+    @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
 

@@ -62,6 +62,11 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
+        return Objects.requireNonNull(context, "context");
+    }
+
+    @Override
     public LineEnding lineEnding() {
         return this.context.lineEnding();
     }

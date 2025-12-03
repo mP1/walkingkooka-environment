@@ -149,6 +149,11 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     private final List<EnvironmentContext> environmentContexts;
 
     @Override
+    public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
+        return Objects.requireNonNull(context, "context");
+    }
+
+    @Override
     public LocalDateTime now() {
         return this.context.now();
     }

@@ -37,6 +37,9 @@ public interface EnvironmentExpressionEvaluationContext extends ExpressionEvalua
     EnvironmentExpressionEvaluationContext cloneEnvironment();
 
     @Override
+    EnvironmentExpressionEvaluationContext setEnvironmentContext(final EnvironmentContext environmentContext);
+
+    @Override
     EnvironmentExpressionEvaluationContext setLineEnding(final LineEnding lineEnding);
 
     @Override

@@ -64,6 +64,12 @@ public interface EnvironmentContext extends Context,
     EnvironmentContext cloneEnvironment();
 
     /**
+     * This method is intended to provide the capability to replace the {@link EnvironmentContext} component for classes,
+     * that extend {@link EnvironmentContext}.
+     */
+    EnvironmentContext setEnvironmentContext(final EnvironmentContext context);
+
+    /**
      * Returns the value for the given {@link EnvironmentValueName}.
      */
     <T> Optional<T> environmentValue(final EnvironmentValueName<T> name);

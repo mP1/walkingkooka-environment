@@ -17,6 +17,7 @@
 
 package walkingkooka.environment.expression;
 
+import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
@@ -44,6 +45,11 @@ public class FakeEnvironmentExpressionEvaluationContext extends FakeExpressionEv
 
     @Override
     public EnvironmentExpressionEvaluationContext cloneEnvironment() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public EnvironmentExpressionEvaluationContext setEnvironmentContext(final EnvironmentContext environmentContext) {
         throw new UnsupportedOperationException();
     }
 

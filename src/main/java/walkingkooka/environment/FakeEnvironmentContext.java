@@ -53,6 +53,11 @@ public class FakeEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         throw new UnsupportedOperationException();
     }

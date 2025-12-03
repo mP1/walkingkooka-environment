@@ -19,10 +19,13 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
+import walkingkooka.datetime.HasNow;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -86,6 +89,49 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             ),
             name,
             value
+        );
+    }
+
+    // setEnvironmentContext............................................................................................
+
+    @Test
+    public void testSetEnvironmentContext() {
+        final HasNow hasNow = () -> NOW;
+
+        final EnvironmentContext empty = EnvironmentContexts.empty(
+            LineEnding.NL,
+            Locale.FRENCH,
+            hasNow,
+            Optional.of(
+                EmailAddress.parse("user123@example.com")
+            )
+        );
+        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(empty);
+
+        final EnvironmentContext different = EnvironmentContexts.empty(
+            LineEnding.CRNL,
+            Locale.GERMAN,
+            hasNow,
+            Optional.of(
+                EmailAddress.parse("user123@example.com")
+            )
+        );
+
+        this.checkNotEquals(
+            empty,
+            different
+        );
+
+        final EnvironmentContext set = readOnly.setEnvironmentContext(different);
+
+        assertNotSame(
+            empty,
+            set
+        );
+
+        this.checkEquals(
+            ReadOnlyEnvironmentContext.with(different),
+            set
         );
     }
 
