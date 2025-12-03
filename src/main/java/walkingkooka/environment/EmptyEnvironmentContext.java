@@ -66,11 +66,16 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     // EnvironmentContext...............................................................................................
 
     /**
-     * No need to clone because instances are immutable.
+     * Creates a new instance with the same/current values.
      */
     @Override
     public EnvironmentContext cloneEnvironment() {
-        return this;
+        return new EmptyEnvironmentContext(
+            this.lineEnding,
+            this.locale,
+            this.hasNow,
+            this.user
+        );
     }
 
     @Override
