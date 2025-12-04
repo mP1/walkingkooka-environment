@@ -423,7 +423,26 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.toStringAndCheck(
             context,
-            "{hello.123=Gday}"
+            "{hello.123=Gday, lineEnding=\"\\n\", locale=fr}"
+        );
+    }
+
+    @Test
+    public void testToStringWithUser() {
+        final MapEnvironmentContext context = MapEnvironmentContext.with(CONTEXT);
+        context.setEnvironmentValue(
+            NAME,
+            VALUE
+        );
+        context.setUser(
+            Optional.of(
+                EmailAddress.parse("user@example.com")
+            )
+        );
+
+        this.toStringAndCheck(
+            context,
+            "{hello.123=Gday, lineEnding=\"\\n\", locale=fr, user=user@example.com}"
         );
     }
 
