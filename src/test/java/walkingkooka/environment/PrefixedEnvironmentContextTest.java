@@ -296,7 +296,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{key111=value111}"
+            "{key111=value111, lineEnding=\"\\n\", locale=fr, user=user@example.com}"
         );
     }
 

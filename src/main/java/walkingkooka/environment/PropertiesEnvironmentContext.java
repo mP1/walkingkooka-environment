@@ -18,14 +18,18 @@
 package walkingkooka.environment;
 
 import walkingkooka.Cast;
+import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -191,6 +195,39 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
     @Override
     public String toString() {
-        return this.properties.toString();
+        final Map<EnvironmentValueName<?>, Object> map = Maps.sorted();
+
+        for (final Entry<PropertiesPath, String> entry : this.properties.entries()) {
+            map.put(
+                EnvironmentValueName.with(
+                    entry.getKey()
+                        .value()
+                ),
+                entry.getValue()
+            );
+        }
+
+        map.put(
+            LINE_ENDING,
+            CharSequences.quoteAndEscape(
+                this.lineEnding()
+                    .toString()
+            )
+        );
+        map.put(
+            LOCALE,
+            this.locale()
+        );
+
+        final EmailAddress user = this.user()
+            .orElse(null);
+        if (null != user) {
+            map.put(
+                USER,
+                user
+            );
+        }
+
+        return map.toString();
     }
 }
