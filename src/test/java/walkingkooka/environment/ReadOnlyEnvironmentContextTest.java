@@ -95,6 +95,24 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     // setEnvironmentContext............................................................................................
 
     @Test
+    public void testSetEnvironmentContextWithSame() {
+        final EnvironmentContext empty = EnvironmentContexts.empty(
+            LineEnding.NL,
+            Locale.FRENCH,
+            LocalDateTime::now,
+            Optional.of(
+                EmailAddress.parse("user123@example.com")
+            )
+        );
+        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(empty);
+
+        assertSame(
+            readOnly,
+            readOnly.setEnvironmentContext(empty)
+        );
+    }
+
+    @Test
     public void testSetEnvironmentContext() {
         final HasNow hasNow = () -> NOW;
 
