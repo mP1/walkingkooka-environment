@@ -73,11 +73,13 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     default void testSetEnvironmentContextWithEqualEnvironmentContext() {
         final C before = this.createContext();
 
-        final EnvironmentContext environmentContext = EnvironmentContexts.empty(
-            before.lineEnding(),
-            before.locale(),
-            before, // HasNow
-            before.user()
+        final EnvironmentContext environmentContext = EnvironmentContexts.map(
+            EnvironmentContexts.empty(
+                before.lineEnding(),
+                before.locale(),
+                before, // HasNow
+                before.user()
+            )
         );
 
         final EnvironmentContext after = before.setEnvironmentContext(environmentContext);
