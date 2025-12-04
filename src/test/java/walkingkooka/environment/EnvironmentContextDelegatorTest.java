@@ -61,7 +61,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         @Override
         public TestEnvironmentContextDelegator setEnvironmentContext(final EnvironmentContext environmentContext) {
             Objects.requireNonNull(environmentContext, "environmentContext");
-            throw new UnsupportedOperationException();
+            return new TestEnvironmentContextDelegator();
         }
 
         @Override
