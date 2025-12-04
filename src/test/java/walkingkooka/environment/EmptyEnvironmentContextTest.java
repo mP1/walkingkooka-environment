@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
+import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
 
@@ -38,6 +39,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     private final static LineEnding LINE_ENDING = LineEnding.NL;
     private final static Locale LOCALE = Locale.ENGLISH;
     private final static LocalDateTime NOW = LocalDateTime.MIN;
+    private final static HasNow HAS_NOW = () -> NOW;
 
     @Test
     public void testWithNullLineEndingFails() {
@@ -46,7 +48,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             () -> EmptyEnvironmentContext.with(
                 null,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             )
         );
@@ -59,7 +61,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             () -> EmptyEnvironmentContext.with(
                 LINE_ENDING,
                 null,
-                () -> NOW,
+                HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             )
         );
@@ -85,7 +87,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             () -> EmptyEnvironmentContext.with(
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 null
             )
         );
@@ -236,7 +238,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         return EmptyEnvironmentContext.with(
             LINE_ENDING,
             LOCALE,
-            () -> NOW,
+            HAS_NOW,
             user
         );
     }
@@ -259,13 +261,13 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EmptyEnvironmentContext.with(
                 LineEnding.NL,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
                 LineEnding.CR,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             )
         );
@@ -277,13 +279,31 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EmptyEnvironmentContext.with(
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
                 LINE_ENDING,
                 Locale.FRANCE,
-                () -> NOW,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentHasNow() {
+        this.checkNotEquals(
+            EmptyEnvironmentContext.with(
+                LINE_ENDING,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            EmptyEnvironmentContext.with(
+                LINE_ENDING,
+                Locale.FRANCE,
+                LocalDateTime::now,
                 EnvironmentContext.ANONYMOUS
             )
         );
@@ -295,7 +315,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EmptyEnvironmentContext.with(
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 Optional.of(
                     EmailAddress.parse("different@example.com")
                 )
@@ -309,7 +329,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EmptyEnvironmentContext.with(
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 Optional.of(
                     EmailAddress.parse("user1@example.com")
                 )
@@ -317,7 +337,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EmptyEnvironmentContext.with(
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 Optional.of(
                     EmailAddress.parse("user222@example.com")
                 )
