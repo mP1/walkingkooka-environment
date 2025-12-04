@@ -70,7 +70,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     }
 
     @Test
-    default void testSetEnvironmentContextWithSame() {
+    default void testSetEnvironmentContextWithEqualEnvironmentContext() {
         final C before = this.createContext();
 
         final EnvironmentContext environmentContext = EnvironmentContexts.empty(
