@@ -22,6 +22,7 @@ import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -214,6 +215,30 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
     @Override
     public String toString() {
-        return this.values.toString();
+        final Map<EnvironmentValueName<?>, Object> map = Maps.sorted();
+        map.putAll(this.values);
+
+        map.put(
+            LINE_ENDING,
+            CharSequences.quoteAndEscape(
+                this.lineEnding()
+                    .toString()
+            )
+        );
+        map.put(
+            LOCALE,
+            this.locale()
+        );
+
+        final EmailAddress user = this.user()
+            .orElse(null);
+        if (null != user) {
+            map.put(
+                USER,
+                user
+            );
+        }
+
+        return map.toString();
     }
 }

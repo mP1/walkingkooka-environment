@@ -201,7 +201,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{locale=de}"
+            "{lineEnding=\"\\n\", locale=de}"
         );
     }
 
