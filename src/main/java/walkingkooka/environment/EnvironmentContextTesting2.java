@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting2<C extends EnvironmentContext> extends EnvironmentContextTesting,
@@ -65,6 +66,25 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             NullPointerException.class,
             () -> this.createContext()
                 .setEnvironmentContext(null)
+        );
+    }
+
+    @Test
+    default void testSetEnvironmentContextWithSame() {
+        final C before = this.createContext();
+
+        final EnvironmentContext environmentContext = EnvironmentContexts.empty(
+            before.lineEnding(),
+            before.locale(),
+            before, // HasNow
+            before.user()
+        );
+
+        final EnvironmentContext after = before.setEnvironmentContext(environmentContext);
+
+        assertNotSame(
+            before,
+            after
         );
     }
 

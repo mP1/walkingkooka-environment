@@ -213,6 +213,11 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         }
 
         @Override
+        public LineEnding lineEnding() {
+            return LineEnding.NL;
+        }
+
+        @Override
         public EnvironmentExpressionEvaluationContext setLineEnding(final LineEnding lineEnding) {
             Objects.requireNonNull(lineEnding, "lineEnding");
             throw new UnsupportedOperationException();
@@ -251,7 +256,7 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         public TestEnvironmentExpressionEvaluationContext setEnvironmentContext(final EnvironmentContext context) {
             Objects.requireNonNull(context, "context");
 
-            throw new UnsupportedOperationException();
+            return new TestEnvironmentExpressionEvaluationContext();
         }
 
         @Override
