@@ -82,14 +82,15 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
      */
     @Override
     public EnvironmentContext cloneEnvironment() {
-        return context.cloneEnvironment();
+        return this.context.cloneEnvironment();
     }
 
+    /**
+     * Always returns the given {@link EnvironmentContext}, which is not read only wrapped.
+     */
     @Override
     public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
-        return context == this.context ?
-            this :
-            with(context);
+        return Objects.requireNonNull(context, "context");
     }
 
     @Override

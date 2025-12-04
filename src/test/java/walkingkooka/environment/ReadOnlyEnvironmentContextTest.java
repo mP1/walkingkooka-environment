@@ -107,8 +107,8 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(empty);
 
         assertSame(
-            readOnly,
-            readOnly.setEnvironmentContext(empty)
+            readOnly.setEnvironmentContext(empty),
+            empty
         );
     }
 
@@ -142,13 +142,8 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
         final EnvironmentContext set = readOnly.setEnvironmentContext(different);
 
-        assertNotSame(
-            empty,
-            set
-        );
-
-        this.checkEquals(
-            ReadOnlyEnvironmentContext.with(different),
+        assertSame(
+            different,
             set
         );
     }
