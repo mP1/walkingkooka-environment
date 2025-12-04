@@ -209,6 +209,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         return Objects.hash(
             this.lineEnding,
             this.locale,
+            this.hasNow,
             this.user
         );
     }
@@ -223,6 +224,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     private boolean equals0(final EmptyEnvironmentContext other) {
         return this.lineEnding.equals(other.lineEnding) &&
             this.locale.equals(other.locale) &&
+            this.hasNow.equals(other.hasNow) &&
             this.user.equals(other.user);
     }
 
