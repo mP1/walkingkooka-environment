@@ -263,7 +263,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "[{hello.111=Gday}, {hello.111=ignored!!!, zebra.222=Orange}]"
+            "[{hello.111=Gday, lineEnding=\"\\n\", locale=en}, {hello.111=ignored!!!, lineEnding=\"\\n\", locale=en, zebra.222=Orange}]"
         );
     }
 

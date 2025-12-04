@@ -206,7 +206,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{hello.123=Gday}"
+            "{hello.123=Gday, lineEnding=\"\\n\", locale=fr}"
         );
     }
 
