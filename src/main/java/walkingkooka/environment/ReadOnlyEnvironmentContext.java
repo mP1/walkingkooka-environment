@@ -87,7 +87,9 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
 
     @Override
     public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
-        return with(context);
+        return context == this.context ?
+            this :
+            with(context);
     }
 
     @Override
