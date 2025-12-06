@@ -22,7 +22,11 @@ import walkingkooka.ContextTesting;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.reflect.FieldAttributes;
+import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.CaseKind;
 
+import java.lang.reflect.Field;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -33,6 +37,37 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting2<C extends EnvironmentContext> extends EnvironmentContextTesting,
     ContextTesting<C> {
+
+    // constants........................................................................................................
+
+    @Test
+    default void testEnvironmentValueNameConstantsCamelCase() throws Exception {
+        final Set<EnvironmentValueName<?>> not = Sets.ordered();
+
+        for (final Field field : this.type().getDeclaredFields()) {
+            if (JavaVisibility.PUBLIC == JavaVisibility.of(field) && FieldAttributes.STATIC.is(field) && field.getType() == EnvironmentValueName.class) {
+                final EnvironmentValueName<?> environmentValueName = (EnvironmentValueName<?>) field.get(null);
+                final String name = environmentValueName.value();
+
+                if (name.equals(CaseKind.KEBAB.change(name, CaseKind.CAMEL))) {
+                    not.add(environmentValueName);
+                } else {
+                    if (name.equals(CaseKind.SNAKE.change(name, CaseKind.CAMEL))) {
+                        not.add(environmentValueName);
+                    } else {
+                        if (name.equals(CaseKind.CAMEL.change(name, CaseKind.TITLE))) {
+                            not.add(environmentValueName);
+                        }
+                    }
+                }
+            }
+        }
+
+        this.checkEquals(
+            Sets.empty(),
+            not
+        );
+    }
 
     // cloneEnvironment.................................................................................................
 
