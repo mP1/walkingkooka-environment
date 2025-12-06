@@ -66,7 +66,6 @@ public interface EnvironmentContext extends Context,
     /**
      * This method is intended to provide the capability to replace the {@link EnvironmentContext} component for classes,
      * that extend {@link EnvironmentContext}.
-     * A new instance should always be returned even when the given {@link EnvironmentContext} is equal.
      */
     EnvironmentContext setEnvironmentContext(final EnvironmentContext context);
 
