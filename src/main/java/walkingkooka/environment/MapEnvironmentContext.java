@@ -33,9 +33,8 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A {@link EnvironmentContext} that stores {@link EnvironmentValueName} values in a {@link Map} delegating other
- * methods to the given {@link EnvironmentContext}. Note values from the given {@link EnvironmentContext} are ignored,
- * and it is never queried for values or names, cascading is not supported.
+ * A {@link EnvironmentContext} that cascade gets, first trying the internal {@link Map} and if the value is absent
+ * tries the wrapped {@link EnvironmentContext}.
  */
 final class MapEnvironmentContext implements EnvironmentContext {
 
@@ -78,18 +77,8 @@ final class MapEnvironmentContext implements EnvironmentContext {
 
         Object value = this.values.get(name);
         if (null == value) {
-            if (LINE_ENDING.equals(name)) {
-                value = this.context.lineEnding();
-            } else {
-                if (LOCALE.equals(name)) {
-                    value = this.context.locale();
-                } else {
-                    if (USER.equals(name)) {
-                        value = this.context.user()
-                            .orElse(null);
-                    }
-                }
-            }
+            value = this.context.environmentValue(name)
+                .orElse(null);
         }
 
         return Optional.ofNullable(

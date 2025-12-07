@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.Cast;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
@@ -156,8 +157,12 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             new FakeEnvironmentContext() {
 
                 @Override
-                public Locale locale() {
-                    return MapEnvironmentContextTest.this.locale;
+                public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
+                    return Optional.ofNullable(
+                        name.equals(LOCALE) ?
+                            Cast.to(MapEnvironmentContextTest.LOCALE) :
+                            null
+                    );
                 }
             }
         );
@@ -200,9 +205,11 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             new FakeEnvironmentContext() {
 
                 @Override
-                public Optional<EmailAddress> user() {
+                public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
                     return Optional.ofNullable(
-                        MapEnvironmentContextTest.this.user
+                        name.equals(USER) ?
+                            Cast.to(MapEnvironmentContextTest.this.user) :
+                            null
                     );
                 }
             }
