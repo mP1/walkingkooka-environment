@@ -102,13 +102,20 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
     @Override
     public Set<EnvironmentValueName<?>> environmentValueNames() {
-        return NAMES;
+        return this.user.isPresent() ?
+            NAMES :
+            NAMES_WITHOUT_USER;
     }
 
     private final static Set<EnvironmentValueName<?>> NAMES = Sets.of(
         LINE_ENDING,
         LOCALE,
         USER
+    );
+
+    private final static Set<EnvironmentValueName<?>> NAMES_WITHOUT_USER = Sets.of(
+        LINE_ENDING,
+        LOCALE
     );
 
     @Override

@@ -248,9 +248,31 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
+            EmptyEnvironmentContext.with(
+                LineEnding.NL,
+                LOCALE,
+                HAS_NOW,
+                Optional.of(
+                    EmailAddress.parse("different@example.com")
+                )
+            ),
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentContext.USER
+        );
+    }
+
+    @Test
+    public void testEnvironmentalValueNamesWithoutUser() {
+        this.environmentValueNamesAndCheck(
+            EmptyEnvironmentContext.with(
+                LineEnding.NL,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            EnvironmentContext.LINE_ENDING,
+            EnvironmentContext.LOCALE
         );
     }
 
