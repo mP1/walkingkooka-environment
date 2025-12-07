@@ -48,6 +48,13 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     }
 
     @Override
+    default EnvironmentContext setLocale(final Locale locale) {
+        this.environmentContext()
+            .setLocale(locale);
+        return this;
+    }
+
+    @Override
     default <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return this.environmentContext()
             .environmentValue(name);
@@ -88,6 +95,13 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     default Optional<EmailAddress> user() {
         return this.environmentContext()
             .user();
+    }
+
+    @Override
+    default EnvironmentContext setUser(final Optional<EmailAddress> user) {
+        this.environmentContext()
+            .setUser(user);
+        return this;
     }
 
     EnvironmentContext environmentContext();
