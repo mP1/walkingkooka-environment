@@ -248,8 +248,9 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
+            EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
-            EnvironmentValueName.USER
+            EnvironmentContext.USER
         );
     }
 

@@ -106,6 +106,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     private final static Set<EnvironmentValueName<?>> NAMES = Sets.of(
+        LINE_ENDING,
         LOCALE,
         USER
     );
