@@ -38,7 +38,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     @Test
-    public void testWithNullContxtFails() {
+    public void testWithNullContextFails() {
         assertThrows(
             NullPointerException.class,
             () -> ReadOnlyEnvironmentContext.with(null)
