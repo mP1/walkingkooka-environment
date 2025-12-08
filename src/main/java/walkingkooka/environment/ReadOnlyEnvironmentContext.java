@@ -53,30 +53,6 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
         this.context = context;
     }
 
-    @Override
-    public LineEnding lineEnding() {
-        return this.context.lineEnding();
-    }
-
-    @Override
-    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
-        Objects.requireNonNull(lineEnding, "lineEnding");
-
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
-    public Locale locale() {
-        return this.context.locale();
-    }
-
-    @Override
-    public EnvironmentContext setLocale(final Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-
-        throw new UnsupportedOperationException();
-    }
-
     /**
      * Makes a clone of the wrapped {@link EnvironmentContext} returning that.
      */
@@ -120,6 +96,30 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public LineEnding lineEnding() {
+        return this.context.lineEnding();
+    }
+
+    @Override
+    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        Objects.requireNonNull(lineEnding, "lineEnding");
+
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Locale locale() {
+        return this.context.locale();
+    }
+
+    @Override
+    public EnvironmentContext setLocale(final Locale locale) {
+        Objects.requireNonNull(locale, "locale");
+
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public LocalDateTime now() {
         return this.context.now();
     }
@@ -154,7 +154,6 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     private boolean equals0(final ReadOnlyEnvironmentContext other) {
         return this.context.equals(other.context);
     }
-
 
     @Override
     public String toString() {
