@@ -30,7 +30,22 @@ import java.util.Optional;
 public final class EnvironmentContextDelegatorTest implements EnvironmentContextTesting2<TestEnvironmentContextDelegator> {
 
     @Override
+    public void testSetLineEndingWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void testSetLocaleWithDifferent() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetLocaleWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetUserWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
     }
 
@@ -62,6 +77,12 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         public TestEnvironmentContextDelegator setEnvironmentContext(final EnvironmentContext environmentContext) {
             Objects.requireNonNull(environmentContext, "environmentContext");
             return new TestEnvironmentContextDelegator();
+        }
+
+        @Override
+        public EnvironmentExpressionEvaluationContext setLineEnding(final LineEnding lineEnding) {
+            Objects.requireNonNull(lineEnding, "lineEnding");
+            throw new UnsupportedOperationException();
         }
 
         @Override

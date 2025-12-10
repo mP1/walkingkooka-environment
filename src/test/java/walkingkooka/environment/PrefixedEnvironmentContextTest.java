@@ -191,6 +191,57 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
+    // setEnvironmentValue..............................................................................................
+
+    @Test
+    public void testSetEnvironmentValueWithWatcher() {
+        this.fired = false;
+
+        final EnvironmentContext context = EnvironmentContexts.map(
+            EnvironmentContexts.empty(
+                LINE_ENDING,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+
+        final PrefixedEnvironmentContext prefixedEnvironmentContext = PrefixedEnvironmentContext.with(
+            PREFIX,
+            context
+        );
+
+        final EnvironmentValueName<String> name = EnvironmentValueName.with("hello");
+        final String value = "world";
+
+        final Runnable remover = prefixedEnvironmentContext.addEventValueWatcher(
+            new EnvironmentValueWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
+                                                     final Optional<?> oldValue,
+                                                     final Optional<?> newValue) {
+                    checkEquals(EnvironmentValueName.with(PREFIX + name.value()), n);
+                    checkEquals(Optional.empty(), oldValue);
+                    checkEquals(Optional.of(value), newValue);
+
+                    PrefixedEnvironmentContextTest.this.fired = true;
+                }
+            }
+        );
+
+        context.setEnvironmentValue(
+            name,
+            value
+        );
+
+        this.checkEquals(
+            true,
+            this.fired
+        );
+    }
+
+    private boolean fired;
+
     // EnvironmentContextTesting........................................................................................
 
     @Override

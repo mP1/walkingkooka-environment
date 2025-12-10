@@ -21,6 +21,7 @@ import walkingkooka.Cast;
 import walkingkooka.datetime.DateTimeSymbols;
 import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentValueName;
+import walkingkooka.environment.EnvironmentValueWatcher;
 import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContextTestingTest.TestEnvironmentExpressionEvaluationContext;
 import walkingkooka.locale.LocaleContext;
 import walkingkooka.locale.LocaleContexts;
@@ -46,6 +47,26 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
 
     @Override
     public void testEnterScopeGivesDifferentInstance() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetLineEndingWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetLocaleWithDifferent() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetLocaleWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetUserWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
     }
 
@@ -307,6 +328,18 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         public EnvironmentExpressionEvaluationContext setUser(final Optional<EmailAddress> user) {
             Objects.requireNonNull(user, "user");
             return this;
+        }
+
+        @Override
+        public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+            Objects.requireNonNull(watcher, "watcher");
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+            Objects.requireNonNull(watcher, "watcher");
+            throw new UnsupportedOperationException();
         }
     }
 }

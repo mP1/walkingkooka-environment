@@ -192,6 +192,16 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
         return this;
     }
 
+    @Override
+    public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+        return this.context.addEventValueWatcher(watcher);
+    }
+
+    @Override
+    public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+        return this.context.addEventValueWatcherOnce(watcher);
+    }
+
     private final EnvironmentContext context;
 
     // Object...........................................................................................................

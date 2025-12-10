@@ -59,7 +59,17 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         )
     );
 
-    private final static EnvironmentContext FAKE_CONTEXT = EnvironmentContexts.fake();
+    private final static EnvironmentContext FAKE_CONTEXT = new FakeEnvironmentContext() {
+        @Override
+        public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+            return () -> {};
+        }
+
+        @Override
+        public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+            return () -> {};
+        }
+    };
 
     // with.............................................................................................................
 

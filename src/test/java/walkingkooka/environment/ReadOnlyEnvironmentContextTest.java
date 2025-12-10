@@ -148,6 +148,13 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
+    // setLineEnding........................................................................................................
+
+    @Override
+    public void testSetLineEndingWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
+    }
+    
     // locale...........................................................................................................
 
     @Test
@@ -162,6 +169,11 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Override
     public void testSetLocaleWithDifferent() {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public void testSetLocaleWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
     }
 
@@ -182,6 +194,13 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             EnvironmentValueName.LOCALE,
             LOCALE
         );
+    }
+
+    // setUser..........................................................................................................
+
+    @Override
+    public void testSetUserWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
     }
 
     @Override

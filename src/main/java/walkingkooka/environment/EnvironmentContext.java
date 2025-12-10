@@ -134,4 +134,8 @@ public interface EnvironmentContext extends Context,
             this.userOrFail()
         ).setModifiedTimestamp(this.now());
     }
+
+    Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher);
+
+    Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher);
 }

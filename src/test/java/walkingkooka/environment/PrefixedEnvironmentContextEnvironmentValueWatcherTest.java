@@ -17,19 +17,18 @@
 
 package walkingkooka.environment;
 
-public interface HasEnvironmentValueWatchers extends EnvironmentContext {
+import walkingkooka.reflect.ClassTesting;
+import walkingkooka.reflect.JavaVisibility;
+
+public final class PrefixedEnvironmentContextEnvironmentValueWatcherTest implements ClassTesting<PrefixedEnvironmentContextEnvironmentValueWatcher> {
 
     @Override
-    default Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
-        return this.environmentValueWatchers()
-            .add(watcher);
+    public Class<PrefixedEnvironmentContextEnvironmentValueWatcher> type() {
+        return PrefixedEnvironmentContextEnvironmentValueWatcher.class;
     }
 
     @Override
-    default Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
-        return this.environmentValueWatchers()
-            .addOnce(watcher);
+    public JavaVisibility typeVisibility() {
+        return JavaVisibility.PACKAGE_PRIVATE;
     }
-
-    EnvironmentValueWatchers environmentValueWatchers();
 }

@@ -135,6 +135,18 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+        Objects.requireNonNull(watcher, "watcher");
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+        Objects.requireNonNull(watcher, "watcher");
+        throw new UnsupportedOperationException();
+    }
+
     private final EnvironmentContext context;
 
     // Object...........................................................................................................

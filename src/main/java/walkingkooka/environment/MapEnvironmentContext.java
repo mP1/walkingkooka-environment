@@ -36,7 +36,8 @@ import java.util.Set;
  * A {@link EnvironmentContext} that cascade gets, first trying the internal {@link Map} and if the value is absent
  * tries the wrapped {@link EnvironmentContext}.
  */
-final class MapEnvironmentContext implements EnvironmentContext {
+final class MapEnvironmentContext implements EnvironmentContext,
+    HasEnvironmentValueWatchers {
 
     static MapEnvironmentContext with(final EnvironmentContext context) {
         return new MapEnvironmentContext(
@@ -106,10 +107,32 @@ final class MapEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        this.values.put(
+        Object oldValue = this.values.put(
             name,
             value
         );
+
+        if(null == oldValue) {
+            if(LINE_ENDING.equals(name)) {
+                oldValue = this.context.lineEnding();
+            } else {
+                if(LOCALE.equals(name)) {
+                    oldValue = this.context.locale();
+                } else {
+                    if(USER.equals(name)) {
+                        oldValue = this.context.user()
+                            .orElse(null);
+                    }
+                }
+            }
+        }
+
+        this.watchers.onEnvironmentValueChange(
+            name,
+            Optional.ofNullable(oldValue),
+            Optional.of(value)
+        );
+
         return this;
     }
 
@@ -117,7 +140,29 @@ final class MapEnvironmentContext implements EnvironmentContext {
     public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        this.values.remove(name);
+        Object oldValue = this.values.remove(name);
+
+        if(null == oldValue) {
+            if(LINE_ENDING.equals(name)) {
+                oldValue = this.context.lineEnding();
+            } else {
+                if(LOCALE.equals(name)) {
+                    oldValue = this.context.locale();
+                } else {
+                    if(USER.equals(name)) {
+                        oldValue = this.context.user()
+                            .orElse(null);
+                    }
+                }
+            }
+        }
+
+        this.watchers.onEnvironmentValueChange(
+            name,
+            Optional.ofNullable(oldValue),
+            Optional.empty()
+        );
+
         return this;
     }
 
@@ -182,6 +227,15 @@ final class MapEnvironmentContext implements EnvironmentContext {
     }
 
     private final EnvironmentContext context;
+
+    // HasEnvironmentValueWatchers......................................................................................
+
+    @Override
+    public EnvironmentValueWatchers environmentValueWatchers() {
+        return this.watchers;
+    }
+
+    private final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
 
     // Object...........................................................................................................
 
