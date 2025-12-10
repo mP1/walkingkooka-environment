@@ -38,6 +38,7 @@ import java.util.Set;
  * Attempts to get any other {@link EnvironmentValueName} will return nothing, setting/removing will throw {@link UnsupportedOperationException}.
  */
 final class EmptyEnvironmentContext implements EnvironmentContext,
+    HasEnvironmentValueWatchers,
     UsesToStringBuilder {
 
     static EmptyEnvironmentContext with(final LineEnding lineEnding,
@@ -161,7 +162,15 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
         Objects.requireNonNull(lineEnding, "lineEnding");
 
+        final LineEnding oldLineEnding = this.lineEnding;
         this.lineEnding = lineEnding;
+
+        this.watchers.onEnvironmentValueChange(
+            LINE_ENDING,
+            Optional.of(oldLineEnding),
+            Optional.of(lineEnding)
+        );
+
         return this;
     }
 
@@ -178,7 +187,15 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     public EnvironmentContext setLocale(final Locale locale) {
         Objects.requireNonNull(locale, "locale");
 
+        final Locale oldLocale = this.locale;
         this.locale = locale;
+
+        this.watchers.onEnvironmentValueChange(
+            LOCALE,
+            Optional.of(oldLocale),
+            Optional.of(locale)
+        );
+
         return this;
     }
 
@@ -204,11 +221,28 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     public EnvironmentContext setUser(final Optional<EmailAddress> user) {
         Objects.requireNonNull(user, "user");
 
+        final Optional<EmailAddress> oldUser = this.user;
         this.user = user;
+
+        this.watchers.onEnvironmentValueChange(
+            USER,
+            oldUser,
+            user
+        );
+
         return this;
     }
 
     private Optional<EmailAddress> user;
+
+    // HasEnvironmentValueWatchers......................................................................................
+
+    @Override
+    public EnvironmentValueWatchers environmentValueWatchers() {
+        return this.watchers;
+    }
+
+    private final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
 
     // Object...........................................................................................................
 

@@ -92,4 +92,14 @@ public class FakeEnvironmentContext implements EnvironmentContext {
     public EnvironmentContext setUser(final Optional<EmailAddress> user) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -24,6 +24,7 @@ import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.LineEnding;
+import walkingkooka.watch.Watchers;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +34,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -236,6 +238,35 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
         }
 
         return this;
+    }
+
+    @Override
+    public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+        return this.addWatcher(
+            watcher,
+            (w) -> w.addEventValueWatcher(watcher)
+        );
+    }
+
+    @Override
+    public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+        return this.addWatcher(
+            watcher,
+            (w) -> w.addEventValueWatcherOnce(watcher)
+        );
+    }
+
+    private Runnable addWatcher(final EnvironmentValueWatcher watcher,
+                                final Function<EnvironmentContext, Runnable> adder) {
+        Objects.requireNonNull(watcher, "watcher");
+
+        final List<Runnable> removers = Lists.array();
+
+        for(final EnvironmentContext context : this.contexts) {
+            removers.add(adder.apply(context));
+        }
+
+        return Watchers.runnableCollection(removers);
     }
 
     private final List<EnvironmentContext> contexts;

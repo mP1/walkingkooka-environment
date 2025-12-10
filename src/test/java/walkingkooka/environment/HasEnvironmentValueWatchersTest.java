@@ -17,12 +17,86 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.LineEnding;
+
+import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
 
 public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasEnvironmentValueWatchers> {
 
     final static class TestHasEnvironmentValueWatchers implements HasEnvironmentValueWatchers {
+
+        @Override
+        public Locale locale() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public LineEnding lineEnding() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public EnvironmentContext setLocale(final Locale locale) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public EnvironmentContext cloneEnvironment() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Set<EnvironmentValueName<?>> environmentValueNames() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
+                                                          final T value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public LocalDateTime now() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Optional<EmailAddress> user() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+            throw new UnsupportedOperationException();
+        }
+
         @Override
         public EnvironmentValueWatchers environmentValueWatchers() {
             return EnvironmentValueWatchers.empty();

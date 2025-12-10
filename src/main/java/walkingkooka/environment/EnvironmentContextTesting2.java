@@ -25,12 +25,14 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.FieldAttributes;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseKind;
+import walkingkooka.text.LineEnding;
 
 import java.lang.reflect.Field;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -135,6 +137,41 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
                 .setLineEnding(null)
         );
     }
+
+    @Test
+    default void testSetLineEndingWithDifferentAndWatcher() {
+        final C context = this.createContext();
+
+        LineEnding lineEnding = LineEnding.CRNL;
+        if (context.lineEnding().equals(lineEnding)) {
+            lineEnding = LineEnding.CR;
+        }
+
+        final LineEnding oldLineEnding = context.lineEnding();
+        final LineEnding newLineEnding = lineEnding;
+
+        final AtomicBoolean fired = new AtomicBoolean();
+
+        context.addEventValueWatcher(
+            (n, ov, nv) -> {
+                checkEquals(EnvironmentContext.LINE_ENDING, n, "EnvironmentValueName");
+                checkEquals(Optional.of(oldLineEnding), ov, "oldValue");
+                checkEquals(Optional.of(newLineEnding), nv, "newValue");
+
+                fired.set(true);
+            }
+        );
+
+        this.setLineEndingAndCheck(
+            context,
+            lineEnding
+        );
+
+        this.checkEquals(
+            true,
+            fired.get()
+        );
+    }
     
     // setLocale........................................................................................................
 
@@ -158,6 +195,41 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         this.setLocaleAndCheck(
             context,
             locale
+        );
+    }
+
+    @Test
+    default void testSetLocaleWithDifferentAndWatcher() {
+        final C context = this.createContext();
+
+        Locale locale = Locale.FRENCH;
+        if (context.locale().equals(locale)) {
+            locale = Locale.GERMAN;
+        }
+
+        final Locale oldLocale = context.locale();
+        final Locale newLocale = locale;
+
+        final AtomicBoolean fired = new AtomicBoolean();
+
+        context.addEventValueWatcher(
+            (n, ov, nv) -> {
+                checkEquals(EnvironmentContext.LOCALE, n, "EnvironmentValueName");
+                checkEquals(Optional.of(oldLocale), ov, "oldValue");
+                checkEquals(Optional.of(newLocale), nv, "newValue");
+
+                fired.set(true);
+            }
+        );
+
+        this.setLocaleAndCheck(
+            context,
+            locale
+        );
+
+        this.checkEquals(
+            true,
+            fired.get()
         );
     }
 
@@ -304,12 +376,63 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     // setUser..........................................................................................................
 
     @Test
-    default void testSetUserWithNullFails() {
+    default void testSetUserWithDifferentAndWatcher() {
+        final C context = this.createContext();
+
+        Optional<EmailAddress> user = Optional.of(
+            EmailAddress.parse("different@example.com")
+        );
+        if (context.user().equals(user)) {
+            user = Optional.of(
+                EmailAddress.parse("different2@example.com")
+            );
+        }
+
+        final Optional<EmailAddress> oldUser = context.user();
+        final Optional<EmailAddress> newUser = user;
+
+        final AtomicBoolean fired = new AtomicBoolean();
+
+        context.addEventValueWatcher(
+            (n, ov, nv) -> {
+                checkEquals(EnvironmentContext.USER, n, "EnvironmentValueName");
+                checkEquals(oldUser, ov, "oldValue");
+                checkEquals(newUser, nv, "newValue");
+
+                fired.set(true);
+            }
+        );
+
+        this.setUserAndCheck(
+            context,
+            user
+        );
+
+        this.checkEquals(
+            true,
+            fired.get()
+        );
+    }
+    
+    // addEventValueWatcher.............................................................................................
+
+    @Test
+    default void testAddEventValueWatcherWithNullFails() {
         assertThrows(
             NullPointerException.class,
-            () -> this.createContext().setUser(
-                null
-            )
+            () -> this.createContext()
+                .addEventValueWatcher(null)
+        );
+    }
+
+    // addEventValueWatcherOnce.........................................................................................
+
+    @Test
+    default void testAddEventValueWatcherOnceWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .addEventValueWatcherOnce(null)
         );
     }
 }

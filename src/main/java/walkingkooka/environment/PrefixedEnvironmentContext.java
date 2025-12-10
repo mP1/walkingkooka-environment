@@ -220,6 +220,26 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         return this;
     }
 
+    @Override
+    public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+        return this.context.addEventValueWatcher(
+            PrefixedEnvironmentContextEnvironmentValueWatcher.with(
+                this.prefix,
+                watcher
+            )
+        );
+    }
+
+    @Override
+    public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+        return this.context.addEventValueWatcherOnce(
+            PrefixedEnvironmentContextEnvironmentValueWatcher.with(
+                this.prefix,
+                watcher
+            )
+        );
+    }
+
     // Object...........................................................................................................
 
     @Override
