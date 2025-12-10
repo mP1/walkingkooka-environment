@@ -64,6 +64,61 @@ public final class EnvironmentValueWatchersTest implements ClassTesting<Environm
         );
     }
 
+    @Test
+    public void testAddThenFireEqualEmptyValues() {
+        this.fired = false;
+
+        final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
+        watchers.add(
+            new EnvironmentValueWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
+                                                     final Optional<?> ov,
+                                                     final Optional<?> nv) {
+                    throw new UnsupportedOperationException();
+                }
+            });
+        watchers.onEnvironmentValueChange(
+            EnvironmentValueName.LOCALE,
+            Optional.empty(),
+            Optional.empty()
+        );
+
+        this.checkEquals(
+            false,
+            this.fired
+        );
+    }
+
+    @Test
+    public void testAddThenFireEqualValues() {
+        this.fired = false;
+
+        final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
+        watchers.add(
+            new EnvironmentValueWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
+                                                     final Optional<?> ov,
+                                                     final Optional<?> nv) {
+                    throw new UnsupportedOperationException();
+                }
+            });
+
+        final Locale locale = Locale.FRANCE;
+
+        watchers.onEnvironmentValueChange(
+            EnvironmentValueName.LOCALE,
+            Optional.of(locale),
+            Optional.of(locale)
+        );
+
+        this.checkEquals(
+            false,
+            this.fired
+        );
+    }
+
     private boolean fired = false;
 
     // ClassTesting....................................................................................................
