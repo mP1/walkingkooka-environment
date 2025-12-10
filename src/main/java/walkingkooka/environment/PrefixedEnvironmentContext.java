@@ -223,6 +223,23 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     // Object...........................................................................................................
 
     @Override
+    public int hashCode() {
+        return this.context.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        return this == other ||
+            (other instanceof PrefixedEnvironmentContext &&
+                this.equals0((PrefixedEnvironmentContext) other));
+    }
+
+    private boolean equals0(final PrefixedEnvironmentContext other) {
+        return this.prefix.equals(other.prefix) &&
+            this.context.equals(other.context);
+    }
+
+    @Override
     public String toString() {
         return this.context.toString();
     }

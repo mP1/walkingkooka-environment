@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
@@ -33,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class PrefixedEnvironmentContextTest implements EnvironmentContextTesting2<PrefixedEnvironmentContext>,
+    HashCodeEqualsDefinedTesting2<PrefixedEnvironmentContext>,
     ToStringTesting<PrefixedEnvironmentContext> {
 
     private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with("prefix111.");
@@ -288,6 +290,40 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
             EnvironmentContext.USER,
             user
         );
+    }
+
+    // hashCode/equals..................................................................................................
+
+    @Test
+    public void testEqualsDifferentPrefix() {
+        this.checkNotEquals(
+            PrefixedEnvironmentContext.with(
+                EnvironmentValueName.with("prefix1."),
+                CONTEXT
+            ),
+            PrefixedEnvironmentContext.with(
+                EnvironmentValueName.with("prefix2."),
+                CONTEXT
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentContext() {
+        this.checkNotEquals(
+            PrefixedEnvironmentContext.with(
+                PREFIX,
+                EnvironmentContexts.properties(
+                    Properties.EMPTY,
+                    CONTEXT
+                )
+            )
+        );
+    }
+
+    @Override
+    public PrefixedEnvironmentContext createObject() {
+        return this.createContext();
     }
 
     // toString.........................................................................................................
