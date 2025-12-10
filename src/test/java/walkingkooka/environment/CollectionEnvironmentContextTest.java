@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
@@ -30,7 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting2<CollectionEnvironmentContext> {
+public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting2<CollectionEnvironmentContext>,
+    HashCodeEqualsDefinedTesting2<CollectionEnvironmentContext> {
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
@@ -255,6 +257,66 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             ),
             CONTEXT
         );
+    }
+
+    // hashCode/equals..................................................................................................
+
+    @Test
+    public void testEqualsDifferentEnvironmentContexts() {
+        this.checkNotEquals(
+            CollectionEnvironmentContext.with(
+                Lists.of(
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(NAME1),
+                            VALUE1
+                        ),
+                        CONTEXT
+                    ),
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(NAME1),
+                            "different-value"
+                        ),
+                        CONTEXT
+                    )
+                ),
+                CONTEXT
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentContext() {
+        this.checkNotEquals(
+            CollectionEnvironmentContext.with(
+                Lists.of(
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(NAME1),
+                            VALUE1
+                        ),
+                        CONTEXT
+                    ),
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(NAME1),
+                            "ignored!!!"
+                        ).set(
+                            PropertiesPath.parse(NAME2),
+                            VALUE2
+                        ),
+                        CONTEXT
+                    )
+                ),
+                EnvironmentContexts.fake()
+            )
+        );
+    }
+
+    @Override
+    public CollectionEnvironmentContext createObject() {
+        return this.createContext();
     }
 
     // toString.........................................................................................................
