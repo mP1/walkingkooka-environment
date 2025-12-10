@@ -198,7 +198,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                 PropertiesPath.parse(NAME),
                 VALUE
             ),
-            CONTEXT
+            CONTEXT.cloneEnvironment()
         );
     }
 
@@ -238,7 +238,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{hello.123=Gday, lineEnding=\"\\n\", locale=fr}"
+            "{hello.123=Gday, lineEnding=\"\\n\", locale=en}"
         );
     }
 
