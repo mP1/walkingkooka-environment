@@ -55,14 +55,15 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
     @Override
     public EnvironmentContext cloneEnvironment() {
-        final EnvironmentContext clone = with(
-            this.properties, // immutable no need to clone
-            this.context.cloneEnvironment()
-        );
+        final EnvironmentContext before = this.context;
+        final EnvironmentContext after = before.cloneEnvironment();
 
-        return this.equals(clone) ?
+        return before == after ?
             this :
-            clone;
+            with(
+                this.properties, // immutable no need to clone
+                after
+            );
     }
 
     @Override
