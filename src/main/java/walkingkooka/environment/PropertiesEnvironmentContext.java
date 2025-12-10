@@ -194,6 +194,25 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
     private final EnvironmentContext context;
 
+    // Object...........................................................................................................
+
+    @Override
+    public int hashCode() {
+        return this.context.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        return this == other ||
+            (other instanceof PropertiesEnvironmentContext &&
+                this.equals0((PropertiesEnvironmentContext) other));
+    }
+
+    private boolean equals0(final PropertiesEnvironmentContext other) {
+        return this.properties.equals(other.properties) &&
+            this.context.equals(other.context);
+    }
+
     @Override
     public String toString() {
         final Map<EnvironmentValueName<?>, Object> map = Maps.sorted();
