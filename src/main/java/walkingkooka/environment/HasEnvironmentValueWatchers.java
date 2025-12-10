@@ -19,12 +19,12 @@ package walkingkooka.environment;
 
 public interface HasEnvironmentValueWatchers {
 
-    default Runnable add(final EnvironmentValueWatcher watcher) {
+    default Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
         return this.environmentValueWatchers()
             .add(watcher);
     }
 
-    default Runnable addOnce(final EnvironmentValueWatcher watcher) {
+    default Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
         return this.environmentValueWatchers()
             .addOnce(watcher);
     }
