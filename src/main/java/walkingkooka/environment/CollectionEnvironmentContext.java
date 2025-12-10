@@ -171,6 +171,25 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
 
     private final EnvironmentContext context;
 
+    // Object...........................................................................................................
+
+    @Override
+    public int hashCode() {
+        return this.context.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        return this == other ||
+            (other instanceof CollectionEnvironmentContext &&
+                this.equals0((CollectionEnvironmentContext) other));
+    }
+
+    private boolean equals0(final CollectionEnvironmentContext other) {
+        return this.environmentContexts.equals(other.environmentContexts) &&
+            this.context.equals(other.context);
+    }
+
     @Override
     public String toString() {
         return this.environmentContexts.toString();
