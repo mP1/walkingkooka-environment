@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
@@ -32,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class PropertiesEnvironmentContextTest implements EnvironmentContextTesting2<PropertiesEnvironmentContext>,
+    HashCodeEqualsDefinedTesting2<PropertiesEnvironmentContext>,
     ToStringTesting<PropertiesEnvironmentContext> {
 
     private final static LocalDateTime NOW = LocalDateTime.MIN;
@@ -98,7 +100,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         final EnvironmentContext different = this.createContext()
             .setLineEnding(LineEnding.CRNL);
 
-        this.checkNotEquals(
+        assertNotSame(
             context,
             different
         );
@@ -198,6 +200,36 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
             ),
             CONTEXT
         );
+    }
+
+    // hashCode/equals..................................................................................................
+
+    @Test
+    public void testEqualsDifferentProperties() {
+        this.checkNotEquals(
+            PropertiesEnvironmentContext.with(
+                Properties.EMPTY,
+                CONTEXT
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentContext() {
+        this.checkNotEquals(
+            PropertiesEnvironmentContext.with(
+                Properties.EMPTY,
+                CONTEXT.cloneEnvironment()
+                    .setLineEnding(
+                        LineEnding.CRNL
+                    )
+            )
+        );
+    }
+
+    @Override
+    public PropertiesEnvironmentContext createObject() {
+        return this.createContext();
     }
 
     // toString.........................................................................................................
