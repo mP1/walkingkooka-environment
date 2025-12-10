@@ -17,14 +17,18 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
 import walkingkooka.collect.list.Lists;
+import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -37,20 +41,30 @@ import java.util.stream.Collectors;
  */
 final class CollectionEnvironmentContext implements EnvironmentContext {
 
-    static CollectionEnvironmentContext with(final List<EnvironmentContext> environmentContexts,
-                                             final EnvironmentContext context) {
-        return new CollectionEnvironmentContext(
-            Lists.immutable(
-                Objects.requireNonNull(environmentContexts, "environmentContexts")
-            ),
-            Objects.requireNonNull(context, "context")
-        );
+    static EnvironmentContext with(final List<EnvironmentContext> contexts) {
+        Objects.requireNonNull(contexts, "contexts");
+
+        final List<EnvironmentContext> copy = Lists.immutable(contexts);
+
+        final EnvironmentContext context;
+
+        switch (copy.size()) {
+            case 0:
+                throw new IllegalArgumentException("Empty EnvironmentContext(s)");
+            case 1:
+                context = copy.get(0);
+                break;
+            default:
+                context = new CollectionEnvironmentContext(copy);
+                break;
+        }
+
+        return context;
     }
 
-    private CollectionEnvironmentContext(final List<EnvironmentContext> environmentContexts,
-                                         final EnvironmentContext context) {
-        this.environmentContexts = environmentContexts;
-        this.context = context;
+    private CollectionEnvironmentContext(final List<EnvironmentContext> context) {
+        this.contexts = context;
+        this.first = context.get(0);
     }
 
     /**
@@ -59,23 +73,16 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     @Override
     public EnvironmentContext cloneEnvironment() {
         return new CollectionEnvironmentContext(
-            this.environmentContexts.stream()
+            this.contexts.stream()
                 .map(EnvironmentContext::cloneEnvironment)
                 .peek(Objects::requireNonNull)
-                .collect(Collectors.toList()),
-            Objects.requireNonNull(
-                this.context.cloneEnvironment()
-            )
+                .collect(Collectors.toList())
         );
     }
 
-    /**
-     * Try all given {@link EnvironmentContext} for a {@link LineEnding} or default to the given {@link EnvironmentContext} as the default.
-     */
     @Override
     public LineEnding lineEnding() {
-        return this.environmentValue(LINE_ENDING)
-            .orElseGet(() -> this.context.lineEnding());
+        return this.environmentValueOrFail(LINE_ENDING);
     }
 
     @Override
@@ -85,31 +92,45 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
             lineEnding
         );
     }
-    
-    /**
-     * Try all given {@link EnvironmentContext} for a locale or default to the given {@link EnvironmentContext} as the default.
-     */
+
     @Override
     public Locale locale() {
-        return this.environmentValue(EnvironmentValueName.LOCALE)
-            .orElseGet(() -> this.context.locale());
+        return this.environmentValueOrFail(EnvironmentValueName.LOCALE);
     }
 
     @Override
     public EnvironmentContext setLocale(final Locale locale) {
         return this.setEnvironmentValue(
-            EnvironmentValueName.LOCALE,
+            LOCALE,
             locale
         );
     }
 
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
-        return this.environmentContexts.stream()
-            .map(c -> c.environmentValue(name))
-            .filter(Optional::isPresent)
-            .findFirst()
-            .orElse(Optional.empty());
+        Objects.requireNonNull(name, "name");
+
+        return LINE_ENDING.equals(name) ?
+            Optional.of(
+                Cast.to(
+                    this.first.lineEnding()
+                )
+            ) :
+            LOCALE.equals(name) ?
+                Optional.of(
+                    Cast.to(
+                        this.first.locale()
+                    )
+                ) :
+                USER.equals(name) ?
+                    Cast.to(
+                        this.first.user()
+                    ):
+                    this.contexts.stream()
+                        .map(c -> c.environmentValue(name))
+                        .filter(Optional::isPresent)
+                        .findFirst()
+                        .orElse(Optional.empty());
     }
 
     // assumes ALL wrapped EnvironmentContext are immutable.
@@ -118,7 +139,7 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
         if (null == this.names) {
             final SortedSet<EnvironmentValueName<?>> names = SortedSets.tree();
 
-            for (final EnvironmentContext context : this.environmentContexts) {
+            for (final EnvironmentContext context : this.contexts) {
                 names.addAll(context.environmentValueNames());
             }
 
@@ -136,17 +157,54 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        throw new UnsupportedOperationException();
+        EnvironmentContext set = null;
+
+        if (LINE_ENDING.equals(name) || LOCALE.equals(name) || USER.equals(name)) {
+            set = this.first;
+        } else {
+            for (final EnvironmentContext context : this.contexts) {
+                final Optional<?> currentValue = context.environmentValue(name);
+                if (currentValue.isPresent()) {
+                    set = context;
+                    break;
+                }
+
+                set = context;
+            }
+        }
+
+        if (null != set) {
+            set.setEnvironmentValue(
+                name,
+                value
+            );
+        }
+
+        return this;
     }
 
     @Override
     public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        throw new UnsupportedOperationException();
-    }
+        EnvironmentContext removeFrom = null;
 
-    private final List<EnvironmentContext> environmentContexts;
+        for (final EnvironmentContext context : this.contexts) {
+            final Optional<?> value = context.environmentValue(name);
+            if (value.isPresent()) {
+                removeFrom = context;
+                break;
+            }
+
+            removeFrom = context;
+        }
+
+        if (null != removeFrom) {
+            removeFrom.removeEnvironmentValue(name);
+        }
+
+        return this;
+    }
 
     @Override
     public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
@@ -155,27 +213,43 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
 
     @Override
     public LocalDateTime now() {
-        return this.context.now();
+        return this.first.now();
     }
 
     @Override
     public Optional<EmailAddress> user() {
-        return this.context.user();
+        return this.environmentValue(USER);
     }
 
     @Override
     public EnvironmentContext setUser(final Optional<EmailAddress> user) {
         Objects.requireNonNull(user, "user");
-        throw new UnsupportedOperationException();
+
+        final EmailAddress userOrNull = user.orElse(null);
+        if (null != userOrNull) {
+            this.setEnvironmentValue(
+                USER,
+                userOrNull
+            );
+        } else {
+            this.removeEnvironmentValue(USER);
+        }
+
+        return this;
     }
 
-    private final EnvironmentContext context;
+    private final List<EnvironmentContext> contexts;
+
+    /**
+     * The first {@link #contexts} provides the {@link #LINE_ENDING}, {@link #LOCALE}, {@link #USER} and {@link #now()}.
+     */
+    private final EnvironmentContext first;
 
     // Object...........................................................................................................
 
     @Override
     public int hashCode() {
-        return this.context.hashCode();
+        return this.contexts.hashCode();
     }
 
     @Override
@@ -186,12 +260,28 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     }
 
     private boolean equals0(final CollectionEnvironmentContext other) {
-        return this.environmentContexts.equals(other.environmentContexts) &&
-            this.context.equals(other.context);
+        return this.contexts.equals(other.contexts);
     }
 
     @Override
     public String toString() {
-        return this.environmentContexts.toString();
+        final Map<EnvironmentValueName<?>, Object> map = Maps.ordered();
+
+        for (final EnvironmentValueName<?> name : this.environmentValueNames()) {
+            final Object value = this.environmentValue(name)
+                .orElse(null);
+            if (null != value) {
+                map.put(
+                    name,
+                    LINE_ENDING.equals(name) ?
+                        CharSequences.escape(
+                            String.valueOf(value)
+                        ) :
+                        value
+                );
+            }
+        }
+
+        return map.toString();
     }
 }
