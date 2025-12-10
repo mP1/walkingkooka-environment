@@ -24,7 +24,27 @@ import walkingkooka.reflect.JavaVisibility;
 import java.util.Locale;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public final class EnvironmentValueWatchersTest implements ClassTesting<EnvironmentValueWatchers> {
+
+    @Test
+    public void testAddWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentValueWatchers.empty()
+                .add(null)
+        );
+    }
+
+    @Test
+    public void testAddOnceWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentValueWatchers.empty()
+                .addOnce(null)
+        );
+    }
 
     @Test
     public void testAddThenFire() {
