@@ -35,11 +35,9 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see CollectionEnvironmentContext}
      */
-    public static EnvironmentContext collection(final List<EnvironmentContext> environmentContexts,
-                                                final EnvironmentContext context) {
+    public static EnvironmentContext collection(final List<EnvironmentContext> contexts) {
         return CollectionEnvironmentContext.with(
-            environmentContexts,
-            context
+            contexts
         );
     }
 

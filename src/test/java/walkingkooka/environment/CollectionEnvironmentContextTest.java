@@ -18,8 +18,10 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.Cast;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.collect.list.Lists;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.LineEnding;
@@ -48,35 +50,45 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
-    private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
-        LINE_ENDING,
-        LOCALE,
-        () -> NOW,
-        EnvironmentContext.ANONYMOUS
+    private final static EnvironmentContext CONTEXT = EnvironmentContexts.readOnly(
+        EnvironmentContexts.empty(
+            LINE_ENDING,
+            LOCALE,
+            () -> NOW,
+            EnvironmentContext.ANONYMOUS
+        )
     );
+
+    private final static EnvironmentContext FAKE_CONTEXT = EnvironmentContexts.fake();
 
     // with.............................................................................................................
 
     @Test
-    public void testWithNullPropertiesFails() {
+    public void testWithNullContextsFails() {
         assertThrows(
             NullPointerException.class,
             () -> CollectionEnvironmentContext.with(
-                null,
-                CONTEXT
+                null
             )
         );
     }
 
     @Test
-    public void testWithNullContextFails() {
+    public void testWithEmptyContextFails() {
         assertThrows(
-            NullPointerException.class,
+            IllegalArgumentException.class,
             () -> CollectionEnvironmentContext.with(
-                Lists.of(
-                    EnvironmentContexts.fake()
-                ),
-                null
+                Lists.empty()
+            )
+        );
+    }
+
+    @Test
+    public void testWithOneEnvironmentContext() {
+        assertSame(
+            CONTEXT,
+            CollectionEnvironmentContext.with(
+                Lists.of(CONTEXT)
             )
         );
     }
@@ -85,7 +97,17 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testCloneEnvironment() {
-        final EnvironmentContext context = this.createContext();
+        final EnvironmentContext context = CollectionEnvironmentContext.with(
+            Lists.of(
+                EnvironmentContexts.map(
+                    CONTEXT
+                ).setEnvironmentValue(
+                    EnvironmentValueName.with(NAME1),
+                    VALUE1
+                ),
+                CONTEXT
+            )
+        );
         final EnvironmentContext clone = context.cloneEnvironment();
 
         assertNotSame(
@@ -102,12 +124,6 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             clone,
             EnvironmentValueName.with(NAME1),
             VALUE1
-        );
-
-        this.environmentValueAndCheck(
-            clone,
-            EnvironmentValueName.with(NAME2),
-            VALUE2
         );
     }
 
@@ -131,8 +147,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                     () -> NOW,
                     EnvironmentContext.ANONYMOUS
                 )
-            ),
-            CONTEXT
+            )
         );
 
         this.checkNotEquals(
@@ -154,11 +169,6 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             this.createContext(),
             LOCALE
         );
-    }
-
-    @Override
-    public void testSetLocaleWithDifferent() {
-        throw new UnsupportedOperationException();
     }
 
     // environmentValue.................................................................................................
@@ -186,6 +196,168 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         );
     }
 
+    // setEnvironmentValue..............................................................................................
+
+    @Test
+    public void testSetEnvironmentalValue() {
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(NAME1);
+
+        final EnvironmentContext wrapped = EnvironmentContexts.map(
+            CONTEXT
+        ).setEnvironmentValue(
+            name,
+            VALUE1
+        );
+
+        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+            Lists.of(
+                CONTEXT.cloneEnvironment(),
+                wrapped
+            )
+        );
+
+        final String value = "replaced";
+
+        this.setEnvironmentValueAndCheck(
+            collectionEnvironmentContext,
+            name,
+            value
+        );
+
+        this.environmentValueAndCheck(
+            wrapped,
+            name,
+            value
+        );
+    }
+
+    // removeEnvironmentValue...........................................................................................
+
+    @Test
+    public void testRemoveEnvironmentalValue() {
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(NAME1);
+
+        final EnvironmentContext wrapped = EnvironmentContexts.map(
+            CONTEXT
+        ).setEnvironmentValue(
+            name,
+            VALUE1
+        );
+
+        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+            Lists.of(
+                CONTEXT.cloneEnvironment(),
+                wrapped
+            )
+        );
+
+        collectionEnvironmentContext.removeEnvironmentValue(name);
+
+        this.environmentValueAndCheck(
+            collectionEnvironmentContext,
+            name
+        );
+
+        this.environmentValueAndCheck(
+            wrapped,
+            name
+        );
+    }
+
+    // setLineEnding....................................................................................................
+
+    @Test
+    public void testSetLineEnding() {
+        final EnvironmentContext wrapped = EnvironmentContexts.map(
+            CONTEXT
+        );
+
+        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+            Lists.of(
+                wrapped,
+                FAKE_CONTEXT
+            )
+        );
+
+        final LineEnding different = LineEnding.CRNL;
+
+        this.checkNotEquals(
+            collectionEnvironmentContext.lineEnding(),
+            different
+        );
+
+        this.setLineEndingAndCheck(
+            collectionEnvironmentContext,
+            different
+        );
+
+        this.lineEndingAndCheck(
+            wrapped,
+            different
+        );
+    }
+
+    // setLocale........................................................................................................
+
+    @Test
+    public void testSetLocale() {
+        final EnvironmentContext wrapped = EnvironmentContexts.map(
+            CONTEXT
+        );
+
+        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+            Lists.of(
+                wrapped,
+                FAKE_CONTEXT
+            )
+        );
+
+        final Locale different = Locale.FRENCH;
+
+        this.checkNotEquals(
+            collectionEnvironmentContext.locale(),
+            different
+        );
+
+        this.setLocaleAndCheck(
+            collectionEnvironmentContext,
+            different
+        );
+
+        this.localeAndCheck(
+            wrapped,
+            different
+        );
+    }
+
+    // setUser..........................................................................................................
+
+    @Test
+    public void testSetUser() {
+        final EnvironmentContext wrapped = EnvironmentContexts.map(
+            CONTEXT
+        );
+
+        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+            Lists.of(
+                wrapped,
+                FAKE_CONTEXT
+            )
+        );
+
+        final EmailAddress different = EmailAddress.parse("different@example.com");
+
+        this.setUserAndCheck(
+            collectionEnvironmentContext,
+            different
+        );
+
+        this.userAndCheck(
+            wrapped,
+            different
+        );
+    }
+
     // environmentValueNames............................................................................................
 
     @Test
@@ -194,8 +366,6 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         final String key12 = "prefix.key1";
         final String key21 = "key2";
         final String key22 = "prefix.key2";
-
-        final String prefix = "PREFIX.";
 
         this.environmentValueNamesAndCheck(
             CollectionEnvironmentContext.with(
@@ -208,7 +378,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                             PropertiesPath.parse(key12),
                             "value222"
                         ),
-                        CONTEXT
+                        FAKE_CONTEXT
                     ),
                     EnvironmentContexts.properties(
                         Properties.EMPTY.set(
@@ -218,10 +388,9 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                             PropertiesPath.parse(key22),
                             "value222"
                         ),
-                        CONTEXT
+                        FAKE_CONTEXT
                     )
-                ),
-                CONTEXT
+                )
             ),
             EnvironmentValueName.with(key11),
             EnvironmentValueName.with(key12),
@@ -235,27 +404,29 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
     @Override
     public CollectionEnvironmentContext createContext() {
-        return CollectionEnvironmentContext.with(
-            Lists.of(
-                EnvironmentContexts.properties(
-                    Properties.EMPTY.set(
-                        PropertiesPath.parse(NAME1),
-                        VALUE1
+        return Cast.to(
+            CollectionEnvironmentContext.with(
+                Lists.of(
+                    CONTEXT.cloneEnvironment(),
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(NAME1),
+                            VALUE1
+                        ),
+                        FAKE_CONTEXT
                     ),
-                    CONTEXT
-                ),
-                EnvironmentContexts.properties(
-                    Properties.EMPTY.set(
-                        PropertiesPath.parse(NAME1),
-                        "ignored!!!"
-                    ).set(
-                        PropertiesPath.parse(NAME2),
-                        VALUE2
-                    ),
-                    CONTEXT
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(NAME1),
+                            "ignored!!!"
+                        ).set(
+                            PropertiesPath.parse(NAME2),
+                            VALUE2
+                        ),
+                        FAKE_CONTEXT
+                    )
                 )
-            ),
-            CONTEXT
+            )
         );
     }
 
@@ -280,36 +451,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                         ),
                         CONTEXT
                     )
-                ),
-                CONTEXT
-            )
-        );
-    }
-
-    @Test
-    public void testEqualsDifferentContext() {
-        this.checkNotEquals(
-            CollectionEnvironmentContext.with(
-                Lists.of(
-                    EnvironmentContexts.properties(
-                        Properties.EMPTY.set(
-                            PropertiesPath.parse(NAME1),
-                            VALUE1
-                        ),
-                        CONTEXT
-                    ),
-                    EnvironmentContexts.properties(
-                        Properties.EMPTY.set(
-                            PropertiesPath.parse(NAME1),
-                            "ignored!!!"
-                        ).set(
-                            PropertiesPath.parse(NAME2),
-                            VALUE2
-                        ),
-                        CONTEXT
-                    )
-                ),
-                EnvironmentContexts.fake()
+                )
             )
         );
     }
@@ -324,8 +466,26 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testToString() {
         this.toStringAndCheck(
-            this.createContext(),
-            "[{hello.111=Gday, lineEnding=\"\\n\", locale=en}, {hello.111=ignored!!!, lineEnding=\"\\n\", locale=en, zebra.222=Orange}]"
+            CollectionEnvironmentContext.with(
+                Lists.of(
+                    CONTEXT,
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(NAME1),
+                            VALUE1
+                        ),
+                        CONTEXT
+                    ),
+                    EnvironmentContexts.properties(
+                        Properties.EMPTY.set(
+                            PropertiesPath.parse(NAME1),
+                            "different-value"
+                        ),
+                        CONTEXT
+                    )
+                )
+            ),
+            "{hello.111=Gday, lineEnding=\\n, locale=en}"
         );
     }
 
