@@ -17,12 +17,16 @@ public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
     }
 
     public Runnable add(final EnvironmentValueWatcher watcher) {
+        Objects.requireNonNull(watcher, "watcher");
+
         return this.watchers.add(
             (e) -> e.accept(watcher)
         );
     }
 
     public Runnable addOnce(final EnvironmentValueWatcher watcher) {
+        Objects.requireNonNull(watcher, "watcher");
+
         return this.watchers.addOnce(
             (e) -> e.accept(watcher)
         );
