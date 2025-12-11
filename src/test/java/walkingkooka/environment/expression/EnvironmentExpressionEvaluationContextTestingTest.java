@@ -91,6 +91,11 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
     }
 
     @Override
+    public int decimalNumberDigitCount() {
+        return DECIMAL_NUMBER_CONTEXT.decimalNumberDigitCount();
+    }
+
+    @Override
     public char decimalSeparator() {
         return DECIMAL_NUMBER_CONTEXT.decimalSeparator();
     }
@@ -160,6 +165,11 @@ public final class EnvironmentExpressionEvaluationContextTestingTest implements 
         @Override
         public String currencySymbol() {
             return DECIMAL_NUMBER_CONTEXT.currencySymbol();
+        }
+
+        @Override
+        public int decimalNumberDigitCount() {
+            return DECIMAL_NUMBER_CONTEXT.decimalNumberDigitCount();
         }
 
         @Override
