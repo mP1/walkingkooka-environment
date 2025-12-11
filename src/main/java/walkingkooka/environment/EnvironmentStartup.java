@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.PublicStaticHelper;
 import walkingkooka.tree.json.TreeJsonStartup;
@@ -38,6 +39,11 @@ public final class EnvironmentStartup implements PublicStaticHelper {
             LocalDateTime.now()
         );
         EnvironmentValueNameSet.EMPTY.size();
+        new MissingEnvironmentValuesException(
+            Sets.of(
+                EnvironmentValueName.LINE_ENDING
+            )
+        );
     }
 
     public static void init() {
