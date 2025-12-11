@@ -138,4 +138,11 @@ public interface EnvironmentContext extends Context,
     Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher);
 
     Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher);
+
+    /**
+     * Gives an empty {@link EnvironmentContextMissingValues}.
+     */
+    default EnvironmentContextMissingValues environmentContextMissingValues() {
+        return EnvironmentContextMissingValues.with(this);
+    }
 }
