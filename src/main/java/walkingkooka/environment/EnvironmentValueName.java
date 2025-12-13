@@ -30,10 +30,6 @@ import walkingkooka.text.CaseSensitivity;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionReference;
 import walkingkooka.tree.expression.function.ExpressionFunctionParameterName;
-import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.marshall.JsonNodeContext;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.util.Locale;
 import java.util.Map;
@@ -170,26 +166,4 @@ final public class EnvironmentValueName<T> implements Name,
     }
 
     public final static CaseSensitivity CASE_SENSITIVITY = CaseSensitivity.INSENSITIVE;
-
-    // json.............................................................................................................
-
-    private JsonNode marshall(final JsonNodeMarshallContext context) {
-        return JsonNode.string(this.name);
-    }
-
-    static EnvironmentValueName<?> unmarshall(final JsonNode node,
-                                              final JsonNodeUnmarshallContext context) {
-        return with(
-            node.stringOrFail()
-        );
-    }
-
-    static {
-        JsonNodeContext.register(
-            JsonNodeContext.computeTypeName(EnvironmentValueName.class),
-            EnvironmentValueName::unmarshall,
-            EnvironmentValueName::marshall,
-            EnvironmentValueName.class
-        );
-    }
 }
