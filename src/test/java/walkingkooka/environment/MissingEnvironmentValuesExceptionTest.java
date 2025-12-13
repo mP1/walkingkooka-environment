@@ -21,14 +21,10 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.ThrowableTesting2;
-import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallingTesting;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.util.Set;
 
-public final class MissingEnvironmentValuesExceptionTest implements ThrowableTesting2<MissingEnvironmentValuesException>,
-    JsonNodeMarshallingTesting<MissingEnvironmentValuesException> {
+public final class MissingEnvironmentValuesExceptionTest implements ThrowableTesting2<MissingEnvironmentValuesException> {
 
     @Override
     public void testAllConstructorsVisibility() {
@@ -60,52 +56,6 @@ public final class MissingEnvironmentValuesExceptionTest implements ThrowableTes
             missing,
             thrown.environmentValueNames(),
             "environmentValueNames"
-        );
-    }
-
-    // json.............................................................................................................
-
-    @Test
-    public void testMarshall() {
-        this.marshallAndCheck(
-            this.createJsonNodeMarshallingValue(),
-            "[\n" +
-                "  \"locale\",\n" +
-                "  \"lineEnding\",\n" +
-                "  \"user\"\n" +
-                "]"
-        );
-    }
-
-    @Test
-    public void testUnmarshall() {
-        this.unmarshallAndCheck(
-            "[\n" +
-                "  \"locale\",\n" +
-                "  \"lineEnding\",\n" +
-                "  \"user\"\n" +
-                "]",
-            this.createJsonNodeMarshallingValue()
-        );
-    }
-
-    @Override
-    public MissingEnvironmentValuesException unmarshall(final JsonNode json,
-                                                        final JsonNodeUnmarshallContext context) {
-        return MissingEnvironmentValuesException.unmarshall(
-            json,
-            context
-        );
-    }
-
-    @Override
-    public MissingEnvironmentValuesException createJsonNodeMarshallingValue() {
-        return new MissingEnvironmentValuesException(
-            Sets.of(
-                EnvironmentContext.LOCALE,
-                EnvironmentValueName.LINE_ENDING,
-                EnvironmentValueName.USER
-            )
         );
     }
 
