@@ -17,13 +17,8 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.collect.set.Sets;
-import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.PublicStaticHelper;
-import walkingkooka.tree.json.TreeJsonStartup;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
-
-import java.time.LocalDateTime;
 
 /**
  * Used to force all values types to register their {@link JsonNodeContext#register}
@@ -31,19 +26,6 @@ import java.time.LocalDateTime;
 public final class EnvironmentStartup implements PublicStaticHelper {
 
     static {
-        TreeJsonStartup.init();
-
-        // register json marshallers/unmarshallers.
-        AuditInfo.create(
-            EmailAddress.parse("user@example.com"),
-            LocalDateTime.now()
-        );
-        EnvironmentValueNameSet.EMPTY.size();
-        new MissingEnvironmentValuesException(
-            Sets.of(
-                EnvironmentValueName.LINE_ENDING
-            )
-        );
     }
 
     public static void init() {
