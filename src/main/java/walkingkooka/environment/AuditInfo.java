@@ -20,11 +20,6 @@ package walkingkooka.environment;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
-import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.JsonPropertyName;
-import walkingkooka.tree.json.marshall.JsonNodeContext;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -209,88 +204,5 @@ public final class AuditInfo implements TreePrintable {
             printer.println(timestamp.toString());
         }
         printer.outdent();
-    }
-
-    // Json.............................................................................................................
-
-    private final static String CREATED_BY_PROPERTY_STRING = "createdBy";
-
-    private final static String CREATED_TIMESTAMP_PROPERTY_STRING = "createdTimestamp";
-
-    private final static String MODIFIED_BY_PROPERTY_STRING = "modifiedBy";
-
-    private final static String MODIFIED_TIMESTAMP_PROPERTY_STRING = "modifiedTimestamp";
-
-    final static JsonPropertyName CREATED_BY_PROPERTY = JsonPropertyName.with(CREATED_BY_PROPERTY_STRING);
-
-    final static JsonPropertyName CREATED_TIMESTAMP_PROPERTY = JsonPropertyName.with(CREATED_TIMESTAMP_PROPERTY_STRING);
-
-    final static JsonPropertyName MODIFIED_BY_PROPERTY = JsonPropertyName.with(MODIFIED_BY_PROPERTY_STRING);
-
-    final static JsonPropertyName MODIFIED_TIMESTAMP_PROPERTY = JsonPropertyName.with(MODIFIED_TIMESTAMP_PROPERTY_STRING);
-
-    static AuditInfo unmarshall(final JsonNode node,
-                                final JsonNodeUnmarshallContext context) {
-        EmailAddress createdBy = null;
-        LocalDateTime createdTimestamp = null;
-        EmailAddress modifiedBy = null;
-        LocalDateTime modifiedTimestamp = null;
-
-        for (JsonNode child : node.objectOrFail().children()) {
-            final JsonPropertyName name = child.name();
-            switch (name.value()) {
-                case CREATED_BY_PROPERTY_STRING:
-                    createdBy = context.unmarshall(
-                        child,
-                        EmailAddress.class
-                    );
-                    break;
-                case CREATED_TIMESTAMP_PROPERTY_STRING:
-                    createdTimestamp = context.unmarshall(
-                        child,
-                        LocalDateTime.class
-                    );
-                    break;
-                case MODIFIED_BY_PROPERTY_STRING:
-                    modifiedBy = context.unmarshall(
-                        child,
-                        EmailAddress.class
-                    );
-                    break;
-                case MODIFIED_TIMESTAMP_PROPERTY_STRING:
-                    modifiedTimestamp = context.unmarshall(
-                        child,
-                        LocalDateTime.class
-                    );
-                    break;
-                default:
-                    JsonNodeUnmarshallContext.unknownPropertyPresent(name, node);
-                    break;
-            }
-        }
-
-        return with(
-            createdBy,
-            createdTimestamp,
-            modifiedBy,
-            modifiedTimestamp
-        );
-    }
-
-    private JsonNode marshall(final JsonNodeMarshallContext context) {
-        return JsonNode.object()
-            .set(CREATED_BY_PROPERTY, context.marshall(this.createdBy))
-            .set(CREATED_TIMESTAMP_PROPERTY, context.marshall(this.createdTimestamp))
-            .set(MODIFIED_BY_PROPERTY, context.marshall(this.modifiedBy))
-            .set(MODIFIED_TIMESTAMP_PROPERTY, context.marshall(this.modifiedTimestamp));
-    }
-
-    static {
-        JsonNodeContext.register(
-            JsonNodeContext.computeTypeName(AuditInfo.class),
-            AuditInfo::unmarshall,
-            AuditInfo::marshall,
-            AuditInfo.class
-        );
     }
 }
