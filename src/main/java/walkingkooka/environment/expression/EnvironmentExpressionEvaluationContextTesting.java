@@ -17,18 +17,11 @@
 
 package walkingkooka.environment.expression;
 
-import org.junit.jupiter.api.Test;
 import walkingkooka.environment.EnvironmentContextTesting2;
 import walkingkooka.tree.expression.ExpressionEvaluationContextTesting;
 
 public interface EnvironmentExpressionEvaluationContextTesting<C extends EnvironmentExpressionEvaluationContext> extends ExpressionEvaluationContextTesting<C>,
     EnvironmentContextTesting2<C> {
-
-    @Test
-    @Override
-    default void testSetLocaleWithNullFails() {
-        EnvironmentContextTesting2.super.testSetLocaleWithNullFails();
-    }
 
 
     @Override
