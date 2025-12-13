@@ -26,9 +26,6 @@ import walkingkooka.naming.NameTesting2;
 import walkingkooka.reflect.ConstantsTesting;
 import walkingkooka.text.CaseSensitivity;
 import walkingkooka.text.printer.TreePrintableTesting;
-import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallingTesting;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.util.Set;
 
@@ -38,7 +35,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentValueName<String>, EnvironmentValueName<String>>,
     ComparableTesting2<EnvironmentValueName<String>>,
     TreePrintableTesting,
-    JsonNodeMarshallingTesting<EnvironmentValueName<String>>,
     ConstantsTesting<EnvironmentValueName<String>> {
 
     @Test
@@ -208,33 +204,6 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
             name,
             name.text()
         );
-    }
-
-    // JsonNodeMarshallingTesting.......................................................................................
-
-    @Test
-    public void testUnmarshallString() {
-        final String value = "environment-value-123";
-        this.unmarshallAndCheck(JsonNode.string(value),
-            EnvironmentValueName.with(value));
-    }
-
-    // JsonNodeMarshallingTesting...........................................................................................
-
-    @Override
-    public EnvironmentValueName<String> unmarshall(final JsonNode json,
-                                                   final JsonNodeUnmarshallContext context) {
-        return Cast.to(
-            EnvironmentValueName.unmarshall(
-                json,
-                context
-            )
-        );
-    }
-
-    @Override
-    public EnvironmentValueName<String> createJsonNodeMarshallingValue() {
-        return EnvironmentValueName.with("environment-value-123");
     }
 
     // constants........................................................................................................
