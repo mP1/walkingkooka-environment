@@ -20,14 +20,10 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.ThrowableTesting2;
-import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallingTesting;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<MissingEnvironmentValueException>,
-    JsonNodeMarshallingTesting<MissingEnvironmentValueException> {
+public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<MissingEnvironmentValueException> {
 
     // with.............................................................................................................
 
@@ -58,40 +54,6 @@ public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<M
                 EnvironmentValueName.with("missing-123")
             ),
             "Missing environment value \"missing-123\""
-        );
-    }
-
-    // json.............................................................................................................
-
-    @Test
-    public void testMarshall() {
-        this.marshallAndCheck(
-            this.createJsonNodeMarshallingValue(),
-            JsonNode.string("missing-environmental-value-name-123")
-        );
-    }
-
-    @Test
-    public void testUnmarshall() {
-        this.unmarshallAndCheck(
-            JsonNode.string("missing-environmental-value-name-123"),
-            this.createJsonNodeMarshallingValue()
-        );
-    }
-
-    @Override
-    public MissingEnvironmentValueException unmarshall(final JsonNode json,
-                                                       final JsonNodeUnmarshallContext context) {
-        return MissingEnvironmentValueException.unmarshall(
-            json,
-            context
-        );
-    }
-
-    @Override
-    public MissingEnvironmentValueException createJsonNodeMarshallingValue() {
-        return new MissingEnvironmentValueException(
-            EnvironmentValueName.with("missing-environmental-value-name-123")
         );
     }
 

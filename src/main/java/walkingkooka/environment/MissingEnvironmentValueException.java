@@ -18,10 +18,6 @@
 package walkingkooka.environment;
 
 import walkingkooka.text.CharSequences;
-import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.marshall.JsonNodeContext;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.util.Objects;
 
@@ -63,35 +59,5 @@ public final class MissingEnvironmentValueException extends IllegalArgumentExcep
 
     private boolean equals0(final MissingEnvironmentValueException other) {
         return this.environmentValueName.equals(other.environmentValueName);
-    }
-
-    // json.............................................................................................................
-
-    static {
-        JsonNodeContext.register(
-            JsonNodeContext.computeTypeName(MissingEnvironmentValueException.class),
-            MissingEnvironmentValueException::unmarshall,
-            MissingEnvironmentValueException::marshall,
-            MissingEnvironmentValueException.class
-        );
-    }
-
-    private JsonNode marshall(final JsonNodeMarshallContext context) {
-        return context.marshall(
-            this.environmentValueName.value() // EnvironmentValueName
-        );
-    }
-
-    // @VisibleForTesting
-    static MissingEnvironmentValueException unmarshall(final JsonNode node,
-                                                       final JsonNodeUnmarshallContext context) {
-        return new MissingEnvironmentValueException(
-            EnvironmentValueName.with(
-                context.unmarshall(
-                    node,
-                    String.class
-                )
-            )
-        );
     }
 }
