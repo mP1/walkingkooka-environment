@@ -80,7 +80,7 @@
 
         <dependency>
             <groupId>walkingkooka</groupId>
-            <artifactId>walkingkooka-tree-json-gwt</artifactId>
+            <artifactId>walkingkooka-watch-gwt</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
