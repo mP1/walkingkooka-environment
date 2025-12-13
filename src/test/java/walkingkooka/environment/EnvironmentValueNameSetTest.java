@@ -23,9 +23,6 @@ import walkingkooka.collect.set.SortedSets;
 import walkingkooka.test.ParseStringTesting;
 import walkingkooka.text.HasTextTesting;
 import walkingkooka.text.printer.TreePrintableTesting;
-import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallingTesting;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,8 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentValueNameSetTest implements ImmutableSortedSetTesting<EnvironmentValueNameSet, EnvironmentValueName<?>>,
     HasTextTesting,
     ParseStringTesting<EnvironmentValueNameSet>,
-    TreePrintableTesting,
-    JsonNodeMarshallingTesting<EnvironmentValueNameSet> {
+    TreePrintableTesting {
 
     @Test
     public void testWithNullFails() {
@@ -170,30 +166,6 @@ public final class EnvironmentValueNameSetTest implements ImmutableSortedSetTest
             "value111\n" +
                 "value222\n"
         );
-    }
-
-    // json.............................................................................................................
-
-    @Test
-    public void testMarshall() {
-        this.marshallAndCheck(
-            this.createJsonNodeMarshallingValue(),
-            "\"value111,value222\""
-        );
-    }
-
-    @Override
-    public EnvironmentValueNameSet unmarshall(final JsonNode jsonNode,
-                                    final JsonNodeUnmarshallContext context) {
-        return EnvironmentValueNameSet.unmarshall(
-            jsonNode,
-            context
-        );
-    }
-
-    @Override
-    public EnvironmentValueNameSet createJsonNodeMarshallingValue() {
-        return this.createSet();
     }
 
     // class............................................................................................................

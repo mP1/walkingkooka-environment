@@ -25,10 +25,6 @@ import walkingkooka.text.CharacterConstant;
 import walkingkooka.text.HasText;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
-import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.marshall.JsonNodeContext;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -208,28 +204,6 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
         }
 
         return withCopy(names);
-    }
-
-    // json.............................................................................................................
-
-    static EnvironmentValueNameSet unmarshall(final JsonNode node,
-                                              final JsonNodeUnmarshallContext context) {
-        return parse(
-            node.stringOrFail()
-        );
-    }
-
-    private JsonNode marshall(final JsonNodeMarshallContext context) {
-        return JsonNode.string(this.text());
-    }
-
-    static {
-        JsonNodeContext.register(
-            JsonNodeContext.computeTypeName(EnvironmentValueNameSet.class),
-            EnvironmentValueNameSet::unmarshall,
-            EnvironmentValueNameSet::marshall,
-            EnvironmentValueNameSet.class
-        );
     }
 
     // TreePrintable....................................................................................................
