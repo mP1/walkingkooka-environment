@@ -22,7 +22,7 @@ import walkingkooka.convert.ConverterContext;
 import walkingkooka.reflect.PublicStaticHelper;
 
 /**
- * A collection of {@link walkingkooka.convert.Converter} related to a {@link EnvironmentExpressionEvaluationContext}.
+ * A collection of {@link Converter} related to a {@link walkingkooka.environment.EnvironmentContext}.
  */
 public final class EnvironmentConverters implements PublicStaticHelper {
 
