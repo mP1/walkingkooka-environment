@@ -18,7 +18,6 @@
 package walkingkooka.environment;
 
 import walkingkooka.environment.EnvironmentContextDelegatorTest.TestEnvironmentContextDelegator;
-import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContext;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
 
@@ -80,19 +79,19 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         }
 
         @Override
-        public EnvironmentExpressionEvaluationContext setLineEnding(final LineEnding lineEnding) {
+        public TestEnvironmentContextDelegator setLineEnding(final LineEnding lineEnding) {
             Objects.requireNonNull(lineEnding, "lineEnding");
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public EnvironmentExpressionEvaluationContext setLocale(final Locale locale) {
+        public TestEnvironmentContextDelegator setLocale(final Locale locale) {
             Objects.requireNonNull(locale, "locale");
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public EnvironmentExpressionEvaluationContext setUser(final Optional<EmailAddress> user) {
+        public TestEnvironmentContextDelegator setUser(final Optional<EmailAddress> user) {
             Objects.requireNonNull(user, "user");
             throw new UnsupportedOperationException();
         }
