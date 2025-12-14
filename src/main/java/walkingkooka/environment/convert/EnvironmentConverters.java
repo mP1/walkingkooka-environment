@@ -19,7 +19,6 @@ package walkingkooka.environment.convert;
 
 import walkingkooka.convert.Converter;
 import walkingkooka.convert.ConverterContext;
-import walkingkooka.environment.expression.EnvironmentExpressionEvaluationContext;
 import walkingkooka.reflect.PublicStaticHelper;
 
 /**
