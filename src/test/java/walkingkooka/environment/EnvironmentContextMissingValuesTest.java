@@ -134,7 +134,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
     // toString.........................................................................................................
 
     @Test
-    public void testToString() {
+    public void testToStringWithMissing() {
         final EnvironmentValueName<String> name1 = EnvironmentValueName.with("Hello1");
         final EnvironmentValueName<String> name2 = EnvironmentValueName.with("Hello2");
 
@@ -152,7 +152,24 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         this.toStringAndCheck(
             missing,
-            "[Hello1, Hello2]"
+            "missing=Hello1, Hello2 environmentContext={lineEnding=\"\\n\", locale=\"en\"}"
+        );
+    }
+
+    @Test
+    public void testToStringWithoutMissing() {
+        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
+            EnvironmentContexts.empty(
+                LineEnding.NL,
+                Locale.ENGLISH,
+                LocalDateTime::now,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+
+        this.toStringAndCheck(
+            missing,
+            "environmentContext={lineEnding=\"\\n\", locale=\"en\"}"
         );
     }
 
