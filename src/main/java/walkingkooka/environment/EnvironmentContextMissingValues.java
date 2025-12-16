@@ -16,6 +16,8 @@
  */
 package walkingkooka.environment;
 
+import walkingkooka.ToStringBuilder;
+import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.set.SortedSets;
 
 import java.util.Set;
@@ -24,7 +26,7 @@ import java.util.Set;
  * Used to aggregate that all the required properties are present, tracking those that are missing.
  * This is used only by {@link EnvironmentContext} methods such as getting a {@link walkingkooka.convert.Converter}.
  */
-public final class EnvironmentContextMissingValues {
+public final class EnvironmentContextMissingValues implements UsesToStringBuilder {
 
     static EnvironmentContextMissingValues with(final EnvironmentContext context) {
         return new EnvironmentContextMissingValues(context);
@@ -64,6 +66,16 @@ public final class EnvironmentContextMissingValues {
 
     @Override
     public String toString() {
-        return this.missing.toString();
+        return ToStringBuilder.buildFrom(this);
+    }
+
+    // UsesToStringBuilder..............................................................................................
+
+    @Override
+    public void buildToString(final ToStringBuilder toStringBuilder) {
+        toStringBuilder.label("missing")
+            .value(this.missing)
+            .label("environmentContext")
+            .value(this.context);
     }
 }
