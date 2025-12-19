@@ -19,10 +19,11 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import walkingkooka.Cast;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 
-public final class EnvironmentContextTesting2Test implements ClassTesting2<EnvironmentContextTesting2> {
+public final class EnvironmentContextTesting2Test implements ClassTesting2<EnvironmentContextTesting2<?>> {
 
     @Test
     public void testEnvironmentValueNameConstantsKebabCaseIgnoresNonEnvironmentValueName() throws Exception {
@@ -142,8 +143,8 @@ public final class EnvironmentContextTesting2Test implements ClassTesting2<Envir
     // class............................................................................................................
 
     @Override
-    public Class<EnvironmentContextTesting2> type() {
-        return EnvironmentContextTesting2.class;
+    public Class<EnvironmentContextTesting2<?>> type() {
+        return Cast.to(EnvironmentContextTesting2.class);
     }
 
     @Override
