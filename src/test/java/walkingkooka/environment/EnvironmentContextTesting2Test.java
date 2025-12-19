@@ -138,8 +138,6 @@ public final class EnvironmentContextTesting2Test implements ClassTesting2<Envir
         private final Class<C> type;
     }
 
-    ;
-
     // class............................................................................................................
 
     @Override
