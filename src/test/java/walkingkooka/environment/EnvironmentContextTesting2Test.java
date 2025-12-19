@@ -36,6 +36,28 @@ public final class EnvironmentContextTesting2Test implements ClassTesting2<Envir
     }
 
     @Test
+    public void testEnvironmentValueNameConstantsLocaleWithLocale() throws Exception {
+        new TestEnvironmentContextTesting<>(
+            TestLocaleEnvironmentContext.class
+        ).testEnvironmentValueNameConstantsCamelCase();
+    }
+
+    final static class TestLocaleEnvironmentContext extends FakeEnvironmentContext {
+        public final static EnvironmentValueName<?> LOWER = EnvironmentValueName.with("locale");
+    }
+    
+    @Test
+    public void testEnvironmentValueNameConstantsLowerCaseWithLowerCase() throws Exception {
+        new TestEnvironmentContextTesting<>(
+            TestLowerCaseEnvironmentContext.class
+        ).testEnvironmentValueNameConstantsCamelCase();
+    }
+
+    final static class TestLowerCaseEnvironmentContext extends FakeEnvironmentContext {
+        public final static EnvironmentValueName<?> LOWER = EnvironmentValueName.with("lowercase");
+    }
+
+    @Test
     public void testEnvironmentValueNameConstantsKebabCaseWithKebabCase() throws Exception {
         new TestEnvironmentContextTesting<>(
             TestNonEnvironmentValueNameEnvironmentContext.class

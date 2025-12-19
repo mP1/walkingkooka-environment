@@ -68,14 +68,24 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
                 final EnvironmentValueName<?> environmentValueName = (EnvironmentValueName<?>) field.get(null);
                 final String name = environmentValueName.value();
 
-                if (name.equals(CaseKind.KEBAB.change(name, CaseKind.CAMEL))) {
-                    not.add(environmentValueName);
-                } else {
-                    if (name.equals(CaseKind.SNAKE.change(name, CaseKind.CAMEL))) {
+                boolean all = false;
+                for (final char c : name.toCharArray()) {
+                    all = Character.isLetterOrDigit(c) && Character.isLowerCase(c);
+                    if (false == all) {
+                        break;
+                    }
+                }
+
+                if (false == all) {
+                    if (name.equals(CaseKind.KEBAB.change(name, CaseKind.CAMEL))) {
                         not.add(environmentValueName);
                     } else {
-                        if (name.equals(CaseKind.CAMEL.change(name, CaseKind.TITLE))) {
+                        if (name.equals(CaseKind.SNAKE.change(name, CaseKind.CAMEL))) {
                             not.add(environmentValueName);
+                        } else {
+                            if (name.equals(CaseKind.CAMEL.change(name, CaseKind.TITLE))) {
+                                not.add(environmentValueName);
+                            }
                         }
                     }
                 }
