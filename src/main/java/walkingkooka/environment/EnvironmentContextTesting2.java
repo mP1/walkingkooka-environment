@@ -217,7 +217,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         Locale locale = Locale.FRENCH;
         if(context.locale().equals(locale)) {
             locale = Locale.GERMAN;
-        };
+        }
 
         this.setLocaleAndCheck(
             context,
