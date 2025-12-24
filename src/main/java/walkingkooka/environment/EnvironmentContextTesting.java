@@ -104,6 +104,22 @@ public interface EnvironmentContextTesting extends HasLineEndingTesting,
         );
     }
 
+    // removeEnvironmentValue...........................................................................................
+
+    default <T> void removeEnvironmentValueAndCheck(final EnvironmentContext context,
+                                                    final EnvironmentValueName<T> name) {
+        assertSame(
+            context,
+            context.removeEnvironmentValue(
+                name
+            )
+        );
+        this.environmentValueAndCheck(
+            context,
+            name
+        );
+    }
+
     // environmentValueOrFail...........................................................................................
 
     default void environmentValueOrFailAndCheck(final EnvironmentContext context,
