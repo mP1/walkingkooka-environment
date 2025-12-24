@@ -22,8 +22,6 @@ import walkingkooka.convert.ConverterContext;
 import walkingkooka.convert.TextToTryingShortCircuitingConverter;
 import walkingkooka.environment.EnvironmentValueName;
 
-;
-
 /**
  * A converter that converts a {@link String} or text like value into a {@link EnvironmentValueName}.
  */
