@@ -85,14 +85,20 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        throw new UnsupportedOperationException();
+        if (false == value.equals(this.environmentValue(name).orElse(null))) {
+            throw new UnsupportedOperationException();
+        }
+        return this;
     }
 
     @Override
     public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        throw new UnsupportedOperationException();
+        if (this.environmentValue(name).isPresent()) {
+            throw new UnsupportedOperationException();
+        }
+        return this;
     }
 
     @Override
@@ -104,7 +110,10 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
         Objects.requireNonNull(lineEnding, "lineEnding");
 
-        throw new UnsupportedOperationException();
+        return this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
     }
 
     @Override
@@ -116,7 +125,10 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     public EnvironmentContext setLocale(final Locale locale) {
         Objects.requireNonNull(locale, "locale");
 
-        throw new UnsupportedOperationException();
+        return this.setEnvironmentValue(
+            LOCALE,
+            locale
+        );
     }
 
     @Override
@@ -132,7 +144,13 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     @Override
     public EnvironmentContext setUser(final Optional<EmailAddress> user) {
         Objects.requireNonNull(user, "user");
-        throw new UnsupportedOperationException();
+
+        return user.isPresent() ?
+            this.setEnvironmentValue(
+                USER,
+                user.get()
+            ) :
+            this.removeEnvironmentValue(USER);
     }
 
     @Override

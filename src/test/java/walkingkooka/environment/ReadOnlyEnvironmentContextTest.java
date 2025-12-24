@@ -34,8 +34,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextTesting2<ReadOnlyEnvironmentContext>,
     ToStringTesting<ReadOnlyEnvironmentContext> {
 
-    private final static Locale LOCALE = Locale.GERMAN;
+
+    private final static LineEnding LINE_ENDING = LineEnding.NL;
+
+    private final static Locale LOCALE = Locale.FRANCE;
+
     private final static LocalDateTime NOW = LocalDateTime.MIN;
+
+    private final static EmailAddress USER = EmailAddress.parse("user123@example.com");
 
     @Test
     public void testWithNullContextFails() {
@@ -148,13 +154,183 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
-    // setLineEnding........................................................................................................
+    // setEnvironmentValue..............................................................................................
+
+    @Test
+    public void testSetEnvironmentValueSame() {
+        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+            EnvironmentContexts.empty(
+                LINE_ENDING,
+                LOCALE,
+                () -> NOW,
+                Optional.of(USER)
+            )
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            EnvironmentContext.USER,
+            USER
+        );
+    }
+
+    @Test
+    public void testSetEnvironmentValueSame2() {
+        final EnvironmentValueName<String> name = EnvironmentValueName.with("hello");
+        final String value = "World123";
+
+        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+            EnvironmentContexts.map(
+                EnvironmentContexts.empty(
+                    LINE_ENDING,
+                    LOCALE,
+                    () -> NOW,
+                    Optional.of(USER)
+                )
+            ).setEnvironmentValue(
+                name,
+                value
+            )
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            name,
+            value
+        );
+    }
+
+    @Test
+    public void testSetEnvironmentValueDifferentFails() {
+        final ReadOnlyEnvironmentContext context = this.createContext();
+
+        final Locale locale = Locale.GERMAN;
+        this.checkNotEquals(
+            LOCALE,
+            locale
+        );
+
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> context.setEnvironmentValue(
+                EnvironmentValueName.LOCALE,
+                locale
+            )
+        );
+
+        this.localeAndCheck(
+            context,
+            LOCALE
+        );
+    }
+
+    @Test
+    public void testSetEnvironmentValueDifferentFails2() {
+        final EnvironmentValueName<String> name = EnvironmentValueName.with("hello");
+        final String value = "value1";
+
+        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+            EnvironmentContexts.map(
+                EnvironmentContexts.empty(
+                    LINE_ENDING,
+                    LOCALE,
+                    () -> NOW,
+                    Optional.of(USER)
+                )
+            ).setEnvironmentValue(
+                name,
+                value
+            )
+        );
+
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> context.setEnvironmentValue(
+                name,
+                "different2"
+            )
+        );
+
+        this.environmentValueAndCheck(
+            context,
+            name,
+            value
+        );
+    }
+
+    // removeEnvironmentValue...........................................................................................
+
+    @Test
+    public void testRemoveEnvironmentValueMissing() {
+        final Optional<EmailAddress> user = EnvironmentContext.ANONYMOUS;
+
+        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+            EnvironmentContexts.empty(
+                LINE_ENDING,
+                LOCALE,
+                () -> NOW,
+                user
+            )
+        );
+
+        this.removeEnvironmentValueAndCheck(
+            context,
+            EnvironmentValueName.USER
+        );
+    }
+
+    @Test
+    public void testRemoveEnvironmentValuePresentFails() {
+        final ReadOnlyEnvironmentContext context = this.createContext();
+
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> context.removeEnvironmentValue(EnvironmentValueName.LOCALE)
+        );
+
+        this.localeAndCheck(
+            context,
+            LOCALE
+        );
+    }
+
+    // setLineEnding....................................................................................................
+
+    @Test
+    public void testSetLineEndingWithSame() {
+        this.setLineEndingAndCheck(
+            this.createContext(),
+            LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testSetLineEndingWithDifferent() {
+        final LineEnding lineEnding = LineEnding.CRNL;
+
+        this.checkNotEquals(
+            LINE_ENDING,
+            lineEnding
+        );
+
+        final ReadOnlyEnvironmentContext context = this.createContext();
+
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> context.setLineEnding(lineEnding)
+        );
+
+        this.lineEndingAndCheck(
+            context,
+            LINE_ENDING
+        );
+    }
 
     @Override
     public void testSetLineEndingWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
     }
-    
+
     // locale...........................................................................................................
 
     @Test
@@ -171,7 +347,29 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testSetLocaleWithDifferent() {
         throw new UnsupportedOperationException();
     }
-    
+
+    @Test
+    public void testSetLineEndingWithDifferentFails() {
+        final Locale locale = Locale.GERMAN;
+
+        this.checkNotEquals(
+            LOCALE,
+            locale
+        );
+
+        final ReadOnlyEnvironmentContext context = this.createContext();
+
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> context.setLocale(locale)
+        );
+
+        this.localeAndCheck(
+            context,
+            LOCALE
+        );
+    }
+
     @Override
     public void testSetLocaleWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
@@ -198,6 +396,57 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     // setUser..........................................................................................................
 
+    @Test
+    public void testSetUserWithSame() {
+        this.setUserAndCheck(
+            this.createContext(),
+            USER
+        );
+    }
+
+    @Test
+    public void testSetUserWithDifferent() {
+        final EmailAddress user = EmailAddress.parse("different@examoke.com");
+
+        this.checkNotEquals(
+            USER,
+            user
+        );
+
+        final ReadOnlyEnvironmentContext context = this.createContext();
+
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> context.setUser(
+                Optional.of(user)
+            )
+        );
+
+        this.userAndCheck(
+            context,
+            USER
+        );
+    }
+
+    @Test
+    public void testSetUserWithSameAnonymous() {
+        final Optional<EmailAddress> user = EnvironmentContext.ANONYMOUS;
+
+        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+            EnvironmentContexts.empty(
+                LINE_ENDING,
+                LOCALE,
+                () -> NOW,
+                user
+            )
+        );
+
+        this.setUserAndCheck(
+            context,
+            user
+        );
+    }
+
     @Override
     public void testSetUserWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
@@ -208,10 +457,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         return ReadOnlyEnvironmentContext.with(
             EnvironmentContexts.map(
                 EnvironmentContexts.empty(
-                    LineEnding.NL,
-                    Locale.FRANCE,
+                    LINE_ENDING,
+                    LOCALE,
                     () -> NOW,
-                    EnvironmentContext.ANONYMOUS
+                    Optional.of(USER)
                 )
             ).setLocale(LOCALE)
         );
@@ -223,7 +472,8 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
             EnvironmentValueName.LINE_ENDING,
-            EnvironmentValueName.LOCALE
+            EnvironmentValueName.LOCALE,
+            EnvironmentValueName.USER
         );
     }
 
@@ -233,7 +483,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{lineEnding=\"\\n\", locale=de}"
+            "{lineEnding=\"\\n\", locale=fr_FR, user=user123@example.com}"
         );
     }
 
