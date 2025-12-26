@@ -39,46 +39,44 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
 
     @Test
     public void testWithInvalidInitialFails() {
-        this.withFails(
-            "1abc",
+        final InvalidCharacterException thrown = assertThrows(
             InvalidCharacterException.class,
-            "Invalid character '1' at 0"
+            () -> EnvironmentValueName.with("1abc")
+        );
+
+        this.checkEquals(
+            "Invalid character '1' at 0",
+            thrown.getMessage(),
+            "message"
         );
     }
 
     @Test
     public void testWithInvalidPartFails() {
-        this.withFails(
-            "abc$def",
+        final InvalidCharacterException thrown = assertThrows(
             InvalidCharacterException.class,
-            "Invalid character '$' at 3"
+            () -> EnvironmentValueName.with("abc$def")
+        );
+
+        this.checkEquals(
+            "Invalid character '$' at 3",
+            thrown.getMessage(),
+            "message"
         );
     }
 
     @Test
     public void testWithDotDotFails() {
-        this.withFails(
-            "abc..def",
+        final InvalidCharacterException thrown = assertThrows(
             InvalidCharacterException.class,
-            "Invalid character '.' at 4"
-        );
-    }
-
-    private <T extends IllegalArgumentException> void withFails(final String text,
-                                                                final Class<T> throwsClass,
-                                                                final String message) {
-        final T thrown = assertThrows(
-            throwsClass,
-            () -> EnvironmentValueName.with(text)
+            () -> EnvironmentValueName.with("abc..def")
         );
 
-        if (null != message) {
-            this.checkEquals(
-                message,
-                thrown.getMessage(),
-                "message"
-            );
-        }
+        this.checkEquals(
+            "Invalid character '.' at 4",
+            thrown.getMessage(),
+            "message"
+        );
     }
 
     @Test
