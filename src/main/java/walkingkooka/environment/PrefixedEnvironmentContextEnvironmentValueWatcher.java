@@ -49,7 +49,8 @@ final class PrefixedEnvironmentContextEnvironmentValueWatcher implements Environ
             fireName = name;
         } else {
             fireName = EnvironmentValueName.with(
-                this.prefix + name.value()
+                this.prefix + name.value(),
+                name.type()
             );
         }
 

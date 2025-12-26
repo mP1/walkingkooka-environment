@@ -127,8 +127,11 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
             this.properties.keys()
                 .stream()
-                .map(p -> EnvironmentValueName.with(p.value()))
-                .forEach(names::add);
+                .map(p -> EnvironmentValueName.with(
+                        p.value(),
+                        String.class
+                    )
+                ).forEach(names::add);
 
             names.add(LINE_ENDING);
             names.add(LOCALE);
@@ -231,7 +234,8 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
             map.put(
                 EnvironmentValueName.with(
                     entry.getKey()
-                        .value()
+                        .value(),
+                    String.class
                 ),
                 entry.getValue()
             );

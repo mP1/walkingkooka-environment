@@ -351,7 +351,10 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             NullPointerException.class,
             () -> this.createContext()
                 .setEnvironmentValue(
-                    EnvironmentValueName.with("Hello"),
+                    EnvironmentValueName.with(
+                        "Hello",
+                        String.class
+                    ),
                     null
                 )
         );

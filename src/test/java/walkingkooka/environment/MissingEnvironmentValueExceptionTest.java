@@ -37,7 +37,10 @@ public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<M
 
     @Test
     public void testWith() {
-        final EnvironmentValueName<?> name = EnvironmentValueName.with("missing-123");
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "missing-123",
+            String.class
+        );
 
         this.checkEquals(
             name,
@@ -51,7 +54,10 @@ public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<M
     public void testGetMessage() {
         this.checkMessage(
             new MissingEnvironmentValueException(
-                EnvironmentValueName.with("missing-123")
+                EnvironmentValueName.with(
+                    "missing-123",
+                    String.class
+                )
             ),
             "Missing environment value \"missing-123\""
         );

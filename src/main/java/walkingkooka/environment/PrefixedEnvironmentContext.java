@@ -50,7 +50,8 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
             final PrefixedEnvironmentContext prefixedEnvironmentContext = (PrefixedEnvironmentContext) context;
             result = new PrefixedEnvironmentContext(
                 EnvironmentValueName.with(
-                    prefixedEnvironmentContext.prefix + prefixValue
+                    prefixedEnvironmentContext.prefix + prefixValue,
+                    prefix.type()
                 ).value(),
                 prefixedEnvironmentContext.context
             );
@@ -128,7 +129,8 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
             value = this.context.environmentValue(
                 EnvironmentValueName.with(
                     name.value()
-                        .substring(prefix.length())
+                        .substring(prefix.length()),
+                    name.type()
                 )
             );
         } else {
@@ -162,7 +164,8 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
             }
             names.add(
                 EnvironmentValueName.with(
-                    this.prefix + name.value()
+                    this.prefix + name.value(),
+                    name.type()
                 )
             );
         }

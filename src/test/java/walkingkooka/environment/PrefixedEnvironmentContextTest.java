@@ -37,7 +37,10 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     HashCodeEqualsDefinedTesting2<PrefixedEnvironmentContext>,
     ToStringTesting<PrefixedEnvironmentContext> {
 
-    private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with("prefix111.");
+    private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with(
+        "prefix111.",
+        Void.class
+    );
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
@@ -73,7 +76,10 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         assertThrows(
             IllegalArgumentException.class,
             () -> PrefixedEnvironmentContext.with(
-                EnvironmentValueName.with("bad-prefix-123"),
+                EnvironmentValueName.with(
+                    "bad-prefix-123",
+                    Void.class
+                ),
                 CONTEXT
             )
         );
@@ -95,7 +101,10 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         final PrefixedEnvironmentContext prefixed = this.createContext();
 
         final PrefixedEnvironmentContext context = PrefixedEnvironmentContext.with(
-            EnvironmentValueName.with("prefix222."),
+            EnvironmentValueName.with(
+                "prefix222.",
+                Void.class
+            ),
             prefixed
         );
 
@@ -128,7 +137,10 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testEnvironmentalValueMissingPrefix() {
         this.environmentValueAndCheck(
             this.createContext(),
-            EnvironmentValueName.with("Hello123")
+            EnvironmentValueName.with(
+                "Hello123",
+                Void.class
+            )
         );
     }
 
@@ -136,7 +148,10 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testEnvironmentalValueWithPrefixAndValueMissing() {
         this.environmentValueAndCheck(
             this.createContext(),
-            EnvironmentValueName.with("prefix111.missing")
+            EnvironmentValueName.with(
+                "prefix111.missing",
+                Void.class
+            )
         );
     }
 
@@ -144,7 +159,10 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testEnvironmentalValueWithPrefix() {
         this.environmentValueAndCheck(
             this.createContext(),
-            EnvironmentValueName.with("prefix111.key111"),
+            EnvironmentValueName.with(
+                "prefix111.key111",
+                String.class
+            ),
             "value111"
         );
     }
@@ -211,7 +229,10 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
             context
         );
 
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("hello");
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "hello",
+            String.class
+        );
         final String value = "world";
 
         final Runnable remover = prefixedEnvironmentContext.addEventValueWatcher(
@@ -220,9 +241,24 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
                                                      final Optional<?> oldValue,
                                                      final Optional<?> newValue) {
-                    checkEquals(EnvironmentValueName.with(PREFIX + name.value()), n);
-                    checkEquals(Optional.empty(), oldValue);
-                    checkEquals(Optional.of(value), newValue);
+                    checkEquals(
+                        EnvironmentValueName.with(
+                            PREFIX + name.value(),
+                            String.class
+                        ),
+                        n,
+                        "name"
+                    );
+                    checkEquals(
+                        Optional.empty(),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(value),
+                        newValue,
+                        "newValue"
+                    );
 
                     PrefixedEnvironmentContextTest.this.fired = true;
                 }
@@ -268,9 +304,15 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testEnvironmentalValueOrFailMissingPrefix() {
         this.environmentValueOrFailAndCheck(
             this.createContext(),
-            EnvironmentValueName.with("Missing222"),
+            EnvironmentValueName.with(
+                "Missing222",
+                String.class
+            ),
             new MissingEnvironmentValueException(
-                EnvironmentValueName.with("Missing222")
+                EnvironmentValueName.with(
+                    "Missing222",
+                    String.class
+                )
             )
         );
     }
@@ -279,9 +321,15 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testEnvironmentalValueOrFailWithPrefixAndValueMissing() {
         this.environmentValueOrFailAndCheck(
             this.createContext(),
-            EnvironmentValueName.with("prefix111.Missing222"),
+            EnvironmentValueName.with(
+                "prefix111.Missing222",
+                String.class
+            ),
             new MissingEnvironmentValueException(
-                EnvironmentValueName.with("prefix111.Missing222")
+                EnvironmentValueName.with(
+                    "prefix111.Missing222",
+                    String.class
+                )
             )
         );
     }
@@ -297,7 +345,10 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
         this.environmentValueNamesAndCheck(
             PrefixedEnvironmentContext.with(
-                EnvironmentValueName.with(prefix),
+                EnvironmentValueName.with(
+                    prefix,
+                    Void.class
+                ),
                 EnvironmentContexts.properties(
                     Properties.EMPTY.set(
                         PropertiesPath.parse(key1),
@@ -309,8 +360,14 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
                     CONTEXT
                 )
             ),
-            EnvironmentValueName.with(prefix + key1),
-            EnvironmentValueName.with(prefix + key2),
+            EnvironmentValueName.with(
+                prefix + key1,
+                String.class
+            ),
+            EnvironmentValueName.with(
+                prefix + key2,
+                String.class
+            ),
             EnvironmentValueName.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentValueName.USER
@@ -349,11 +406,17 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testEqualsDifferentPrefix() {
         this.checkNotEquals(
             PrefixedEnvironmentContext.with(
-                EnvironmentValueName.with("prefix1."),
+                EnvironmentValueName.with("" +
+                    "prefix1.",
+                    Void.class
+                ),
                 CONTEXT
             ),
             PrefixedEnvironmentContext.with(
-                EnvironmentValueName.with("prefix2."),
+                EnvironmentValueName.with(
+                    "prefix2.",
+                    Void.class
+                ),
                 CONTEXT
             )
         );

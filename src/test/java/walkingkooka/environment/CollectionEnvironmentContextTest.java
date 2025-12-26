@@ -112,7 +112,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                 EnvironmentContexts.map(
                     CONTEXT
                 ).setEnvironmentValue(
-                    EnvironmentValueName.with(NAME1),
+                    EnvironmentValueName.with(NAME1, String.class),
                     VALUE1
                 ),
                 CONTEXT
@@ -132,7 +132,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
         this.environmentValueAndCheck(
             clone,
-            EnvironmentValueName.with(NAME1),
+            EnvironmentValueName.with(NAME1, String.class),
             VALUE1
         );
     }
@@ -186,7 +186,10 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEnvironmentalValue1() {
         this.environmentValueAndCheck(
-            EnvironmentValueName.with(NAME1),
+            EnvironmentValueName.with(
+                NAME1,
+                String.class
+            ),
             VALUE1
         );
     }
@@ -194,7 +197,10 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEnvironmentalValue2() {
         this.environmentValueAndCheck(
-            EnvironmentValueName.with(NAME2),
+            EnvironmentValueName.with(
+                NAME2,
+                String.class
+            ),
             VALUE2
         );
     }
@@ -202,7 +208,10 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEnvironmentalValue1Missing() {
         this.environmentValueAndCheck(
-            EnvironmentValueName.with("Unknown")
+            EnvironmentValueName.with(
+                "Unknown",
+                Void.class
+            )
         );
     }
 
@@ -210,7 +219,10 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testSetEnvironmentalValue() {
-        final EnvironmentValueName<String> name = EnvironmentValueName.with(NAME1);
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            NAME1,
+            String.class
+        );
 
         final EnvironmentContext wrapped = EnvironmentContexts.map(
             CONTEXT
@@ -245,7 +257,10 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testRemoveEnvironmentalValue() {
-        final EnvironmentValueName<String> name = EnvironmentValueName.with(NAME1);
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            NAME1,
+            String.class
+        );
 
         final EnvironmentContext wrapped = EnvironmentContexts.map(
             CONTEXT
@@ -402,10 +417,22 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                     )
                 )
             ),
-            EnvironmentValueName.with(key11),
-            EnvironmentValueName.with(key12),
-            EnvironmentValueName.with(key21),
-            EnvironmentValueName.with(key22),
+            EnvironmentValueName.with(
+                key11,
+                String.class
+            ),
+            EnvironmentValueName.with(
+                key12,
+                String.class
+            ),
+            EnvironmentValueName.with(
+                key21,
+                String.class
+            ),
+            EnvironmentValueName.with(
+                key22,
+                String.class
+            ),
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentValueName.USER

@@ -51,7 +51,10 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         EnvironmentContext.ANONYMOUS
     );
 
-    private final static EnvironmentValueName<String> NAME = EnvironmentValueName.with("hello.123");
+    private final static EnvironmentValueName<String> NAME = EnvironmentValueName.with(
+        "hello.123",
+        String.class
+    );
 
     private final static String VALUE = "Gday";
 
@@ -138,7 +141,10 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
     public void testEnvironmentalValueMissing() {
         this.environmentValueAndCheck(
             this.createContext(),
-            EnvironmentValueName.with("Unknown")
+            EnvironmentValueName.with(
+                "Unknown",
+                Void.class
+            )
         );
     }
 
@@ -238,7 +244,10 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
     @Test
     public void testEnvironmentalValueNamesWhenAnonymous() {
-        final EnvironmentValueName<String> name1 = EnvironmentValueName.with("prefix.name1");
+        final EnvironmentValueName<String> name1 = EnvironmentValueName.with(
+            "prefix.name1",
+            String.class
+        );
 
         final MapEnvironmentContext context = MapEnvironmentContext.with(CONTEXT);
         context.setEnvironmentValue(
@@ -246,7 +255,10 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             VALUE
         );
 
-        final EnvironmentValueName<String> name2 = EnvironmentValueName.with("prefix.name2");
+        final EnvironmentValueName<String> name2 = EnvironmentValueName.with(
+            "prefix.name2",
+            String.class
+        );
 
         context.setEnvironmentValue(
             name2,
@@ -254,7 +266,10 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         );
 
         {
-            final EnvironmentValueName<String> name3 = EnvironmentValueName.with("REMOVED");
+            final EnvironmentValueName<String> name3 = EnvironmentValueName.with(
+                "REMOVED",
+                String.class
+            );
 
             context.setEnvironmentValue(
                 name3,
@@ -276,7 +291,10 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
     @Test
     public void testEnvironmentalValueNamesWhenUserPresent() {
-        final EnvironmentValueName<String> name1 = EnvironmentValueName.with("prefix.name1");
+        final EnvironmentValueName<String> name1 = EnvironmentValueName.with(
+            "prefix.name1",
+            String.class
+        );
 
         final MapEnvironmentContext context = this.createContext(
             Optional.of(
@@ -288,7 +306,10 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             VALUE
         );
 
-        final EnvironmentValueName<String> name2 = EnvironmentValueName.with("prefix.name2");
+        final EnvironmentValueName<String> name2 = EnvironmentValueName.with(
+            "prefix.name2",
+            String.class
+        );
 
         context.setEnvironmentValue(
             name2,
@@ -296,7 +317,10 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         );
 
         {
-            final EnvironmentValueName<String> name3 = EnvironmentValueName.with("REMOVED");
+            final EnvironmentValueName<String> name3 = EnvironmentValueName.with(
+                "REMOVED",
+                String.class
+            );
 
             context.setEnvironmentValue(
                 name3,
@@ -397,7 +421,10 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
     @Test
     public void testEqualsDifferentValues() {
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("Hello");
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "Hello",
+            String.class
+        );
 
         this.checkNotEquals(
             this.createContext()

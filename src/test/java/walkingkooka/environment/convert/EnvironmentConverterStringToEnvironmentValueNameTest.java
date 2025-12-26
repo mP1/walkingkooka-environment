@@ -34,7 +34,10 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest implemen
 
         this.convertAndCheck(
             value,
-            EnvironmentValueName.with(value)
+            EnvironmentValueName.with(
+                value,
+                Object.class
+            )
         );
     }
 
@@ -44,7 +47,10 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest implemen
 
         this.convertAndCheck(
             new StringBuilder(value),
-            EnvironmentValueName.with(value)
+            EnvironmentValueName.with(
+                value,
+                Object.class
+            )
         );
     }
 

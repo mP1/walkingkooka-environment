@@ -155,7 +155,10 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEnvironmentalValue() {
         this.environmentValueAndCheck(
             this.createContext(),
-            EnvironmentValueName.with("Hello123")
+            EnvironmentValueName.with(
+                "Hello123",
+                String.class
+            )
         );
     }
 
