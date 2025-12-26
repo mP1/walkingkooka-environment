@@ -51,7 +51,10 @@ final class EnvironmentConverterStringToEnvironmentValueName<C extends Converter
     public Object parseText(final String text,
                             final Class type,
                             final ConverterContext context) {
-        return EnvironmentValueName.with(text);
+        return EnvironmentValueName.with(
+            text,
+            Object.class
+        );
     }
 
     @Override

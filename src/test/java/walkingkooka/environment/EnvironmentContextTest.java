@@ -42,7 +42,11 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
                 Locale.ENGLISH,
                 () -> LocalDateTime.MAX,
                 EnvironmentContext.ANONYMOUS
-            ).environmentValueOrFail(EnvironmentValueName.with("Hello"))
+            ).environmentValueOrFail(EnvironmentValueName.with(
+                    "Hello",
+                    String.class
+                )
+            )
         );
 
         this.checkEquals(

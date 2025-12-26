@@ -23,6 +23,8 @@ import walkingkooka.Cast;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 
+import java.util.Locale;
+
 public final class EnvironmentContextTesting2Test implements ClassTesting2<EnvironmentContextTesting2<?>> {
 
     @Test
@@ -44,7 +46,7 @@ public final class EnvironmentContextTesting2Test implements ClassTesting2<Envir
     }
 
     final static class TestLocaleEnvironmentContext extends FakeEnvironmentContext {
-        public final static EnvironmentValueName<?> LOWER = EnvironmentValueName.with("locale");
+        public final static EnvironmentValueName<Locale> LOWER = EnvironmentValueName.LOCALE;
     }
     
     @Test
@@ -55,7 +57,10 @@ public final class EnvironmentContextTesting2Test implements ClassTesting2<Envir
     }
 
     final static class TestLowerCaseEnvironmentContext extends FakeEnvironmentContext {
-        public final static EnvironmentValueName<?> LOWER = EnvironmentValueName.with("lowercase");
+        public final static EnvironmentValueName<String> LOWER = EnvironmentValueName.with(
+            "lowercase",
+            String.class
+        );
     }
 
     @Test
@@ -66,7 +71,10 @@ public final class EnvironmentContextTesting2Test implements ClassTesting2<Envir
     }
 
     final static class TestKebabEnvironmentContext extends FakeEnvironmentContext {
-        public final static EnvironmentValueName<?> KEBAB = EnvironmentValueName.with("kebabNext");
+        public final static EnvironmentValueName<String> KEBAB = EnvironmentValueName.with(
+            "kebabNext",
+            String.class
+        );
     }
 
     @Test
@@ -88,7 +96,10 @@ public final class EnvironmentContextTesting2Test implements ClassTesting2<Envir
     }
 
     final static class TestTitleCaseEnvironmentContext extends FakeEnvironmentContext {
-        public final static EnvironmentValueName<?> TITLE = EnvironmentValueName.with("Title");
+        public final static EnvironmentValueName<String> TITLE = EnvironmentValueName.with(
+            "Title",
+            String.class
+        );
     }
 
     @Test
@@ -110,7 +121,10 @@ public final class EnvironmentContextTesting2Test implements ClassTesting2<Envir
     }
 
     final static class TestSnakeCaseEnvironmentContext extends FakeEnvironmentContext {
-        public final static EnvironmentValueName<?> SNAKE = EnvironmentValueName.with("snake1-snake2");
+        public final static EnvironmentValueName<String> SNAKE = EnvironmentValueName.with(
+            "snake1-snake2",
+            String.class
+        );
     }
 
     @Disabled

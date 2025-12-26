@@ -51,7 +51,10 @@ public final class EnvironmentValueNameSetTest implements ImmutableSortedSetTest
 
     @Test
     public void testDeleteBecomesEmpty() {
-        final EnvironmentValueName<?> name = EnvironmentValueName.with("value111");
+        final EnvironmentValueName<?> name = EnvironmentValueName.with(
+            "value111",
+            String.class
+        );
 
         assertSame(
             EnvironmentValueNameSet.EMPTY,
@@ -65,8 +68,14 @@ public final class EnvironmentValueNameSetTest implements ImmutableSortedSetTest
     public EnvironmentValueNameSet createSet() {
         return EnvironmentValueNameSet.with(
             SortedSets.of(
-                EnvironmentValueName.with("value111"),
-                EnvironmentValueName.with("value222")
+                EnvironmentValueName.with(
+                    "value111",
+                    String.class
+                ),
+                EnvironmentValueName.with(
+                    "value222",
+                    String.class
+                )
             )
         );
     }

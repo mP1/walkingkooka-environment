@@ -27,6 +27,7 @@ import walkingkooka.reflect.ConstantsTesting;
 import walkingkooka.text.CaseSensitivity;
 import walkingkooka.text.printer.TreePrintableTesting;
 
+import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -41,7 +42,10 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     public void testWithInvalidInitialFails() {
         final InvalidCharacterException thrown = assertThrows(
             InvalidCharacterException.class,
-            () -> EnvironmentValueName.with("1abc")
+            () -> EnvironmentValueName.with(
+                "1abc",
+                String.class
+            )
         );
 
         this.checkEquals(
@@ -55,7 +59,10 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     public void testWithInvalidPartFails() {
         final InvalidCharacterException thrown = assertThrows(
             InvalidCharacterException.class,
-            () -> EnvironmentValueName.with("abc$def")
+            () -> EnvironmentValueName.with(
+                "abc$def",
+                String.class
+            )
         );
 
         this.checkEquals(
@@ -69,13 +76,43 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     public void testWithDotDotFails() {
         final InvalidCharacterException thrown = assertThrows(
             InvalidCharacterException.class,
-            () -> EnvironmentValueName.with("abc..def")
+            () -> EnvironmentValueName.with(
+                "abc..def",
+                String.class
+            )
         );
 
         this.checkEquals(
             "Invalid character '.' at 4",
             thrown.getMessage(),
             "message"
+        );
+    }
+
+    @Test
+    public void testWithNullTypeFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentValueName.with(
+                "xyz",
+                null
+            )
+        );
+    }
+
+    @Test
+    public void testWithDifferentTypeFails() {
+        final IllegalArgumentException thrown = assertThrows(
+            IllegalArgumentException.class,
+            () -> EnvironmentValueName.with(
+                "locale",
+                Integer.class
+            )
+        );
+
+        this.checkEquals(
+            "Invalid type \"java.lang.Integer\" expected \"java.util.Locale\"",
+            thrown.getMessage()
         );
     }
 
@@ -113,7 +150,8 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         assertSame(
             EnvironmentValueName.LOCALE,
             EnvironmentValueName.with(
-                EnvironmentValueName.LOCALE.value()
+                EnvironmentValueName.LOCALE.value(),
+                Locale.class
             )
         );
     }
@@ -121,14 +159,23 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     @Test
     public void testEqualsDifferentCase() {
         this.checkEqualsAndHashCode(
-            EnvironmentValueName.with("Label123"),
-            EnvironmentValueName.with("LABEL123")
+            EnvironmentValueName.with(
+                "Label123",
+                String.class
+            ),
+            EnvironmentValueName.with(
+                "LABEL123",
+                String.class
+            )
         );
     }
 
     @Override
     public EnvironmentValueName<String> createName(final String name) {
-        return EnvironmentValueName.with(name);
+        return EnvironmentValueName.with(
+            name,
+            String.class
+        );
     }
 
     @Override
@@ -179,14 +226,32 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
 
     @Test
     public void testSort() {
-        final EnvironmentValueName<String> a1 = EnvironmentValueName.with("a1");
-        final EnvironmentValueName<String> b2 = EnvironmentValueName.with("B2");
-        final EnvironmentValueName<String> c3 = EnvironmentValueName.with("C3");
-        final EnvironmentValueName<String> d4 = EnvironmentValueName.with("d4");
+        final EnvironmentValueName<String> a1 = EnvironmentValueName.with("a1", String.class);
+        final EnvironmentValueName<String> b2 = EnvironmentValueName.with("B2", String.class);
+        final EnvironmentValueName<String> c3 = EnvironmentValueName.with("C3", String.class);
+        final EnvironmentValueName<String> d4 = EnvironmentValueName.with("d4", String.class);
 
         this.compareToArraySortAndCheck(
             d4, c3, a1, b2,
             a1, b2, c3, d4
+        );
+    }
+
+    // hashCode/equals..................................................................................................
+
+    @Test
+    public void testEqualsDifferentTypeType() {
+        final String name = "name123";
+
+        this.checkNotEquals(
+            EnvironmentValueName.with(
+                name,
+                String.class
+            ),
+            EnvironmentValueName.with(
+                name,
+                Integer.class
+            )
         );
     }
 
@@ -197,7 +262,10 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     public void testToString() {
         final String value = "Hello123";
 
-        final EnvironmentValueName<?> name = EnvironmentValueName.with(value);
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            value,
+            String.class
+        );
         this.toStringAndCheck(
             name,
             name.text()

@@ -85,7 +85,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             cloned
         );
 
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("hello");
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "hello",
+            String.class
+        );
         final String value = "World123";
 
         this.environmentValueAndCheck(
@@ -176,7 +179,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testSetEnvironmentValueSame2() {
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("hello");
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "hello",
+            String.class
+        );
         final String value = "World123";
 
         final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
@@ -226,7 +232,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testSetEnvironmentValueDifferentFails2() {
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("hello");
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "hello",
+            String.class
+        );
         final String value = "value1";
 
         final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
@@ -381,7 +390,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testEnvironmentalValue() {
         this.environmentValueAndCheck(
             this.createContext(),
-            EnvironmentValueName.with("Hello123")
+            EnvironmentValueName.with(
+                "Hello123",
+                String.class
+            )
         );
     }
 

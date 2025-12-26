@@ -179,7 +179,8 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
                 try {
                     names.add(
                         EnvironmentValueName.with(
-                            parser.name()
+                            parser.name(),
+                            Object.class // unknown type default to Object
                         )
                     );
                 } catch (final InvalidCharacterException invalid) {

@@ -27,12 +27,14 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.character.CharPredicate;
 import walkingkooka.predicate.character.CharPredicates;
 import walkingkooka.text.CaseSensitivity;
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionReference;
 import walkingkooka.tree.expression.function.ExpressionFunctionParameterName;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The name of an environment value. Names must start with a letter, followed by letters/digits/dash and are case-sensitive.
@@ -67,22 +69,36 @@ final public class EnvironmentValueName<T> implements Name,
 
     private final static Map<String, EnvironmentValueName<?>> CONSTANTS = Maps.sorted();
 
-    private static <T> EnvironmentValueName<T> registerConstant(final String name) {
-        final EnvironmentValueName<?> constant = new EnvironmentValueName<>(name);
+    private static <T> EnvironmentValueName<T> registerConstant(final String name,
+                                                                final Class<T> type) {
+        final EnvironmentValueName<?> constant = new EnvironmentValueName<>(
+            name,
+            type
+        );
         CONSTANTS.put(name, constant);
         return Cast.to(constant);
     }
 
-    public final static EnvironmentValueName<LineEnding> LINE_ENDING = registerConstant("lineEnding");
+    public final static EnvironmentValueName<LineEnding> LINE_ENDING = registerConstant(
+        "lineEnding",
+        LineEnding.class
+    );
 
-    public final static EnvironmentValueName<Locale> LOCALE = registerConstant("locale");
+    public final static EnvironmentValueName<Locale> LOCALE = registerConstant(
+        "locale",
+        Locale.class
+    );
 
-    public final static EnvironmentValueName<EmailAddress> USER = registerConstant("user");
+    public final static EnvironmentValueName<EmailAddress> USER = registerConstant(
+        "user",
+        EmailAddress.class
+    );
 
     /**
      * Factory that creates a {@link EnvironmentValueName}
      */
-    public static <T> EnvironmentValueName<T> with(final String name) {
+    public static <T> EnvironmentValueName<T> with(final String name,
+                                                   final Class<T> type) {
         CharPredicates.failIfNullOrEmptyOrInitialAndPartFalse(
             name,
             "name",
@@ -101,7 +117,17 @@ final public class EnvironmentValueName<T> implements Name,
                 throw new InvalidCharacterException(name, 1 + dotdot);
             }
 
-            environmentValueName = new EnvironmentValueName<>(name);
+            environmentValueName = new EnvironmentValueName<>(
+                name,
+                Objects.requireNonNull(type, "type")
+            );
+        } else {
+            if (Object.class != type) {
+                final Class<?> expected = environmentValueName.type;
+                if (type != expected) {
+                    throw new IllegalArgumentException("Invalid type " + CharSequences.quote(type.getName()) + " expected " + CharSequences.quote(expected.getName()));
+                }
+            }
         }
 
         return environmentValueName;
@@ -110,9 +136,11 @@ final public class EnvironmentValueName<T> implements Name,
     /**
      * Private constructor
      */
-    private EnvironmentValueName(final String name) {
+    private EnvironmentValueName(final String name,
+                                 final Class<T> type) {
         super();
         this.name = name;
+        this.type = type;
     }
 
     @Override
@@ -121,6 +149,12 @@ final public class EnvironmentValueName<T> implements Name,
     }
 
     private final String name;
+
+    public Class<T> type() {
+        return this.type;
+    }
+
+    private final Class<T> type;
 
     // Comparable........................................................................................................
 
@@ -140,7 +174,10 @@ final public class EnvironmentValueName<T> implements Name,
 
     @Override
     public int hashCode() {
-        return CASE_SENSITIVITY.hash(this.name);
+        return Objects.hash(
+            CASE_SENSITIVITY.hash(this.name),
+            this.type
+        );
     }
 
     @Override
@@ -150,7 +187,8 @@ final public class EnvironmentValueName<T> implements Name,
     }
 
     private boolean equals0(final EnvironmentValueName<?> other) {
-        return this.compareTo(other) == Comparators.EQUAL;
+        return this.compareTo(other) == Comparators.EQUAL &&
+            this.type.equals(other.type);
     }
 
     @Override

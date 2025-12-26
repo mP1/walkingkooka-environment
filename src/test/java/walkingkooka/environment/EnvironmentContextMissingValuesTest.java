@@ -32,7 +32,10 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
     @Test
     public void testMissingWhenOne() {
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("Hello");
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "Hello",
+            String.class
+        );
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
@@ -56,8 +59,14 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
     @Test
     public void testMissingWhenTwo() {
-        final EnvironmentValueName<String> name1 = EnvironmentValueName.with("Hello1");
-        final EnvironmentValueName<String> name2 = EnvironmentValueName.with("Hello2");
+        final EnvironmentValueName<String> name1 = EnvironmentValueName.with(
+            "Hello1",
+            String.class
+        );
+        final EnvironmentValueName<String> name2 = EnvironmentValueName.with(
+            "Hello2",
+            String.class
+        );
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
@@ -87,7 +96,10 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
     @Test
     public void testMissingWhenNone() {
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("Hello");
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "Hello",
+            String.class
+        );
         final String value = "world";
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
@@ -135,8 +147,14 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
     @Test
     public void testToStringWithMissing() {
-        final EnvironmentValueName<String> name1 = EnvironmentValueName.with("Hello1");
-        final EnvironmentValueName<String> name2 = EnvironmentValueName.with("Hello2");
+        final EnvironmentValueName<String> name1 = EnvironmentValueName.with(
+            "Hello1",
+            String.class
+        );
+        final EnvironmentValueName<String> name2 = EnvironmentValueName.with(
+            "Hello2",
+            String.class
+        );
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(

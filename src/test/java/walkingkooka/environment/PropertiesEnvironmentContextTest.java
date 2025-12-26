@@ -117,7 +117,10 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     public void testEnvironmentalValue() {
         this.environmentValueAndCheck(
             this.createContext(),
-            EnvironmentValueName.with(NAME),
+            EnvironmentValueName.with(
+                NAME,
+                String.class
+            ),
             VALUE
         );
     }
@@ -126,7 +129,10 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     public void testEnvironmentalValueMissing() {
         this.environmentValueAndCheck(
             this.createContext(),
-            EnvironmentValueName.with("Unknown")
+            EnvironmentValueName.with(
+                "Unknown",
+                Void.class
+            )
         );
     }
 
@@ -183,8 +189,14 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                 ),
                 CONTEXT
             ),
-            EnvironmentValueName.with(key1),
-            EnvironmentValueName.with(key2),
+            EnvironmentValueName.with(
+                key1,
+                String.class
+            ),
+            EnvironmentValueName.with(
+                key2,
+                String.class
+            ),
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentValueName.USER
