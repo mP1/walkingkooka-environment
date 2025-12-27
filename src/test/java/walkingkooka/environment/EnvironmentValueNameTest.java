@@ -156,6 +156,42 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         );
     }
 
+    // registerConstant.................................................................................................
+
+    @Test
+    public void testRegisterConstantWithDifferentType() {
+        final IllegalArgumentException thrown = assertThrows(
+            IllegalArgumentException.class,
+            () -> EnvironmentValueName.registerConstant(
+                "locale",
+                String.class
+            )
+        );
+
+        this.checkEquals(
+            "Invalid type \"java.lang.String\" expected \"java.util.Locale\"",
+            thrown.getMessage()
+        );
+    }
+
+    @Test
+    public void testRegisterConstantDuplicateNameAndType() {
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.registerConstant(
+            "locale",
+            Locale.class
+        );
+
+        assertSame(
+            name,
+            EnvironmentValueName.registerConstant(
+                "locale",
+                Locale.class
+            )
+        );
+    }
+
+    // equals...........................................................................................................
+
     @Test
     public void testEqualsDifferentCase() {
         this.checkEqualsAndHashCode(

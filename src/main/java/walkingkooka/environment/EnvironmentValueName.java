@@ -69,9 +69,13 @@ final public class EnvironmentValueName<T> implements Name,
 
     private final static Map<String, EnvironmentValueName<?>> CONSTANTS = Maps.sorted();
 
-    private static <T> EnvironmentValueName<T> registerConstant(final String name,
-                                                                final Class<T> type) {
-        final EnvironmentValueName<?> constant = new EnvironmentValueName<>(
+    /**
+     * Registers an {@link EnvironmentValueName} and its type. Note if an attempt is made to register a
+     * {@link EnvironmentValueName} with a different type an {@link IllegalArgumentException} will be thrown.
+     */
+    public static <T> EnvironmentValueName<T> registerConstant(final String name,
+                                                               final Class<T> type) {
+        final EnvironmentValueName<?> constant = with(
             name,
             type
         );
