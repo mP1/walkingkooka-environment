@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.collect.list.Lists;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
@@ -28,6 +29,7 @@ import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -68,6 +70,16 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         @Override
         public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
             return () -> {};
+        }
+
+        @Override
+        public Set<EnvironmentValueName<?>> environmentValueNames() {
+            return Sets.of(
+                EnvironmentContext.LINE_ENDING,
+                EnvironmentContext.LOCALE,
+                EnvironmentContext.NOW,
+                EnvironmentValueName.USER
+            );
         }
     };
 
@@ -445,6 +457,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             ),
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
+            EnvironmentContext.NOW,
             EnvironmentValueName.USER
         );
     }

@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
@@ -29,6 +30,7 @@ import walkingkooka.text.LineEnding;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -58,7 +60,12 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         EmailAddress.parse("user@example.com")
     );
 
-    private final static EnvironmentContext CONTEXT = EnvironmentContexts.fake();
+    private final static EnvironmentContext CONTEXT = new FakeEnvironmentContext() {
+        @Override
+        public Set<EnvironmentValueName<?>> environmentValueNames() {
+            return Sets.empty();
+        }
+    };
 
     @Test
     public void testWithNullPrefixFails() {

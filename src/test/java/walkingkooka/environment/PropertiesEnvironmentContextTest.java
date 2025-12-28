@@ -211,7 +211,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
             ),
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
-            EnvironmentValueName.USER
+            EnvironmentContext.NOW
         );
     }
 
