@@ -21,12 +21,12 @@ import walkingkooka.Value;
 
 import java.util.Objects;
 
-public final class ReadOnlyEnvironmentValueNameException extends IllegalArgumentException
+public final class ReadOnlyEnvironmentValueException extends IllegalArgumentException
     implements Value<EnvironmentValueName<?>> {
 
     private static final long serialVersionUID = 1046143335801274563L;
 
-    public ReadOnlyEnvironmentValueNameException(final EnvironmentValueName<?> name) {
+    public ReadOnlyEnvironmentValueException(final EnvironmentValueName<?> name) {
         super(
             "Read only environment value: " + Objects.requireNonNull(name, "name")
         );

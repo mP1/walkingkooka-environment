@@ -23,7 +23,7 @@ import walkingkooka.reflect.ThrowableTesting2;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class ReadOnlyEnvironmentValueNameExceptionTest implements ThrowableTesting2<ReadOnlyEnvironmentValueNameException> {
+public final class ReadOnlyEnvironmentValueExceptionTest implements ThrowableTesting2<ReadOnlyEnvironmentValueException> {
 
     @Override
     public void testIfClassIsFinalIfAllConstructorsArePrivate() {
@@ -34,7 +34,7 @@ public final class ReadOnlyEnvironmentValueNameExceptionTest implements Throwabl
     public void testWithNullNameFails() {
         assertThrows(
             NullPointerException.class,
-            () -> new ReadOnlyEnvironmentValueNameException(null)
+            () -> new ReadOnlyEnvironmentValueException(null)
         );
     }
 
@@ -42,7 +42,7 @@ public final class ReadOnlyEnvironmentValueNameExceptionTest implements Throwabl
     public void testGetMessage() {
         this.checkEquals(
             "Read only environment value: locale",
-            new ReadOnlyEnvironmentValueNameException(EnvironmentValueName.LOCALE)
+            new ReadOnlyEnvironmentValueException(EnvironmentValueName.LOCALE)
                 .getMessage()
         );
     }
@@ -50,8 +50,8 @@ public final class ReadOnlyEnvironmentValueNameExceptionTest implements Throwabl
     // class............................................................................................................
 
     @Override
-    public Class<ReadOnlyEnvironmentValueNameException> type() {
-        return ReadOnlyEnvironmentValueNameException.class;
+    public Class<ReadOnlyEnvironmentValueException> type() {
+        return ReadOnlyEnvironmentValueException.class;
     }
 
     @Override
