@@ -163,6 +163,15 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     }
 
     @Test
+    public void testEnvironmentValueWithLineEnding() {
+        this.environmentValueAndCheck(
+            this.createContext(),
+            EnvironmentValueName.LINE_ENDING,
+            LINE_ENDING
+        );
+    }
+
+    @Test
     public void testEnvironmentValueWithLocale() {
         this.environmentValueAndCheck(
             this.createContext(),
