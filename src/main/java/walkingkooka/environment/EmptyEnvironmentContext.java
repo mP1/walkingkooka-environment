@@ -94,9 +94,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
                     this.lineEnding :
                     LOCALE.equals(name) ?
                         this.locale :
-                        USER.equals(name) ?
-                            this.user.orElse(null) :
-                            null
+                        NOW.equals(name) ?
+                            this.now() :
+                            USER.equals(name) ?
+                                this.user.orElse(null) :
+                                null
             )
         );
     }

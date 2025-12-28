@@ -545,7 +545,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                     )
                 )
             ),
-            "{hello.111=Gday, lineEnding=\\n, locale=en}"
+            "{hello.111=Gday, lineEnding=\\n, locale=en, now=-999999999-01-01T00:00}"
         );
     }
 

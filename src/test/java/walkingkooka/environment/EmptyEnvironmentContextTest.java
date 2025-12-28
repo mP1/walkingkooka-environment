@@ -172,6 +172,15 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     }
 
     @Test
+    public void testEnvironmentValueWithNow() {
+        this.environmentValueAndCheck(
+            this.createContext(),
+            EnvironmentValueName.NOW,
+            NOW
+        );
+    }
+
+    @Test
     public void testEnvironmentValueWithUserMissing() {
         this.environmentValueAndCheck(
             this.createContext(
