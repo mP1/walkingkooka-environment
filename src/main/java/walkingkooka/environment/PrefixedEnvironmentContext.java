@@ -134,15 +134,21 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
                 )
             );
         } else {
-            if(LOCALE.equals(name)) {
+            if(LINE_ENDING.equals(name)) {
                 value = Optional.of(
-                    this.context.locale()
+                    this.context.lineEnding()
                 );
             } else {
-                if(USER.equals(name)) {
-                    value = this.context.user();
+                if (LOCALE.equals(name)) {
+                    value = Optional.of(
+                        this.context.locale()
+                    );
                 } else {
-                    value = Optional.empty();
+                    if (USER.equals(name)) {
+                        value = this.context.user();
+                    } else {
+                        value = Optional.empty();
+                    }
                 }
             }
         }

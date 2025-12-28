@@ -104,17 +104,23 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
         final Optional<?> value;
 
-        if (LOCALE.equals(name)) {
+        if (LINE_ENDING.equals(name)) {
             value = Optional.of(
-                this.context.locale()
+                this.context.lineEnding()
             );
         } else {
-            if (USER.equals(name)) {
-                value = this.context.user();
-            } else {
-                value = this.properties.get(
-                    PropertiesPath.parse(name.value())
+            if (LOCALE.equals(name)) {
+                value = Optional.of(
+                    this.context.locale()
                 );
+            } else {
+                if (USER.equals(name)) {
+                    value = this.context.user();
+                } else {
+                    value = this.properties.get(
+                        PropertiesPath.parse(name.value())
+                    );
+                }
             }
         }
 
