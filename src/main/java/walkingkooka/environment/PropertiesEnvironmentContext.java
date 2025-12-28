@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.Cast;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
+import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
@@ -122,25 +123,19 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
     @Override
     public Set<EnvironmentValueName<?>> environmentValueNames() {
-        if (null == this.names) {
-            final Set<EnvironmentValueName<?>> names = Sets.ordered();
+        final Set<EnvironmentValueName<?>> names = SortedSets.tree();
 
-            this.properties.keys()
-                .stream()
-                .map(p -> EnvironmentValueName.with(
-                        p.value(),
-                        String.class
-                    )
-                ).forEach(names::add);
+        this.properties.keys()
+            .stream()
+            .map(p -> EnvironmentValueName.with(
+                    p.value(),
+                    String.class
+                )
+            ).forEach(names::add);
 
-            names.add(LINE_ENDING);
-            names.add(LOCALE);
-            names.add(USER);
+        names.addAll(this.context.environmentValueNames());
 
-            this.names = Sets.immutable(names);
-        }
-
-        return this.names;
+        return Sets.immutable(names);
     }
 
     private Set<EnvironmentValueName<?>> names;
