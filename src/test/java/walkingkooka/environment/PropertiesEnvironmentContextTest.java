@@ -166,11 +166,6 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         );
     }
 
-    @Override
-    public void testSetEnvironmentValueWithNowFails() {
-        throw new UnsupportedOperationException();
-    }
-
     @Test
     public void testSetEnvironmentValueWithUser() {
         final PropertiesEnvironmentContext context = this.createContext();
