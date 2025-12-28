@@ -147,9 +147,15 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
 
     // removeEnvironmentValue...........................................................................................
 
-    @Override
-    public void testRemoveEnvironmentValueWithNowFails() {
-        throw new UnsupportedOperationException();
+    @Test
+    public void testRemoveEnvironmentValueWithPropertyFails() {
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> this.createContext()
+                .removeEnvironmentValue(
+                    EnvironmentValueName.with(NAME, Object.class)
+                )
+        );
     }
 
     // setEnvironmentValue..............................................................................................
