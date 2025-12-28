@@ -150,7 +150,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        throw new UnsupportedOperationException();
+        if (LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name) || (USER.equals(name) && this.user.isPresent())) {
+            throw new ReadOnlyEnvironmentValueException(name);
+        }
+
+        // ignore all other removes because the value doesnt exist
+        return this;
     }
 
     // HasLineEnding....................................................................................................

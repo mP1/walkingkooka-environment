@@ -258,6 +258,63 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         throw new UnsupportedOperationException();
     }
 
+    @Test
+    public void testRemoveEnvironmentValueLineEndingFails() {
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> this.createContext()
+                .removeEnvironmentValue(EnvironmentContext.LINE_ENDING)
+        );
+    }
+
+    @Test
+    public void testRemoveEnvironmentValueLocaleFails() {
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> this.createContext()
+                .removeEnvironmentValue(EnvironmentContext.LOCALE)
+        );
+    }
+
+    @Test
+    public void testRemoveEnvironmentValueNowFails() {
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> this.createContext()
+                .removeEnvironmentValue(EnvironmentContext.NOW)
+        );
+    }
+
+    @Test
+    public void testRemoveEnvironmentValueUserAndNotAnonymousFails() {
+        final EmptyEnvironmentContext context = this.createContext();
+
+        this.checkNotEquals(
+            EnvironmentContext.NOW,
+            context.user()
+        );
+
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> context.removeEnvironmentValue(EnvironmentContext.NOW)
+        );
+    }
+
+    @Test
+    public void testRemoveEnvironmentValueUserAndAnonymous() {
+        final EmptyEnvironmentContext context = EmptyEnvironmentContext.with(
+            LINE_ENDING,
+            LOCALE,
+            HAS_NOW,
+            EnvironmentContext.ANONYMOUS
+        );
+
+        this.removeEnvironmentValueAndCheck(
+            context,
+            EnvironmentContext.USER
+        );
+    }
+
     // environmentValueNames............................................................................................
 
     @Test
