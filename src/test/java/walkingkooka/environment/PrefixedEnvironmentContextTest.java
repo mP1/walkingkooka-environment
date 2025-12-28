@@ -209,7 +209,19 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
+    // removeEnvironmentValue...........................................................................................
+
+    @Override
+    public void testRemoveEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
+    }
+
     // setEnvironmentValue..............................................................................................
+
+    @Override
+    public void testSetEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
+    }
 
     @Test
     public void testSetEnvironmentValueWithWatcher() {

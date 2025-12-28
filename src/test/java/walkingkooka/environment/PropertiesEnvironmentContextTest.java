@@ -145,6 +145,13 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         );
     }
 
+    // removeEnvironmentValue...........................................................................................
+
+    @Override
+    public void testRemoveEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
+    }
+
     // setEnvironmentValue..............................................................................................
 
     @Test
@@ -157,6 +164,11 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
             EnvironmentValueName.LOCALE,
             locale
         );
+    }
+
+    @Override
+    public void testSetEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
     }
 
     @Test

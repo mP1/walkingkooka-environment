@@ -32,6 +32,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionReference;
 import walkingkooka.tree.expression.function.ExpressionFunctionParameterName;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -91,6 +92,11 @@ final public class EnvironmentValueName<T> implements Name,
     public final static EnvironmentValueName<Locale> LOCALE = registerConstant(
         "locale",
         Locale.class
+    );
+
+    public final static EnvironmentValueName<LocalDateTime> NOW = registerConstant(
+        "now",
+        LocalDateTime.class
     );
 
     public final static EnvironmentValueName<EmailAddress> USER = registerConstant(

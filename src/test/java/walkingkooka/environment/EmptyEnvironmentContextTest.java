@@ -196,6 +196,11 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
 
     // setEnvironmentValue..............................................................................................
 
+    @Override
+    public void testSetEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
+    }
+
     @Test
     public void testSetEnvironmentValueWithLocale() {
         final EmptyEnvironmentContext context = this.createContext();
@@ -246,6 +251,13 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         );
     }
 
+    // removeEnvironmentValue...........................................................................................
+
+    @Override
+    public void testRemoveEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
+    }
+
     // environmentValueNames............................................................................................
 
     @Test
@@ -261,6 +273,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             ),
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
+            EnvironmentContext.NOW,
             EnvironmentContext.USER
         );
     }
@@ -275,7 +288,8 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 EnvironmentContext.ANONYMOUS
             ),
             EnvironmentContext.LINE_ENDING,
-            EnvironmentContext.LOCALE
+            EnvironmentContext.LOCALE,
+            EnvironmentContext.NOW
         );
     }
 
@@ -384,7 +398,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             this.createContext(
                 EnvironmentContext.ANONYMOUS
             ),
-            "{lineEnding=\"\\n\", locale=\"en\"}"
+            "{lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00}"
         );
     }
 
@@ -396,7 +410,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                     EmailAddress.parse("user@example.com")
                 )
             ),
-            "{lineEnding=\"\\n\", locale=\"en\", user=\"user@example.com\"}"
+            "{lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
         );
     }
 

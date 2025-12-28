@@ -111,11 +111,13 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     private final static Set<EnvironmentValueName<?>> NAMES = Sets.of(
         LINE_ENDING,
         LOCALE,
+        NOW,
         USER
     );
 
     private final static Set<EnvironmentValueName<?>> NAMES_WITHOUT_USER = Sets.of(
         LINE_ENDING,
+        NOW,
         LOCALE
     );
 
@@ -290,6 +292,9 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
         b.label("locale");
         b.value(this.locale.toLanguageTag());
+
+        b.label("now");
+        b.value(this.now());
 
         b.label("user");
         b.value(this.user.map(EmailAddress::toString));

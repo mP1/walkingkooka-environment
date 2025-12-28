@@ -45,6 +45,7 @@ import walkingkooka.text.CaseKind;
 import walkingkooka.text.LineEnding;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -360,6 +361,18 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
+    @Test
+    default void testSetEnvironmentValueWithNowFails() {
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> this.createContext()
+                .setEnvironmentValue(
+                    EnvironmentContext.NOW,
+                    LocalDateTime.now()
+                )
+        );
+    }
+
     // removeEnvironmentValue...........................................................................................
 
     @Test
@@ -369,6 +382,17 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             () -> this.createContext()
                 .removeEnvironmentValue(
                     null
+                )
+        );
+    }
+
+    @Test
+    default void testRemoveEnvironmentValueWithNowFails() {
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> this.createContext()
+                .removeEnvironmentValue(
+                    EnvironmentContext.NOW
                 )
         );
     }

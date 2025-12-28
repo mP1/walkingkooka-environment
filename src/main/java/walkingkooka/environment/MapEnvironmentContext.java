@@ -76,10 +76,16 @@ final class MapEnvironmentContext implements EnvironmentContext,
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
 
-        Object value = this.values.get(name);
-        if (null == value) {
-            value = this.context.environmentValue(name)
-                .orElse(null);
+        Object value;
+
+        if(NOW.equals(name)) {
+            value = this.now();
+        } else {
+            value = this.values.get(name);
+            if (null == value) {
+                value = this.context.environmentValue(name)
+                    .orElse(null);
+            }
         }
 
         return Optional.ofNullable(
@@ -93,6 +99,7 @@ final class MapEnvironmentContext implements EnvironmentContext,
         names.addAll(this.values.keySet());
         names.add(LINE_ENDING);
         names.add(LOCALE);
+        names.add(NOW);
 
         if (this.context.user().isPresent()) {
             names.add(USER);
@@ -107,6 +114,10 @@ final class MapEnvironmentContext implements EnvironmentContext,
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
+        if(NOW.equals(name)) {
+            throw new IllegalArgumentException("Setting " + name + " is not supported");
+        }
+
         Object oldValue = this.values.put(
             name,
             value
@@ -119,9 +130,13 @@ final class MapEnvironmentContext implements EnvironmentContext,
                 if(LOCALE.equals(name)) {
                     oldValue = this.context.locale();
                 } else {
-                    if(USER.equals(name)) {
-                        oldValue = this.context.user()
-                            .orElse(null);
+                    if(NOW.equals(name)) {
+                        oldValue = this.context.now();
+                    } else {
+                        if (USER.equals(name)) {
+                            oldValue = this.context.user()
+                                .orElse(null);
+                        }
                     }
                 }
             }
@@ -139,6 +154,10 @@ final class MapEnvironmentContext implements EnvironmentContext,
     @Override
     public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
+
+        if(NOW.equals(name)) {
+            throw new IllegalArgumentException("Removing " + name + " is not supported");
+        }
 
         Object oldValue = this.values.remove(name);
 

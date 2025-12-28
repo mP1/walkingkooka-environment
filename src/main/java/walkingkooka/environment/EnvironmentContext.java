@@ -24,6 +24,7 @@ import walkingkooka.text.HasLineEnding;
 import walkingkooka.text.LineEnding;
 import walkingkooka.util.HasLocale;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -44,6 +45,8 @@ public interface EnvironmentContext extends Context,
     EnvironmentValueName<LineEnding> LINE_ENDING = EnvironmentValueName.LINE_ENDING;
 
     EnvironmentValueName<Locale> LOCALE = EnvironmentValueName.LOCALE;
+
+    EnvironmentValueName<LocalDateTime> NOW = EnvironmentValueName.NOW;
 
     EnvironmentValueName<EmailAddress> USER = EnvironmentValueName.USER;
 

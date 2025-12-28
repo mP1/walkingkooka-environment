@@ -19,6 +19,7 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.set.Sets;
+import walkingkooka.datetime.HasNow;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.LineEnding;
@@ -145,6 +146,14 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
     // toString.........................................................................................................
 
+    private final HasNow HAS_NOW = () -> LocalDateTime.of(
+        1999,
+        12,
+        31,
+        12,
+        58
+    );
+
     @Test
     public void testToStringWithMissing() {
         final EnvironmentValueName<String> name1 = EnvironmentValueName.with(
@@ -160,7 +169,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
             EnvironmentContexts.empty(
                 LineEnding.NL,
                 Locale.ENGLISH,
-                LocalDateTime::now,
+                HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             )
         );
@@ -170,7 +179,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         this.toStringAndCheck(
             missing,
-            "missing=Hello1, Hello2 environmentContext={lineEnding=\"\\n\", locale=\"en\"}"
+            "missing=Hello1, Hello2 environmentContext={lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
         );
     }
 
@@ -180,14 +189,14 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
             EnvironmentContexts.empty(
                 LineEnding.NL,
                 Locale.ENGLISH,
-                LocalDateTime::now,
+                HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             )
         );
 
         this.toStringAndCheck(
             missing,
-            "environmentContext={lineEnding=\"\\n\", locale=\"en\"}"
+            "environmentContext={lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
         );
     }
 

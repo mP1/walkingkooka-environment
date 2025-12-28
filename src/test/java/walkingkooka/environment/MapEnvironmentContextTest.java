@@ -284,6 +284,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             context,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
+            EnvironmentValueName.NOW,
             name1,
             name2
         );
@@ -335,6 +336,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             context,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
+            EnvironmentValueName.NOW,
             EnvironmentValueName.USER,
             name1,
             name2
