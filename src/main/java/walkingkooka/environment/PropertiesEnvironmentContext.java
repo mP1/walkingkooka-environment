@@ -157,7 +157,7 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
                         Optional.of((EmailAddress) value)
                     );
                 } else {
-                    throw new UnsupportedOperationException();
+                    throw new ReadOnlyEnvironmentValueException(name);
                 }
             }
         }
