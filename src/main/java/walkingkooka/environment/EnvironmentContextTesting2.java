@@ -272,6 +272,17 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     }
 
     @Test
+    default void testEnvironmentValueLineEndingEqualsLineEnding() {
+        final C context = this.createContext();
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentContext.LINE_ENDING,
+            context.lineEnding()
+        );
+    }
+    
+    @Test
     default void testEnvironmentValueLocaleEqualsLocale() {
         final C context = this.createContext();
 
@@ -281,7 +292,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             context.locale()
         );
     }
-
+    
     @Test
     default void testEnvironmentValueUserEqualsUser() {
         final C context = this.createContext();
