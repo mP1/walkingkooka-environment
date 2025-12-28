@@ -267,6 +267,11 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
+    @Override
+    public void testSetEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
+    }
+
     // removeEnvironmentValue...........................................................................................
 
     @Test
@@ -301,6 +306,11 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             context,
             LOCALE
         );
+    }
+
+    @Override
+    public void testRemoveEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
     }
 
     // setLineEnding....................................................................................................
@@ -484,6 +494,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
             EnvironmentValueName.LINE_ENDING,
+            EnvironmentValueName.NOW,
             EnvironmentValueName.LOCALE,
             EnvironmentValueName.USER
         );

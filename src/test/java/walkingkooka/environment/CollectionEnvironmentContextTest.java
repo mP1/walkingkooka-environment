@@ -253,6 +253,11 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         );
     }
 
+    @Override
+    public void testSetEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
+    }
+
     // removeEnvironmentValue...........................................................................................
 
     @Test
@@ -287,6 +292,11 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             wrapped,
             name
         );
+    }
+
+    @Override
+    public void testRemoveEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
     }
 
     // setLineEnding....................................................................................................
