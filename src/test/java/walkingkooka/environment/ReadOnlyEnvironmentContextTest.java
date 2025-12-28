@@ -217,7 +217,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
 
         assertThrows(
-            UnsupportedOperationException.class,
+            ReadOnlyEnvironmentValueException.class,
             () -> context.setEnvironmentValue(
                 EnvironmentValueName.LOCALE,
                 locale
@@ -253,7 +253,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
 
         assertThrows(
-            UnsupportedOperationException.class,
+            ReadOnlyEnvironmentValueException.class,
             () -> context.setEnvironmentValue(
                 name,
                 "different2"
@@ -298,7 +298,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final ReadOnlyEnvironmentContext context = this.createContext();
 
         assertThrows(
-            UnsupportedOperationException.class,
+            ReadOnlyEnvironmentValueException.class,
             () -> context.removeEnvironmentValue(EnvironmentValueName.LOCALE)
         );
 
@@ -335,7 +335,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final ReadOnlyEnvironmentContext context = this.createContext();
 
         assertThrows(
-            UnsupportedOperationException.class,
+            ReadOnlyEnvironmentValueException.class,
             () -> context.setLineEnding(lineEnding)
         );
 
@@ -379,7 +379,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final ReadOnlyEnvironmentContext context = this.createContext();
 
         assertThrows(
-            UnsupportedOperationException.class,
+            ReadOnlyEnvironmentValueException.class,
             () -> context.setLocale(locale)
         );
 
@@ -438,7 +438,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final ReadOnlyEnvironmentContext context = this.createContext();
 
         assertThrows(
-            UnsupportedOperationException.class,
+            ReadOnlyEnvironmentValueException.class,
             () -> context.setUser(
                 Optional.of(user)
             )

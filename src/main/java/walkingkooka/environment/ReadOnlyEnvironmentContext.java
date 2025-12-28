@@ -86,7 +86,7 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(value, "value");
 
         if (false == value.equals(this.environmentValue(name).orElse(null))) {
-            throw new UnsupportedOperationException();
+            throw new ReadOnlyEnvironmentValueException(name);
         }
         return this;
     }
@@ -96,7 +96,7 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
 
         if (this.environmentValue(name).isPresent()) {
-            throw new UnsupportedOperationException();
+            throw new ReadOnlyEnvironmentValueException(name);
         }
         return this;
     }
