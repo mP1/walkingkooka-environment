@@ -169,7 +169,18 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        throw new UnsupportedOperationException();
+        final Object exists = this.context.environmentValue(name)
+            .orElse(null);
+        if (null != exists) {
+            this.context.removeEnvironmentValue(name);
+        } else {
+            final Object exists2 = this.environmentValue(name)
+                .orElse(null);
+            if (null != exists2) {
+                throw new ReadOnlyEnvironmentValueException(name);
+            }
+        }
+        return this;
     }
 
     private final Properties properties;
