@@ -36,6 +36,9 @@ public class TestGwtTest extends GWTTestCase {
     }
 
     public void testEnvironmentValueName() {
-        EnvironmentValueName.with("Hello123");
+        EnvironmentValueName.with(
+            "Hello123",
+            Object.class
+        );
     }
 }
