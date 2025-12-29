@@ -31,7 +31,10 @@ public class JunitTest {
 
     @Test
     public void testEnvironmentValueName() {
-        EnvironmentValueName.with("Hello123");
+        EnvironmentValueName.with(
+            "Hello123",
+            Object.class
+        );
     }
 }
 
