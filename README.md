@@ -12,9 +12,7 @@ Support for providing a scoped / context with targetted environment values.
 This is intended primarily to support custom values to a component(s) such as a [plugin](https://github.com/mP1/walkingkooka-plugin).
 
 - Secret values such as a username and password to a component.
-- Non secret values such as an address.
-- A [EnvironmentValueName](https://github.com/mP1/walkingkooka-environment/blob/master/src/main/java/walkingkooka/environment/EnvironmentValueName.java) 
- supports supplying a default to a function parameter from a environment context.
+- Non secret values such as an ip-address.
 
 ### [Converters](https://github.com/mP1/walkingkooka-convert/blob/master/src/main/java/walkingkooka/convert/Converter.java)
 
