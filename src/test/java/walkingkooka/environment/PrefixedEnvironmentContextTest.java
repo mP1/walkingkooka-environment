@@ -65,6 +65,11 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         public Set<EnvironmentValueName<?>> environmentValueNames() {
             return Sets.empty();
         }
+
+        @Override
+        public Optional<EmailAddress> user() {
+            return PrefixedEnvironmentContextTest.USER;
+        }
     };
 
     @Test
@@ -389,6 +394,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
             ),
             EnvironmentValueName.LINE_ENDING,
             EnvironmentContext.LOCALE,
+            EnvironmentContext.NOW,
             EnvironmentValueName.USER
         );
     }
