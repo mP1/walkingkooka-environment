@@ -168,7 +168,11 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         final SortedSet<EnvironmentValueName<?>> names = SortedSets.tree();
         names.add(LINE_ENDING);
         names.add(LOCALE);
-        names.add(USER);
+        names.add(NOW);
+
+        if(this.user().isPresent()) {
+            names.add(USER);
+        }
 
         for (final EnvironmentValueName<?> name : this.context.environmentValueNames()) {
             if (LINE_ENDING.equals(name) || LOCALE.equals(name) || USER.equals(name)) {
