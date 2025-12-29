@@ -294,6 +294,17 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     }
     
     @Test
+    default void testEnvironmentValueNowEqualsNow() {
+        final C context = this.createContext();
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentContext.NOW,
+            context.now()
+        );
+    }
+
+    @Test
     default void testEnvironmentValueUserEqualsUser() {
         final C context = this.createContext();
 
