@@ -111,7 +111,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
             return EnvironmentContexts.empty(
                 LineEnding.NL,
                 Locale.ENGLISH,
-                LocalDateTime::now,
+                () -> LocalDateTime.MIN,
                 EnvironmentContext.ANONYMOUS
             );
         }
