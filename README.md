@@ -7,12 +7,20 @@
 [![J2CL compatible](https://img.shields.io/badge/J2CL-compatible-brightgreen.svg)](https://github.com/mP1/j2cl-central)
 
 # walkingkooka-environment
+
 Support for providing a scoped / context with targetted environment values.
 
 This is intended primarily to support custom values to a component(s) such as a [plugin](https://github.com/mP1/walkingkooka-plugin).
 
 - Secret values such as a username and password to a component.
 - Non secret values such as an ip-address.
+
+### [EnvironmentValueName](https://github.com/mP1/walkingkooka-environment/blob/master/src/main/java/walkingkooka/environment/EnvironmentValueName.java)
+
+- lineEnding: The current line-ending used by functions when printing lines of text
+- locale: The current locale for the current user, eg "en-AU".
+- now: The current date/time`java.time.LocalDateTime`
+- user: The email address identifying the current user
 
 ### [Converters](https://github.com/mP1/walkingkooka-convert/blob/master/src/main/java/walkingkooka/convert/Converter.java)
 
