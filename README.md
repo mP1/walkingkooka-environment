@@ -22,6 +22,24 @@ This is intended primarily to support custom values to a component(s) such as a 
 - now: The current date/time`java.time.LocalDateTime`
 - user: The email address identifying the current user
 
+Within a spreadsheet terminal session, additional values are available. The list below is not exhaustive but a short list of examples.
+
+- spreadsheetId: Identifies the default spreadsheetId assumed for unqualified cell references within expressions.
+- converters: The [Converter](https://github.com/mP1/walkingkooka-convert/blob/master/src/main/java/walkingkooka/convert/Converter.java) used when executing expressions.
+- dateParser: One or more [Parser](https://github.com/mP1/walkingkooka-spreadsheet/blob/master/src/main/java/walkingkooka/spreadsheet/parser/SpreadsheetParser.java) used to parse dates within expressions.
+- dateTimeOffset: Used to select the date equivalent to a value of zero.
+- dateTimeParser: One or more [Parser](https://github.com/mP1/walkingkooka-spreadsheet/blob/master/src/main/java/walkingkooka/spreadsheet/parser/SpreadsheetParser.java) used to parse date/times within expressions.
+- decimalNumberDigitCount: The default number of digits for numbers within expressions.
+- decimalNumberSymbols: CSV list containing belonging to [DecimalNumberSymbol](https://github.com/mP1/walkingkooka-math/blob/master/src/main/java/walkingkooka/math/DecimalNumberSymbols.java) used when parsing and formatting numbers.
+- defaultYear: The default user assumed for dates without a year.
+- functions: Csv of available [Function](https://github.com/mP1/walkingkooka-tree/blob/master/src/main/java/walkingkooka/tree/expression/function/ExpressionFunction.java) for expressions.
+- numberParser: One or more [Parser](https://github.com/mP1/walkingkooka-spreadsheet/blob/master/src/main/java/walkingkooka/spreadsheet/parser/SpreadsheetParser.java) used to parse numbers within expressions.
+- precision: The number of digits of precision for decimal numbers.
+- serverUrl: The [AbsoluteUrl](https://github.com/mP1/walkingkooka-net/blob/master/src/main/java/walkingkooka/net/AbsoluteUrl.java) for the host server.
+- timeParser: One or more [Parser](https://github.com/mP1/walkingkooka-spreadsheet/blob/master/src/main/java/walkingkooka/spreadsheet/parser/SpreadsheetParser.java) used to parse times within expressions.
+- twoDigitYear: The century component used for two digit years within a date.
+- valueSeparator: The value separator character used to demark a list of values.
+
 ### [Converters](https://github.com/mP1/walkingkooka-convert/blob/master/src/main/java/walkingkooka/convert/Converter.java)
 
 A collection of converters that are particularly useful within expressions and support passing environment values.
