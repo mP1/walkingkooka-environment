@@ -122,10 +122,10 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setLocale(final Locale locale) {
+    public void setLocale(final Locale locale) {
         Objects.requireNonNull(locale, "locale");
 
-        return this.setEnvironmentValue(
+        this.setEnvironmentValue(
             LOCALE,
             locale
         );

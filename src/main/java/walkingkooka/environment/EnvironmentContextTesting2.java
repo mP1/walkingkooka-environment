@@ -207,7 +207,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     default void testSetLocaleWithNullFails() {
         assertThrows(
             NullPointerException.class,
-            () -> this.createContext().setLocale(null)
+            () -> this.createContext()
+                .setLocale(null)
         );
     }
 

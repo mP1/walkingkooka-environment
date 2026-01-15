@@ -193,7 +193,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     @Override
-    public EnvironmentContext setLocale(final Locale locale) {
+    public void setLocale(final Locale locale) {
         Objects.requireNonNull(locale, "locale");
 
         final Locale oldLocale = this.locale;
@@ -204,8 +204,6 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
             Optional.of(oldLocale),
             Optional.of(locale)
         );
-
-        return this;
     }
 
     private Locale locale;

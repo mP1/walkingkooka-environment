@@ -100,7 +100,7 @@ public interface EnvironmentContext extends Context,
     /**
      * Sets or replaces the current {@link Locale}
      */
-    EnvironmentContext setLocale(final Locale locale);
+    void setLocale(final Locale locale);
 
     /**
      * Sets or replaces the user.
