@@ -51,16 +51,6 @@ public interface EnvironmentContext extends Context,
     EnvironmentValueName<EmailAddress> USER = EnvironmentValueName.USER;
 
     /**
-     * Sets or replaces the current {@link LineEnding}
-     */
-    EnvironmentContext setLineEnding(final LineEnding lineEnding);
-
-    /**
-     * Sets or replaces the current {@link Locale}
-     */
-    EnvironmentContext setLocale(final Locale locale);
-
-    /**
      * Returns a {@link EnvironmentContext} taking a snapshot of environment values. This is useful for environments
      * where a copy of the environment is needed so new updates do not modify the original.
      */
@@ -101,6 +91,16 @@ public interface EnvironmentContext extends Context,
      * Removes the value with the given {@link EnvironmentValueName}.
      */
     EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name);
+
+    /**
+     * Sets or replaces the current {@link LineEnding}
+     */
+    EnvironmentContext setLineEnding(final LineEnding lineEnding);
+
+    /**
+     * Sets or replaces the current {@link Locale}
+     */
+    EnvironmentContext setLocale(final Locale locale);
 
     /**
      * Sets or replaces the user.
