@@ -109,8 +109,8 @@ final class MapEnvironmentContext implements EnvironmentContext,
     }
 
     @Override
-    public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
-                                                      final T value) {
+    public <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                        final T value) {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
@@ -147,12 +147,10 @@ final class MapEnvironmentContext implements EnvironmentContext,
             Optional.ofNullable(oldValue),
             Optional.of(value)
         );
-
-        return this;
     }
 
     @Override
-    public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+    public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
         if(NOW.equals(name)) {
@@ -181,8 +179,6 @@ final class MapEnvironmentContext implements EnvironmentContext,
             Optional.ofNullable(oldValue),
             Optional.empty()
         );
-
-        return this;
     }
 
     private final Map<EnvironmentValueName<?>, Object> values;
@@ -195,8 +191,8 @@ final class MapEnvironmentContext implements EnvironmentContext,
     }
 
     @Override
-    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
-        return this.setEnvironmentValue(
+    public void setLineEnding(final LineEnding lineEnding) {
+        this.setEnvironmentValue(
             LINE_ENDING,
             lineEnding
         );
@@ -232,17 +228,19 @@ final class MapEnvironmentContext implements EnvironmentContext,
     }
 
     @Override
-    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+    public void setUser(final Optional<EmailAddress> user) {
         Objects.requireNonNull(user, "user");
 
-        return user.isPresent() ?
+        if (user.isPresent()) {
             this.setEnvironmentValue(
                 USER,
                 user.orElse(null)
-            ) :
+            );
+        } else {
             this.removeEnvironmentValue(
                 USER
             );
+        }
     }
 
     private final EnvironmentContext context;

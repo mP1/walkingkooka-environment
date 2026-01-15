@@ -207,8 +207,8 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testSetEnvironmentContext() {
         final PrefixedEnvironmentContext context = this.createContext();
 
-        final EnvironmentContext different = this.createContext()
-            .setLineEnding(LineEnding.CRNL);
+        final EnvironmentContext different = this.createContext();
+        different.setLineEnding(LineEnding.CRNL);
 
         this.checkNotEquals(
             context,

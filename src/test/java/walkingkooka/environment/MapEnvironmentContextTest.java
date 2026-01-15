@@ -363,8 +363,8 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
     public void testSetEnvironmentContext() {
         final MapEnvironmentContext context = this.createContext();
 
-        final EnvironmentContext different = this.createContext()
-            .setLineEnding(LineEnding.CRNL);
+        final EnvironmentContext different = this.createContext();
+        different.setLineEnding(LineEnding.CRNL);
 
         this.checkNotEquals(
             context,
@@ -428,17 +428,21 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             String.class
         );
 
+        final EnvironmentContext context = this.createContext();
+        context.setEnvironmentValue(
+            name,
+            "World1"
+        );
+
+        final EnvironmentContext different = this.createContext();
+        different.setEnvironmentValue(
+            name,
+            "World22"
+        );
+
         this.checkNotEquals(
-            this.createContext()
-                .setEnvironmentValue(
-                    name,
-                    "World1"
-                ),
-            this.createContext()
-                .setEnvironmentValue(
-                    name,
-                    "World22"
-                )
+            context,
+            different
         );
     }
 

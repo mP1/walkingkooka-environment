@@ -89,7 +89,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         }
 
         @Override
-        public TestEnvironmentContextDelegator setLineEnding(final LineEnding lineEnding) {
+        public void setLineEnding(final LineEnding lineEnding) {
             Objects.requireNonNull(lineEnding, "lineEnding");
             throw new UnsupportedOperationException();
         }
@@ -101,7 +101,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         }
 
         @Override
-        public TestEnvironmentContextDelegator setUser(final Optional<EmailAddress> user) {
+        public void setUser(final Optional<EmailAddress> user) {
             Objects.requireNonNull(user, "user");
             throw new UnsupportedOperationException();
         }

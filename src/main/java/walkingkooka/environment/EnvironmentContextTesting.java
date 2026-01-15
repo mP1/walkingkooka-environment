@@ -46,7 +46,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting extends HasLineEndingTesting,
@@ -90,13 +89,10 @@ public interface EnvironmentContextTesting extends HasLineEndingTesting,
     default <T> void setEnvironmentValueAndCheck(final EnvironmentContext context,
                                                  final EnvironmentValueName<T> name,
                                                  final T value) {
-        assertSame(
-            context,
-            context.setEnvironmentValue(
+        context.setEnvironmentValue(
                 name,
                 value
-            )
-        );
+            );
         this.environmentValueAndCheck(
             context,
             name,
@@ -108,11 +104,8 @@ public interface EnvironmentContextTesting extends HasLineEndingTesting,
 
     default <T> void removeEnvironmentValueAndCheck(final EnvironmentContext context,
                                                     final EnvironmentValueName<T> name) {
-        assertSame(
-            context,
-            context.removeEnvironmentValue(
-                name
-            )
+        context.removeEnvironmentValue(
+            name
         );
         this.environmentValueAndCheck(
             context,
@@ -158,10 +151,8 @@ public interface EnvironmentContextTesting extends HasLineEndingTesting,
 
     default void setLineEndingAndCheck(final EnvironmentContext context,
                                        final LineEnding lineEnding) {
-        assertSame(
-            context,
-            context.setLineEnding(lineEnding)
-        );
+        context.setLineEnding(lineEnding);
+
         this.lineEndingAndCheck(
             context,
             lineEnding
@@ -224,10 +215,8 @@ public interface EnvironmentContextTesting extends HasLineEndingTesting,
 
     default void setUserAndCheck(final EnvironmentContext context,
                                  final Optional<EmailAddress> emailAddress) {
-        assertSame(
-            context,
-            context.setUser(emailAddress)
-        );
+        context.setUser(emailAddress);
+
         this.userAndCheck(
             context,
             emailAddress

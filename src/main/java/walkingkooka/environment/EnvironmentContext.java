@@ -84,18 +84,18 @@ public interface EnvironmentContext extends Context,
     /**
      * Sets or replaces the given environment variable with a new value.
      */
-    <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
-                                               final T value);
+    <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                 final T value);
 
     /**
      * Removes the value with the given {@link EnvironmentValueName}.
      */
-    EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name);
+    void removeEnvironmentValue(final EnvironmentValueName<?> name);
 
     /**
      * Sets or replaces the current {@link LineEnding}
      */
-    EnvironmentContext setLineEnding(final LineEnding lineEnding);
+    void setLineEnding(final LineEnding lineEnding);
 
     /**
      * Sets or replaces the current {@link Locale}
@@ -105,7 +105,7 @@ public interface EnvironmentContext extends Context,
     /**
      * Sets or replaces the user.
      */
-    EnvironmentContext setUser(final Optional<EmailAddress> user);
+    void setUser(final Optional<EmailAddress> user);
 
     /**
      * Returns a new {@link EnvironmentContext} that now prefixes all lookups with the given {@link EnvironmentValueName prefix}.

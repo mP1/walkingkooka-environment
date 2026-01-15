@@ -78,13 +78,13 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
-        return this.setEnvironmentValue(
+    public void setLineEnding(final LineEnding lineEnding) {
+        this.setEnvironmentValue(
             LINE_ENDING,
             lineEnding
         );
     }
-    
+
     @Override
     public Locale locale() {
         return this.context.locale();
@@ -153,8 +153,8 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     private Set<EnvironmentValueName<?>> names;
 
     @Override
-    public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
-                                                      final T value) {
+    public <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                        final T value) {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
@@ -173,12 +173,10 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
                 }
             }
         }
-
-        return this;
     }
 
     @Override
-    public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+    public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
         final Object exists = this.context.environmentValue(name)
@@ -192,7 +190,6 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
                 throw new ReadOnlyEnvironmentValueException(name);
             }
         }
-        return this;
     }
 
     private final Properties properties;
@@ -208,9 +205,8 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+    public void setUser(final Optional<EmailAddress> user) {
         this.context.setUser(user);
-        return this;
     }
 
     @Override
