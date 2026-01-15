@@ -476,16 +476,16 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Override
     public ReadOnlyEnvironmentContext createContext() {
-        return ReadOnlyEnvironmentContext.with(
-            EnvironmentContexts.map(
-                EnvironmentContexts.empty(
-                    LINE_ENDING,
-                    LOCALE,
-                    () -> NOW,
-                    Optional.of(USER)
-                )
-            ).setLocale(LOCALE)
+        final EnvironmentContext context = EnvironmentContexts.map(
+            EnvironmentContexts.empty(
+                LINE_ENDING,
+                LOCALE,
+                () -> NOW,
+                Optional.of(USER)
+            )
         );
+        context.setLocale(LOCALE);
+        return ReadOnlyEnvironmentContext.with(context);
     }
 
     // environmentValueNames............................................................................................

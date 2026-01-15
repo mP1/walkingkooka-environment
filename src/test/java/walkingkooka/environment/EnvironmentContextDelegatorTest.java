@@ -95,7 +95,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         }
 
         @Override
-        public TestEnvironmentContextDelegator setLocale(final Locale locale) {
+        public void setLocale(final Locale locale) {
             Objects.requireNonNull(locale, "locale");
             throw new UnsupportedOperationException();
         }

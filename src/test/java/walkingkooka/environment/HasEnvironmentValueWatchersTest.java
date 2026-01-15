@@ -47,7 +47,7 @@ public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasE
         }
 
         @Override
-        public EnvironmentContext setLocale(final Locale locale) {
+        public void setLocale(final Locale locale) {
             throw new UnsupportedOperationException();
         }
 

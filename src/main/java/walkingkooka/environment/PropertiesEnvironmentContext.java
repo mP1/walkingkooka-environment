@@ -91,8 +91,8 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setLocale(final Locale locale) {
-        return this.setEnvironmentValue(
+    public void setLocale(final Locale locale) {
+        this.setEnvironmentValue(
             EnvironmentValueName.LOCALE,
             locale
         );

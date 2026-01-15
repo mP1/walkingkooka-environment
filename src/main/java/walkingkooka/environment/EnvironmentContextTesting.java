@@ -172,10 +172,7 @@ public interface EnvironmentContextTesting extends HasLineEndingTesting,
 
     default void setLocaleAndCheck(final EnvironmentContext context,
                                    final Locale locale) {
-        assertSame(
-            context,
-            context.setLocale(locale)
-        );
+        context.setLocale(locale);
         this.localeAndCheck(
             context,
             locale
