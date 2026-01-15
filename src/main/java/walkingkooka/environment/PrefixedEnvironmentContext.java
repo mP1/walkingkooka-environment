@@ -79,8 +79,8 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
-        return this.setEnvironmentValue(
+    public void setLineEnding(final LineEnding lineEnding) {
+        this.setEnvironmentValue(
             LINE_ENDING,
             lineEnding
         );
@@ -192,8 +192,8 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     final String prefix;
 
     @Override
-    public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
-                                                      final T value) {
+    public <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                        final T value) {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
@@ -212,12 +212,10 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
                 }
             }
         }
-
-        return this;
     }
 
     @Override
-    public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+    public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
         throw new UnsupportedOperationException();
@@ -234,9 +232,8 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+    public void setUser(final Optional<EmailAddress> user) {
         this.context.setUser(user);
-        return this;
     }
 
     @Override

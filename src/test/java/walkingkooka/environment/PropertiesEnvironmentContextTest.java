@@ -97,8 +97,8 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     public void testSetEnvironmentContext() {
         final PropertiesEnvironmentContext context = this.createContext();
 
-        final EnvironmentContext different = this.createContext()
-            .setLineEnding(LineEnding.CRNL);
+        final EnvironmentContext different = this.createContext();
+        different.setLineEnding(LineEnding.CRNL);
 
         assertNotSame(
             context,
@@ -241,13 +241,15 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testEqualsDifferentContext() {
+        final EnvironmentContext context = CONTEXT.cloneEnvironment();
+        context.setLineEnding(
+            LineEnding.CRNL
+        );
+
         this.checkNotEquals(
             PropertiesEnvironmentContext.with(
                 Properties.EMPTY,
-                CONTEXT.cloneEnvironment()
-                    .setLineEnding(
-                        LineEnding.CRNL
-                    )
+                context
             )
         );
     }

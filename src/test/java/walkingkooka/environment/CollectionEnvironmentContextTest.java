@@ -119,26 +119,29 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testCloneEnvironment() {
-        final EnvironmentContext context = CollectionEnvironmentContext.with(
+        final EnvironmentContext context = EnvironmentContexts.map(
+            CONTEXT
+        );
+        context.setEnvironmentValue(
+            EnvironmentValueName.with(NAME1, String.class),
+            VALUE1
+        );
+
+        final EnvironmentContext collection = CollectionEnvironmentContext.with(
             Lists.of(
-                EnvironmentContexts.map(
-                    CONTEXT
-                ).setEnvironmentValue(
-                    EnvironmentValueName.with(NAME1, String.class),
-                    VALUE1
-                ),
+                context,
                 CONTEXT
             )
         );
-        final EnvironmentContext clone = context.cloneEnvironment();
+        final EnvironmentContext clone = collection.cloneEnvironment();
 
         assertNotSame(
-            context,
+            collection,
             clone
         );
 
         this.getAllEnvironmentValueAndCheck(
-            context,
+            collection,
             clone
         );
 
@@ -238,7 +241,8 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
         final EnvironmentContext wrapped = EnvironmentContexts.map(
             CONTEXT
-        ).setEnvironmentValue(
+        );
+        wrapped.setEnvironmentValue(
             name,
             VALUE1
         );
@@ -281,7 +285,8 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
         final EnvironmentContext wrapped = EnvironmentContexts.map(
             CONTEXT
-        ).setEnvironmentValue(
+        );
+        wrapped.setEnvironmentValue(
             name,
             VALUE1
         );

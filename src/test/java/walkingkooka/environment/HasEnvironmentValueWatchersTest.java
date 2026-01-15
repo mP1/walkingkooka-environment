@@ -42,7 +42,7 @@ public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasE
         }
 
         @Override
-        public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+        public void setLineEnding(final LineEnding lineEnding) {
             throw new UnsupportedOperationException();
         }
 
@@ -72,13 +72,13 @@ public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasE
         }
 
         @Override
-        public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
-                                                          final T value) {
+        public <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                            final T value) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+        public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
             throw new UnsupportedOperationException();
         }
 
@@ -93,7 +93,7 @@ public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasE
         }
 
         @Override
-        public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+        public void setUser(final Optional<EmailAddress> user) {
             throw new UnsupportedOperationException();
         }
 

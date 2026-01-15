@@ -80,25 +80,23 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
-                                                      final T value) {
+    public <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                        final T value) {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
         if (false == value.equals(this.environmentValue(name).orElse(null))) {
             throw new ReadOnlyEnvironmentValueException(name);
         }
-        return this;
     }
 
     @Override
-    public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+    public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
         if (this.environmentValue(name).isPresent()) {
             throw new ReadOnlyEnvironmentValueException(name);
         }
-        return this;
     }
 
     @Override
@@ -107,10 +105,10 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+    public void setLineEnding(final LineEnding lineEnding) {
         Objects.requireNonNull(lineEnding, "lineEnding");
 
-        return this.setEnvironmentValue(
+        this.setEnvironmentValue(
             LINE_ENDING,
             lineEnding
         );
@@ -142,15 +140,17 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+    public void setUser(final Optional<EmailAddress> user) {
         Objects.requireNonNull(user, "user");
 
-        return user.isPresent() ?
+        if (user.isPresent()) {
             this.setEnvironmentValue(
                 USER,
                 user.get()
-            ) :
+            );
+        } else {
             this.removeEnvironmentValue(USER);
+        }
     }
 
     @Override

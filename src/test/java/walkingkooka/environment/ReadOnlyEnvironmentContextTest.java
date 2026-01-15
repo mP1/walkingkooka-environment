@@ -91,11 +91,12 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
         final String value = "World123";
 
+        cloned.setEnvironmentValue(
+            name,
+            value
+        );
         this.environmentValueAndCheck(
-            cloned.setEnvironmentValue(
-                name,
-                value
-            ),
+            cloned,
             name,
             value
         );
@@ -185,22 +186,21 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
         final String value = "World123";
 
-        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
-            EnvironmentContexts.map(
-                EnvironmentContexts.empty(
-                    LINE_ENDING,
-                    LOCALE,
-                    () -> NOW,
-                    Optional.of(USER)
-                )
-            ).setEnvironmentValue(
-                name,
-                value
+        final EnvironmentContext context = EnvironmentContexts.map(
+            EnvironmentContexts.empty(
+                LINE_ENDING,
+                LOCALE,
+                () -> NOW,
+                Optional.of(USER)
             )
+        );
+        context.setEnvironmentValue(
+            name,
+            value
         );
 
         this.setEnvironmentValueAndCheck(
-            context,
+            ReadOnlyEnvironmentContext.with(context),
             name,
             value
         );
@@ -238,30 +238,30 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
         final String value = "value1";
 
-        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
-            EnvironmentContexts.map(
-                EnvironmentContexts.empty(
-                    LINE_ENDING,
-                    LOCALE,
-                    () -> NOW,
-                    Optional.of(USER)
-                )
-            ).setEnvironmentValue(
-                name,
-                value
+        final EnvironmentContext context = EnvironmentContexts.map(
+            EnvironmentContexts.empty(
+                LINE_ENDING,
+                LOCALE,
+                () -> NOW,
+                Optional.of(USER)
             )
         );
+        context.setEnvironmentValue(
+            name,
+            value
+        );
+        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(context);
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
-            () -> context.setEnvironmentValue(
+            () -> readOnly.setEnvironmentValue(
                 name,
                 "different2"
             )
         );
 
         this.environmentValueAndCheck(
-            context,
+            readOnly,
             name,
             value
         );

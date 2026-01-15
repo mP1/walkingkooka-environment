@@ -117,8 +117,8 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testSetEnvironmentContext() {
         final EmptyEnvironmentContext context = this.createContext();
 
-        final EnvironmentContext different = this.createContext()
-            .setLineEnding(LineEnding.CRNL);
+        final EnvironmentContext different = this.createContext();
+        different.setLineEnding(LineEnding.CRNL);
 
         this.checkNotEquals(
             context,

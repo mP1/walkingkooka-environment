@@ -88,8 +88,8 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
-        return this.setEnvironmentValue(
+    public void setLineEnding(final LineEnding lineEnding) {
+        this.setEnvironmentValue(
             LINE_ENDING,
             lineEnding
         );
@@ -127,7 +127,7 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
                 USER.equals(name) ?
                     Cast.to(
                         this.first.user()
-                    ):
+                    ) :
                     this.contexts.stream()
                         .map(c -> c.environmentValue(name))
                         .filter(Optional::isPresent)
@@ -154,8 +154,8 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     private Set<EnvironmentValueName<?>> names;
 
     @Override
-    public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
-                                                      final T value) {
+    public <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                        final T value) {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
@@ -181,12 +181,10 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
                 value
             );
         }
-
-        return this;
     }
 
     @Override
-    public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+    public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
         EnvironmentContext removeFrom = null;
@@ -204,8 +202,6 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
         if (null != removeFrom) {
             removeFrom.removeEnvironmentValue(name);
         }
-
-        return this;
     }
 
     @Override
@@ -224,7 +220,7 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+    public void setUser(final Optional<EmailAddress> user) {
         Objects.requireNonNull(user, "user");
 
         final EmailAddress userOrNull = user.orElse(null);
@@ -236,8 +232,6 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
         } else {
             this.removeEnvironmentValue(USER);
         }
-
-        return this;
     }
 
     @Override
@@ -262,7 +256,7 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
 
         final List<Runnable> removers = Lists.array();
 
-        for(final EnvironmentContext context : this.contexts) {
+        for (final EnvironmentContext context : this.contexts) {
             removers.add(adder.apply(context));
         }
 

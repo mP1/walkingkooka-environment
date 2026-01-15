@@ -103,19 +103,20 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
         );
         final String value = "world";
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
-            EnvironmentContexts.map(
-                EnvironmentContexts.empty(
-                    LineEnding.NL,
-                    Locale.ENGLISH,
-                    LocalDateTime::now,
-                    EnvironmentContext.ANONYMOUS
-                )
-            ).setEnvironmentValue(
-                name,
-                value
+        final EnvironmentContext environmentContext = EnvironmentContexts.map(
+            EnvironmentContexts.empty(
+                LineEnding.NL,
+                Locale.ENGLISH,
+                LocalDateTime::now,
+                EnvironmentContext.ANONYMOUS
             )
         );
+        environmentContext.setEnvironmentValue(
+            name,
+            value
+        );
+
+        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
 
         this.checkEquals(
             value,

@@ -35,12 +35,11 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     }
 
     @Override
-    default EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+    default void setLineEnding(final LineEnding lineEnding) {
         this.environmentContext()
             .setLineEnding(lineEnding);
-        return this;
     }
-    
+
     @Override
     default Locale locale() {
         return this.environmentContext()
@@ -65,23 +64,21 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     }
 
     @Override
-    default <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
-                                                       final T value) {
+    default <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                         final T value) {
         this.environmentContext()
             .setEnvironmentValue(
                 name,
                 value
             );
-        return this;
     }
 
     @Override
-    default EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+    default void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
         this.environmentContext()
             .removeEnvironmentValue(name);
-        return this;
     }
 
     @Override
@@ -97,10 +94,9 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     }
 
     @Override
-    default EnvironmentContext setUser(final Optional<EmailAddress> user) {
+    default void setUser(final Optional<EmailAddress> user) {
         this.environmentContext()
             .setUser(user);
-        return this;
     }
 
     @Override

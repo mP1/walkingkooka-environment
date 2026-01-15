@@ -124,8 +124,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     );
 
     @Override
-    public <T> EnvironmentContext setEnvironmentValue(final EnvironmentValueName<T> name,
-                                                      final T value) {
+    public <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                        final T value) {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
@@ -144,12 +144,10 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
                 }
             }
         }
-
-        return this;
     }
 
     @Override
-    public EnvironmentContext removeEnvironmentValue(final EnvironmentValueName<?> name) {
+    public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
         if (LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name) || (USER.equals(name) && this.user.isPresent())) {
@@ -157,7 +155,6 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         }
 
         // ignore all other removes because the value doesnt exist
-        return this;
     }
 
     // HasLineEnding....................................................................................................
@@ -168,7 +165,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     @Override
-    public EnvironmentContext setLineEnding(final LineEnding lineEnding) {
+    public void setLineEnding(final LineEnding lineEnding) {
         Objects.requireNonNull(lineEnding, "lineEnding");
 
         final LineEnding oldLineEnding = this.lineEnding;
@@ -179,8 +176,6 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
             Optional.of(oldLineEnding),
             Optional.of(lineEnding)
         );
-
-        return this;
     }
 
     private LineEnding lineEnding;
@@ -225,7 +220,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     @Override
-    public EnvironmentContext setUser(final Optional<EmailAddress> user) {
+    public void setUser(final Optional<EmailAddress> user) {
         Objects.requireNonNull(user, "user");
 
         final Optional<EmailAddress> oldUser = this.user;
@@ -236,8 +231,6 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
             oldUser,
             user
         );
-
-        return this;
     }
 
     private Optional<EmailAddress> user;
