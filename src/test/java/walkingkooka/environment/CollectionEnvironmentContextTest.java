@@ -321,7 +321,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testSetLineEnding() {
         final EnvironmentContext wrapped = EnvironmentContexts.map(
-            CONTEXT
+            CONTEXT.cloneEnvironment()
         );
 
         final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
@@ -354,7 +354,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testSetLocale() {
         final EnvironmentContext wrapped = EnvironmentContexts.map(
-            CONTEXT
+            CONTEXT.cloneEnvironment()
         );
 
         final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
@@ -387,7 +387,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testSetUser() {
         final EnvironmentContext wrapped = EnvironmentContexts.map(
-            CONTEXT
+            CONTEXT.cloneEnvironment()
         );
 
         final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
