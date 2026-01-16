@@ -19,6 +19,8 @@ package walkingkooka.environment;
 
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.TreePrintable;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -32,7 +34,8 @@ import java.util.Set;
  * Note {@link #cloneEnvironment()} returns a clone not the original, which may not be read-only.
  * If the wrapped {@link EnvironmentContext} allows modification then the clone will allow modifications.
  */
-final class ReadOnlyEnvironmentContext implements EnvironmentContext {
+final class ReadOnlyEnvironmentContext implements EnvironmentContext,
+    TreePrintable {
 
     static ReadOnlyEnvironmentContext with(final EnvironmentContext context) {
         ReadOnlyEnvironmentContext readOnlyEnvironmentContext;
@@ -188,5 +191,20 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext {
     @Override
     public String toString() {
         return this.context.toString();
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        printer.println(this.getClass().getSimpleName());
+        printer.indent();
+        {
+            TreePrintable.printTreeOrToString(
+                this.context,
+                printer
+            );
+        }
+        printer.outdent();
     }
 }

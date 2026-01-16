@@ -22,6 +22,7 @@ import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -32,7 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextTesting2<ReadOnlyEnvironmentContext>,
-    ToStringTesting<ReadOnlyEnvironmentContext> {
+    ToStringTesting<ReadOnlyEnvironmentContext>,
+    TreePrintableTesting {
 
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
@@ -507,6 +509,25 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         this.toStringAndCheck(
             this.createContext(),
             "{lineEnding=\"\\n\", locale=fr_FR, user=user123@example.com}"
+        );
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Test
+    public void testTreePrint() {
+        this.treePrintAndCheck(
+            this.createContext(),
+            "ReadOnlyEnvironmentContext\n" +
+                "  MapEnvironmentContext\n" +
+                "    lineEnding\n" +
+                "      \"\\n\"\n" +
+                "    locale\n" +
+                "      fr_FR (java.util.Locale)\n" +
+                "    now\n" +
+                "      -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "    user\n" +
+                "      user123@example.com (walkingkooka.net.email.EmailAddress)\n"
         );
     }
 
