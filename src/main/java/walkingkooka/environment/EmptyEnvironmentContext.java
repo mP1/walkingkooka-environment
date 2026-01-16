@@ -25,6 +25,8 @@ import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.TreePrintable;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -39,7 +41,8 @@ import java.util.Set;
  */
 final class EmptyEnvironmentContext implements EnvironmentContext,
     HasEnvironmentValueWatchers,
-    UsesToStringBuilder {
+    UsesToStringBuilder,
+    TreePrintable {
 
     static EmptyEnvironmentContext with(final LineEnding lineEnding,
                                         final Locale locale,
@@ -302,5 +305,31 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         b.value(this.user.map(EmailAddress::toString));
 
         b.append('}');
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        printer.println(this.getClass().getSimpleName());
+        printer.indent();
+        {
+            for (final EnvironmentValueName<?> name : this.environmentValueNames()) {
+                final Object value = this.environmentValue(name)
+                    .orElse(null);
+                if (null != value) {
+                    printer.println(name.value());
+                    printer.indent();
+                    {
+                        TreePrintable.printTreeOrToString(
+                            value,
+                            printer
+                        );
+                    }
+                    printer.outdent();
+                }
+            }
+        }
+        printer.outdent();
     }
 }

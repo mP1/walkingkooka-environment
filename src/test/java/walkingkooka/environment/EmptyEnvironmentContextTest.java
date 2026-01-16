@@ -23,6 +23,7 @@ import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -34,7 +35,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EmptyEnvironmentContextTest implements EnvironmentContextTesting2<EmptyEnvironmentContext>,
     HashCodeEqualsDefinedTesting2<EmptyEnvironmentContext>,
-    ToStringTesting<EmptyEnvironmentContext> {
+    ToStringTesting<EmptyEnvironmentContext>,
+    TreePrintableTesting {
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
     private final static Locale LOCALE = Locale.ENGLISH;
@@ -488,6 +490,22 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 )
             ),
             "{lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
+        );
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Test
+    public void testTreePrint() {
+        this.treePrintAndCheck(
+            this.createContext(),
+            "EmptyEnvironmentContext\n" +
+                "  lineEnding\n" +
+                "    \"\\n\"\n" +
+                "  now\n" +
+                "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "  locale\n" +
+                "    en (java.util.Locale)\n"
         );
     }
 
