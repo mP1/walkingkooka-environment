@@ -33,8 +33,8 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A {@link EnvironmentContext} that cascade gets, first trying the internal {@link Map} and if the value is absent
- * tries the wrapped {@link EnvironmentContext}.
+ * A {@link EnvironmentContext} that cascade gets, trying the wrapped {@link EnvironmentContext} and then the internal
+ * {@link Map}.
  */
 final class MapEnvironmentContext implements EnvironmentContext,
     HasEnvironmentValueWatchers {
@@ -76,16 +76,10 @@ final class MapEnvironmentContext implements EnvironmentContext,
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
 
-        Object value;
-
-        if(NOW.equals(name)) {
-            value = this.now();
-        } else {
+        Object value = this.context.environmentValue(name)
+            .orElse(null);
+        if (null == value) {
             value = this.values.get(name);
-            if (null == value) {
-                value = this.context.environmentValue(name)
-                    .orElse(null);
-            }
         }
 
         return Optional.ofNullable(
@@ -114,32 +108,41 @@ final class MapEnvironmentContext implements EnvironmentContext,
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if(NOW.equals(name)) {
-            throw new IllegalArgumentException("Setting " + name + " is not supported");
-        }
+        final EnvironmentContext context = this.context;
 
-        Object oldValue = this.values.put(
-            name,
-            value
-        );
+        Object oldValue;
+        boolean put = false;
 
-        if(null == oldValue) {
-            if(LINE_ENDING.equals(name)) {
-                oldValue = this.context.lineEnding();
+        if (LINE_ENDING.equals(name)) {
+            oldValue = context.lineEnding();
+        } else {
+            if (LOCALE.equals(name)) {
+                oldValue = context.locale();
             } else {
-                if(LOCALE.equals(name)) {
-                    oldValue = this.context.locale();
+                if (NOW.equals(name)) {
+                    oldValue = context.now();
                 } else {
-                    if(NOW.equals(name)) {
-                        oldValue = this.context.now();
+                    if (USER.equals(name)) {
+                        oldValue = this.context.user()
+                            .orElse(null);
                     } else {
-                        if (USER.equals(name)) {
-                            oldValue = this.context.user()
-                                .orElse(null);
-                        }
+                        oldValue = this.values.get(name);
+                        put = true;
                     }
                 }
             }
+        }
+
+        if (put) {
+            this.values.put(
+                name,
+                value
+            );
+        } else {
+            context.setEnvironmentValue(
+                name,
+                value
+            );
         }
 
         this.watchers.onEnvironmentValueChange(
@@ -153,26 +156,33 @@ final class MapEnvironmentContext implements EnvironmentContext,
     public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        if(NOW.equals(name)) {
-            throw new IllegalArgumentException("Removing " + name + " is not supported");
-        }
+        final EnvironmentContext context = this.context;
 
-        Object oldValue = this.values.remove(name);
+        Object oldValue;
 
-        if(null == oldValue) {
             if(LINE_ENDING.equals(name)) {
-                oldValue = this.context.lineEnding();
+                oldValue = context.lineEnding();
+                context.removeEnvironmentValue(name);
             } else {
                 if(LOCALE.equals(name)) {
-                    oldValue = this.context.locale();
+                    oldValue = context.locale();
+                    context.removeEnvironmentValue(name);
                 } else {
-                    if(USER.equals(name)) {
-                        oldValue = this.context.user()
-                            .orElse(null);
+                    if (NOW.equals(name)) {
+                        oldValue = context.now();
+                        context.removeEnvironmentValue(name);
+                    } else {
+                        if (USER.equals(name)) {
+                            oldValue = context.user()
+                                .orElse(null);
+                            context.removeEnvironmentValue(name);
+                        } else {
+                            oldValue = this.values.get(name);
+                            this.values.remove(name);
+                        }
                     }
                 }
             }
-        }
 
         this.watchers.onEnvironmentValueChange(
             name,
