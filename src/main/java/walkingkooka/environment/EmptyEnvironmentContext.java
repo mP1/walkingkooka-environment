@@ -150,8 +150,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        if (LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name) || (USER.equals(name) && this.user.isPresent())) {
+        if (LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
             throw new ReadOnlyEnvironmentValueException(name);
+        } else {
+            if (USER.equals(name)) {
+                this.user = ANONYMOUS;
+            }
         }
 
         // ignore all other removes because the value doesnt exist
