@@ -486,6 +486,47 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         );
     }
 
+    // TreePrintable....................................................................................................
+
+    @Test
+    public void testTreePrint() {
+        this.treePrintAndCheck(
+            this.createContext(),
+            "MapEnvironmentContext\n" +
+                "  lineEnding\n" +
+                "    \"\\n\"\n" +
+                "  locale\n" +
+                "    fr (java.util.Locale)\n" +
+                "  now\n" +
+                "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n"
+        );
+    }
+
+    @Test
+    public void testTreePrint2() {
+        final MapEnvironmentContext context = this.createContext();
+        context.setEnvironmentValue(
+            EnvironmentValueName.with(
+                "Hello",
+                String.class
+            ),
+            "world"
+        );
+
+        this.treePrintAndCheck(
+            context,
+            "MapEnvironmentContext\n" +
+                "  Hello\n" +
+                "    \"world\"\n" +
+                "  lineEnding\n" +
+                "    \"\\n\"\n" +
+                "  locale\n" +
+                "    fr (java.util.Locale)\n" +
+                "  now\n" +
+                "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n"
+        );
+    }
+
     // type naming......................................................................................................
 
     @Override
