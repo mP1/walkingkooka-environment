@@ -304,17 +304,19 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     }
 
     @Test
-    public void testRemoveEnvironmentValueUserAndNotAnonymousFails() {
-        final EmptyEnvironmentContext context = this.createContext();
-
-        this.checkNotEquals(
-            EnvironmentContext.NOW,
-            context.user()
+    public void testRemoveEnvironmentValueWithUserNotAnonymous() {
+        final EmptyEnvironmentContext context = EmptyEnvironmentContext.with(
+            LINE_ENDING,
+            LOCALE,
+            HAS_NOW,
+            Optional.of(
+                EmailAddress.parse("user@example.com")
+            )
         );
 
-        assertThrows(
-            ReadOnlyEnvironmentValueException.class,
-            () -> context.removeEnvironmentValue(EnvironmentContext.NOW)
+        this.removeEnvironmentValueAndCheck(
+            context,
+            EnvironmentContext.USER
         );
     }
 
