@@ -35,6 +35,7 @@
 package walkingkooka.environment;
 
 import walkingkooka.collect.set.Sets;
+import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.HasLineEndingTesting;
 import walkingkooka.text.LineEnding;
@@ -141,8 +142,11 @@ public interface EnvironmentContextTesting extends HasLineEndingTesting,
 
     default void environmentValueNamesAndCheck(final EnvironmentContext context,
                                                final Set<EnvironmentValueName<?>> expected) {
+        final Set<EnvironmentValueName<?>> sorted = SortedSets.tree();
+        sorted.addAll(expected);
+
         this.checkEquals(
-            expected,
+            sorted,
             context.environmentValueNames()
         );
     }
