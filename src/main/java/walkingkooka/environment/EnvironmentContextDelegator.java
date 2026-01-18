@@ -29,30 +29,6 @@ import java.util.Set;
 public interface EnvironmentContextDelegator extends EnvironmentContext {
 
     @Override
-    default LineEnding lineEnding() {
-        return this.environmentContext()
-            .lineEnding();
-    }
-
-    @Override
-    default void setLineEnding(final LineEnding lineEnding) {
-        this.environmentContext()
-            .setLineEnding(lineEnding);
-    }
-
-    @Override
-    default Locale locale() {
-        return this.environmentContext()
-            .locale();
-    }
-
-    @Override
-    default void setLocale(final Locale locale) {
-        this.environmentContext()
-            .setLocale(locale);
-    }
-
-    @Override
     default <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return this.environmentContext()
             .environmentValue(name);
@@ -82,21 +58,53 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     }
 
     @Override
+    default LineEnding lineEnding() {
+        return this.environmentValueOrFail(LINE_ENDING);
+    }
+
+    @Override
+    default void setLineEnding(final LineEnding lineEnding) {
+        this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
+    }
+
+    @Override
+    default Locale locale() {
+        return this.environmentValueOrFail(LOCALE);
+    }
+
+    @Override
+    default void setLocale(final Locale locale) {
+        this.setEnvironmentValue(
+            LOCALE,
+            locale
+        );
+    }
+
+    @Override
     default LocalDateTime now() {
-        return this.environmentContext()
-            .now();
+        return this.environmentValueOrFail(NOW);
     }
 
     @Override
     default Optional<EmailAddress> user() {
-        return this.environmentContext()
-            .user();
+        return this.environmentValue(USER);
     }
 
     @Override
     default void setUser(final Optional<EmailAddress> user) {
-        this.environmentContext()
-            .setUser(user);
+        Objects.requireNonNull(user, "user");
+
+        if (user.isPresent()) {
+            this.setEnvironmentValue(
+                USER,
+                user.get()
+            );
+        } else {
+            this.removeEnvironmentValue(USER);
+        }
     }
 
     @Override
