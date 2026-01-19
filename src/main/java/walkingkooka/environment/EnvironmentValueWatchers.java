@@ -18,8 +18,10 @@
 package walkingkooka.environment;
 
 
+import walkingkooka.collect.list.Lists;
 import walkingkooka.watch.Watchers;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -44,9 +46,11 @@ public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
     public Runnable addOnce(final EnvironmentValueWatcher watcher) {
         Objects.requireNonNull(watcher, "watcher");
 
-        return this.watchers.addOnce(
+        final Runnable remover = this.watchers.addOnce(
             (e) -> e.accept(watcher)
-        );
+        );;
+        this.onceRemovers.add(remover);
+        return remover;
     }
 
     /**
@@ -56,19 +60,32 @@ public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
     public void onEnvironmentValueChange(final EnvironmentValueName<?> name,
                                          final Optional<?> oldValue,
                                          final Optional<?> newValue) {
-        final EnvironmentValueWatchersEvent event = EnvironmentValueWatchersEvent.with(
-            name,
-            oldValue,
-            newValue
-        );
-
         if (false == Objects.equals(oldValue, newValue)) {
-            this.watchers.accept(event);
+            final EnvironmentValueWatchersEvent event = EnvironmentValueWatchersEvent.with(
+                name,
+                oldValue,
+                newValue
+            );
+
+            try {
+                this.onceWatchers.accept(event);
+                this.watchers.accept(event);
+            } finally {
+                this.onceRemovers.forEach(Runnable::run);
+                this.onceRemovers.clear();
+            }
         }
     }
 
     private final Watchers<EnvironmentValueWatchersEvent> watchers = Watchers.create();
 
+    private final Watchers<EnvironmentValueWatchersEvent> onceWatchers = Watchers.create();
+
+    /**
+     * Cant use Watchers#addOnce because that will remove the watcher during #onBegin
+     * meaning events afterward will never be received because watcher is gone by then.
+     */
+    private final List<Runnable> onceRemovers = Lists.copyOnWrite();
     // Object...........................................................................................................
 
     @Override
