@@ -46,7 +46,7 @@ public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
     public Runnable addOnce(final EnvironmentValueWatcher watcher) {
         Objects.requireNonNull(watcher, "watcher");
 
-        final Runnable remover = this.watchers.addOnce(
+        final Runnable remover = this.onceWatchers.addOnce(
             (e) -> e.accept(watcher)
         );;
         this.onceRemovers.add(remover);
