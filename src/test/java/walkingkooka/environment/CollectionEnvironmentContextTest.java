@@ -23,6 +23,7 @@ import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.predicate.Predicates;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.LineEnding;
@@ -53,6 +54,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.readOnly(
+        Predicates.always(), // readOnlyNames
         EnvironmentContexts.empty(
             LINE_ENDING,
             LOCALE,
