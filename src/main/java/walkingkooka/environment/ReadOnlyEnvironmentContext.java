@@ -27,32 +27,49 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Wraps another {@link EnvironmentContext} presenting a read only view, with all setXXX and removeXXX
- * throwing {@link UnsupportedOperationException}.
+ * throwing {@link UnsupportedOperationException} if the {@link EnvironmentValueName} is matched by the given {@link Predicate}.
  * Note {@link #cloneEnvironment()} returns a clone not the original, which may not be read-only.
  * If the wrapped {@link EnvironmentContext} allows modification then the clone will allow modifications.
  */
 final class ReadOnlyEnvironmentContext implements EnvironmentContext,
     TreePrintable {
 
-    static ReadOnlyEnvironmentContext with(final EnvironmentContext context) {
-        ReadOnlyEnvironmentContext readOnlyEnvironmentContext;
-
+    static ReadOnlyEnvironmentContext with(final Predicate<EnvironmentValueName<?>> readOnlyNames,
+                                           final EnvironmentContext context) {
+        Objects.requireNonNull(readOnlyNames, "readOnlyNames");
         Objects.requireNonNull(context, "context");
+
+        ReadOnlyEnvironmentContext readOnlyEnvironmentContext = null;
+
+        EnvironmentContext temp = context;
 
         if (context instanceof ReadOnlyEnvironmentContext) {
             readOnlyEnvironmentContext = (ReadOnlyEnvironmentContext) context;
-        } else {
-            readOnlyEnvironmentContext = new ReadOnlyEnvironmentContext(context);
+
+            // if same readOnlyNames Predicate unwrap context
+            if (readOnlyNames.equals(readOnlyEnvironmentContext.readOnlyNames)) {
+                temp = readOnlyEnvironmentContext.context;
+            } else {
+                readOnlyEnvironmentContext = null;
+            }
         }
 
-        return readOnlyEnvironmentContext;
+        return null != readOnlyEnvironmentContext ?
+            readOnlyEnvironmentContext :
+            new ReadOnlyEnvironmentContext(
+                readOnlyNames,
+                temp
+            );
     }
 
-    private ReadOnlyEnvironmentContext(final EnvironmentContext context) {
+    private ReadOnlyEnvironmentContext(final Predicate<EnvironmentValueName<?>> readOnlyNames,
+                                       final EnvironmentContext context) {
         super();
+        this.readOnlyNames = readOnlyNames;
         this.context = context;
     }
 
@@ -88,19 +105,30 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext,
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (false == value.equals(this.environmentValue(name).orElse(null))) {
+        if (this.readOnlyNames.test(name) && false == value.equals(this.environmentValue(name).orElse(null))) {
             throw new ReadOnlyEnvironmentValueException(name);
         }
+        this.context.setEnvironmentValue(
+            name,
+            value
+        );
     }
 
     @Override
     public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        if (this.environmentValue(name).isPresent()) {
+        if (this.readOnlyNames.test(name) && this.environmentValue(name).isPresent()) {
             throw new ReadOnlyEnvironmentValueException(name);
+        } else {
+            this.context.removeEnvironmentValue(name);
         }
     }
+
+    /**
+     * Filter that matches read only environment values.
+     */
+    final Predicate<EnvironmentValueName<?>> readOnlyNames;
 
     @Override
     public LineEnding lineEnding() {
@@ -168,7 +196,7 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext,
         throw new UnsupportedOperationException();
     }
 
-    private final EnvironmentContext context;
+    final EnvironmentContext context;
 
     // Object...........................................................................................................
 
@@ -200,10 +228,25 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext,
         printer.println(this.getClass().getSimpleName());
         printer.indent();
         {
-            TreePrintable.printTreeOrToString(
-                this.context,
-                printer
-            );
+            printer.println("environmentContext");
+            printer.indent();
+            {
+                TreePrintable.printTreeOrToString(
+                    this.context,
+                    printer
+                );
+            }
+            printer.outdent();
+
+            printer.println("readOnlyNames");
+            printer.indent();
+            {
+                TreePrintable.printTreeOrToString(
+                    this.readOnlyNames,
+                    printer
+                );
+            }
+            printer.outdent();
         }
         printer.outdent();
     }

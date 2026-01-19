@@ -21,12 +21,14 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.predicate.Predicates;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -36,6 +38,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     ToStringTesting<ReadOnlyEnvironmentContext>,
     TreePrintableTesting {
 
+    // ONLY user is readonly
+    private final Predicate<EnvironmentValueName<?>> READ_ONLY_NAMES = Predicates.is(
+        EnvironmentContext.USER
+    );
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
@@ -46,22 +52,89 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     private final static EmailAddress USER = EmailAddress.parse("user123@example.com");
 
     @Test
-    public void testWithNullContextFails() {
+    public void testWithNullReadOnlyNamesFails() {
         assertThrows(
             NullPointerException.class,
-            () -> ReadOnlyEnvironmentContext.with(null)
+            () -> ReadOnlyEnvironmentContext.with(
+                null,
+                EnvironmentContexts.fake()
+            )
         );
     }
 
     @Test
-    public void testWithUnwraps() {
+    public void testWithNullEnvironmentContextFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> ReadOnlyEnvironmentContext.with(
+                READ_ONLY_NAMES,
+                null
+            )
+        );
+    }
+
+    @Test
+    public void testWithReadOnlyNamesWithSameReadOnlyNamesPredicate() {
         final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+            READ_ONLY_NAMES,
             EnvironmentContexts.fake()
         );
 
         assertSame(
             context,
-            ReadOnlyEnvironmentContext.with(context)
+            ReadOnlyEnvironmentContext.with(
+                READ_ONLY_NAMES,
+                context
+            )
+        );
+    }
+
+    @Test
+    public void testWithReadOnlyNamesWithDifferentReadOnlyNamesPredicate() {
+        final EnvironmentValueName<String> hello = EnvironmentValueName.with(
+            "Hello",
+            String.class
+        );
+        final String helloValue = "World";
+
+        final EnvironmentContext environmentContext = EnvironmentContexts.map(
+            EnvironmentContexts.empty(
+                LINE_ENDING,
+                LOCALE,
+                () -> NOW,
+                Optional.of(USER)
+            )
+        );
+        environmentContext.setEnvironmentValue(
+            hello,
+            helloValue
+        );
+
+        final ReadOnlyEnvironmentContext wrapped = ReadOnlyEnvironmentContext.with(
+            Predicates.is(hello),
+            environmentContext
+        );
+
+        final ReadOnlyEnvironmentContext readOnlyEnvironmentContext = ReadOnlyEnvironmentContext.with(
+            READ_ONLY_NAMES,
+            wrapped
+        );
+
+        assertNotSame(
+            wrapped,
+            readOnlyEnvironmentContext
+        );
+
+        assertSame(
+            READ_ONLY_NAMES,
+            readOnlyEnvironmentContext.readOnlyNames,
+            "readOnlyNames"
+        );
+
+        assertSame(
+            wrapped,
+            readOnlyEnvironmentContext.context,
+            "context"
         );
     }
 
@@ -116,7 +189,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
                 EmailAddress.parse("user123@example.com")
             )
         );
-        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(empty);
+        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(
+            READ_ONLY_NAMES,
+            empty
+        );
 
         assertSame(
             readOnly.setEnvironmentContext(empty),
@@ -136,7 +212,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
                 EmailAddress.parse("user123@example.com")
             )
         );
-        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(empty);
+        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(
+            READ_ONLY_NAMES,
+            empty
+        );
 
         final EnvironmentContext different = EnvironmentContexts.empty(
             LineEnding.CRNL,
@@ -165,6 +244,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     @Test
     public void testSetEnvironmentValueSame() {
         final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+            READ_ONLY_NAMES,
             EnvironmentContexts.empty(
                 LINE_ENDING,
                 LOCALE,
@@ -202,15 +282,43 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
 
         this.setEnvironmentValueAndCheck(
-            ReadOnlyEnvironmentContext.with(context),
+            ReadOnlyEnvironmentContext.with(
+                READ_ONLY_NAMES,
+                context
+            ),
             name,
             value
         );
     }
 
     @Test
-    public void testSetEnvironmentValueDifferentFails() {
-        final ReadOnlyEnvironmentContext context = this.createContext();
+    public void testSetEnvironmentValueDifferentNotReadOnly() {
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
+
+        final ReadOnlyEnvironmentContext context = this.createContext(
+            Predicates.never()
+        );
+
+        final Locale locale = Locale.GERMAN;
+        this.checkNotEquals(
+            LOCALE,
+            locale
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            name,
+            locale
+        );
+    }
+
+    @Test
+    public void testSetEnvironmentValueDifferentReadOnlyFails() {
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
+
+        final ReadOnlyEnvironmentContext context = this.createContext(
+            Predicates.is(name)
+        );
 
         final Locale locale = Locale.GERMAN;
         this.checkNotEquals(
@@ -221,7 +329,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
             () -> context.setEnvironmentValue(
-                EnvironmentValueName.LOCALE,
+                name,
                 locale
             )
         );
@@ -233,7 +341,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     }
 
     @Test
-    public void testSetEnvironmentValueDifferentFails2() {
+    public void testSetEnvironmentValueDifferentReadOnlyFails2() {
         final EnvironmentValueName<String> name = EnvironmentValueName.with(
             "hello",
             String.class
@@ -252,7 +360,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             name,
             value
         );
-        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(context);
+        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(
+            Predicates.is(name),
+            context
+        );
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
@@ -281,6 +392,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final Optional<EmailAddress> user = EnvironmentContext.ANONYMOUS;
 
         final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+            READ_ONLY_NAMES,
             EnvironmentContexts.empty(
                 LINE_ENDING,
                 LOCALE,
@@ -315,6 +427,47 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         throw new UnsupportedOperationException();
     }
 
+    @Test
+    public void testRemoveWithReadOnlyFails() {
+        final ReadOnlyEnvironmentContext context = this.createContext(
+            Predicates.is(EnvironmentContext.USER)
+        );
+
+        this.userAndCheck(
+            context,
+            USER
+        );
+
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> context.removeEnvironmentValue(EnvironmentContext.USER)
+        );
+
+        this.userAndCheck(
+            context,
+            USER
+        );
+    }
+
+    @Test
+    public void testRemoveWithReadOnly() {
+        final ReadOnlyEnvironmentContext context = this.createContext(
+            Predicates.never()
+        );
+
+        this.userAndCheck(
+            context,
+            USER
+        );
+
+        this.removeEnvironmentValueAndCheck(
+            context,
+            EnvironmentValueName.USER
+        );
+
+        this.userAndCheck(context);
+    }
+
     // setLineEnding....................................................................................................
 
     @Test
@@ -334,7 +487,9 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             lineEnding
         );
 
-        final ReadOnlyEnvironmentContext context = this.createContext();
+        final ReadOnlyEnvironmentContext context = this.createContext(
+            Predicates.is(EnvironmentContext.LINE_ENDING)
+        );
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
@@ -378,7 +533,9 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             locale
         );
 
-        final ReadOnlyEnvironmentContext context = this.createContext();
+        final ReadOnlyEnvironmentContext context = this.createContext(
+            Predicates.is(EnvironmentContext.LOCALE)
+        );
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
@@ -457,6 +614,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final Optional<EmailAddress> user = EnvironmentContext.ANONYMOUS;
 
         final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+            READ_ONLY_NAMES,
             EnvironmentContexts.empty(
                 LINE_ENDING,
                 LOCALE,
@@ -478,6 +636,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Override
     public ReadOnlyEnvironmentContext createContext() {
+        return this.createContext(READ_ONLY_NAMES);
+    }
+
+    private ReadOnlyEnvironmentContext createContext(final Predicate<EnvironmentValueName<?>> readOnlyNames) {
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
                 LINE_ENDING,
@@ -487,7 +649,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             )
         );
         context.setLocale(LOCALE);
-        return ReadOnlyEnvironmentContext.with(context);
+        return ReadOnlyEnvironmentContext.with(
+            readOnlyNames,
+            context
+        );
     }
 
     // environmentValueNames............................................................................................
@@ -519,15 +684,18 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         this.treePrintAndCheck(
             this.createContext(),
             "ReadOnlyEnvironmentContext\n" +
-                "  MapEnvironmentContext\n" +
-                "    lineEnding\n" +
-                "      \"\\n\"\n" +
-                "    locale\n" +
-                "      fr_FR (java.util.Locale)\n" +
-                "    now\n" +
-                "      -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
-                "    user\n" +
-                "      user123@example.com (walkingkooka.net.email.EmailAddress)\n"
+                "  environmentContext\n" +
+                "    MapEnvironmentContext\n" +
+                "      lineEnding\n" +
+                "        \"\\n\"\n" +
+                "      locale\n" +
+                "        fr_FR (java.util.Locale)\n" +
+                "      now\n" +
+                "        -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "      user\n" +
+                "        user123@example.com (walkingkooka.net.email.EmailAddress)\n" +
+                "  readOnlyNames\n" +
+                "    user (walkingkooka.predicate.ObjectEqualityPredicate)\n"
         );
     }
 

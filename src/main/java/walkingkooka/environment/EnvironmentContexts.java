@@ -26,6 +26,7 @@ import walkingkooka.text.LineEnding;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * A collection of {@link EnvironmentContext} factory methods.
@@ -95,8 +96,12 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see ReadOnlyEnvironmentContext}
      */
-    public static EnvironmentContext readOnly(final EnvironmentContext context) {
-        return ReadOnlyEnvironmentContext.with(context);
+    public static EnvironmentContext readOnly(final Predicate<EnvironmentValueName<?>> readOnlyNames,
+                                              final EnvironmentContext context) {
+        return ReadOnlyEnvironmentContext.with(
+            readOnlyNames,
+            context
+        );
     }
 
     /**
