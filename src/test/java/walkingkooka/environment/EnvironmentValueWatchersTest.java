@@ -156,6 +156,50 @@ public final class EnvironmentValueWatchersTest implements ClassTesting<Environm
         );
     }
 
+    @Test
+    public void testAddOnceThenFire() {
+        this.fired = false;
+
+        final EnvironmentValueName<?> name = EnvironmentValueName.LOCALE;
+        final Optional<Locale> oldValue = Optional.of(
+            Locale.FRANCE
+        );
+        final Optional<Locale> newValue = Optional.of(
+            Locale.GERMANY
+        );
+
+        final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
+        watchers.addOnce(
+            new EnvironmentValueWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
+                                                     final Optional<?> ov,
+                                                     final Optional<?> nv) {
+                    checkEquals(
+                        false,
+                        EnvironmentValueWatchersTest.this.fired,
+                        "event should only have been fired once!"
+                    );
+
+                    EnvironmentValueWatchersTest.this.checkEquals(name, n);
+                    EnvironmentValueWatchersTest.this.checkEquals(oldValue, ov);
+                    EnvironmentValueWatchersTest.this.checkEquals(newValue, nv);
+
+                    EnvironmentValueWatchersTest.this.fired = true;
+                }
+            });
+        watchers.onEnvironmentValueChange(
+            name,
+            oldValue,
+            newValue
+        );
+
+        this.checkEquals(
+            true,
+            this.fired
+        );
+    }
+
     private boolean fired = false;
 
     // ClassTesting....................................................................................................
