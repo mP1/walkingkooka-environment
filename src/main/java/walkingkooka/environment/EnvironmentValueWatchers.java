@@ -86,10 +86,11 @@ public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
      * meaning events afterward will never be received because watcher is gone by then.
      */
     private final List<Runnable> onceRemovers = Lists.copyOnWrite();
+
     // Object...........................................................................................................
 
     @Override
     public String toString() {
-        return this.watchers.toString();
+        return "watchers: " + this.watchers + " onceWatchers: " + this.onceWatchers;
     }
 }
