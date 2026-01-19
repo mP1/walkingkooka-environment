@@ -690,6 +690,80 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
+    @Test
+    public void testAddWatcherOnceAndSetEnvironmentValue() {
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
+
+        final ReadOnlyEnvironmentContext context = this.createContext(
+            Predicates.never()
+        );
+
+        final Locale locale = Locale.GERMAN;
+        this.checkNotEquals(
+            LOCALE,
+            locale
+        );
+
+        this.fired = false;
+
+        context.addEventValueWatcherOnce(
+            new EnvironmentValueWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
+                                                     final Optional<?> oldValue,
+                                                     final Optional<?> newValue) {
+                    checkEquals(
+                        false,
+                        ReadOnlyEnvironmentContextTest.this.fired,
+                        "event should not have been fired twice"
+                    );
+
+                    checkEquals(
+                        name,
+                        n,
+                        "name"
+                    );
+                    checkEquals(
+                        Optional.of(LOCALE),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(locale),
+                        newValue,
+                        "newValue"
+                    );
+
+                    ReadOnlyEnvironmentContextTest.this.fired = true;
+                }
+            }
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            name,
+            locale
+        );
+
+        this.checkEquals(
+            true,
+            this.fired,
+            "setEnvironmentValue event not fired"
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            name,
+            LOCALE
+        );
+
+        this.checkEquals(
+            true,
+            this.fired,
+            "setEnvironmentValue event should not have been fired"
+        );
+    }
+
     private boolean fired;
 
     @Override

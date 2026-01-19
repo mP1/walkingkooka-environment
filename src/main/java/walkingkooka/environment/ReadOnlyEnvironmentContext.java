@@ -191,7 +191,7 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext,
 
     @Override
     public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
-        return this.context.addEventValueWatcher(watcher);
+        return this.context.addEventValueWatcherOnce(watcher);
     }
 
     final EnvironmentContext context;
