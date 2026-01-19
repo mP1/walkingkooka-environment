@@ -634,6 +634,64 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         throw new UnsupportedOperationException();
     }
 
+    @Test
+    public void testAddWatcherAndSetEnvironmentValue() {
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
+
+        final ReadOnlyEnvironmentContext context = this.createContext(
+            Predicates.never()
+        );
+
+        final Locale locale = Locale.GERMAN;
+        this.checkNotEquals(
+            LOCALE,
+            locale
+        );
+
+        this.fired = false;
+
+        context.addEventValueWatcher(
+            new EnvironmentValueWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
+                                                     final Optional<?> oldValue,
+                                                     final Optional<?> newValue) {
+                    checkEquals(
+                        name,
+                        n,
+                        "name"
+                    );
+                    checkEquals(
+                        Optional.of(LOCALE),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(locale),
+                        newValue,
+                        "newValue"
+                    );
+
+                    ReadOnlyEnvironmentContextTest.this.fired = true;
+                }
+            }
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            name,
+            locale
+        );
+
+        this.checkEquals(
+            true,
+            this.fired,
+            "setEnvironmentValue event not fired"
+        );
+    }
+
+    private boolean fired;
+
     @Override
     public ReadOnlyEnvironmentContext createContext() {
         return this.createContext(READ_ONLY_NAMES);
