@@ -176,20 +176,34 @@ public final class AuditInfo implements TreePrintable {
 
     // TreePrintable....................................................................................................
 
+    /**
+     * <pre>
+     * AuditInfo
+     *   created
+     *     created-by@example.com 1999-12-31T12:58:59
+     *   modified
+     *     modified-by@example.com 2000-01-02T12:58:59
+     * </pre>
+     */
     @Override
     public void printTree(final IndentingPrinter printer) {
-        this.printTreePair(
-            "created",
-            this.createdBy,
-            this.createdTimestamp,
-            printer
-        );
-        this.printTreePair(
-            "modified",
-            this.modifiedBy,
-            this.modifiedTimestamp,
-            printer
-        );
+        printer.println(this.getClass().getSimpleName());
+        printer.indent();
+        {
+            this.printTreePair(
+                "created",
+                this.createdBy,
+                this.createdTimestamp,
+                printer
+            );
+            this.printTreePair(
+                "modified",
+                this.modifiedBy,
+                this.modifiedTimestamp,
+                printer
+            );
+        }
+        printer.outdent();
     }
 
     private void printTreePair(final String label,
