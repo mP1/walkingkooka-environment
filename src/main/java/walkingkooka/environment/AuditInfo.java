@@ -32,8 +32,8 @@ public final class AuditInfo implements TreePrintable {
     public static AuditInfo create(final EmailAddress createdBy,
                                    final LocalDateTime createdTimestamp) {
         return with(
-            Objects.requireNonNull(createdBy, "createdBy"),
-            Objects.requireNonNull(createdTimestamp, "createdTimestamp"),
+            createdBy,
+            createdTimestamp,
             createdBy,
             createdTimestamp
         );
