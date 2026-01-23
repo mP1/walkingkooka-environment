@@ -48,7 +48,7 @@ public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
 
         final Runnable remover = this.onceWatchers.addOnce(
             (e) -> e.accept(watcher)
-        );;
+        );
         this.onceRemovers.add(remover);
         return remover;
     }
