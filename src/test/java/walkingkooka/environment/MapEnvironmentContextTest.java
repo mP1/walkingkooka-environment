@@ -23,6 +23,7 @@ import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -36,6 +37,8 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
     HashCodeEqualsDefinedTesting2<MapEnvironmentContext>,
     ToStringTesting<MapEnvironmentContext> {
 
+    private final static Indentation INDENTATION = Indentation.SPACES4;
+
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     private final static Locale LOCALE = Locale.FRENCH;
@@ -45,6 +48,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
     private final static HasNow HAS_NOW = () -> NOW;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        INDENTATION,
         LINE_ENDING,
         LOCALE,
         HAS_NOW,
@@ -282,6 +286,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.environmentValueNamesAndCheck(
             context,
+            EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
             EnvironmentValueName.NOW,
@@ -334,6 +339,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.environmentValueNamesAndCheck(
             context,
+            EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
             EnvironmentValueName.NOW,
@@ -387,6 +393,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
     public MapEnvironmentContext createContext(final Optional<EmailAddress> user) {
         return MapEnvironmentContext.with(
             EnvironmentContexts.empty(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
@@ -402,6 +409,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         this.checkNotEquals(
             MapEnvironmentContext.with(
                 EnvironmentContexts.empty(
+                    INDENTATION,
                     LINE_ENDING,
                     Locale.FRANCE,
                     HAS_NOW,
@@ -410,6 +418,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             ),
             MapEnvironmentContext.with(
                 EnvironmentContexts.empty(
+                    INDENTATION,
                     LINE_ENDING,
                     Locale.GERMAN,
                     HAS_NOW,
@@ -463,7 +472,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.toStringAndCheck(
             context,
-            "{hello.123=Gday, lineEnding=\"\\n\", locale=fr}"
+            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr}"
         );
     }
 
@@ -482,7 +491,7 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
 
         this.toStringAndCheck(
             context,
-            "{hello.123=Gday, lineEnding=\"\\n\", locale=fr, user=user@example.com}"
+            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, user=user@example.com}"
         );
     }
 
@@ -493,6 +502,8 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
         this.treePrintAndCheck(
             this.createContext(),
             "MapEnvironmentContext\n" +
+                "  indentation\n" +
+                "    \"    \" (walkingkooka.text.Indentation)\n" +
                 "  lineEnding\n" +
                 "    \"\\n\"\n" +
                 "  locale\n" +
@@ -518,6 +529,8 @@ public final class MapEnvironmentContextTest implements EnvironmentContextTestin
             "MapEnvironmentContext\n" +
                 "  Hello\n" +
                 "    \"world\"\n" +
+                "  indentation\n" +
+                "    \"    \" (walkingkooka.text.Indentation)\n" +
                 "  lineEnding\n" +
                 "    \"\\n\"\n" +
                 "  locale\n" +

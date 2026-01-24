@@ -42,6 +42,7 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.FieldAttributes;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseKind;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.lang.reflect.Field;
@@ -140,6 +141,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                before.indentation(),
                 before.lineEnding(),
                 before.locale(),
                 before, // HasNow
@@ -154,6 +156,53 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             after
         );
     }
+
+    // setIndentation...................................................................................................
+
+    @Test
+    default void testSetIndentationWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .setIndentation(null)
+        );
+    }
+
+    @Test
+    default void testSetIndentationWithDifferentAndWatcher() {
+        final C context = this.createContext();
+
+        Indentation indentation = Indentation.SPACES2;
+        if (context.indentation().equals(indentation)) {
+            indentation = Indentation.SPACES4;
+        }
+
+        final Indentation oldIndentation = context.indentation();
+        final Indentation newIndentation = indentation;
+
+        final AtomicBoolean fired = new AtomicBoolean();
+
+        context.addEventValueWatcher(
+            (n, ov, nv) -> {
+                checkEquals(EnvironmentContext.INDENTATION, n, "EnvironmentValueName");
+                checkEquals(Optional.of(oldIndentation), ov, "oldValue");
+                checkEquals(Optional.of(newIndentation), nv, "newValue");
+
+                fired.set(true);
+            }
+        );
+
+        this.setIndentationAndCheck(
+            context,
+            indentation
+        );
+
+        this.checkEquals(
+            true,
+            fired.get()
+        );
+    }
+
 
     // setLineEnding....................................................................................................
 

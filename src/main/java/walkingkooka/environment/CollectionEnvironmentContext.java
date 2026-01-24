@@ -23,6 +23,7 @@ import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.watch.Watchers;
 
@@ -82,6 +83,19 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
         );
     }
 
+    @Override
+    public Indentation indentation() {
+        return this.environmentValueOrFail(INDENTATION);
+    }
+
+    @Override
+    public void setIndentation(final Indentation indentation) {
+        this.setEnvironmentValue(
+            INDENTATION,
+            indentation
+        );
+    }
+    
     @Override
     public LineEnding lineEnding() {
         return this.environmentValueOrFail(LINE_ENDING);

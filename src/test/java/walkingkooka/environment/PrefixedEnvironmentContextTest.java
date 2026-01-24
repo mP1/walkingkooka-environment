@@ -25,6 +25,7 @@ import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -43,6 +44,8 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         "prefix111.",
         Void.class
     );
+
+    private final static Indentation INDENTATION = Indentation.SPACES4;
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
@@ -241,6 +244,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
@@ -313,6 +317,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
                     "key111=value111"
                 ),
                 EnvironmentContexts.empty(
+                    INDENTATION,
                     LINE_ENDING,
                     LOCALE,
                     HAS_NOW,
@@ -392,6 +397,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
                 prefix + key2,
                 String.class
             ),
+            EnvironmentContext.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentContext.NOW,
@@ -471,7 +477,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{key111=value111, lineEnding=\"\\n\", locale=fr, user=user@example.com}"
+            "{indentation=\"    \", key111=value111, lineEnding=\"\\n\", locale=fr, user=user@example.com}"
         );
     }
 

@@ -21,6 +21,7 @@ import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.reflect.PublicStaticHelper;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.util.List;
@@ -45,11 +46,13 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see EmptyEnvironmentContext}
      */
-    public static EnvironmentContext empty(final LineEnding lineEnding,
+    public static EnvironmentContext empty(final Indentation indentation,
+                                           final LineEnding lineEnding,
                                            final Locale locale,
                                            final HasNow hasNow,
                                            final Optional<EmailAddress> user) {
         return EmptyEnvironmentContext.with(
+            indentation,
             lineEnding,
             locale,
             hasNow,

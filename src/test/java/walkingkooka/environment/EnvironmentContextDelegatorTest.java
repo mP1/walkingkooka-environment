@@ -19,6 +19,7 @@ package walkingkooka.environment;
 
 import walkingkooka.environment.EnvironmentContextDelegatorTest.TestEnvironmentContextDelegator;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -35,6 +36,11 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
 
     @Override
     public void testSetEnvironmentValueWithNowFails() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetIndentationWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
     }
 
@@ -89,6 +95,12 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         }
 
         @Override
+        public void setIndentation(final Indentation indentation) {
+            Objects.requireNonNull(indentation, "indentation");
+            throw new UnsupportedOperationException();
+        }
+        
+        @Override
         public void setLineEnding(final LineEnding lineEnding) {
             Objects.requireNonNull(lineEnding, "lineEnding");
             throw new UnsupportedOperationException();
@@ -109,6 +121,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         @Override
         public EnvironmentContext environmentContext() {
             return EnvironmentContexts.empty(
+                Indentation.SPACES4,
                 LineEnding.NL,
                 Locale.ENGLISH,
                 () -> LocalDateTime.MIN,

@@ -37,7 +37,10 @@ package walkingkooka.environment;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.HasIndentation;
+import walkingkooka.text.HasIndentationTesting;
 import walkingkooka.text.HasLineEndingTesting;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 import walkingkooka.util.HasLocale;
@@ -49,7 +52,8 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public interface EnvironmentContextTesting extends HasLineEndingTesting,
+public interface EnvironmentContextTesting extends HasIndentationTesting,
+    HasLineEndingTesting,
     HasLocaleTesting,
     HasUserTesting,
     TreePrintableTesting {
@@ -151,6 +155,18 @@ public interface EnvironmentContextTesting extends HasLineEndingTesting,
         );
     }
 
+    // setIndentation....................................................................................................
+
+    default void setIndentationAndCheck(final EnvironmentContext context,
+                                        final Indentation indentation) {
+        context.setIndentation(indentation);
+
+        this.indentationAndCheck(
+            context,
+            indentation
+        );
+    }
+    
     // setLineEnding....................................................................................................
 
     default void setLineEndingAndCheck(final EnvironmentContext context,
@@ -264,5 +280,24 @@ public interface EnvironmentContextTesting extends HasLineEndingTesting,
             EnvironmentContext.LOCALE,
             expected
         );
+    }
+
+    // indentation......................................................................................................
+
+    @Override
+    default void indentationAndCheck(final HasIndentation has,
+                                     final Indentation expected) {
+        HasIndentationTesting.super.indentationAndCheck(
+            has,
+            expected
+        );
+
+        if (has instanceof EnvironmentContext) {
+            this.environmentValueAndCheck(
+                (EnvironmentContext) has,
+                EnvironmentContext.INDENTATION,
+                expected
+            );
+        }
     }
 }

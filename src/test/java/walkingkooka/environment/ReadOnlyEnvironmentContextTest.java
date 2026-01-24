@@ -22,6 +22,7 @@ import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.Predicates;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 
@@ -42,6 +43,8 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     private final Predicate<EnvironmentValueName<?>> READ_ONLY_NAMES = Predicates.is(
         EnvironmentContext.USER
     );
+
+    private final static Indentation INDENTATION = Indentation.SPACES4;
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
@@ -99,6 +102,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 () -> NOW,
@@ -182,6 +186,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     @Test
     public void testSetEnvironmentContextWithSame() {
         final EnvironmentContext empty = EnvironmentContexts.empty(
+            INDENTATION,
             LineEnding.NL,
             Locale.FRENCH,
             LocalDateTime::now,
@@ -205,6 +210,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final HasNow hasNow = () -> NOW;
 
         final EnvironmentContext empty = EnvironmentContexts.empty(
+            INDENTATION,
             LineEnding.NL,
             Locale.FRENCH,
             hasNow,
@@ -218,6 +224,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
 
         final EnvironmentContext different = EnvironmentContexts.empty(
+            INDENTATION,
             LineEnding.CRNL,
             Locale.GERMAN,
             hasNow,
@@ -246,6 +253,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 () -> NOW,
@@ -270,6 +278,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 () -> NOW,
@@ -350,6 +359,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 () -> NOW,
@@ -394,6 +404,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 () -> NOW,
@@ -616,6 +627,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 () -> NOW,
@@ -774,6 +786,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     private ReadOnlyEnvironmentContext createContext(final Predicate<EnvironmentValueName<?>> readOnlyNames) {
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 () -> NOW,
@@ -792,6 +805,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     @Test
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
+            EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.NOW,
             EnvironmentValueName.LOCALE,
@@ -805,7 +819,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{lineEnding=\"\\n\", locale=fr_FR, user=user123@example.com}"
+            "{indentation=\"    \", lineEnding=\"\\n\", locale=fr_FR, user=user123@example.com}"
         );
     }
 
@@ -818,6 +832,8 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             "ReadOnlyEnvironmentContext\n" +
                 "  environmentContext\n" +
                 "    MapEnvironmentContext\n" +
+                "      indentation\n" +
+                "        \"    \" (walkingkooka.text.Indentation)\n" +
                 "      lineEnding\n" +
                 "        \"\\n\"\n" +
                 "      locale\n" +

@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -57,6 +58,19 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
             .removeEnvironmentValue(name);
     }
 
+    @Override
+    default Indentation indentation() {
+        return this.environmentValueOrFail(INDENTATION);
+    }
+
+    @Override
+    default void setIndentation(final Indentation indentation) {
+        this.setEnvironmentValue(
+            INDENTATION,
+            indentation
+        );
+    }
+    
     @Override
     default LineEnding lineEnding() {
         return this.environmentValueOrFail(LINE_ENDING);

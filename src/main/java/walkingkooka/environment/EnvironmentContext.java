@@ -20,7 +20,9 @@ package walkingkooka.environment;
 import walkingkooka.Context;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.HasIndentation;
 import walkingkooka.text.HasLineEnding;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.util.HasLocale;
 
@@ -35,12 +37,15 @@ import java.util.Set;
  * of the current user.
  */
 public interface EnvironmentContext extends Context,
+    HasIndentation,
     HasLineEnding,
     HasLocale,
     HasNow,
     HasUser {
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
+
+    EnvironmentValueName<Indentation> INDENTATION = EnvironmentValueName.INDENTATION;
 
     EnvironmentValueName<LineEnding> LINE_ENDING = EnvironmentValueName.LINE_ENDING;
 
@@ -92,6 +97,11 @@ public interface EnvironmentContext extends Context,
      */
     void removeEnvironmentValue(final EnvironmentValueName<?> name);
 
+    /**
+     * Sets or replaces the current {@link Indentation}
+     */
+    void setIndentation(final Indentation indentation);
+    
     /**
      * Sets or replaces the current {@link LineEnding}
      */

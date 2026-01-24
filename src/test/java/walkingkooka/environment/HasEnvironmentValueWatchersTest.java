@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -32,12 +33,22 @@ public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasE
     final static class TestHasEnvironmentValueWatchers implements HasEnvironmentValueWatchers {
 
         @Override
+        public Indentation indentation() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public Locale locale() {
             throw new UnsupportedOperationException();
         }
 
         @Override
         public LineEnding lineEnding() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setIndentation(final Indentation indentation) {
             throw new UnsupportedOperationException();
         }
 

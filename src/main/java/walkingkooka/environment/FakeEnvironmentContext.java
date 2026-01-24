@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -28,12 +29,22 @@ import java.util.Set;
 public class FakeEnvironmentContext implements EnvironmentContext {
 
     @Override
+    public Indentation indentation() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Locale locale() {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public LineEnding lineEnding() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setIndentation(final Indentation indentation) {
         throw new UnsupportedOperationException();
     }
 
