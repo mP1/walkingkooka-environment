@@ -28,6 +28,7 @@ import walkingkooka.predicate.character.CharPredicate;
 import walkingkooka.predicate.character.CharPredicates;
 import walkingkooka.text.CaseSensitivity;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionReference;
 import walkingkooka.tree.expression.function.ExpressionFunctionParameterName;
@@ -83,6 +84,11 @@ final public class EnvironmentValueName<T> implements Name,
         CONSTANTS.put(name, constant);
         return Cast.to(constant);
     }
+
+    public final static EnvironmentValueName<Indentation> INDENTATION = registerConstant(
+        "indentation",
+        Indentation.class
+    );
 
     public final static EnvironmentValueName<LineEnding> LINE_ENDING = registerConstant(
         "lineEnding",
