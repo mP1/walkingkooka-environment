@@ -17,6 +17,7 @@ This is intended primarily to support custom values to a component(s) such as a 
 
 ### [EnvironmentValueName](https://github.com/mP1/walkingkooka-environment/blob/master/src/main/java/walkingkooka/environment/EnvironmentValueName.java)
 
+- indentation: Indentation mostly used for "printing" multi-line structure like json.
 - lineEnding: The current line-ending used by functions when printing lines of text
 - locale: The current locale for the current user, eg "en-AU".
 - now: The current date/time`java.time.LocalDateTime`
