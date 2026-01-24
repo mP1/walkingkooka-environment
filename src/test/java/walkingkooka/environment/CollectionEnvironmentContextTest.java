@@ -26,6 +26,7 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.Predicates;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -38,6 +39,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting2<CollectionEnvironmentContext>,
     HashCodeEqualsDefinedTesting2<CollectionEnvironmentContext> {
+
+    private final static Indentation INDENTATION = Indentation.SPACES4;
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
@@ -56,6 +59,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.readOnly(
         Predicates.always(), // readOnlyNames
         EnvironmentContexts.empty(
+            INDENTATION,
             LINE_ENDING,
             LOCALE,
             () -> NOW,
@@ -77,6 +81,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         @Override
         public Set<EnvironmentValueName<?>> environmentValueNames() {
             return Sets.of(
+                EnvironmentContext.INDENTATION,
                 EnvironmentContext.LINE_ENDING,
                 EnvironmentContext.LOCALE,
                 EnvironmentContext.NOW,
@@ -163,12 +168,14 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         final EnvironmentContext different = CollectionEnvironmentContext.with(
             Lists.of(
                 EnvironmentContexts.empty(
+                    INDENTATION,
                     LineEnding.CR,
                     Locale.FRENCH,
                     () -> NOW,
                     EnvironmentContext.ANONYMOUS
                 ),
                 EnvironmentContexts.empty(
+                    INDENTATION,
                     LineEnding.CR,
                     Locale.GERMAN,
                     () -> NOW,
@@ -462,6 +469,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                 key22,
                 String.class
             ),
+            EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentContext.NOW,
@@ -552,7 +560,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
                     )
                 )
             ),
-            "{hello.111=Gday, lineEnding=\\n, locale=en, now=-999999999-01-01T00:00}"
+            "{hello.111=Gday, indentation=    , lineEnding=\\n, locale=en, now=-999999999-01-01T00:00}"
         );
     }
 

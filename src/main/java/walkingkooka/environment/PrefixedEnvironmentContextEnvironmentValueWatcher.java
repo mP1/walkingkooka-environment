@@ -45,7 +45,7 @@ final class PrefixedEnvironmentContextEnvironmentValueWatcher implements Environ
                                          final Optional<?> newValue) {
         EnvironmentValueName<?> fireName;
 
-        if(name.equals(EnvironmentContext.LINE_ENDING) || name.equals(EnvironmentContext.LOCALE) || name.equals(EnvironmentContext.USER)) {
+        if(name.equals(EnvironmentContext.INDENTATION) || name.equals(EnvironmentContext.LINE_ENDING) || name.equals(EnvironmentContext.LOCALE) || name.equals(EnvironmentContext.USER)) {
             fireName = name;
         } else {
             fireName = EnvironmentValueName.with(

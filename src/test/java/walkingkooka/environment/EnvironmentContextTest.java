@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -38,6 +39,7 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
         final MissingEnvironmentValueException thrown = assertThrows(
             MissingEnvironmentValueException.class,
             () -> EnvironmentContexts.empty(
+                Indentation.SPACES4,
                 LineEnding.NL,
                 Locale.ENGLISH,
                 () -> LocalDateTime.MAX,

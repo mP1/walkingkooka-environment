@@ -22,6 +22,7 @@ import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 
@@ -38,16 +39,32 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     ToStringTesting<EmptyEnvironmentContext>,
     TreePrintableTesting {
 
+    private final static Indentation INDENTATION = Indentation.SPACES4;
     private final static LineEnding LINE_ENDING = LineEnding.NL;
     private final static Locale LOCALE = Locale.ENGLISH;
     private final static LocalDateTime NOW = LocalDateTime.MIN;
     private final static HasNow HAS_NOW = () -> NOW;
 
     @Test
+    public void testWithNullIndentationFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EmptyEnvironmentContext.with(
+                INDENTATION,
+                null,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
     public void testWithNullLineEndingFails() {
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                INDENTATION,
                 null,
                 LOCALE,
                 HAS_NOW,
@@ -61,6 +78,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 null,
                 HAS_NOW,
@@ -74,6 +92,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 null,
@@ -87,6 +106,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
@@ -264,6 +284,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
 
     private EmptyEnvironmentContext createContext(final Optional<EmailAddress> user) {
         return EmptyEnvironmentContext.with(
+            INDENTATION,
             LINE_ENDING,
             LOCALE,
             HAS_NOW,
@@ -276,6 +297,15 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Override
     public void testRemoveEnvironmentValueWithNowFails() {
         throw new UnsupportedOperationException();
+    }
+
+    @Test
+    public void testRemoveEnvironmentValueIndentationFails() {
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> this.createContext()
+                .removeEnvironmentValue(EnvironmentContext.INDENTATION)
+        );
     }
 
     @Test
@@ -308,6 +338,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testRemoveEnvironmentValueWithUserNotAnonymous() {
         final EmptyEnvironmentContext context = EmptyEnvironmentContext.with(
+            INDENTATION,
             LINE_ENDING,
             LOCALE,
             HAS_NOW,
@@ -325,6 +356,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testRemoveEnvironmentValueUserAndAnonymous() {
         final EmptyEnvironmentContext context = EmptyEnvironmentContext.with(
+            INDENTATION,
             LINE_ENDING,
             LOCALE,
             HAS_NOW,
@@ -343,6 +375,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
             EmptyEnvironmentContext.with(
+                INDENTATION,
                 LineEnding.NL,
                 LOCALE,
                 HAS_NOW,
@@ -350,6 +383,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                     EmailAddress.parse("different@example.com")
                 )
             ),
+            EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentContext.NOW,
@@ -361,11 +395,13 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEnvironmentalValueNamesWithoutUser() {
         this.environmentValueNamesAndCheck(
             EmptyEnvironmentContext.with(
+                INDENTATION,
                 LineEnding.NL,
                 LOCALE,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ),
+            EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentContext.NOW
@@ -375,15 +411,37 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     // equals...........................................................................................................
 
     @Test
-    public void testEqualsDifferentLineEnding() {
+    public void testEqualsDifferentIndentation() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                Indentation.SPACES2,
                 LineEnding.NL,
                 LOCALE,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
+                Indentation.SPACES4,
+                LineEnding.NL,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentLineEnding() {
+        this.checkNotEquals(
+            EmptyEnvironmentContext.with(
+                INDENTATION,
+                LineEnding.NL,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            EmptyEnvironmentContext.with(
+                INDENTATION,
                 LineEnding.CR,
                 LOCALE,
                 HAS_NOW,
@@ -396,12 +454,14 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentLocale() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 Locale.FRANCE,
                 HAS_NOW,
@@ -414,12 +474,14 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentHasNow() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 Locale.FRANCE,
                 LocalDateTime::now,
@@ -432,6 +494,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentUser() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
@@ -446,6 +509,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentUser2() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
@@ -454,6 +518,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 )
             ),
             EmptyEnvironmentContext.with(
+                INDENTATION,
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
@@ -477,7 +542,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             this.createContext(
                 EnvironmentContext.ANONYMOUS
             ),
-            "{lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00}"
+            "{indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00}"
         );
     }
 
@@ -489,7 +554,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                     EmailAddress.parse("user@example.com")
                 )
             ),
-            "{lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
+            "{indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
         );
     }
 
@@ -500,6 +565,8 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         this.treePrintAndCheck(
             this.createContext(),
             "EmptyEnvironmentContext\n" +
+                "  indentation\n" +
+                "    \"    \" (walkingkooka.text.Indentation)\n" +
                 "  lineEnding\n" +
                 "    \"\\n\"\n" +
                 "  now\n" +

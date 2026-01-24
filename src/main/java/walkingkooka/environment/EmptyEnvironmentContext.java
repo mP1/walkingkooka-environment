@@ -24,6 +24,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
@@ -44,11 +45,13 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     UsesToStringBuilder,
     TreePrintable {
 
-    static EmptyEnvironmentContext with(final LineEnding lineEnding,
+    static EmptyEnvironmentContext with(final Indentation indentation,
+                                        final LineEnding lineEnding,
                                         final Locale locale,
                                         final HasNow hasNow,
                                         final Optional<EmailAddress> user) {
         return new EmptyEnvironmentContext(
+            Objects.requireNonNull(indentation, "indentation"),
             Objects.requireNonNull(lineEnding, "hasLineEnding"),
             Objects.requireNonNull(locale, "locale"),
             Objects.requireNonNull(hasNow, "hasNow"),
@@ -56,11 +59,14 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         );
     }
 
-    private EmptyEnvironmentContext(final LineEnding lineEnding,
+    private EmptyEnvironmentContext(final Indentation indentation,
+                                    final LineEnding lineEnding,
                                     final Locale locale,
                                     final HasNow hasNow,
                                     final Optional<EmailAddress> user) {
         super();
+
+        this.indentation = indentation;
         this.lineEnding = lineEnding;
         this.locale = locale;
         this.hasNow = hasNow;
@@ -75,6 +81,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     @Override
     public EnvironmentContext cloneEnvironment() {
         return new EmptyEnvironmentContext(
+            this.indentation,
             this.lineEnding,
             this.locale,
             this.hasNow,
@@ -93,15 +100,17 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
         return Cast.to(
             Optional.ofNullable(
-                LINE_ENDING.equals(name) ?
-                    this.lineEnding :
-                    LOCALE.equals(name) ?
-                        this.locale :
-                        NOW.equals(name) ?
-                            this.now() :
-                            USER.equals(name) ?
-                                this.user.orElse(null) :
-                                null
+                INDENTATION.equals(name) ?
+                    this.indentation :
+                    LINE_ENDING.equals(name) ?
+                        this.lineEnding :
+                        LOCALE.equals(name) ?
+                            this.locale :
+                            NOW.equals(name) ?
+                                this.now() :
+                                USER.equals(name) ?
+                                    this.user.orElse(null) :
+                                    null
             )
         );
     }
@@ -114,6 +123,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     private final static Set<EnvironmentValueName<?>> NAMES = Sets.of(
+        INDENTATION,
         LINE_ENDING,
         LOCALE,
         NOW,
@@ -121,6 +131,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     );
 
     private final static Set<EnvironmentValueName<?>> NAMES_WITHOUT_USER = Sets.of(
+        INDENTATION,
         LINE_ENDING,
         NOW,
         LOCALE
@@ -132,18 +143,22 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (LINE_ENDING.equals(name)) {
-            this.setLineEnding((LineEnding) value);
+        if (INDENTATION.equals(name)) {
+            this.setIndentation((Indentation) value);
         } else {
-            if (LOCALE.equals(name)) {
-                this.setLocale((Locale) value);
+            if (LINE_ENDING.equals(name)) {
+                this.setLineEnding((LineEnding) value);
             } else {
-                if (USER.equals(name)) {
-                    this.setUser(
-                        Optional.of((EmailAddress) value)
-                    );
+                if (LOCALE.equals(name)) {
+                    this.setLocale((Locale) value);
                 } else {
-                    throw new ReadOnlyEnvironmentValueException(name);
+                    if (USER.equals(name)) {
+                        this.setUser(
+                            Optional.of((EmailAddress) value)
+                        );
+                    } else {
+                        throw new ReadOnlyEnvironmentValueException(name);
+                    }
                 }
             }
         }
@@ -153,7 +168,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        if (LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
+        if (INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
             throw new ReadOnlyEnvironmentValueException(name);
         } else {
             if (USER.equals(name)) {
@@ -163,6 +178,29 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
         // ignore all other removes because the value doesnt exist
     }
+
+    // HasIndentation...................................................................................................
+
+    @Override
+    public Indentation indentation() {
+        return this.indentation;
+    }
+
+    @Override
+    public void setIndentation(final Indentation indentation) {
+        Objects.requireNonNull(indentation, "indentation");
+
+        final Indentation oldIndentation = this.indentation;
+        this.indentation = indentation;
+
+        this.watchers.onEnvironmentValueChange(
+            INDENTATION,
+            Optional.of(oldIndentation),
+            Optional.of(indentation)
+        );
+    }
+
+    private Indentation indentation;
 
     // HasLineEnding....................................................................................................
 
@@ -256,6 +294,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     @Override
     public int hashCode() {
         return Objects.hash(
+            this.indentation,
             this.lineEnding,
             this.locale,
             this.hasNow,
@@ -271,7 +310,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     private boolean equals0(final EmptyEnvironmentContext other) {
-        return this.lineEnding.equals(other.lineEnding) &&
+        return this.indentation.equals(other.indentation) &&
+            this.lineEnding.equals(other.lineEnding) &&
             this.locale.equals(other.locale) &&
             this.hasNow.equals(other.hasNow) &&
             this.user.equals(other.user);
@@ -289,6 +329,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         b.labelSeparator("=")
             .separator(", ");
         b.append('{');
+
+        b.label("indentation");
+        b.value(
+            CharSequences.escape(this.indentation)
+        );
 
         b.label("lineEnding");
         b.value(

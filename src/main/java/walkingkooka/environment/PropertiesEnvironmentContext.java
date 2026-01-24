@@ -25,6 +25,7 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -73,6 +74,19 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public Indentation indentation() {
+        return this.context.indentation();
+    }
+
+    @Override
+    public void setIndentation(final Indentation indentation) {
+        this.setEnvironmentValue(
+            INDENTATION,
+            indentation
+        );
+    }
+
+    @Override
     public LineEnding lineEnding() {
         return this.context.lineEnding();
     }
@@ -104,27 +118,33 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
 
         final Optional<?> value;
 
-        if (LINE_ENDING.equals(name)) {
+        if (INDENTATION.equals(name)) {
             value = Optional.of(
-                this.context.lineEnding()
+                this.context.indentation()
             );
         } else {
-            if (LOCALE.equals(name)) {
+            if (LINE_ENDING.equals(name)) {
                 value = Optional.of(
-                    this.context.locale()
+                    this.context.lineEnding()
                 );
             } else {
-                if (NOW.equals(name)) {
+                if (LOCALE.equals(name)) {
                     value = Optional.of(
-                        this.context.now()
+                        this.context.locale()
                     );
                 } else {
-                    if (USER.equals(name)) {
-                        value = this.context.user();
-                    } else {
-                        value = this.properties.get(
-                            PropertiesPath.parse(name.value())
+                    if (NOW.equals(name)) {
+                        value = Optional.of(
+                            this.context.now()
                         );
+                    } else {
+                        if (USER.equals(name)) {
+                            value = this.context.user();
+                        } else {
+                            value = this.properties.get(
+                                PropertiesPath.parse(name.value())
+                            );
+                        }
                     }
                 }
             }
@@ -158,18 +178,22 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (LINE_ENDING.equals(name)) {
-            this.context.setLineEnding((LineEnding) value);
+        if (INDENTATION.equals(name)) {
+            this.context.setIndentation((Indentation) value);
         } else {
-            if (LOCALE.equals(name)) {
-                this.context.setLocale((Locale) value);
+            if (LINE_ENDING.equals(name)) {
+                this.context.setLineEnding((LineEnding) value);
             } else {
-                if (USER.equals(name)) {
-                    this.context.setUser(
-                        Optional.of((EmailAddress) value)
-                    );
+                if (LOCALE.equals(name)) {
+                    this.context.setLocale((Locale) value);
                 } else {
-                    throw new ReadOnlyEnvironmentValueException(name);
+                    if (USER.equals(name)) {
+                        this.context.setUser(
+                            Optional.of((EmailAddress) value)
+                        );
+                    } else {
+                        throw new ReadOnlyEnvironmentValueException(name);
+                    }
                 }
             }
         }
@@ -254,6 +278,14 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
                 entry.getValue()
             );
         }
+
+        map.put(
+            INDENTATION,
+            CharSequences.quoteAndEscape(
+                this.indentation()
+                    .toString()
+            )
+        );
 
         map.put(
             LINE_ENDING,

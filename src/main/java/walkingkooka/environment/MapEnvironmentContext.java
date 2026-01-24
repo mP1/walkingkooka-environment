@@ -23,6 +23,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
@@ -94,6 +95,7 @@ final class MapEnvironmentContext implements EnvironmentContext,
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         final Set<EnvironmentValueName<?>> names = SortedSets.tree();
         names.addAll(this.values.keySet());
+        names.add(INDENTATION);
         names.add(LINE_ENDING);
         names.add(LOCALE);
         names.add(NOW);
@@ -116,21 +118,25 @@ final class MapEnvironmentContext implements EnvironmentContext,
         Object oldValue;
         boolean put = false;
 
-        if (LINE_ENDING.equals(name)) {
-            oldValue = context.lineEnding();
+        if (INDENTATION.equals(name)) {
+            oldValue = context.indentation();
         } else {
-            if (LOCALE.equals(name)) {
-                oldValue = context.locale();
+            if (LINE_ENDING.equals(name)) {
+                oldValue = context.lineEnding();
             } else {
-                if (NOW.equals(name)) {
-                    oldValue = context.now();
+                if (LOCALE.equals(name)) {
+                    oldValue = context.locale();
                 } else {
-                    if (USER.equals(name)) {
-                        oldValue = this.context.user()
-                            .orElse(null);
+                    if (NOW.equals(name)) {
+                        oldValue = context.now();
                     } else {
-                        oldValue = this.values.get(name);
-                        put = true;
+                        if (USER.equals(name)) {
+                            oldValue = this.context.user()
+                                .orElse(null);
+                        } else {
+                            oldValue = this.values.get(name);
+                            put = true;
+                        }
                     }
                 }
             }
@@ -163,11 +169,15 @@ final class MapEnvironmentContext implements EnvironmentContext,
 
         Object oldValue;
 
-            if(LINE_ENDING.equals(name)) {
+        if (INDENTATION.equals(name)) {
+            oldValue = context.indentation();
+            context.removeEnvironmentValue(name);
+        } else {
+            if (LINE_ENDING.equals(name)) {
                 oldValue = context.lineEnding();
                 context.removeEnvironmentValue(name);
             } else {
-                if(LOCALE.equals(name)) {
+                if (LOCALE.equals(name)) {
                     oldValue = context.locale();
                     context.removeEnvironmentValue(name);
                 } else {
@@ -186,6 +196,7 @@ final class MapEnvironmentContext implements EnvironmentContext,
                     }
                 }
             }
+        }
 
         this.watchers.onEnvironmentValueChange(
             name,
@@ -196,6 +207,21 @@ final class MapEnvironmentContext implements EnvironmentContext,
 
     private final Map<EnvironmentValueName<?>, Object> values;
 
+    // HasIndentation...................................................................................................
+
+    @Override
+    public Indentation indentation() {
+        return this.environmentValueOrFail(INDENTATION);
+    }
+
+    @Override
+    public void setIndentation(final Indentation indentation) {
+        this.setEnvironmentValue(
+            INDENTATION,
+            indentation
+        );
+    }
+    
     // HasLineEnding....................................................................................................
 
     @Override
@@ -290,6 +316,14 @@ final class MapEnvironmentContext implements EnvironmentContext,
     public String toString() {
         final Map<EnvironmentValueName<?>, Object> map = Maps.sorted();
         map.putAll(this.values);
+
+        map.put(
+            INDENTATION,
+            CharSequences.quoteAndEscape(
+                this.indentation()
+                    .toString()
+            )
+        );
 
         map.put(
             LINE_ENDING,

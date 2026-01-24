@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
@@ -130,6 +131,21 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext,
      */
     final Predicate<EnvironmentValueName<?>> readOnlyNames;
 
+    @Override
+    public Indentation indentation() {
+        return this.context.indentation();
+    }
+
+    @Override
+    public void setIndentation(final Indentation indentation) {
+        Objects.requireNonNull(indentation, "indentation");
+
+        this.setEnvironmentValue(
+            INDENTATION,
+            indentation
+        );
+    }
+    
     @Override
     public LineEnding lineEnding() {
         return this.context.lineEnding();

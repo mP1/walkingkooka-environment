@@ -23,6 +23,7 @@ import walkingkooka.ToStringTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -39,6 +40,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        Indentation.SPACES4,
         LineEnding.NL,
         Locale.ENGLISH,
         () -> NOW,
@@ -210,6 +212,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
                 key2,
                 String.class
             ),
+            EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentContext.NOW
@@ -265,7 +268,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{hello.123=Gday, lineEnding=\"\\n\", locale=en}"
+            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=en}"
         );
     }
 
