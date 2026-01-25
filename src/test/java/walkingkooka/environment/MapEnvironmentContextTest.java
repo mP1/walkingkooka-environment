@@ -33,8 +33,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class MapEnvironmentContextTest implements EnvironmentContextTesting2<MapEnvironmentContext>,
-    HashCodeEqualsDefinedTesting2<MapEnvironmentContext>,
+public final class MapEnvironmentContextTest extends EnvironmentContextSharedTestCase<MapEnvironmentContext>
+    implements HashCodeEqualsDefinedTesting2<MapEnvironmentContext>,
     ToStringTesting<MapEnvironmentContext> {
 
     private final static Indentation INDENTATION = Indentation.SPACES4;
