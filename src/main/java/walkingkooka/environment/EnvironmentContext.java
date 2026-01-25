@@ -99,7 +99,7 @@ public interface EnvironmentContext extends Context,
     default <T> void setOrRemoveEnvironmentValue(final EnvironmentValueName<T> name,
                                                  final Optional<T> value) {
         Objects.requireNonNull(name, "name");
-        Objects.requireNonNull(value, "value");
+        Objects.requireNonNull(value, name.value());
 
         if (value.isPresent()) {
             this.setEnvironmentValue(
