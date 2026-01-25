@@ -106,16 +106,10 @@ abstract class EnvironmentContextShared implements EnvironmentContext,
     public final void setUser(final Optional<EmailAddress> user) {
         Objects.requireNonNull(user, "user");
 
-        if (user.isPresent()) {
-            this.setEnvironmentValue(
-                USER,
-                user.orElse(null)
-            );
-        } else {
-            this.removeEnvironmentValue(
-                USER
-            );
-        }
+        this.setOrRemoveEnvironmentValue(
+            EnvironmentValueName.USER,
+            user
+        );
     }
 
     final EnvironmentContext context;
