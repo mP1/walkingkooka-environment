@@ -228,7 +228,10 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
 
     @Override
     public int hashCode() {
-        return this.context.hashCode();
+        return Objects.hash(
+            this.prefix,
+            this.context
+        );
     }
 
     @Override
