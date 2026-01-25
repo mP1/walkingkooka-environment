@@ -116,5 +116,5 @@ abstract class EnvironmentContextShared implements EnvironmentContext {
         }
     }
 
-    private final EnvironmentContext context;
+    final EnvironmentContext context;
 }
