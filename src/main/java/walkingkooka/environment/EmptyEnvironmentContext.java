@@ -157,7 +157,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
                             Optional.of((EmailAddress) value)
                         );
                     } else {
-                        throw new ReadOnlyEnvironmentValueException(name);
+                        throw name.readOnlyEnvironmentValueException();
                     }
                 }
             }
@@ -169,7 +169,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         Objects.requireNonNull(name, "name");
 
         if (INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
-            throw new ReadOnlyEnvironmentValueException(name);
+            throw name.readOnlyEnvironmentValueException();
         } else {
             if (USER.equals(name)) {
                 this.user = ANONYMOUS;

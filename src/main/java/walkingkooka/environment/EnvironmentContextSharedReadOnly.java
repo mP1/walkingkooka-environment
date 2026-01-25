@@ -100,7 +100,7 @@ final class EnvironmentContextSharedReadOnly extends EnvironmentContextShared {
         Objects.requireNonNull(value, "value");
 
         if (this.readOnlyNames.test(name) && false == value.equals(this.environmentValue(name).orElse(null))) {
-            throw new ReadOnlyEnvironmentValueException(name);
+            throw name.readOnlyEnvironmentValueException();
         }
         this.context.setEnvironmentValue(
             name,
@@ -113,7 +113,7 @@ final class EnvironmentContextSharedReadOnly extends EnvironmentContextShared {
         Objects.requireNonNull(name, "name");
 
         if (this.readOnlyNames.test(name) && this.environmentValue(name).isPresent()) {
-            throw new ReadOnlyEnvironmentValueException(name);
+            throw name.readOnlyEnvironmentValueException();
         } else {
             this.context.removeEnvironmentValue(name);
         }
