@@ -540,18 +540,6 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
     }
 
-    // type naming......................................................................................................
-
-    @Override
-    public String typeNamePrefix() {
-        return EnvironmentContextShared.class.getSimpleName();
-    }
-
-    @Override
-    public String typeNameSuffix() {
-        return "";
-    }
-
     // class............................................................................................................
 
     @Override
