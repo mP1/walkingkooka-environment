@@ -72,51 +72,6 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         this.context = context;
     }
 
-    // HasIndentation...................................................................................................
-
-    @Override
-    public Indentation indentation() {
-        return this.context.indentation();
-    }
-
-    @Override
-    public void setIndentation(final Indentation indentation) {
-        this.setEnvironmentValue(
-            INDENTATION,
-            indentation
-        );
-    }
-    
-    // HasLineEnding....................................................................................................
-
-    @Override
-    public LineEnding lineEnding() {
-        return this.context.lineEnding();
-    }
-
-    @Override
-    public void setLineEnding(final LineEnding lineEnding) {
-        this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
-        );
-    }
-    
-    // HasLocale........................................................................................................
-
-    @Override
-    public Locale locale() {
-        return this.context.locale();
-    }
-
-    @Override
-    public void setLocale(final Locale locale) {
-        this.setEnvironmentValue(
-            LOCALE,
-            locale
-        );
-    }
-
     // EnvironmentContext...............................................................................................
 
     @Override
@@ -246,6 +201,51 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         Objects.requireNonNull(name, "name");
 
         throw new UnsupportedOperationException();
+    }
+
+    // HasIndentation...................................................................................................
+
+    @Override
+    public Indentation indentation() {
+        return this.context.indentation();
+    }
+
+    @Override
+    public void setIndentation(final Indentation indentation) {
+        this.setEnvironmentValue(
+            INDENTATION,
+            indentation
+        );
+    }
+
+    // HasLineEnding....................................................................................................
+
+    @Override
+    public LineEnding lineEnding() {
+        return this.context.lineEnding();
+    }
+
+    @Override
+    public void setLineEnding(final LineEnding lineEnding) {
+        this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
+    }
+
+    // HasLocale........................................................................................................
+
+    @Override
+    public Locale locale() {
+        return this.context.locale();
+    }
+
+    @Override
+    public void setLocale(final Locale locale) {
+        this.setEnvironmentValue(
+            LOCALE,
+            locale
+        );
     }
 
     @Override
