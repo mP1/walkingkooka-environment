@@ -179,6 +179,14 @@ final public class EnvironmentValueName<T> implements Name,
         return new MissingEnvironmentValueException(this);
     }
 
+    /**
+     * Creates but does not throw the given {@link ReadOnlyEnvironmentValueException}.
+     * Useful to report a value is read-only.
+     */
+    public ReadOnlyEnvironmentValueException readOnlyEnvironmentValueException() {
+        return new ReadOnlyEnvironmentValueException(this);
+    }
+
     // Comparable........................................................................................................
 
     @Override

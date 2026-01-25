@@ -154,7 +154,7 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
                             Optional.of((EmailAddress) value)
                         );
                     } else {
-                        throw new ReadOnlyEnvironmentValueException(name);
+                        throw name.readOnlyEnvironmentValueException();
                     }
                 }
             }
@@ -173,7 +173,7 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
             final Object exists2 = this.environmentValue(name)
                 .orElse(null);
             if (null != exists2) {
-                throw new ReadOnlyEnvironmentValueException(name);
+                throw name.readOnlyEnvironmentValueException();
             }
         }
     }
