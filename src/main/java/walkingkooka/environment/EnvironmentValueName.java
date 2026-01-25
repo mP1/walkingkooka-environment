@@ -172,6 +172,13 @@ final public class EnvironmentValueName<T> implements Name,
 
     private final Class<T> type;
 
+    /**
+     * Creates but does not throw the given {@link MissingEnvironmentValueException}.
+     */
+    public MissingEnvironmentValueException missingEnvironmentValueException() {
+        return new MissingEnvironmentValueException(this);
+    }
+
     // Comparable........................................................................................................
 
     @Override
