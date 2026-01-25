@@ -17,14 +17,9 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.net.email.EmailAddress;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
-import java.time.LocalDateTime;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -36,20 +31,19 @@ import java.util.function.Predicate;
  * Note {@link #cloneEnvironment()} returns a clone not the original, which may not be read-only.
  * If the wrapped {@link EnvironmentContext} allows modification then the clone will allow modifications.
  */
-final class ReadOnlyEnvironmentContext implements EnvironmentContext,
-    TreePrintable {
+final class EnvironmentContextSharedReadOnly extends EnvironmentContextShared {
 
-    static ReadOnlyEnvironmentContext with(final Predicate<EnvironmentValueName<?>> readOnlyNames,
-                                           final EnvironmentContext context) {
+    static EnvironmentContextSharedReadOnly with(final Predicate<EnvironmentValueName<?>> readOnlyNames,
+                                                 final EnvironmentContext context) {
         Objects.requireNonNull(readOnlyNames, "readOnlyNames");
         Objects.requireNonNull(context, "context");
 
-        ReadOnlyEnvironmentContext readOnlyEnvironmentContext = null;
+        EnvironmentContextSharedReadOnly readOnlyEnvironmentContext = null;
 
         EnvironmentContext temp = context;
 
-        if (context instanceof ReadOnlyEnvironmentContext) {
-            readOnlyEnvironmentContext = (ReadOnlyEnvironmentContext) context;
+        if (context instanceof EnvironmentContextSharedReadOnly) {
+            readOnlyEnvironmentContext = (EnvironmentContextSharedReadOnly) context;
 
             // if same readOnlyNames Predicate unwrap context
             if (readOnlyNames.equals(readOnlyEnvironmentContext.readOnlyNames)) {
@@ -61,17 +55,16 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext,
 
         return null != readOnlyEnvironmentContext ?
             readOnlyEnvironmentContext :
-            new ReadOnlyEnvironmentContext(
+            new EnvironmentContextSharedReadOnly(
                 readOnlyNames,
                 temp
             );
     }
 
-    private ReadOnlyEnvironmentContext(final Predicate<EnvironmentValueName<?>> readOnlyNames,
-                                       final EnvironmentContext context) {
-        super();
+    private EnvironmentContextSharedReadOnly(final Predicate<EnvironmentValueName<?>> readOnlyNames,
+                                             final EnvironmentContext context) {
+        super(context);
         this.readOnlyNames = readOnlyNames;
-        this.context = context;
     }
 
     /**
@@ -132,75 +125,6 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext,
     final Predicate<EnvironmentValueName<?>> readOnlyNames;
 
     @Override
-    public Indentation indentation() {
-        return this.context.indentation();
-    }
-
-    @Override
-    public void setIndentation(final Indentation indentation) {
-        Objects.requireNonNull(indentation, "indentation");
-
-        this.setEnvironmentValue(
-            INDENTATION,
-            indentation
-        );
-    }
-    
-    @Override
-    public LineEnding lineEnding() {
-        return this.context.lineEnding();
-    }
-
-    @Override
-    public void setLineEnding(final LineEnding lineEnding) {
-        Objects.requireNonNull(lineEnding, "lineEnding");
-
-        this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
-        );
-    }
-
-    @Override
-    public Locale locale() {
-        return this.context.locale();
-    }
-
-    @Override
-    public void setLocale(final Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-
-        this.setEnvironmentValue(
-            LOCALE,
-            locale
-        );
-    }
-
-    @Override
-    public LocalDateTime now() {
-        return this.context.now();
-    }
-
-    @Override
-    public Optional<EmailAddress> user() {
-        return this.context.user();
-    }
-
-    @Override
-    public void setUser(final Optional<EmailAddress> user) {
-        Objects.requireNonNull(user, "user");
-
-        if (user.isPresent()) {
-            this.setEnvironmentValue(
-                USER,
-                user.get()
-            );
-        } else {
-            this.removeEnvironmentValue(USER);
-        }
-    }
-
-    @Override
     public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
         return this.context.addEventValueWatcher(watcher);
     }
@@ -209,8 +133,6 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext,
     public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
         return this.context.addEventValueWatcherOnce(watcher);
     }
-
-    final EnvironmentContext context;
 
     // Object...........................................................................................................
 
@@ -222,11 +144,11 @@ final class ReadOnlyEnvironmentContext implements EnvironmentContext,
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-            (other instanceof ReadOnlyEnvironmentContext &&
-                this.equals0((ReadOnlyEnvironmentContext) other));
+            (other instanceof EnvironmentContextSharedReadOnly &&
+                this.equals0((EnvironmentContextSharedReadOnly) other));
     }
 
-    private boolean equals0(final ReadOnlyEnvironmentContext other) {
+    private boolean equals0(final EnvironmentContextSharedReadOnly other) {
         return this.context.equals(other.context);
     }
 

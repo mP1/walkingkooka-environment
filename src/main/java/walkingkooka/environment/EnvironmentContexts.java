@@ -97,11 +97,11 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     }
 
     /**
-     * {@see ReadOnlyEnvironmentContext}
+     * {@see EnvironmentContextSharedReadOnly}
      */
     public static EnvironmentContext readOnly(final Predicate<EnvironmentValueName<?>> readOnlyNames,
                                               final EnvironmentContext context) {
-        return ReadOnlyEnvironmentContext.with(
+        return EnvironmentContextSharedReadOnly.with(
             readOnlyNames,
             context
         );
