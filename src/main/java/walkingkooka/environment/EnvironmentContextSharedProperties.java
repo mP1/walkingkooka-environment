@@ -27,8 +27,9 @@ import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.TreePrintable;
 
-import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -39,20 +40,20 @@ import java.util.Set;
 /**
  * An {@link EnvironmentContext} that sources all values from a given {@link Properties}.
  */
-final class PropertiesEnvironmentContext implements EnvironmentContext {
+final class EnvironmentContextSharedProperties extends EnvironmentContextShared {
 
-    static PropertiesEnvironmentContext with(final Properties properties,
-                                             final EnvironmentContext context) {
-        return new PropertiesEnvironmentContext(
+    static EnvironmentContextSharedProperties with(final Properties properties,
+                                                   final EnvironmentContext context) {
+        return new EnvironmentContextSharedProperties(
             Objects.requireNonNull(properties, "properties"),
             Objects.requireNonNull(context, "context")
         );
     }
 
-    private PropertiesEnvironmentContext(final Properties properties,
-                                         final EnvironmentContext context) {
+    private EnvironmentContextSharedProperties(final Properties properties,
+                                               final EnvironmentContext context) {
+        super(context);
         this.properties = properties;
-        this.context = context;
     }
 
     @Override
@@ -180,60 +181,6 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     private final Properties properties;
 
     @Override
-    public Indentation indentation() {
-        return this.context.indentation();
-    }
-
-    @Override
-    public void setIndentation(final Indentation indentation) {
-        this.setEnvironmentValue(
-            INDENTATION,
-            indentation
-        );
-    }
-
-    @Override
-    public LineEnding lineEnding() {
-        return this.context.lineEnding();
-    }
-
-    @Override
-    public void setLineEnding(final LineEnding lineEnding) {
-        this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
-        );
-    }
-
-    @Override
-    public Locale locale() {
-        return this.context.locale();
-    }
-
-    @Override
-    public void setLocale(final Locale locale) {
-        this.setEnvironmentValue(
-            EnvironmentValueName.LOCALE,
-            locale
-        );
-    }
-
-    @Override
-    public LocalDateTime now() {
-        return this.context.now();
-    }
-
-    @Override
-    public Optional<EmailAddress> user() {
-        return this.context.user();
-    }
-
-    @Override
-    public void setUser(final Optional<EmailAddress> user) {
-        this.context.setUser(user);
-    }
-
-    @Override
     public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
         return this.context.addEventValueWatcher(watcher);
     }
@@ -242,8 +189,6 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
         return this.context.addEventValueWatcherOnce(watcher);
     }
-
-    private final EnvironmentContext context;
 
     // Object...........................................................................................................
 
@@ -255,11 +200,11 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-            (other instanceof PropertiesEnvironmentContext &&
-                this.equals0((PropertiesEnvironmentContext) other));
+            (other instanceof EnvironmentContextSharedProperties &&
+                this.equals0((EnvironmentContextSharedProperties) other));
     }
 
-    private boolean equals0(final PropertiesEnvironmentContext other) {
+    private boolean equals0(final EnvironmentContextSharedProperties other) {
         return this.properties.equals(other.properties) &&
             this.context.equals(other.context);
     }
@@ -309,5 +254,28 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
         }
 
         return map.toString();
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        printer.println(this.getClass().getSimpleName());
+        printer.indent();
+        {
+            TreePrintable.printTreeOrToString(
+                this.context,
+                printer
+            );
+
+            printer.println("properties");
+
+            printer.indent();
+            {
+                this.properties.printTree(printer);
+            }
+            printer.outdent();
+        }
+        printer.outdent();
     }
 }
