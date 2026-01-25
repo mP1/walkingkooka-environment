@@ -33,23 +33,23 @@ import java.util.Set;
  * A {@link EnvironmentContext} that cascade gets, trying the wrapped {@link EnvironmentContext} and then the internal
  * {@link Map}.
  */
-final class MapEnvironmentContext extends EnvironmentContextShared
+final class EnvironmentContextSharedMap extends EnvironmentContextShared
     implements HasEnvironmentValueWatchers {
 
-    static MapEnvironmentContext with(final EnvironmentContext context) {
-        return new MapEnvironmentContext(
+    static EnvironmentContextSharedMap with(final EnvironmentContext context) {
+        return new EnvironmentContextSharedMap(
             Objects.requireNonNull(context, "context")
         );
     }
 
-    private MapEnvironmentContext(final EnvironmentContext context) {
+    private EnvironmentContextSharedMap(final EnvironmentContext context) {
         super(context);
         this.values = Maps.sorted();
     }
 
     @Override
     public EnvironmentContext cloneEnvironment() {
-        final MapEnvironmentContext clone = new MapEnvironmentContext(
+        final EnvironmentContextSharedMap clone = new EnvironmentContextSharedMap(
             Objects.requireNonNull(
                 this.context.cloneEnvironment(),
                 "context"
@@ -218,11 +218,11 @@ final class MapEnvironmentContext extends EnvironmentContextShared
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-            (other instanceof MapEnvironmentContext &&
-                this.equals0((MapEnvironmentContext) other));
+            (other instanceof EnvironmentContextSharedMap &&
+                this.equals0((EnvironmentContextSharedMap) other));
     }
 
-    private boolean equals0(final MapEnvironmentContext other) {
+    private boolean equals0(final EnvironmentContextSharedMap other) {
         return this.values.equals(other.values) &&
             this.context.equals(other.context);
     }

@@ -68,10 +68,10 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     }
 
     /**
-     * {@see MapEnvironmentContext}
+     * {@see EnvironmentContextSharedMap}
      */
     public static EnvironmentContext map(final EnvironmentContext context) {
-        return MapEnvironmentContext.with(context);
+        return EnvironmentContextSharedMap.with(context);
     }
 
     /**
