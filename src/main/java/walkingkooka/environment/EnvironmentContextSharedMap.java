@@ -23,6 +23,8 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.TreePrintable;
 
 import java.util.Map;
 import java.util.Objects;
@@ -262,5 +264,31 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         }
 
         return map.toString();
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        printer.println(this.getClass().getSimpleName());
+        printer.indent();
+        {
+            for (final EnvironmentValueName<?> name : this.environmentValueNames()) {
+                final Object value = this.environmentValue(name)
+                    .orElse(null);
+                if (null != value) {
+                    printer.println(name.value());
+                    printer.indent();
+                    {
+                        TreePrintable.printTreeOrToString(
+                            value,
+                            printer
+                        );
+                    }
+                    printer.outdent();
+                }
+            }
+        }
+        printer.outdent();
     }
 }
