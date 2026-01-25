@@ -78,7 +78,7 @@ public interface EnvironmentContext extends Context,
      */
     default <T> T environmentValueOrFail(final EnvironmentValueName<T> name) {
         return this.environmentValue(name)
-            .orElseThrow(() -> new MissingEnvironmentValueException(name));
+            .orElseThrow(name::missingEnvironmentValueException);
     }
 
     /**
