@@ -86,11 +86,11 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     }
 
     /**
-     * {@see PropertiesEnvironmentContext}
+     * {@see EnvironmentContextSharedProperties}
      */
     public static EnvironmentContext properties(final Properties properties,
                                                 final EnvironmentContext context) {
-        return PropertiesEnvironmentContext.with(
+        return EnvironmentContextSharedProperties.with(
             properties,
             context
         );

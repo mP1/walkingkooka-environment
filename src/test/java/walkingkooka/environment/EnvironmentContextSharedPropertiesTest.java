@@ -33,9 +33,9 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class PropertiesEnvironmentContextTest implements EnvironmentContextTesting2<PropertiesEnvironmentContext>,
-    HashCodeEqualsDefinedTesting2<PropertiesEnvironmentContext>,
-    ToStringTesting<PropertiesEnvironmentContext> {
+public final class EnvironmentContextSharedPropertiesTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedProperties>
+    implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedProperties>,
+    ToStringTesting<EnvironmentContextSharedProperties> {
 
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
@@ -57,7 +57,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     public void testWithNullPropertiesFails() {
         assertThrows(
             NullPointerException.class,
-            () -> PropertiesEnvironmentContext.with(
+            () -> EnvironmentContextSharedProperties.with(
                 null,
                 CONTEXT
             )
@@ -68,7 +68,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     public void testWithNullContextFails() {
         assertThrows(
             NullPointerException.class,
-            () -> PropertiesEnvironmentContext.with(
+            () -> EnvironmentContextSharedProperties.with(
                 Properties.EMPTY,
                 null
             )
@@ -79,7 +79,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testCloneEnvironment() {
-        final PropertiesEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedProperties context = this.createContext();
         final EnvironmentContext clone = context.cloneEnvironment();
 
         assertNotSame(
@@ -97,7 +97,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testSetEnvironmentContext() {
-        final PropertiesEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedProperties context = this.createContext();
 
         final EnvironmentContext different = this.createContext();
         different.setLineEnding(LineEnding.CRNL);
@@ -164,7 +164,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testSetEnvironmentValueWithLocale() {
-        final PropertiesEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedProperties context = this.createContext();
 
         final Locale locale = Locale.GERMAN;
         this.setEnvironmentValueAndCheck(
@@ -176,7 +176,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testSetEnvironmentValueWithUser() {
-        final PropertiesEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedProperties context = this.createContext();
 
         final EmailAddress user = EmailAddress.parse("different@example.com");
         this.setEnvironmentValueAndCheck(
@@ -194,7 +194,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         final String key2 = "prefix.name2";
 
         this.environmentValueNamesAndCheck(
-            PropertiesEnvironmentContext.with(
+            EnvironmentContextSharedProperties.with(
                 Properties.EMPTY.set(
                     PropertiesPath.parse(key1),
                     "value111"
@@ -220,8 +220,8 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     }
 
     @Override
-    public PropertiesEnvironmentContext createContext() {
-        return PropertiesEnvironmentContext.with(
+    public EnvironmentContextSharedProperties createContext() {
+        return EnvironmentContextSharedProperties.with(
             Properties.EMPTY.set(
                 PropertiesPath.parse(NAME),
                 VALUE
@@ -235,7 +235,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEqualsDifferentProperties() {
         this.checkNotEquals(
-            PropertiesEnvironmentContext.with(
+            EnvironmentContextSharedProperties.with(
                 Properties.EMPTY,
                 CONTEXT
             )
@@ -250,7 +250,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         );
 
         this.checkNotEquals(
-            PropertiesEnvironmentContext.with(
+            EnvironmentContextSharedProperties.with(
                 Properties.EMPTY,
                 context
             )
@@ -258,7 +258,7 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
     }
 
     @Override
-    public PropertiesEnvironmentContext createObject() {
+    public EnvironmentContextSharedProperties createObject() {
         return this.createContext();
     }
 
@@ -272,17 +272,31 @@ public final class PropertiesEnvironmentContextTest implements EnvironmentContex
         );
     }
 
-    // type naming......................................................................................................
+    // TreePrintable......................................................................................................
 
-    @Override
-    public String typeNameSuffix() {
-        return EnvironmentContext.class.getSimpleName();
+    @Test
+    public void testPrintTree() {
+        this.treePrintAndCheck(
+            this.createContext(),
+            "EnvironmentContextSharedProperties\n" +
+                "  EmptyEnvironmentContext\n" +
+                "    indentation\n" +
+                "      \"    \" (walkingkooka.text.Indentation)\n" +
+                "    lineEnding\n" +
+                "      \"\\n\"\n" +
+                "    now\n" +
+                "      -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "    locale\n" +
+                "      en (java.util.Locale)\n" +
+                "  properties\n" +
+                "    hello.123=Gday\n"
+        );
     }
 
     // class............................................................................................................
 
     @Override
-    public Class<PropertiesEnvironmentContext> type() {
-        return PropertiesEnvironmentContext.class;
+    public Class<EnvironmentContextSharedProperties> type() {
+        return EnvironmentContextSharedProperties.class;
     }
 }
