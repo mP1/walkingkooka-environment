@@ -831,7 +831,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             this.createContext(),
             "ReadOnlyEnvironmentContext\n" +
                 "  environmentContext\n" +
-                "    MapEnvironmentContext\n" +
+                "    EnvironmentContextSharedMap\n" +
                 "      indentation\n" +
                 "        \"    \" (walkingkooka.text.Indentation)\n" +
                 "      lineEnding\n" +

@@ -33,9 +33,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class MapEnvironmentContextTest extends EnvironmentContextSharedTestCase<MapEnvironmentContext>
-    implements HashCodeEqualsDefinedTesting2<MapEnvironmentContext>,
-    ToStringTesting<MapEnvironmentContext> {
+public final class EnvironmentContextSharedMapTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedMap>
+    implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedMap>,
+    ToStringTesting<EnvironmentContextSharedMap> {
 
     private final static Indentation INDENTATION = Indentation.SPACES4;
 
@@ -68,7 +68,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
     public void testWithNullContextFails() {
         assertThrows(
             NullPointerException.class,
-            () -> MapEnvironmentContext.with(
+            () -> EnvironmentContextSharedMap.with(
                 null
             )
         );
@@ -86,7 +86,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testSetLineEnding() {
-        final MapEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedMap context = this.createContext();
 
         final LineEnding lineEnding = LineEnding.CR;
         this.checkNotEquals(
@@ -112,7 +112,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testSetLocale() {
-        final MapEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedMap context = this.createContext();
 
         final Locale locale = Locale.GERMANY;
 
@@ -128,7 +128,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testEnvironmentalValue() {
-        final MapEnvironmentContext context = MapEnvironmentContext.with(CONTEXT);
+        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
         context.setEnvironmentValue(
             NAME,
             VALUE
@@ -163,14 +163,14 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testEnvironmentalValueWithLocaleAfterWrappedContextLocaleChange() {
-        final MapEnvironmentContext context = MapEnvironmentContext.with(
+        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(
             new FakeEnvironmentContext() {
 
                 @Override
                 public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
                     return Optional.ofNullable(
                         name.equals(LOCALE) ?
-                            Cast.to(MapEnvironmentContextTest.LOCALE) :
+                            Cast.to(EnvironmentContextSharedMapTest.LOCALE) :
                             null
                     );
                 }
@@ -211,14 +211,14 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testEnvironmentalValueWithUserAfterWrappedContextUserChange() {
-        final MapEnvironmentContext context = MapEnvironmentContext.with(
+        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(
             new FakeEnvironmentContext() {
 
                 @Override
                 public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
                     return Optional.ofNullable(
                         name.equals(USER) ?
-                            Cast.to(MapEnvironmentContextTest.this.user) :
+                            Cast.to(EnvironmentContextSharedMapTest.this.user) :
                             null
                     );
                 }
@@ -253,7 +253,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
             String.class
         );
 
-        final MapEnvironmentContext context = MapEnvironmentContext.with(CONTEXT);
+        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
         context.setEnvironmentValue(
             name1,
             VALUE
@@ -302,7 +302,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
             String.class
         );
 
-        final MapEnvironmentContext context = this.createContext(
+        final EnvironmentContextSharedMap context = this.createContext(
             Optional.of(
                 EmailAddress.parse("user183@example.com")
             )
@@ -353,7 +353,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testSetUser() {
-        final MapEnvironmentContext context = MapEnvironmentContext.with(CONTEXT);
+        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
 
         final EmailAddress email = EmailAddress.parse("different@example.com");
 
@@ -367,7 +367,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testSetEnvironmentContext() {
-        final MapEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedMap context = this.createContext();
 
         final EnvironmentContext different = this.createContext();
         different.setLineEnding(LineEnding.CRNL);
@@ -386,12 +386,12 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
     // Context..........................................................................................................
 
     @Override
-    public MapEnvironmentContext createContext() {
+    public EnvironmentContextSharedMap createContext() {
         return this.createContext(EnvironmentContext.ANONYMOUS);
     }
 
-    public MapEnvironmentContext createContext(final Optional<EmailAddress> user) {
-        return MapEnvironmentContext.with(
+    public EnvironmentContextSharedMap createContext(final Optional<EmailAddress> user) {
+        return EnvironmentContextSharedMap.with(
             EnvironmentContexts.empty(
                 INDENTATION,
                 LINE_ENDING,
@@ -407,7 +407,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
     @Test
     public void testEqualsDifferentContext() {
         this.checkNotEquals(
-            MapEnvironmentContext.with(
+            EnvironmentContextSharedMap.with(
                 EnvironmentContexts.empty(
                     INDENTATION,
                     LINE_ENDING,
@@ -416,7 +416,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
                     EnvironmentContext.ANONYMOUS
                 )
             ),
-            MapEnvironmentContext.with(
+            EnvironmentContextSharedMap.with(
                 EnvironmentContexts.empty(
                     INDENTATION,
                     LINE_ENDING,
@@ -456,7 +456,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
     }
 
     @Override
-    public MapEnvironmentContext createObject() {
+    public EnvironmentContextSharedMap createObject() {
         return this.createContext();
     }
 
@@ -464,7 +464,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testToString() {
-        final MapEnvironmentContext context = MapEnvironmentContext.with(CONTEXT);
+        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
         context.setEnvironmentValue(
             NAME,
             VALUE
@@ -478,7 +478,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testToStringWithUser() {
-        final MapEnvironmentContext context = MapEnvironmentContext.with(CONTEXT);
+        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
         context.setEnvironmentValue(
             NAME,
             VALUE
@@ -501,7 +501,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
     public void testTreePrint() {
         this.treePrintAndCheck(
             this.createContext(),
-            "MapEnvironmentContext\n" +
+            "EnvironmentContextSharedMap\n" +
                 "  indentation\n" +
                 "    \"    \" (walkingkooka.text.Indentation)\n" +
                 "  lineEnding\n" +
@@ -515,7 +515,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
     @Test
     public void testTreePrint2() {
-        final MapEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedMap context = this.createContext();
         context.setEnvironmentValue(
             EnvironmentValueName.with(
                 "Hello",
@@ -526,7 +526,7 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
 
         this.treePrintAndCheck(
             context,
-            "MapEnvironmentContext\n" +
+            "EnvironmentContextSharedMap\n" +
                 "  Hello\n" +
                 "    \"world\"\n" +
                 "  indentation\n" +
@@ -543,14 +543,19 @@ public final class MapEnvironmentContextTest extends EnvironmentContextSharedTes
     // type naming......................................................................................................
 
     @Override
+    public String typeNamePrefix() {
+        return EnvironmentContextShared.class.getSimpleName();
+    }
+
+    @Override
     public String typeNameSuffix() {
-        return EnvironmentContext.class.getSimpleName();
+        return "";
     }
 
     // class............................................................................................................
 
     @Override
-    public Class<MapEnvironmentContext> type() {
-        return MapEnvironmentContext.class;
+    public Class<EnvironmentContextSharedMap> type() {
+        return EnvironmentContextSharedMap.class;
     }
 }
