@@ -24,7 +24,6 @@ import walkingkooka.text.printer.TreePrintable;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -104,8 +103,6 @@ abstract class EnvironmentContextShared implements EnvironmentContext,
 
     @Override
     public final void setUser(final Optional<EmailAddress> user) {
-        Objects.requireNonNull(user, "user");
-
         this.setOrRemoveEnvironmentValue(
             EnvironmentValueName.USER,
             user
