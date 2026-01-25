@@ -74,45 +74,6 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public Indentation indentation() {
-        return this.context.indentation();
-    }
-
-    @Override
-    public void setIndentation(final Indentation indentation) {
-        this.setEnvironmentValue(
-            INDENTATION,
-            indentation
-        );
-    }
-
-    @Override
-    public LineEnding lineEnding() {
-        return this.context.lineEnding();
-    }
-
-    @Override
-    public void setLineEnding(final LineEnding lineEnding) {
-        this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
-        );
-    }
-
-    @Override
-    public Locale locale() {
-        return this.context.locale();
-    }
-
-    @Override
-    public void setLocale(final Locale locale) {
-        this.setEnvironmentValue(
-            EnvironmentValueName.LOCALE,
-            locale
-        );
-    }
-
-    @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
 
@@ -217,6 +178,45 @@ final class PropertiesEnvironmentContext implements EnvironmentContext {
     }
 
     private final Properties properties;
+
+    @Override
+    public Indentation indentation() {
+        return this.context.indentation();
+    }
+
+    @Override
+    public void setIndentation(final Indentation indentation) {
+        this.setEnvironmentValue(
+            INDENTATION,
+            indentation
+        );
+    }
+
+    @Override
+    public LineEnding lineEnding() {
+        return this.context.lineEnding();
+    }
+
+    @Override
+    public void setLineEnding(final LineEnding lineEnding) {
+        this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
+    }
+
+    @Override
+    public Locale locale() {
+        return this.context.locale();
+    }
+
+    @Override
+    public void setLocale(final Locale locale) {
+        this.setEnvironmentValue(
+            EnvironmentValueName.LOCALE,
+            locale
+        );
+    }
 
     @Override
     public LocalDateTime now() {
