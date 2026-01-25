@@ -337,12 +337,10 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "Missing222",
                 String.class
             ),
-            new MissingEnvironmentValueException(
-                EnvironmentValueName.with(
-                    "Missing222",
-                    String.class
-                )
-            )
+            EnvironmentValueName.with(
+                "Missing222",
+                String.class
+            ).missingEnvironmentValueException()
         );
     }
 
@@ -354,12 +352,10 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "prefix111.Missing222",
                 String.class
             ),
-            new MissingEnvironmentValueException(
-                EnvironmentValueName.with(
-                    "prefix111.Missing222",
-                    String.class
-                )
-            )
+            EnvironmentValueName.with(
+                "prefix111.Missing222",
+                String.class
+            ).missingEnvironmentValueException()
         );
     }
 
