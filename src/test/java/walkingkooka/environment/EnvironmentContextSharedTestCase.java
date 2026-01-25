@@ -19,15 +19,27 @@ package walkingkooka.environment;
 
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.TypeNameTesting;
 
 public abstract class EnvironmentContextSharedTestCase<C extends EnvironmentContextShared> implements EnvironmentContextTesting2<C>,
-    ClassTesting<C> {
+    ClassTesting<C>,
+    TypeNameTesting<C> {
 
     EnvironmentContextSharedTestCase() {
         super();
     }
 
     // class............................................................................................................
+
+    @Override
+    public final String typeNamePrefix() {
+        return EnvironmentContextShared.class.getSimpleName();
+    }
+
+    @Override
+    public final String typeNameSuffix() {
+        return "";
+    }
 
     @Override
     public final JavaVisibility typeVisibility() {
