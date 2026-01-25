@@ -23,13 +23,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
-import walkingkooka.text.printer.IndentingPrinter;
-import walkingkooka.text.printer.TreePrintable;
 
-import java.time.LocalDateTime;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,9 +33,8 @@ import java.util.Set;
  * A {@link EnvironmentContext} that cascade gets, trying the wrapped {@link EnvironmentContext} and then the internal
  * {@link Map}.
  */
-final class MapEnvironmentContext implements EnvironmentContext,
-    HasEnvironmentValueWatchers,
-    TreePrintable {
+final class MapEnvironmentContext extends EnvironmentContextShared
+    implements HasEnvironmentValueWatchers {
 
     static MapEnvironmentContext with(final EnvironmentContext context) {
         return new MapEnvironmentContext(
@@ -50,9 +43,8 @@ final class MapEnvironmentContext implements EnvironmentContext,
     }
 
     private MapEnvironmentContext(final EnvironmentContext context) {
-        super();
+        super(context);
         this.values = Maps.sorted();
-        this.context = context;
     }
 
     @Override
@@ -207,83 +199,6 @@ final class MapEnvironmentContext implements EnvironmentContext,
 
     private final Map<EnvironmentValueName<?>, Object> values;
 
-    // HasIndentation...................................................................................................
-
-    @Override
-    public Indentation indentation() {
-        return this.environmentValueOrFail(INDENTATION);
-    }
-
-    @Override
-    public void setIndentation(final Indentation indentation) {
-        this.setEnvironmentValue(
-            INDENTATION,
-            indentation
-        );
-    }
-    
-    // HasLineEnding....................................................................................................
-
-    @Override
-    public LineEnding lineEnding() {
-        return this.environmentValueOrFail(LINE_ENDING);
-    }
-
-    @Override
-    public void setLineEnding(final LineEnding lineEnding) {
-        this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
-        );
-    }
-
-    // HasLocale........................................................................................................
-
-    @Override
-    public Locale locale() {
-        return this.environmentValueOrFail(LOCALE);
-    }
-
-    @Override
-    public void setLocale(final Locale locale) {
-        this.setEnvironmentValue(
-            LOCALE,
-            locale
-        );
-    }
-
-    // HasNow...........................................................................................................
-
-    @Override
-    public LocalDateTime now() {
-        return this.context.now();
-    }
-
-    // HasUser..........................................................................................................
-
-    @Override
-    public Optional<EmailAddress> user() {
-        return this.environmentValue(USER);
-    }
-
-    @Override
-    public void setUser(final Optional<EmailAddress> user) {
-        Objects.requireNonNull(user, "user");
-
-        if (user.isPresent()) {
-            this.setEnvironmentValue(
-                USER,
-                user.orElse(null)
-            );
-        } else {
-            this.removeEnvironmentValue(
-                USER
-            );
-        }
-    }
-
-    private final EnvironmentContext context;
-
     // HasEnvironmentValueWatchers......................................................................................
 
     @Override
@@ -347,31 +262,5 @@ final class MapEnvironmentContext implements EnvironmentContext,
         }
 
         return map.toString();
-    }
-
-    // TreePrintable....................................................................................................
-
-    @Override
-    public void printTree(final IndentingPrinter printer) {
-        printer.println(this.getClass().getSimpleName());
-        printer.indent();
-        {
-            for (final EnvironmentValueName<?> name : this.environmentValueNames()) {
-                final Object value = this.environmentValue(name)
-                    .orElse(null);
-                if (null != value) {
-                    printer.println(name.value());
-                    printer.indent();
-                    {
-                        TreePrintable.printTreeOrToString(
-                            value,
-                            printer
-                        );
-                    }
-                    printer.outdent();
-                }
-            }
-        }
-        printer.outdent();
     }
 }
