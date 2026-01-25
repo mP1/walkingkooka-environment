@@ -23,18 +23,18 @@ import java.util.Optional;
 /**
  * A {@link EnvironmentValueWatcher} that handles fixing the {@link EnvironmentValueName} before firing to the target.
  */
-final class PrefixedEnvironmentContextEnvironmentValueWatcher implements EnvironmentValueWatcher {
+final class EnvironmentContextSharedPrefixedEnvironmentValueWatcher implements EnvironmentValueWatcher {
 
-    static PrefixedEnvironmentContextEnvironmentValueWatcher with(final String prefix,
-                                                                  final EnvironmentValueWatcher watcher) {
-        return new PrefixedEnvironmentContextEnvironmentValueWatcher(
+    static EnvironmentContextSharedPrefixedEnvironmentValueWatcher with(final String prefix,
+                                                                        final EnvironmentValueWatcher watcher) {
+        return new EnvironmentContextSharedPrefixedEnvironmentValueWatcher(
             prefix,
             Objects.requireNonNull(watcher, "watcher")
         );
     }
 
-    private PrefixedEnvironmentContextEnvironmentValueWatcher(final String prefix,
-                                                              final EnvironmentValueWatcher watcher) {
+    private EnvironmentContextSharedPrefixedEnvironmentValueWatcher(final String prefix,
+                                                                    final EnvironmentValueWatcher watcher) {
         this.prefix = prefix;
         this.watcher = watcher;
     }

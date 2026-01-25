@@ -75,11 +75,11 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     }
 
     /**
-     * {@see PrefixedEnvironmentContext}
+     * {@see EnvironmentContextSharedPrefixed}
      */
     public static EnvironmentContext prefixed(final EnvironmentValueName<?> prefix,
                                               final EnvironmentContext context) {
-        return PrefixedEnvironmentContext.with(
+        return EnvironmentContextSharedPrefixed.with(
             prefix,
             context
         );

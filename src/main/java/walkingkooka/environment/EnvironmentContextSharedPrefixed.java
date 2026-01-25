@@ -23,8 +23,9 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.TreePrintable;
 
-import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -34,10 +35,10 @@ import java.util.SortedSet;
 /**
  * A {@link EnvironmentContext} that expects and removes a prefix before performing a lookup.
  */
-final class PrefixedEnvironmentContext implements EnvironmentContext {
+final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
 
-    static PrefixedEnvironmentContext with(final EnvironmentValueName<?> prefix,
-                                           final EnvironmentContext context) {
+    static EnvironmentContextSharedPrefixed with(final EnvironmentValueName<?> prefix,
+                                                 final EnvironmentContext context) {
         Objects.requireNonNull(prefix, "prefix");
         final String prefixValue = prefix.value();
         if (false == prefixValue.endsWith(".")) {
@@ -46,18 +47,18 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
 
         Objects.requireNonNull(context, "context");
 
-        final PrefixedEnvironmentContext result;
-        if (context instanceof PrefixedEnvironmentContext) {
-            final PrefixedEnvironmentContext prefixedEnvironmentContext = (PrefixedEnvironmentContext) context;
-            result = new PrefixedEnvironmentContext(
+        final EnvironmentContextSharedPrefixed result;
+        if (context instanceof EnvironmentContextSharedPrefixed) {
+            final EnvironmentContextSharedPrefixed environmentContextSharedPrefixed = (EnvironmentContextSharedPrefixed) context;
+            result = new EnvironmentContextSharedPrefixed(
                 EnvironmentValueName.with(
-                    prefixedEnvironmentContext.prefix + prefixValue,
+                    environmentContextSharedPrefixed.prefix + prefixValue,
                     prefix.type()
                 ).value(),
-                prefixedEnvironmentContext.context
+                environmentContextSharedPrefixed.context
             );
         } else {
-            result = new PrefixedEnvironmentContext(
+            result = new EnvironmentContextSharedPrefixed(
                 prefix.value(),
                 context
             );
@@ -66,17 +67,17 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         return result;
     }
 
-    private PrefixedEnvironmentContext(final String prefix,
-                                       final EnvironmentContext context) {
+    private EnvironmentContextSharedPrefixed(final String prefix,
+                                             final EnvironmentContext context) {
+        super(context);
         this.prefix = prefix;
-        this.context = context;
     }
 
     // EnvironmentContext...............................................................................................
 
     @Override
     public EnvironmentContext cloneEnvironment() {
-        return new PrefixedEnvironmentContext(
+        return new EnvironmentContextSharedPrefixed(
             this.prefix,
             Objects.requireNonNull(
                 this.context.cloneEnvironment()
@@ -148,7 +149,7 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         names.add(LOCALE);
         names.add(NOW);
 
-        if(this.user().isPresent()) {
+        if (this.user().isPresent()) {
             names.add(USER);
         }
 
@@ -203,70 +204,10 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         throw new UnsupportedOperationException();
     }
 
-    // HasIndentation...................................................................................................
-
-    @Override
-    public Indentation indentation() {
-        return this.context.indentation();
-    }
-
-    @Override
-    public void setIndentation(final Indentation indentation) {
-        this.setEnvironmentValue(
-            INDENTATION,
-            indentation
-        );
-    }
-
-    // HasLineEnding....................................................................................................
-
-    @Override
-    public LineEnding lineEnding() {
-        return this.context.lineEnding();
-    }
-
-    @Override
-    public void setLineEnding(final LineEnding lineEnding) {
-        this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
-        );
-    }
-
-    // HasLocale........................................................................................................
-
-    @Override
-    public Locale locale() {
-        return this.context.locale();
-    }
-
-    @Override
-    public void setLocale(final Locale locale) {
-        this.setEnvironmentValue(
-            LOCALE,
-            locale
-        );
-    }
-
-    @Override
-    public LocalDateTime now() {
-        return this.context.now();
-    }
-
-    @Override
-    public Optional<EmailAddress> user() {
-        return this.context.user();
-    }
-
-    @Override
-    public void setUser(final Optional<EmailAddress> user) {
-        this.context.setUser(user);
-    }
-
     @Override
     public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
         return this.context.addEventValueWatcher(
-            PrefixedEnvironmentContextEnvironmentValueWatcher.with(
+            EnvironmentContextSharedPrefixedEnvironmentValueWatcher.with(
                 this.prefix,
                 watcher
             )
@@ -276,7 +217,7 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     @Override
     public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
         return this.context.addEventValueWatcherOnce(
-            PrefixedEnvironmentContextEnvironmentValueWatcher.with(
+            EnvironmentContextSharedPrefixedEnvironmentValueWatcher.with(
                 this.prefix,
                 watcher
             )
@@ -293,11 +234,11 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-            (other instanceof PrefixedEnvironmentContext &&
-                this.equals0((PrefixedEnvironmentContext) other));
+            (other instanceof EnvironmentContextSharedPrefixed &&
+                this.equals0((EnvironmentContextSharedPrefixed) other));
     }
 
-    private boolean equals0(final PrefixedEnvironmentContext other) {
+    private boolean equals0(final EnvironmentContextSharedPrefixed other) {
         return this.prefix.equals(other.prefix) &&
             this.context.equals(other.context);
     }
@@ -307,6 +248,30 @@ final class PrefixedEnvironmentContext implements EnvironmentContext {
         return this.context.toString();
     }
 
-    // @VisibleForTesting
-    final EnvironmentContext context;
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        printer.println(this.getClass().getSimpleName());
+        printer.indent();
+        {
+            printer.println("prefix");
+            printer.indent();
+            {
+                printer.println(this.prefix);
+            }
+            printer.outdent();
+
+            printer.println("environmentContext");
+            printer.indent();
+            {
+                TreePrintable.printTreeOrToString(
+                    this.context,
+                    printer
+                );
+            }
+            printer.outdent();
+        }
+        printer.outdent();
+    }
 }
