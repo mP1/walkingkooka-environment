@@ -18,13 +18,11 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.ToStringTesting;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.Predicates;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
-import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -35,9 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextTesting2<ReadOnlyEnvironmentContext>,
-    ToStringTesting<ReadOnlyEnvironmentContext>,
-    TreePrintableTesting {
+public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedReadOnly> {
 
     // ONLY user is readonly
     private final Predicate<EnvironmentValueName<?>> READ_ONLY_NAMES = Predicates.is(
@@ -58,7 +54,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testWithNullReadOnlyNamesFails() {
         assertThrows(
             NullPointerException.class,
-            () -> ReadOnlyEnvironmentContext.with(
+            () -> EnvironmentContextSharedReadOnly.with(
                 null,
                 EnvironmentContexts.fake()
             )
@@ -69,7 +65,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testWithNullEnvironmentContextFails() {
         assertThrows(
             NullPointerException.class,
-            () -> ReadOnlyEnvironmentContext.with(
+            () -> EnvironmentContextSharedReadOnly.with(
                 READ_ONLY_NAMES,
                 null
             )
@@ -78,14 +74,14 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testWithReadOnlyNamesWithSameReadOnlyNamesPredicate() {
-        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+        final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.fake()
         );
 
         assertSame(
             context,
-            ReadOnlyEnvironmentContext.with(
+            EnvironmentContextSharedReadOnly.with(
                 READ_ONLY_NAMES,
                 context
             )
@@ -114,12 +110,12 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             helloValue
         );
 
-        final ReadOnlyEnvironmentContext wrapped = ReadOnlyEnvironmentContext.with(
+        final EnvironmentContextSharedReadOnly wrapped = EnvironmentContextSharedReadOnly.with(
             Predicates.is(hello),
             environmentContext
         );
 
-        final ReadOnlyEnvironmentContext readOnlyEnvironmentContext = ReadOnlyEnvironmentContext.with(
+        final EnvironmentContextSharedReadOnly readOnlyEnvironmentContext = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             wrapped
         );
@@ -146,7 +142,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testCloneEnvironment() {
-        final ReadOnlyEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedReadOnly context = this.createContext();
 
         assertNotSame(
             context,
@@ -156,7 +152,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testCloneEnvironmentNotReadOnly() {
-        final ReadOnlyEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedReadOnly context = this.createContext();
 
         final EnvironmentContext cloned = context.cloneEnvironment();
         assertNotSame(
@@ -194,7 +190,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
                 EmailAddress.parse("user123@example.com")
             )
         );
-        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(
+        final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             empty
         );
@@ -218,7 +214,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
                 EmailAddress.parse("user123@example.com")
             )
         );
-        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(
+        final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             empty
         );
@@ -250,7 +246,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testSetEnvironmentValueSame() {
-        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+        final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
                 INDENTATION,
@@ -291,7 +287,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
 
         this.setEnvironmentValueAndCheck(
-            ReadOnlyEnvironmentContext.with(
+            EnvironmentContextSharedReadOnly.with(
                 READ_ONLY_NAMES,
                 context
             ),
@@ -304,7 +300,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testSetEnvironmentValueDifferentNotReadOnly() {
         final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
 
-        final ReadOnlyEnvironmentContext context = this.createContext(
+        final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.never()
         );
 
@@ -325,7 +321,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testSetEnvironmentValueDifferentReadOnlyFails() {
         final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
 
-        final ReadOnlyEnvironmentContext context = this.createContext(
+        final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.is(name)
         );
 
@@ -370,7 +366,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             name,
             value
         );
-        final ReadOnlyEnvironmentContext readOnly = ReadOnlyEnvironmentContext.with(
+        final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             Predicates.is(name),
             context
         );
@@ -401,7 +397,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testRemoveEnvironmentValueMissing() {
         final Optional<EmailAddress> user = EnvironmentContext.ANONYMOUS;
 
-        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+        final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
                 INDENTATION,
@@ -420,7 +416,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testRemoveEnvironmentValuePresentFails() {
-        final ReadOnlyEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedReadOnly context = this.createContext();
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
@@ -440,7 +436,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testRemoveWithReadOnlyFails() {
-        final ReadOnlyEnvironmentContext context = this.createContext(
+        final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.is(EnvironmentContext.USER)
         );
 
@@ -462,7 +458,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testRemoveWithReadOnly() {
-        final ReadOnlyEnvironmentContext context = this.createContext(
+        final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.never()
         );
 
@@ -498,7 +494,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             lineEnding
         );
 
-        final ReadOnlyEnvironmentContext context = this.createContext(
+        final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.is(EnvironmentContext.LINE_ENDING)
         );
 
@@ -544,7 +540,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             locale
         );
 
-        final ReadOnlyEnvironmentContext context = this.createContext(
+        final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.is(EnvironmentContext.LOCALE)
         );
 
@@ -605,7 +601,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             user
         );
 
-        final ReadOnlyEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedReadOnly context = this.createContext();
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
@@ -624,7 +620,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testSetUserWithSameAnonymous() {
         final Optional<EmailAddress> user = EnvironmentContext.ANONYMOUS;
 
-        final ReadOnlyEnvironmentContext context = ReadOnlyEnvironmentContext.with(
+        final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
                 INDENTATION,
@@ -650,7 +646,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testAddWatcherAndSetEnvironmentValue() {
         final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
 
-        final ReadOnlyEnvironmentContext context = this.createContext(
+        final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.never()
         );
 
@@ -684,7 +680,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
                         "newValue"
                     );
 
-                    ReadOnlyEnvironmentContextTest.this.fired = true;
+                    EnvironmentContextSharedReadOnlyTest.this.fired = true;
                 }
             }
         );
@@ -706,7 +702,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testAddWatcherOnceAndSetEnvironmentValue() {
         final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
 
-        final ReadOnlyEnvironmentContext context = this.createContext(
+        final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.never()
         );
 
@@ -726,7 +722,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
                                                      final Optional<?> newValue) {
                     checkEquals(
                         false,
-                        ReadOnlyEnvironmentContextTest.this.fired,
+                        EnvironmentContextSharedReadOnlyTest.this.fired,
                         "event should not have been fired twice"
                     );
 
@@ -746,7 +742,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
                         "newValue"
                     );
 
-                    ReadOnlyEnvironmentContextTest.this.fired = true;
+                    EnvironmentContextSharedReadOnlyTest.this.fired = true;
                 }
             }
         );
@@ -779,11 +775,11 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     private boolean fired;
 
     @Override
-    public ReadOnlyEnvironmentContext createContext() {
+    public EnvironmentContextSharedReadOnly createContext() {
         return this.createContext(READ_ONLY_NAMES);
     }
 
-    private ReadOnlyEnvironmentContext createContext(final Predicate<EnvironmentValueName<?>> readOnlyNames) {
+    private EnvironmentContextSharedReadOnly createContext(final Predicate<EnvironmentValueName<?>> readOnlyNames) {
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
                 INDENTATION,
@@ -794,7 +790,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
             )
         );
         context.setLocale(LOCALE);
-        return ReadOnlyEnvironmentContext.with(
+        return EnvironmentContextSharedReadOnly.with(
             readOnlyNames,
             context
         );
@@ -829,7 +825,7 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
     public void testTreePrint() {
         this.treePrintAndCheck(
             this.createContext(),
-            "ReadOnlyEnvironmentContext\n" +
+            "EnvironmentContextSharedReadOnly\n" +
                 "  environmentContext\n" +
                 "    EnvironmentContextSharedMap\n" +
                 "      indentation\n" +
@@ -847,17 +843,10 @@ public final class ReadOnlyEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
-    // type naming......................................................................................................
-
-    @Override
-    public String typeNameSuffix() {
-        return EnvironmentContext.class.getSimpleName();
-    }
-
     // class............................................................................................................
 
     @Override
-    public Class<ReadOnlyEnvironmentContext> type() {
-        return ReadOnlyEnvironmentContext.class;
+    public Class<EnvironmentContextSharedReadOnly> type() {
+        return EnvironmentContextSharedReadOnly.class;
     }
 }
