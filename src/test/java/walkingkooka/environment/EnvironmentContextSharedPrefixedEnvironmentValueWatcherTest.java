@@ -20,11 +20,11 @@ package walkingkooka.environment;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 
-public final class PrefixedEnvironmentContextEnvironmentValueWatcherTest implements ClassTesting<PrefixedEnvironmentContextEnvironmentValueWatcher> {
+public final class EnvironmentContextSharedPrefixedEnvironmentValueWatcherTest implements ClassTesting<EnvironmentContextSharedPrefixedEnvironmentValueWatcher> {
 
     @Override
-    public Class<PrefixedEnvironmentContextEnvironmentValueWatcher> type() {
-        return PrefixedEnvironmentContextEnvironmentValueWatcher.class;
+    public Class<EnvironmentContextSharedPrefixedEnvironmentValueWatcher> type() {
+        return EnvironmentContextSharedPrefixedEnvironmentValueWatcher.class;
     }
 
     @Override

@@ -36,9 +36,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class PrefixedEnvironmentContextTest implements EnvironmentContextTesting2<PrefixedEnvironmentContext>,
-    HashCodeEqualsDefinedTesting2<PrefixedEnvironmentContext>,
-    ToStringTesting<PrefixedEnvironmentContext> {
+public final class EnvironmentContextSharedPrefixedTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedPrefixed>
+    implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedPrefixed>,
+    ToStringTesting<EnvironmentContextSharedPrefixed> {
 
     private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with(
         "prefix111.",
@@ -71,7 +71,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
         @Override
         public Optional<EmailAddress> user() {
-            return PrefixedEnvironmentContextTest.USER;
+            return EnvironmentContextSharedPrefixedTest.USER;
         }
     };
 
@@ -79,7 +79,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testWithNullPrefixFails() {
         assertThrows(
             NullPointerException.class,
-            () -> PrefixedEnvironmentContext.with(
+            () -> EnvironmentContextSharedPrefixed.with(
                 null,
                 CONTEXT
             )
@@ -90,7 +90,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testWithPrefixMissingDotFails() {
         assertThrows(
             IllegalArgumentException.class,
-            () -> PrefixedEnvironmentContext.with(
+            () -> EnvironmentContextSharedPrefixed.with(
                 EnvironmentValueName.with(
                     "bad-prefix-123",
                     Void.class
@@ -104,7 +104,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     public void testWithNullContextFails() {
         assertThrows(
             NullPointerException.class,
-            () -> PrefixedEnvironmentContext.with(
+            () -> EnvironmentContextSharedPrefixed.with(
                 PREFIX,
                 null
             )
@@ -113,9 +113,9 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testWithPrefixedEnvironmentContext() {
-        final PrefixedEnvironmentContext prefixed = this.createContext();
+        final EnvironmentContextSharedPrefixed prefixed = this.createContext();
 
-        final PrefixedEnvironmentContext context = PrefixedEnvironmentContext.with(
+        final EnvironmentContextSharedPrefixed context = EnvironmentContextSharedPrefixed.with(
             EnvironmentValueName.with(
                 "prefix222.",
                 Void.class
@@ -184,7 +184,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testEnvironmentValueWithLocale() {
-        final PrefixedEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedPrefixed context = this.createContext();
 
         this.environmentValueAndCheck(
             context,
@@ -195,7 +195,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testEnvironmentValueWithUser() {
-        final PrefixedEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedPrefixed context = this.createContext();
 
         this.environmentValueAndCheck(
             context,
@@ -208,7 +208,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testSetEnvironmentContext() {
-        final PrefixedEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedPrefixed context = this.createContext();
 
         final EnvironmentContext different = this.createContext();
         different.setLineEnding(LineEnding.CRNL);
@@ -252,7 +252,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
             )
         );
 
-        final PrefixedEnvironmentContext prefixedEnvironmentContext = PrefixedEnvironmentContext.with(
+        final EnvironmentContextSharedPrefixed environmentContextSharedPrefixed = EnvironmentContextSharedPrefixed.with(
             PREFIX,
             context
         );
@@ -263,7 +263,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         );
         final String value = "world";
 
-        final Runnable remover = prefixedEnvironmentContext.addEventValueWatcher(
+        final Runnable remover = environmentContextSharedPrefixed.addEventValueWatcher(
             new EnvironmentValueWatcher() {
                 @Override
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
@@ -288,7 +288,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
                         "newValue"
                     );
 
-                    PrefixedEnvironmentContextTest.this.fired = true;
+                    EnvironmentContextSharedPrefixedTest.this.fired = true;
                 }
             }
         );
@@ -309,8 +309,8 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     // EnvironmentContextTesting........................................................................................
 
     @Override
-    public PrefixedEnvironmentContext createContext() {
-        return PrefixedEnvironmentContext.with(
+    public EnvironmentContextSharedPrefixed createContext() {
+        return EnvironmentContextSharedPrefixed.with(
             PREFIX,
             EnvironmentContexts.properties(
                 Properties.parse(
@@ -373,7 +373,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         final String prefix = "PREFIX.";
 
         this.environmentValueNamesAndCheck(
-            PrefixedEnvironmentContext.with(
+            EnvironmentContextSharedPrefixed.with(
                 EnvironmentValueName.with(
                     prefix,
                     Void.class
@@ -409,7 +409,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testSetEnvironmentValueWithLocale() {
-        final PrefixedEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedPrefixed context = this.createContext();
 
         final Locale locale = Locale.GERMAN;
         this.setEnvironmentValueAndCheck(
@@ -421,7 +421,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
 
     @Test
     public void testSetEnvironmentValueWithUser() {
-        final PrefixedEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedPrefixed context = this.createContext();
 
         final EmailAddress user = EmailAddress.parse("different@example.com");
         this.setEnvironmentValueAndCheck(
@@ -436,14 +436,14 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     @Test
     public void testEqualsDifferentPrefix() {
         this.checkNotEquals(
-            PrefixedEnvironmentContext.with(
+            EnvironmentContextSharedPrefixed.with(
                 EnvironmentValueName.with("" +
                     "prefix1.",
                     Void.class
                 ),
                 CONTEXT
             ),
-            PrefixedEnvironmentContext.with(
+            EnvironmentContextSharedPrefixed.with(
                 EnvironmentValueName.with(
                     "prefix2.",
                     Void.class
@@ -456,7 +456,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     @Test
     public void testEqualsDifferentContext() {
         this.checkNotEquals(
-            PrefixedEnvironmentContext.with(
+            EnvironmentContextSharedPrefixed.with(
                 PREFIX,
                 EnvironmentContexts.properties(
                     Properties.EMPTY,
@@ -467,7 +467,7 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
     }
 
     @Override
-    public PrefixedEnvironmentContext createObject() {
+    public EnvironmentContextSharedPrefixed createObject() {
         return this.createContext();
     }
 
@@ -481,17 +481,37 @@ public final class PrefixedEnvironmentContextTest implements EnvironmentContextT
         );
     }
 
-    // type naming......................................................................................................
+    // TreePrintable....................................................................................................
 
-    @Override
-    public String typeNameSuffix() {
-        return EnvironmentContext.class.getSimpleName();
+    @Test
+    public void testPrintTree() {
+        this.treePrintAndCheck(
+            this.createContext(),
+            "EnvironmentContextSharedPrefixed\n" +
+                "  prefix\n" +
+                "    prefix111.\n" +
+                "  environmentContext\n" +
+                "    EnvironmentContextSharedProperties\n" +
+                "      EmptyEnvironmentContext\n" +
+                "        indentation\n" +
+                "          \"    \" (walkingkooka.text.Indentation)\n" +
+                "        lineEnding\n" +
+                "          \"\\n\"\n" +
+                "        locale\n" +
+                "          fr (java.util.Locale)\n" +
+                "        now\n" +
+                "          1999-12-31T12:59 (java.time.LocalDateTime)\n" +
+                "        user\n" +
+                "          user@example.com (walkingkooka.net.email.EmailAddress)\n" +
+                "      properties\n" +
+                "        key111=value111\n"
+        );
     }
 
     // class............................................................................................................
 
     @Override
-    public Class<PrefixedEnvironmentContext> type() {
-        return PrefixedEnvironmentContext.class;
+    public Class<EnvironmentContextSharedPrefixed> type() {
+        return EnvironmentContextSharedPrefixed.class;
     }
 }
