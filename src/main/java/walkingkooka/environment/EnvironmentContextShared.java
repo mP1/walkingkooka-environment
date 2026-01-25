@@ -90,7 +90,7 @@ abstract class EnvironmentContextShared implements EnvironmentContext {
 
     @Override
     public final LocalDateTime now() {
-        return this.context.now();
+        return this.environmentValueOrFail(NOW);
     }
 
     // HasUser..........................................................................................................
