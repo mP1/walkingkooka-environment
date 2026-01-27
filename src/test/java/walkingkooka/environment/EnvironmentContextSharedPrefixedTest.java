@@ -433,7 +433,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testEqualsDifferentPrefix() {
         this.checkNotEquals(
             EnvironmentContextSharedPrefixed.with(
-                EnvironmentValueName.with("" +
+                EnvironmentValueName.with(
                     "prefix1.",
                     Void.class
                 ),
