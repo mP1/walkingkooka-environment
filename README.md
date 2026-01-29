@@ -17,15 +17,15 @@ This is intended primarily to support custom values to a component(s) such as a 
 
 ### [EnvironmentValueName](https://github.com/mP1/walkingkooka-environment/blob/master/src/main/java/walkingkooka/environment/EnvironmentValueName.java)
 
-- indentation: Indentation mostly used for "printing" multi-line structure like json.
-- lineEnding: The current line-ending used by functions when printing lines of text
+- [indentation](https://github.com/mP1/walkingkooka/blob/master/src/main/java/walkingkooka/text/Indentation.java): Indentation mostly used for "printing" multi-line structure like json.
+- [lineEnding](https://github.com/mP1/walkingkooka/blob/master/src/main/java/walkingkooka/text/LineEnding.java): The current line-ending used by functions when printing lines of text
 - locale: The current locale for the current user, eg "en-AU".
 - now: The current date/time`java.time.LocalDateTime`
-- user: The email address identifying the current user
+- [user](https://github.com/mP1/walkingkooka-net/blob/master/src/main/java/walkingkooka/net/email/EmailAddress.java): The email address identifying the current user
 
 Within a spreadsheet terminal session, additional values are available. The list below is not exhaustive but a short list of examples.
 
-- spreadsheetId: Identifies the default spreadsheetId assumed for unqualified cell references within expressions.
+- [spreadsheetId](https://github.com/mP1/walkingkooka-spreadsheet/blob/master/src/main/java/walkingkooka/spreadsheet/meta/SpreadsheetId.java): Identifies the default spreadsheetId assumed for unqualified cell references within expressions.
 - converters: The [Converter](https://github.com/mP1/walkingkooka-convert/blob/master/src/main/java/walkingkooka/convert/Converter.java) used when executing expressions.
 - dateParser: One or more [Parser](https://github.com/mP1/walkingkooka-spreadsheet/blob/master/src/main/java/walkingkooka/spreadsheet/parser/SpreadsheetParser.java) used to parse dates within expressions.
 - dateTimeOffset: Used to select the date equivalent to a value of zero.
