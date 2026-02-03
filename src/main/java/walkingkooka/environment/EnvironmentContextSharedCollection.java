@@ -21,15 +21,11 @@ import walkingkooka.Cast;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.SortedSets;
-import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.watch.Watchers;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -42,7 +38,7 @@ import java.util.stream.Collectors;
  * A {@link EnvironmentContext} that tries given context for a value until success.
  * Note the {@link EnvironmentContext} 2nd parameter provides now and user.
  */
-final class CollectionEnvironmentContext implements EnvironmentContext {
+final class EnvironmentContextSharedCollection extends EnvironmentContextShared {
 
     static EnvironmentContext with(final List<EnvironmentContext> contexts) {
         Objects.requireNonNull(contexts, "contexts");
@@ -58,24 +54,24 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
                 context = copy.get(0);
                 break;
             default:
-                context = new CollectionEnvironmentContext(copy);
+                context = new EnvironmentContextSharedCollection(copy);
                 break;
         }
 
         return context;
     }
 
-    private CollectionEnvironmentContext(final List<EnvironmentContext> context) {
+    private EnvironmentContextSharedCollection(final List<EnvironmentContext> context) {
         this.contexts = context;
         this.first = context.get(0);
     }
 
     /**
-     * Creates a new {@link CollectionEnvironmentContext} cloning each of the given {@link EnvironmentContext}.
+     * Creates a new {@link EnvironmentContextSharedCollection} cloning each of the given {@link EnvironmentContext}.
      */
     @Override
     public EnvironmentContext cloneEnvironment() {
-        return new CollectionEnvironmentContext(
+        return new EnvironmentContextSharedCollection(
             this.contexts.stream()
                 .map(EnvironmentContext::cloneEnvironment)
                 .peek(Objects::requireNonNull)
@@ -185,63 +181,6 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public Indentation indentation() {
-        return this.environmentValueOrFail(INDENTATION);
-    }
-
-    @Override
-    public void setIndentation(final Indentation indentation) {
-        this.setEnvironmentValue(
-            INDENTATION,
-            indentation
-        );
-    }
-    
-    @Override
-    public LineEnding lineEnding() {
-        return this.environmentValueOrFail(LINE_ENDING);
-    }
-
-    @Override
-    public void setLineEnding(final LineEnding lineEnding) {
-        this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
-        );
-    }
-
-    @Override
-    public Locale locale() {
-        return this.environmentValueOrFail(EnvironmentValueName.LOCALE);
-    }
-
-    @Override
-    public void setLocale(final Locale locale) {
-        this.setEnvironmentValue(
-            LOCALE,
-            locale
-        );
-    }
-
-    @Override
-    public LocalDateTime now() {
-        return this.first.now();
-    }
-
-    @Override
-    public Optional<EmailAddress> user() {
-        return this.environmentValue(USER);
-    }
-
-    @Override
-    public void setUser(final Optional<EmailAddress> user) {
-        this.setOrRemoveEnvironmentValue(
-            USER,
-            user
-        );
-    }
-
-    @Override
     public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
         return this.addWatcher(
             watcher,
@@ -287,11 +226,11 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-            (other instanceof CollectionEnvironmentContext &&
-                this.equals0((CollectionEnvironmentContext) other));
+            (other instanceof EnvironmentContextSharedCollection &&
+                this.equals0((EnvironmentContextSharedCollection) other));
     }
 
-    private boolean equals0(final CollectionEnvironmentContext other) {
+    private boolean equals0(final EnvironmentContextSharedCollection other) {
         return this.contexts.equals(other.contexts);
     }
 
@@ -315,5 +254,12 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
         }
 
         return map.toString();
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        this.printTreeValues(printer);
     }
 }

@@ -37,8 +37,8 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class CollectionEnvironmentContextTest implements EnvironmentContextTesting2<CollectionEnvironmentContext>,
-    HashCodeEqualsDefinedTesting2<CollectionEnvironmentContext> {
+public final class EnvironmentContextSharedCollectionTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedCollection>
+    implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedCollection> {
 
     private final static Indentation INDENTATION = Indentation.SPACES4;
 
@@ -96,7 +96,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     public void testWithNullContextsFails() {
         assertThrows(
             NullPointerException.class,
-            () -> CollectionEnvironmentContext.with(
+            () -> EnvironmentContextSharedCollection.with(
                 null
             )
         );
@@ -106,7 +106,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     public void testWithEmptyContextFails() {
         assertThrows(
             IllegalArgumentException.class,
-            () -> CollectionEnvironmentContext.with(
+            () -> EnvironmentContextSharedCollection.with(
                 Lists.empty()
             )
         );
@@ -116,7 +116,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     public void testWithOneEnvironmentContext() {
         assertSame(
             CONTEXT,
-            CollectionEnvironmentContext.with(
+            EnvironmentContextSharedCollection.with(
                 Lists.of(CONTEXT)
             )
         );
@@ -134,7 +134,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             VALUE1
         );
 
-        final EnvironmentContext collection = CollectionEnvironmentContext.with(
+        final EnvironmentContext collection = EnvironmentContextSharedCollection.with(
             Lists.of(
                 context,
                 CONTEXT
@@ -163,9 +163,9 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
 
     @Test
     public void testSetEnvironmentContext() {
-        final CollectionEnvironmentContext context = this.createContext();
+        final EnvironmentContextSharedCollection context = this.createContext();
 
-        final EnvironmentContext different = CollectionEnvironmentContext.with(
+        final EnvironmentContext different = EnvironmentContextSharedCollection.with(
             Lists.of(
                 EnvironmentContexts.empty(
                     INDENTATION,
@@ -256,7 +256,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             VALUE1
         );
 
-        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+        final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
             Lists.of(
                 CONTEXT.cloneEnvironment(),
                 wrapped
@@ -300,7 +300,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             VALUE1
         );
 
-        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+        final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
             Lists.of(
                 CONTEXT.cloneEnvironment(),
                 wrapped
@@ -333,7 +333,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             CONTEXT.cloneEnvironment()
         );
 
-        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+        final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
             Lists.of(
                 wrapped,
                 FAKE_CONTEXT
@@ -366,7 +366,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             CONTEXT.cloneEnvironment()
         );
 
-        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+        final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
             Lists.of(
                 wrapped,
                 FAKE_CONTEXT
@@ -399,7 +399,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
             CONTEXT.cloneEnvironment()
         );
 
-        final EnvironmentContext collectionEnvironmentContext = CollectionEnvironmentContext.with(
+        final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
             Lists.of(
                 wrapped,
                 FAKE_CONTEXT
@@ -429,7 +429,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         final String key22 = "prefix.key2";
 
         this.environmentValueNamesAndCheck(
-            CollectionEnvironmentContext.with(
+            EnvironmentContextSharedCollection.with(
                 Lists.of(
                     EnvironmentContexts.properties(
                         Properties.EMPTY.set(
@@ -478,9 +478,9 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     }
 
     @Override
-    public CollectionEnvironmentContext createContext() {
+    public EnvironmentContextSharedCollection createContext() {
         return Cast.to(
-            CollectionEnvironmentContext.with(
+            EnvironmentContextSharedCollection.with(
                 Lists.of(
                     CONTEXT.cloneEnvironment(),
                     EnvironmentContexts.properties(
@@ -510,7 +510,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testEqualsDifferentEnvironmentContexts() {
         this.checkNotEquals(
-            CollectionEnvironmentContext.with(
+            EnvironmentContextSharedCollection.with(
                 Lists.of(
                     EnvironmentContexts.properties(
                         Properties.EMPTY.set(
@@ -532,7 +532,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     }
 
     @Override
-    public CollectionEnvironmentContext createObject() {
+    public EnvironmentContextSharedCollection createObject() {
         return this.createContext();
     }
 
@@ -541,7 +541,7 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
     @Test
     public void testToString() {
         this.toStringAndCheck(
-            CollectionEnvironmentContext.with(
+            EnvironmentContextSharedCollection.with(
                 Lists.of(
                     CONTEXT,
                     EnvironmentContexts.properties(
@@ -564,17 +564,10 @@ public final class CollectionEnvironmentContextTest implements EnvironmentContex
         );
     }
 
-    // type naming......................................................................................................
-
-    @Override
-    public String typeNameSuffix() {
-        return EnvironmentContext.class.getSimpleName();
-    }
-
     // class............................................................................................................
 
     @Override
-    public Class<CollectionEnvironmentContext> type() {
-        return CollectionEnvironmentContext.class;
+    public Class<EnvironmentContextSharedCollection> type() {
+        return EnvironmentContextSharedCollection.class;
     }
 }
