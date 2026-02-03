@@ -84,42 +84,8 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public Indentation indentation() {
-        return this.environmentValueOrFail(INDENTATION);
-    }
-
-    @Override
-    public void setIndentation(final Indentation indentation) {
-        this.setEnvironmentValue(
-            INDENTATION,
-            indentation
-        );
-    }
-    
-    @Override
-    public LineEnding lineEnding() {
-        return this.environmentValueOrFail(LINE_ENDING);
-    }
-
-    @Override
-    public void setLineEnding(final LineEnding lineEnding) {
-        this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
-        );
-    }
-
-    @Override
-    public Locale locale() {
-        return this.environmentValueOrFail(EnvironmentValueName.LOCALE);
-    }
-
-    @Override
-    public void setLocale(final Locale locale) {
-        this.setEnvironmentValue(
-            LOCALE,
-            locale
-        );
+    public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
+        return Objects.requireNonNull(context, "context");
     }
 
     @Override
@@ -219,8 +185,42 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
-        return Objects.requireNonNull(context, "context");
+    public Indentation indentation() {
+        return this.environmentValueOrFail(INDENTATION);
+    }
+
+    @Override
+    public void setIndentation(final Indentation indentation) {
+        this.setEnvironmentValue(
+            INDENTATION,
+            indentation
+        );
+    }
+    
+    @Override
+    public LineEnding lineEnding() {
+        return this.environmentValueOrFail(LINE_ENDING);
+    }
+
+    @Override
+    public void setLineEnding(final LineEnding lineEnding) {
+        this.setEnvironmentValue(
+            LINE_ENDING,
+            lineEnding
+        );
+    }
+
+    @Override
+    public Locale locale() {
+        return this.environmentValueOrFail(EnvironmentValueName.LOCALE);
+    }
+
+    @Override
+    public void setLocale(final Locale locale) {
+        this.setEnvironmentValue(
+            LOCALE,
+            locale
+        );
     }
 
     @Override
