@@ -215,7 +215,8 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
             EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
-            EnvironmentContext.NOW
+            EnvironmentContext.NOW,
+            EnvironmentContext.TIME_OFFSET
         );
     }
 
@@ -268,7 +269,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=en}"
+            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=en, timeOffset=Z}"
         );
     }
 
@@ -288,6 +289,8 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                 "      -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
                 "    locale\n" +
                 "      en (java.util.Locale)\n" +
+                "    timeOffset\n" +
+                "      Z (java.time.ZoneOffset)\n" +
                 "  properties\n" +
                 "    hello.123=Gday\n"
         );

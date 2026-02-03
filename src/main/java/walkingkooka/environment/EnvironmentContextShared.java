@@ -24,6 +24,7 @@ import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -94,6 +95,21 @@ abstract class EnvironmentContextShared implements EnvironmentContext,
         return this.environmentValueOrFail(NOW);
     }
 
+    // timeOffset.......................................................................................................
+
+    @Override
+    public final ZoneOffset timeOffset() {
+        return this.environmentValueOrFail(TIME_OFFSET);
+    }
+
+    @Override
+    public final void setTimeOffset(final ZoneOffset timeOffset) {
+        this.setEnvironmentValue(
+            TIME_OFFSET,
+            timeOffset
+        );
+    }
+    
     // HasUser..........................................................................................................
 
     @Override

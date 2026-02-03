@@ -46,6 +46,7 @@ import walkingkooka.text.printer.TreePrintableTesting;
 import walkingkooka.util.HasLocale;
 import walkingkooka.util.HasLocaleTesting;
 
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -238,6 +239,33 @@ public interface EnvironmentContextTesting extends HasIndentationTesting,
         this.localeAndCheck(
             context,
             locale
+        );
+    }
+
+    // timeOffset.......................................................................................................
+
+    default void timeOffsetAndCheck(final EnvironmentContext context,
+                                    final ZoneOffset expected) {
+        this.checkEquals(
+            expected,
+            context.timeOffset()
+        );
+
+        this.environmentValueAndCheck(
+            context,
+            EnvironmentContext.TIME_OFFSET,
+            expected
+        );
+    }
+    
+    // setTimeOffset..........................................................................................................
+
+    default void setTimeOffsetAndCheck(final EnvironmentContext context,
+                                       final ZoneOffset timeOffset) {
+        context.setTimeOffset(timeOffset);
+        this.timeOffsetAndCheck(
+            context,
+            timeOffset
         );
     }
 

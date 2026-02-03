@@ -30,6 +30,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -101,12 +102,18 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
                             this.context.now()
                         );
                     } else {
-                        if (USER.equals(name)) {
-                            value = this.context.user();
-                        } else {
-                            value = this.properties.get(
-                                PropertiesPath.parse(name.value())
+                        if (TIME_OFFSET.equals(name)) {
+                            value = Optional.of(
+                                this.context.timeOffset()
                             );
+                        } else {
+                            if (USER.equals(name)) {
+                                value = this.context.user();
+                            } else {
+                                value = this.properties.get(
+                                    PropertiesPath.parse(name.value())
+                                );
+                            }
                         }
                     }
                 }
@@ -150,12 +157,16 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
                 if (LOCALE.equals(name)) {
                     this.context.setLocale((Locale) value);
                 } else {
-                    if (USER.equals(name)) {
-                        this.context.setUser(
-                            Optional.of((EmailAddress) value)
-                        );
+                    if (TIME_OFFSET.equals(name)) {
+                        this.context.setTimeOffset((ZoneOffset) value);
                     } else {
-                        throw name.readOnlyEnvironmentValueException();
+                        if (USER.equals(name)) {
+                            this.context.setUser(
+                                Optional.of((EmailAddress) value)
+                            );
+                        } else {
+                            throw name.readOnlyEnvironmentValueException();
+                        }
                     }
                 }
             }
@@ -245,6 +256,11 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
         map.put(
             LOCALE,
             this.locale()
+        );
+
+        map.put(
+            TIME_OFFSET,
+            this.timeOffset()
         );
 
         final EmailAddress user = this.user()

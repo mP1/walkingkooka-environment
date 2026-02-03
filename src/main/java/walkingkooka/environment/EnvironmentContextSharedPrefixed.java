@@ -26,6 +26,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -127,10 +128,16 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
                                 this.context.now()
                             );
                         } else {
-                            if (USER.equals(name)) {
-                                value = this.context.user();
+                            if (TIME_OFFSET.equals(name)) {
+                                value = Optional.of(
+                                    this.context.timeOffset()
+                                );
                             } else {
-                                value = Optional.empty();
+                                if (USER.equals(name)) {
+                                    value = this.context.user();
+                                } else {
+                                    value = Optional.empty();
+                                }
                             }
                         }
                     }
@@ -149,13 +156,14 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
         names.add(LINE_ENDING);
         names.add(LOCALE);
         names.add(NOW);
+        names.add(TIME_OFFSET);
 
         if (this.user().isPresent()) {
             names.add(USER);
         }
 
         for (final EnvironmentValueName<?> name : this.context.environmentValueNames()) {
-            if (INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || USER.equals(name)) {
+            if (INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || TIME_OFFSET.equals(name) || USER.equals(name)) {
                 continue;
             }
             names.add(
@@ -186,12 +194,16 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
                 if (LOCALE.equals(name)) {
                     this.context.setLocale((Locale) value);
                 } else {
-                    if (USER.equals(name)) {
-                        this.context.setUser(
-                            Optional.of((EmailAddress) value)
-                        );
+                    if (TIME_OFFSET.equals(name)) {
+                        this.context.setTimeOffset((ZoneOffset) value);
                     } else {
-                        throw new UnsupportedOperationException();
+                        if (USER.equals(name)) {
+                            this.context.setUser(
+                                Optional.of((EmailAddress) value)
+                            );
+                        } else {
+                            throw new UnsupportedOperationException();
+                        }
                     }
                 }
             }

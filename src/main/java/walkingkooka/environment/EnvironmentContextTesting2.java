@@ -47,6 +47,7 @@ import walkingkooka.text.LineEnding;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -466,6 +467,52 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
                 .removeEnvironmentValue(
                     EnvironmentContext.NOW
                 )
+        );
+    }
+
+    // setTimeOffset....................................................................................................
+
+    @Test
+    default void testSetTimeOffsetWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .setTimeOffset(null)
+        );
+    }
+
+    @Test
+    default void testSetTimeOffsetWithDifferentAndWatcher() {
+        final C context = this.createContext();
+
+        ZoneOffset timeOffset = ZoneOffset.UTC;
+        if (context.timeOffset().equals(timeOffset)) {
+            timeOffset = ZoneOffset.ofHours(1);
+        }
+
+        final ZoneOffset oldTimeOffset = context.timeOffset();
+        final ZoneOffset newTimeOffset = timeOffset;
+
+        final AtomicBoolean fired = new AtomicBoolean();
+
+        context.addEventValueWatcher(
+            (n, ov, nv) -> {
+                checkEquals(EnvironmentContext.TIME_OFFSET, n, "EnvironmentValueName");
+                checkEquals(Optional.of(oldTimeOffset), ov, "oldValue");
+                checkEquals(Optional.of(newTimeOffset), nv, "newValue");
+
+                fired.set(true);
+            }
+        );
+
+        this.setTimeOffsetAndCheck(
+            context,
+            timeOffset
+        );
+
+        this.checkEquals(
+            true,
+            fired.get()
         );
     }
     

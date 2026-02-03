@@ -27,6 +27,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.util.HasLocale;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -52,6 +53,8 @@ public interface EnvironmentContext extends Context,
     EnvironmentValueName<Locale> LOCALE = EnvironmentValueName.LOCALE;
 
     EnvironmentValueName<LocalDateTime> NOW = EnvironmentValueName.NOW;
+
+    EnvironmentValueName<ZoneOffset> TIME_OFFSET = EnvironmentValueName.TIME_OFFSET;
 
     EnvironmentValueName<EmailAddress> USER = EnvironmentValueName.USER;
 
@@ -130,6 +133,16 @@ public interface EnvironmentContext extends Context,
      * Sets or replaces the current {@link Locale}
      */
     void setLocale(final Locale locale);
+
+    /**
+     * Gets the current {@link ZoneOffset} if one is present.
+     */
+    ZoneOffset timeOffset();
+
+    /**
+     * Sets or replaces the current {@link Locale}
+     */
+    void setTimeOffset(final ZoneOffset timeOffset);
 
     /**
      * Sets or replaces the user.

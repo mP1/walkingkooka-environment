@@ -397,6 +397,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
             EnvironmentValueName.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentContext.NOW,
+            EnvironmentContext.TIME_OFFSET,
             EnvironmentValueName.USER
         );
     }
@@ -473,7 +474,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{indentation=\"    \", key111=value111, lineEnding=\"\\n\", locale=fr, user=user@example.com}"
+            "{indentation=\"    \", key111=value111, lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -497,6 +498,8 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "          fr (java.util.Locale)\n" +
                 "        now\n" +
                 "          1999-12-31T12:59 (java.time.LocalDateTime)\n" +
+                "        timeOffset\n" +
+                "          Z (java.time.ZoneOffset)\n" +
                 "        user\n" +
                 "          user@example.com (walkingkooka.net.email.EmailAddress)\n" +
                 "      properties\n" +
