@@ -20,6 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
 import java.time.LocalDateTime;
@@ -106,5 +107,30 @@ abstract class EnvironmentContextShared implements EnvironmentContext,
             EnvironmentValueName.USER,
             user
         );
+    }
+
+    // TreePrintable....................................................................................................
+
+    final void printTreeValues(final IndentingPrinter printer) {
+        printer.println(this.getClass().getSimpleName());
+        printer.indent();
+        {
+            for (final EnvironmentValueName<?> name : this.environmentValueNames()) {
+                final Object value = this.environmentValue(name)
+                    .orElse(null);
+                if (null != value) {
+                    printer.println(name.value());
+                    printer.indent();
+                    {
+                        TreePrintable.printTreeOrToString(
+                            value,
+                            printer
+                        );
+                    }
+                    printer.outdent();
+                }
+            }
+        }
+        printer.outdent();
     }
 }

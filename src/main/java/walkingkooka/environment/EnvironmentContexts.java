@@ -35,10 +35,10 @@ import java.util.function.Predicate;
 public final class EnvironmentContexts implements PublicStaticHelper {
 
     /**
-     * {@see CollectionEnvironmentContext}
+     * {@see EnvironmentContextSharedCollection}
      */
     public static EnvironmentContext collection(final List<EnvironmentContext> contexts) {
-        return CollectionEnvironmentContext.with(
+        return EnvironmentContextSharedCollection.with(
             contexts
         );
     }
