@@ -63,8 +63,9 @@ final class EnvironmentContextSharedReadOnly extends EnvironmentContextShared {
 
     private EnvironmentContextSharedReadOnly(final Predicate<EnvironmentValueName<?>> readOnlyNames,
                                              final EnvironmentContext context) {
-        super(context);
+        super();
         this.readOnlyNames = readOnlyNames;
+        this.context = context;
     }
 
     /**
@@ -123,6 +124,9 @@ final class EnvironmentContextSharedReadOnly extends EnvironmentContextShared {
      * Filter that matches read only environment values.
      */
     final Predicate<EnvironmentValueName<?>> readOnlyNames;
+
+    // @VisibleForTesting
+    final EnvironmentContext context;
 
     @Override
     public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
