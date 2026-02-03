@@ -95,9 +95,9 @@ public interface EnvironmentContextTesting extends HasIndentationTesting,
                                                  final EnvironmentValueName<T> name,
                                                  final T value) {
         context.setEnvironmentValue(
-                name,
-                value
-            );
+            name,
+            value
+        );
         this.environmentValueAndCheck(
             context,
             name,
@@ -155,6 +155,24 @@ public interface EnvironmentContextTesting extends HasIndentationTesting,
         );
     }
 
+    // indentation......................................................................................................
+
+    @Override
+    default void indentationAndCheck(final HasIndentation has,
+                                     final Indentation expected) {
+        HasIndentationTesting.super.indentationAndCheck(
+            has,
+            expected
+        );
+
+        if (has instanceof EnvironmentContext) {
+            this.environmentValueAndCheck(
+                (EnvironmentContext) has,
+                EnvironmentContext.INDENTATION,
+                expected
+            );
+        }
+    }
     // setIndentation....................................................................................................
 
     default void setIndentationAndCheck(final EnvironmentContext context,
@@ -166,7 +184,7 @@ public interface EnvironmentContextTesting extends HasIndentationTesting,
             indentation
         );
     }
-    
+
     // setLineEnding....................................................................................................
 
     default void setLineEndingAndCheck(final EnvironmentContext context,
@@ -176,6 +194,39 @@ public interface EnvironmentContextTesting extends HasIndentationTesting,
         this.lineEndingAndCheck(
             context,
             lineEnding
+        );
+    }
+
+    // locale...........................................................................................................
+
+    @Override
+    default void localeAndCheck(final HasLocale has,
+                                final Locale expected) {
+        HasLocaleTesting.super.localeAndCheck(
+            has,
+            expected
+        );
+
+        if (has instanceof EnvironmentContext) {
+            this.environmentValueAndCheck(
+                (EnvironmentContext) has,
+                EnvironmentContext.LOCALE,
+                expected
+            );
+        }
+    }
+
+    default void localeAndCheck(final EnvironmentContext has,
+                                final Locale expected) {
+        HasLocaleTesting.super.localeAndCheck(
+            has,
+            expected
+        );
+
+        this.environmentValueAndCheck(
+            has,
+            EnvironmentContext.LOCALE,
+            expected
         );
     }
 
@@ -247,57 +298,5 @@ public interface EnvironmentContextTesting extends HasIndentationTesting,
             EnvironmentContext.USER,
             emailAddress
         );
-    }
-
-    // locale...........................................................................................................
-
-    @Override
-    default void localeAndCheck(final HasLocale has,
-                                final Locale expected) {
-        HasLocaleTesting.super.localeAndCheck(
-            has,
-            expected
-        );
-
-        if (has instanceof EnvironmentContext) {
-            this.environmentValueAndCheck(
-                (EnvironmentContext) has,
-                EnvironmentContext.LOCALE,
-                expected
-            );
-        }
-    }
-
-    default void localeAndCheck(final EnvironmentContext has,
-                                final Locale expected) {
-        HasLocaleTesting.super.localeAndCheck(
-            has,
-            expected
-        );
-
-        this.environmentValueAndCheck(
-            has,
-            EnvironmentContext.LOCALE,
-            expected
-        );
-    }
-
-    // indentation......................................................................................................
-
-    @Override
-    default void indentationAndCheck(final HasIndentation has,
-                                     final Indentation expected) {
-        HasIndentationTesting.super.indentationAndCheck(
-            has,
-            expected
-        );
-
-        if (has instanceof EnvironmentContext) {
-            this.environmentValueAndCheck(
-                (EnvironmentContext) has,
-                EnvironmentContext.INDENTATION,
-                expected
-            );
-        }
     }
 }
