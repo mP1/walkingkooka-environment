@@ -271,7 +271,9 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
     @Override
     public LocalDateTime now() {
-        return this.hasNow.now();
+        return this.hasNow.now()
+            .atOffset(this.timeOffset())
+            .toLocalDateTime();
     }
 
     private final HasNow hasNow;
