@@ -235,17 +235,10 @@ final class CollectionEnvironmentContext implements EnvironmentContext {
 
     @Override
     public void setUser(final Optional<EmailAddress> user) {
-        Objects.requireNonNull(user, "user");
-
-        final EmailAddress userOrNull = user.orElse(null);
-        if (null != userOrNull) {
-            this.setEnvironmentValue(
-                USER,
-                userOrNull
-            );
-        } else {
-            this.removeEnvironmentValue(USER);
-        }
+        this.setOrRemoveEnvironmentValue(
+            USER,
+            user
+        );
     }
 
     @Override
