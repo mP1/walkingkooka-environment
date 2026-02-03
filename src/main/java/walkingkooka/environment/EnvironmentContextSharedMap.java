@@ -45,8 +45,9 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     }
 
     private EnvironmentContextSharedMap(final EnvironmentContext context) {
-        super(context);
+        super();
         this.values = Maps.sorted();
+        this.context = context;
     }
 
     @Override
@@ -200,6 +201,8 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     }
 
     private final Map<EnvironmentValueName<?>, Object> values;
+
+    private final EnvironmentContext context;
 
     // HasEnvironmentValueWatchers......................................................................................
 

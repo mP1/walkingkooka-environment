@@ -69,8 +69,9 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
 
     private EnvironmentContextSharedPrefixed(final String prefix,
                                              final EnvironmentContext context) {
-        super(context);
+        super();
         this.prefix = prefix;
+        this.context = context;
     }
 
     // EnvironmentContext...............................................................................................
@@ -223,6 +224,9 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
             )
         );
     }
+
+    // @VisibleForTesting
+    final EnvironmentContext context;
 
     // Object...........................................................................................................
 

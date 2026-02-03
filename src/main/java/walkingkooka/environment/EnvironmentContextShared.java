@@ -37,9 +37,8 @@ import java.util.Optional;
 abstract class EnvironmentContextShared implements EnvironmentContext,
     TreePrintable {
 
-    EnvironmentContextShared(final EnvironmentContext context) {
+    EnvironmentContextShared() {
         super();
-        this.context = context;
     }
 
     // HasIndentation...................................................................................................
@@ -108,6 +107,4 @@ abstract class EnvironmentContextShared implements EnvironmentContext,
             user
         );
     }
-
-    final EnvironmentContext context;
 }

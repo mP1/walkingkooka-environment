@@ -52,8 +52,9 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
 
     private EnvironmentContextSharedProperties(final Properties properties,
                                                final EnvironmentContext context) {
-        super(context);
+        super();
         this.properties = properties;
+        this.context = context;
     }
 
     @Override
@@ -179,6 +180,8 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
     }
 
     private final Properties properties;
+
+    private final EnvironmentContext context;
 
     @Override
     public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
