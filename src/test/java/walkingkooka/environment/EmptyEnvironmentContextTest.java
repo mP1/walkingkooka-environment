@@ -421,6 +421,36 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         );
     }
 
+    // now..............................................................................................................
+
+    @Test
+    public void testNowAndZeroTimeOffset() {
+        final ZoneOffset zoneOffset = ZoneOffset.UTC;
+
+        final EmptyEnvironmentContext context = this.createContext();
+        context.setTimeOffset(zoneOffset);
+
+        this.checkEquals(
+            LocalDateTime.MIN.atOffset(zoneOffset)
+                .toLocalDateTime(),
+            context.now()
+        );
+    }
+
+    @Test
+    public void testNowAndNonZeroTimeOffset() {
+        final ZoneOffset zoneOffset = ZoneOffset.ofHours(2);
+
+        final EmptyEnvironmentContext context = this.createContext();
+        context.setTimeOffset(zoneOffset);
+
+        this.checkEquals(
+            LocalDateTime.MIN.atOffset(zoneOffset)
+                .toLocalDateTime(),
+            context.now()
+        );
+    }
+
     // equals...........................................................................................................
 
     @Test
