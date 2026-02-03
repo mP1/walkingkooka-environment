@@ -805,6 +805,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.NOW,
             EnvironmentValueName.LOCALE,
+            EnvironmentValueName.TIME_OFFSET,
             EnvironmentValueName.USER
         );
     }
@@ -815,7 +816,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{indentation=\"    \", lineEnding=\"\\n\", locale=fr_FR, user=user123@example.com}"
+            "{indentation=\"    \", lineEnding=\"\\n\", locale=fr_FR, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -836,6 +837,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 "        fr_FR (java.util.Locale)\n" +
                 "      now\n" +
                 "        -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "      timeOffset\n" +
+                "        Z (java.time.ZoneOffset)\n" +
                 "      user\n" +
                 "        user123@example.com (walkingkooka.net.email.EmailAddress)\n" +
                 "  readOnlyNames\n" +

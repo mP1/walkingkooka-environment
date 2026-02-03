@@ -60,6 +60,11 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
     }
 
     @Override
+    public void testSetTimeOffsetWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void testSetUserWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
     }

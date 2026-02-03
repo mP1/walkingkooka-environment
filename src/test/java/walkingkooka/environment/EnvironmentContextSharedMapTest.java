@@ -291,7 +291,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             EnvironmentValueName.LOCALE,
             EnvironmentValueName.NOW,
             name1,
-            name2
+            name2,
+            EnvironmentValueName.TIME_OFFSET
         );
     }
 
@@ -343,6 +344,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
             EnvironmentValueName.NOW,
+            EnvironmentValueName.TIME_OFFSET,
             EnvironmentValueName.USER,
             name1,
             name2
@@ -472,7 +474,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr}"
+            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z}"
         );
     }
 
@@ -491,7 +493,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, user=user@example.com}"
+            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -509,7 +511,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                 "  locale\n" +
                 "    fr (java.util.Locale)\n" +
                 "  now\n" +
-                "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n"
+                "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "  timeOffset\n" +
+                "    Z (java.time.ZoneOffset)\n"
         );
     }
 
@@ -536,7 +540,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                 "  locale\n" +
                 "    fr (java.util.Locale)\n" +
                 "  now\n" +
-                "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n"
+                "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "  timeOffset\n" +
+                "    Z (java.time.ZoneOffset)\n"
         );
     }
 

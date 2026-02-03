@@ -27,6 +27,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -265,6 +266,16 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         );
     }
 
+    // setTimeout.......................................................................................................
+
+    @Test
+    public void testSetTimeoutWithDifferent() {
+        this.setTimeOffsetAndCheck(
+            this.createContext(),
+            ZoneOffset.ofHours(12)
+        );
+    }
+
     // setUser..........................................................................................................
 
     @Test
@@ -387,6 +398,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentContext.NOW,
+            EnvironmentContext.TIME_OFFSET,
             EnvironmentContext.USER
         );
     }
@@ -404,6 +416,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
+            EnvironmentContext.TIME_OFFSET,
             EnvironmentContext.NOW
         );
     }
@@ -572,7 +585,9 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 "  now\n" +
                 "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
                 "  locale\n" +
-                "    en (java.util.Locale)\n"
+                "    en (java.util.Locale)\n" +
+                "  timeOffset\n" +
+                "    Z (java.time.ZoneOffset)\n"
         );
     }
 

@@ -22,6 +22,7 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -100,6 +101,19 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     @Override
     default LocalDateTime now() {
         return this.environmentValueOrFail(NOW);
+    }
+
+    @Override
+    default ZoneOffset timeOffset() {
+        return this.environmentValueOrFail(TIME_OFFSET);
+    }
+
+    @Override
+    default void setTimeOffset(final ZoneOffset timeOffset) {
+        this.setEnvironmentValue(
+            TIME_OFFSET,
+            timeOffset
+        );
     }
 
     @Override

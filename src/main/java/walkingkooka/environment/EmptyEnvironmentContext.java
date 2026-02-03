@@ -30,6 +30,7 @@ import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,6 +46,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     UsesToStringBuilder,
     TreePrintable {
 
+    private final static ZoneOffset DEFAULT_TIME_OFFSET = ZoneOffset.UTC;
+
     static EmptyEnvironmentContext with(final Indentation indentation,
                                         final LineEnding lineEnding,
                                         final Locale locale,
@@ -55,6 +58,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
             Objects.requireNonNull(lineEnding, "hasLineEnding"),
             Objects.requireNonNull(locale, "locale"),
             Objects.requireNonNull(hasNow, "hasNow"),
+            DEFAULT_TIME_OFFSET,
             Objects.requireNonNull(user, "user")
         );
     }
@@ -63,6 +67,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
                                     final LineEnding lineEnding,
                                     final Locale locale,
                                     final HasNow hasNow,
+                                    final ZoneOffset timeOffset,
                                     final Optional<EmailAddress> user) {
         super();
 
@@ -70,6 +75,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         this.lineEnding = lineEnding;
         this.locale = locale;
         this.hasNow = hasNow;
+        this.timeOffset = timeOffset;
         this.user = user;
     }
 
@@ -85,6 +91,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
             this.lineEnding,
             this.locale,
             this.hasNow,
+            this.timeOffset,
             this.user
         );
     }
@@ -108,9 +115,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
                             this.locale :
                             NOW.equals(name) ?
                                 this.now() :
-                                USER.equals(name) ?
-                                    this.user.orElse(null) :
-                                    null
+                                TIME_OFFSET.equals(name) ?
+                                    this.timeOffset :
+                                    USER.equals(name) ?
+                                        this.user.orElse(null) :
+                                        null
             )
         );
     }
@@ -127,6 +136,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         LINE_ENDING,
         LOCALE,
         NOW,
+        TIME_OFFSET,
         USER
     );
 
@@ -134,7 +144,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         INDENTATION,
         LINE_ENDING,
         NOW,
-        LOCALE
+        LOCALE,
+        TIME_OFFSET
     );
 
     @Override
@@ -152,12 +163,16 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
                 if (LOCALE.equals(name)) {
                     this.setLocale((Locale) value);
                 } else {
-                    if (USER.equals(name)) {
-                        this.setUser(
-                            Optional.of((EmailAddress) value)
-                        );
+                    if (TIME_OFFSET.equals(name)) {
+                        this.setTimeOffset((ZoneOffset) value);
                     } else {
-                        throw name.readOnlyEnvironmentValueException();
+                        if (USER.equals(name)) {
+                            this.setUser(
+                                Optional.of((EmailAddress) value)
+                            );
+                        } else {
+                            throw name.readOnlyEnvironmentValueException();
+                        }
                     }
                 }
             }
@@ -171,8 +186,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         if (INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
             throw name.readOnlyEnvironmentValueException();
         } else {
-            if (USER.equals(name)) {
-                this.user = ANONYMOUS;
+            if (TIME_OFFSET.equals(name)) {
+                this.timeOffset = DEFAULT_TIME_OFFSET;
+            } else {
+                if (USER.equals(name)) {
+                    this.user = ANONYMOUS;
+                }
             }
         }
 
@@ -257,6 +276,27 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
     private final HasNow hasNow;
 
+    // timeOffset.......................................................................................................
+
+    @Override
+    public ZoneOffset timeOffset() {
+        return this.timeOffset;
+    }
+
+    @Override
+    public void setTimeOffset(final ZoneOffset timeOffset) {
+        final ZoneOffset oldTimeOffset = this.timeOffset;
+        this.timeOffset = Objects.requireNonNull(timeOffset, "timeOffset");
+
+        this.watchers.onEnvironmentValueChange(
+            TIME_OFFSET,
+            Optional.of(oldTimeOffset),
+            Optional.of(timeOffset)
+        );
+    }
+
+    private ZoneOffset timeOffset;
+
     // HasUser..........................................................................................................
 
     @Override
@@ -298,6 +338,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
             this.lineEnding,
             this.locale,
             this.hasNow,
+            this.timeOffset,
             this.user
         );
     }
@@ -314,6 +355,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
             this.lineEnding.equals(other.lineEnding) &&
             this.locale.equals(other.locale) &&
             this.hasNow.equals(other.hasNow) &&
+            this.timeOffset.equals(other.timeOffset) &&
             this.user.equals(other.user);
     }
 
@@ -345,6 +387,13 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
         b.label("now");
         b.value(this.now());
+
+        final ZoneOffset timeOffset = this.timeOffset;
+
+        if (timeOffset.getTotalSeconds() != 0) {
+            b.label("timeOffset");
+            b.value(this.timeOffset);
+        }
 
         b.label("user");
         b.value(this.user.map(EmailAddress::toString));

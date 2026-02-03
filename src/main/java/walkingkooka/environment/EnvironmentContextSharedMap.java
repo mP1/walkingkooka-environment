@@ -93,6 +93,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         names.add(LINE_ENDING);
         names.add(LOCALE);
         names.add(NOW);
+        names.add(TIME_OFFSET);
 
         if (this.context.user().isPresent()) {
             names.add(USER);
@@ -124,12 +125,16 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
                     if (NOW.equals(name)) {
                         oldValue = context.now();
                     } else {
-                        if (USER.equals(name)) {
-                            oldValue = this.context.user()
-                                .orElse(null);
+                        if (TIME_OFFSET.equals(name)) {
+                            oldValue = context.timeOffset();
                         } else {
-                            oldValue = this.values.get(name);
-                            put = true;
+                            if (USER.equals(name)) {
+                                oldValue = this.context.user()
+                                    .orElse(null);
+                            } else {
+                                oldValue = this.values.get(name);
+                                put = true;
+                            }
                         }
                     }
                 }
@@ -179,13 +184,18 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
                         oldValue = context.now();
                         context.removeEnvironmentValue(name);
                     } else {
-                        if (USER.equals(name)) {
-                            oldValue = context.user()
-                                .orElse(null);
+                        if (TIME_OFFSET.equals(name)) {
+                            oldValue = context.timeOffset();
                             context.removeEnvironmentValue(name);
                         } else {
-                            oldValue = this.values.get(name);
-                            this.values.remove(name);
+                            if (USER.equals(name)) {
+                                oldValue = context.user()
+                                    .orElse(null);
+                                context.removeEnvironmentValue(name);
+                            } else {
+                                oldValue = this.values.get(name);
+                                this.values.remove(name);
+                            }
                         }
                     }
                 }
@@ -254,6 +264,11 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         map.put(
             LOCALE,
             this.locale()
+        );
+
+        map.put(
+            TIME_OFFSET,
+            this.timeOffset()
         );
 
         final EmailAddress user = this.user()
