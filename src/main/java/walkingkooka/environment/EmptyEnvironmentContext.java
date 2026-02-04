@@ -46,8 +46,6 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     UsesToStringBuilder,
     TreePrintable {
 
-    private final static ZoneOffset DEFAULT_TIME_OFFSET = ZoneOffset.UTC;
-
     static EmptyEnvironmentContext with(final Indentation indentation,
                                         final LineEnding lineEnding,
                                         final Locale locale,

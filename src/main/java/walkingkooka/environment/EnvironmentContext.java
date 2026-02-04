@@ -46,6 +46,8 @@ public interface EnvironmentContext extends Context,
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
+    ZoneOffset DEFAULT_TIME_OFFSET = ZoneOffset.UTC;
+
     EnvironmentValueName<Indentation> INDENTATION = EnvironmentValueName.INDENTATION;
 
     EnvironmentValueName<LineEnding> LINE_ENDING = EnvironmentValueName.LINE_ENDING;
