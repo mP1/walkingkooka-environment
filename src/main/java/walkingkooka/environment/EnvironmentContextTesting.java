@@ -56,6 +56,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public interface EnvironmentContextTesting extends HasIndentationTesting,
     HasLineEndingTesting,
     HasLocaleTesting,
+    HasTimeOffsetTesting,
     HasUserTesting,
     TreePrintableTesting {
 
@@ -244,11 +245,12 @@ public interface EnvironmentContextTesting extends HasIndentationTesting,
 
     // timeOffset.......................................................................................................
 
+    @Override
     default void timeOffsetAndCheck(final EnvironmentContext context,
                                     final ZoneOffset expected) {
-        this.checkEquals(
-            expected,
-            context.timeOffset()
+        HasTimeOffsetTesting.super.timeOffsetAndCheck(
+            context,
+            expected
         );
 
         this.environmentValueAndCheck(
