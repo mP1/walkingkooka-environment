@@ -21,6 +21,7 @@ This is intended primarily to support custom values to a component(s) such as a 
 - [lineEnding](https://github.com/mP1/walkingkooka/blob/master/src/main/java/walkingkooka/text/LineEnding.java): The current line-ending used by functions when printing lines of text
 - locale: The current locale for the current user, eg "en-AU".
 - now: The current date/time`java.time.LocalDateTime`
+- timeOffset: An offset that is used to adjust the current system time to match the locality of the current user.
 - [user](https://github.com/mP1/walkingkooka-net/blob/master/src/main/java/walkingkooka/net/email/EmailAddress.java): The email address identifying the current user
 
 Within a spreadsheet terminal session, additional values are available. The list below is not exhaustive but a short list of examples.
