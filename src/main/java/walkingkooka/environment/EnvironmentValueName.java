@@ -35,6 +35,7 @@ import walkingkooka.tree.expression.function.ExpressionFunctionParameterName;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -85,6 +86,11 @@ final public class EnvironmentValueName<T> implements Name,
         CONSTANTS.put(name, constant);
         return Cast.to(constant);
     }
+
+    public final static EnvironmentValueName<Currency> CURRENCY = registerConstant(
+        "currency",
+        Currency.class
+    );
 
     public final static EnvironmentValueName<Indentation> INDENTATION = registerConstant(
         "indentation",
