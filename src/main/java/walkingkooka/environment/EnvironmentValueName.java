@@ -199,6 +199,13 @@ final public class EnvironmentValueName<T> implements Name,
         return new ReadOnlyEnvironmentValueException(this);
     }
 
+    /**
+     * Cast helper.
+     */
+    public T cast(final Object value) {
+        return Cast.to(value);
+    }
+
     // Comparable........................................................................................................
 
     @Override

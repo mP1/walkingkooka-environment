@@ -320,6 +320,19 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         );
     }
 
+    // cast.............................................................................................................
+
+    @Test
+    public void testCast() {
+        final Locale locale = Locale.ENGLISH;
+        final Object value = locale;
+
+        this.checkEquals(
+            locale,
+            EnvironmentValueName.LOCALE.cast(value)
+        );
+    }
+
     // constants........................................................................................................
 
     @Override
