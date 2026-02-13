@@ -90,13 +90,13 @@ final class EnvironmentContextSharedCollection extends EnvironmentContextShared 
 
         return LINE_ENDING.equals(name) ?
             Optional.of(
-                Cast.to(
+                name.cast(
                     this.first.lineEnding()
                 )
             ) :
             LOCALE.equals(name) ?
                 Optional.of(
-                    Cast.to(
+                    name.cast(
                         this.first.locale()
                     )
                 ) :
