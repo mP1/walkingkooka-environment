@@ -27,6 +27,7 @@ import walkingkooka.reflect.ConstantsTesting;
 import walkingkooka.text.CaseSensitivity;
 import walkingkooka.text.printer.TreePrintableTesting;
 
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Set;
 
@@ -145,6 +146,17 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         );
     }
 
+    @Test
+    public void testWithCurrency() {
+        assertSame(
+            EnvironmentValueName.CURRENCY,
+            EnvironmentValueName.with(
+                EnvironmentValueName.CURRENCY.value(),
+                Currency.class
+            )
+        );
+    }
+    
     @Test
     public void testWithLocale() {
         assertSame(
