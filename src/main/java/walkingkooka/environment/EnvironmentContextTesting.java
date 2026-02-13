@@ -43,17 +43,21 @@ import walkingkooka.text.HasLineEndingTesting;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
+import walkingkooka.util.HasCurrency;
+import walkingkooka.util.HasCurrencyTesting;
 import walkingkooka.util.HasLocale;
 import walkingkooka.util.HasLocaleTesting;
 
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public interface EnvironmentContextTesting extends HasIndentationTesting,
+public interface EnvironmentContextTesting extends HasCurrencyTesting,
+    HasIndentationTesting,
     HasLineEndingTesting,
     HasLocaleTesting,
     HasTimeOffsetTesting,
@@ -157,6 +161,36 @@ public interface EnvironmentContextTesting extends HasIndentationTesting,
         );
     }
 
+    // currency......................................................................................................
+
+    @Override
+    default void currencyAndCheck(final HasCurrency has,
+                                  final Currency expected) {
+        HasCurrencyTesting.super.currencyAndCheck(
+            has,
+            expected
+        );
+
+        if (has instanceof EnvironmentContext) {
+            this.environmentValueAndCheck(
+                (EnvironmentContext) has,
+                EnvironmentContext.CURRENCY,
+                expected
+            );
+        }
+    }
+    // setCurrency....................................................................................................
+
+    default void setCurrencyAndCheck(final EnvironmentContext context,
+                                     final Currency currency) {
+        context.setCurrency(currency);
+
+        this.currencyAndCheck(
+            context,
+            currency
+        );
+    }
+    
     // indentation......................................................................................................
 
     @Override

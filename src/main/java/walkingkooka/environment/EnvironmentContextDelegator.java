@@ -23,6 +23,7 @@ import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -59,6 +60,19 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
             .removeEnvironmentValue(name);
     }
 
+    @Override
+    default Currency currency() {
+        return this.environmentValueOrFail(CURRENCY);
+    }
+
+    @Override
+    default void setCurrency(final Currency currency) {
+        this.setEnvironmentValue(
+            CURRENCY,
+            currency
+        );
+    }
+    
     @Override
     default Indentation indentation() {
         return this.environmentValueOrFail(INDENTATION);

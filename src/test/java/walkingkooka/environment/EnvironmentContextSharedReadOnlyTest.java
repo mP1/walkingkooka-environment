@@ -25,6 +25,7 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -39,6 +40,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     private final Predicate<EnvironmentValueName<?>> READ_ONLY_NAMES = Predicates.is(
         EnvironmentContext.USER
     );
+
+    private final static Currency CURRENCY = Currency.getInstance("AUD");
 
     private final static Indentation INDENTATION = Indentation.SPACES4;
 
@@ -98,6 +101,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
@@ -182,6 +186,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     @Test
     public void testSetEnvironmentContextWithSame() {
         final EnvironmentContext empty = EnvironmentContexts.empty(
+            CURRENCY,
             INDENTATION,
             LineEnding.NL,
             Locale.FRENCH,
@@ -206,6 +211,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final HasNow hasNow = () -> NOW;
 
         final EnvironmentContext empty = EnvironmentContexts.empty(
+            CURRENCY,
             INDENTATION,
             LineEnding.NL,
             Locale.FRENCH,
@@ -220,6 +226,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         );
 
         final EnvironmentContext different = EnvironmentContexts.empty(
+            CURRENCY,
             INDENTATION,
             LineEnding.CRNL,
             Locale.GERMAN,
@@ -249,6 +256,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
@@ -274,6 +282,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
@@ -355,6 +364,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
@@ -400,6 +410,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
@@ -475,6 +486,45 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         this.userAndCheck(context);
     }
 
+    // setCurrency....................................................................................................
+
+    @Test
+    public void testSetCurrencyWithSame() {
+        this.setCurrencyAndCheck(
+            this.createContext(),
+            CURRENCY
+        );
+    }
+
+    @Test
+    public void testSetCurrencyWithDifferent() {
+        final Currency currency = Currency.getInstance("NZD");
+
+        this.checkNotEquals(
+            CURRENCY,
+            currency
+        );
+
+        final EnvironmentContextSharedReadOnly context = this.createContext(
+            Predicates.is(EnvironmentContext.CURRENCY)
+        );
+
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> context.setCurrency(currency)
+        );
+
+        this.currencyAndCheck(
+            context,
+            CURRENCY
+        );
+    }
+
+    @Override
+    public void testSetCurrencyWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
+    }
+    
     // setLineEnding....................................................................................................
 
     @Test
@@ -623,6 +673,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
@@ -782,6 +833,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     private EnvironmentContextSharedReadOnly createContext(final Predicate<EnvironmentValueName<?>> readOnlyNames) {
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
@@ -801,6 +853,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     @Test
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
+            EnvironmentValueName.CURRENCY,
             EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.NOW,
@@ -816,7 +869,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{indentation=\"    \", lineEnding=\"\\n\", locale=fr_FR, timeOffset=Z, user=user123@example.com}"
+            "{currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=fr_FR, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -829,6 +882,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             "EnvironmentContextSharedReadOnly\n" +
                 "  environmentContext\n" +
                 "    EnvironmentContextSharedMap\n" +
+                "      currency\n" +
+                "        AUD (java.util.Currency)\n" +
                 "      indentation\n" +
                 "        \"    \" (walkingkooka.text.Indentation)\n" +
                 "      lineEnding\n" +

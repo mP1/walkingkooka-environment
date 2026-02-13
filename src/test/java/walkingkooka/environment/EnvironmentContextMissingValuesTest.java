@@ -26,11 +26,14 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Set;
 
 public final class EnvironmentContextMissingValuesTest implements ToStringTesting<EnvironmentContextMissingValues>,
     ClassTesting2<EnvironmentContextMissingValues> {
+
+    private final static Currency CURRENCY = Currency.getInstance("AUD");
 
     private final static Indentation INDENTATION = Indentation.SPACES4;
 
@@ -43,6 +46,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
                 Locale.ENGLISH,
@@ -75,6 +79,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
                 Locale.ENGLISH,
@@ -110,6 +115,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
                 Locale.ENGLISH,
@@ -174,6 +180,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
                 Locale.ENGLISH,
@@ -187,7 +194,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         this.toStringAndCheck(
             missing,
-            "missing=Hello1, Hello2 environmentContext={indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
+            "missing=Hello1, Hello2 environmentContext={currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
         );
     }
 
@@ -195,6 +202,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
     public void testToStringWithoutMissing() {
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
                 Locale.ENGLISH,
@@ -205,7 +213,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         this.toStringAndCheck(
             missing,
-            "environmentContext={indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
+            "environmentContext={currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
         );
     }
 

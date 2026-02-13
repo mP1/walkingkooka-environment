@@ -30,6 +30,7 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Set;
 
@@ -39,6 +40,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentContextSharedCollectionTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedCollection>
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedCollection> {
+
+    private final static Currency CURRENCY = Currency.getInstance("AUD");
 
     private final static Indentation INDENTATION = Indentation.SPACES4;
 
@@ -59,6 +62,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.readOnly(
         Predicates.always(), // readOnlyNames
         EnvironmentContexts.empty(
+            CURRENCY,
             INDENTATION,
             LINE_ENDING,
             LOCALE,
@@ -81,6 +85,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         @Override
         public Set<EnvironmentValueName<?>> environmentValueNames() {
             return Sets.of(
+                EnvironmentContext.CURRENCY,
                 EnvironmentContext.INDENTATION,
                 EnvironmentContext.LINE_ENDING,
                 EnvironmentContext.LOCALE,
@@ -168,6 +173,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         final EnvironmentContext different = EnvironmentContextSharedCollection.with(
             Lists.of(
                 EnvironmentContexts.empty(
+                    CURRENCY,
                     INDENTATION,
                     LineEnding.CR,
                     Locale.FRENCH,
@@ -175,6 +181,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                     EnvironmentContext.ANONYMOUS
                 ),
                 EnvironmentContexts.empty(
+                    CURRENCY,
                     INDENTATION,
                     LineEnding.CR,
                     Locale.GERMAN,
@@ -469,6 +476,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                 key22,
                 String.class
             ),
+            EnvironmentContext.CURRENCY,
             EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
@@ -560,7 +568,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                     )
                 )
             ),
-            "{hello.111=Gday, indentation=    , lineEnding=\\n, locale=en, now=-999999999-01-01T00:00, timeOffset=Z}"
+            "{currency=AUD, hello.111=Gday, indentation=    , lineEnding=\\n, locale=en, now=-999999999-01-01T00:00, timeOffset=Z}"
         );
     }
 

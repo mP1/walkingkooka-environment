@@ -23,11 +23,17 @@ import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
 public class FakeEnvironmentContext implements EnvironmentContext {
+
+    @Override
+    public Currency currency() {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public Indentation indentation() {
@@ -41,6 +47,11 @@ public class FakeEnvironmentContext implements EnvironmentContext {
 
     @Override
     public LineEnding lineEnding() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setCurrency(final Currency currency) {
         throw new UnsupportedOperationException();
     }
 

@@ -27,6 +27,7 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -36,6 +37,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentContextSharedMapTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedMap>
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedMap>,
     ToStringTesting<EnvironmentContextSharedMap> {
+
+    private final static Currency CURRENCY = Currency.getInstance("AUD");
 
     private final static Indentation INDENTATION = Indentation.SPACES4;
 
@@ -48,6 +51,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     private final static HasNow HAS_NOW = () -> NOW;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        CURRENCY,
         INDENTATION,
         LINE_ENDING,
         LOCALE,
@@ -74,6 +78,32 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
     }
 
+    // currency...........................................................................................................
+
+    @Test
+    public void testCurrency() {
+        this.currencyAndCheck(
+            this.createContext(),
+            CURRENCY
+        );
+    }
+
+    @Test
+    public void testSetCurrency() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        final Currency currency = Currency.getInstance("NZD");
+        this.checkNotEquals(
+            CURRENCY,
+            currency
+        );
+
+        this.setCurrencyAndCheck(
+            context,
+            currency
+        );
+    }
+    
     // lineEnding...........................................................................................................
 
     @Test
@@ -286,6 +316,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.environmentValueNamesAndCheck(
             context,
+            EnvironmentValueName.CURRENCY,
             EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
@@ -340,6 +371,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.environmentValueNamesAndCheck(
             context,
+            EnvironmentValueName.CURRENCY,
             EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
@@ -395,6 +427,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     public EnvironmentContextSharedMap createContext(final Optional<EmailAddress> user) {
         return EnvironmentContextSharedMap.with(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
@@ -411,6 +444,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         this.checkNotEquals(
             EnvironmentContextSharedMap.with(
                 EnvironmentContexts.empty(
+                    CURRENCY,
                     INDENTATION,
                     LINE_ENDING,
                     Locale.FRANCE,
@@ -420,6 +454,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             ),
             EnvironmentContextSharedMap.with(
                 EnvironmentContexts.empty(
+                    CURRENCY,
                     INDENTATION,
                     LINE_ENDING,
                     Locale.GERMAN,
@@ -474,7 +509,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z}"
+            "{currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z}"
         );
     }
 
@@ -493,7 +528,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
+            "{currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -504,6 +539,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         this.treePrintAndCheck(
             this.createContext(),
             "EnvironmentContextSharedMap\n" +
+                "  currency\n" +
+                "    AUD (java.util.Currency)\n" +
                 "  indentation\n" +
                 "    \"    \" (walkingkooka.text.Indentation)\n" +
                 "  lineEnding\n" +
@@ -531,6 +568,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         this.treePrintAndCheck(
             context,
             "EnvironmentContextSharedMap\n" +
+                "  currency\n" +
+                "    AUD (java.util.Currency)\n" +
                 "  Hello\n" +
                 "    \"world\"\n" +
                 "  indentation\n" +

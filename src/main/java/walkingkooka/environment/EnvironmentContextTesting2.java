@@ -48,6 +48,7 @@ import walkingkooka.text.LineEnding;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -142,6 +143,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                before.currency(),
                 before.indentation(),
                 before.lineEnding(),
                 before.locale(),
@@ -158,6 +160,52 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
+    // setCurrency...................................................................................................
+
+    @Test
+    default void testSetCurrencyWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .setCurrency(null)
+        );
+    }
+
+    @Test
+    default void testSetCurrencyWithDifferentAndWatcher() {
+        final C context = this.createContext();
+
+        Currency currency = Currency.getInstance("AUD");
+        if (context.currency().equals(currency)) {
+            currency = Currency.getInstance("NZD");
+        }
+
+        final Currency oldCurrency = context.currency();
+        final Currency newCurrency = currency;
+
+        final AtomicBoolean fired = new AtomicBoolean();
+
+        context.addEventValueWatcher(
+            (n, ov, nv) -> {
+                checkEquals(EnvironmentContext.CURRENCY, n, "EnvironmentValueName");
+                checkEquals(Optional.of(oldCurrency), ov, "oldValue");
+                checkEquals(Optional.of(newCurrency), nv, "newValue");
+
+                fired.set(true);
+            }
+        );
+
+        this.setCurrencyAndCheck(
+            context,
+            currency
+        );
+
+        this.checkEquals(
+            true,
+            fired.get()
+        );
+    }
+    
     // setIndentation...................................................................................................
 
     @Test

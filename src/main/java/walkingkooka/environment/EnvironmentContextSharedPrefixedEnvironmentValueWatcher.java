@@ -45,7 +45,7 @@ final class EnvironmentContextSharedPrefixedEnvironmentValueWatcher implements E
                                          final Optional<?> newValue) {
         EnvironmentValueName<?> fireName;
 
-        if(name.equals(EnvironmentContext.INDENTATION) || name.equals(EnvironmentContext.LINE_ENDING) || name.equals(EnvironmentContext.LOCALE) || name.equals(EnvironmentContext.TIME_OFFSET) || name.equals(EnvironmentContext.USER)) {
+        if(name.equals(EnvironmentContext.CURRENCY) || name.equals(EnvironmentContext.INDENTATION) || name.equals(EnvironmentContext.LINE_ENDING) || name.equals(EnvironmentContext.LOCALE) || name.equals(EnvironmentContext.TIME_OFFSET) || name.equals(EnvironmentContext.USER)) {
             fireName = name;
         } else {
             fireName = EnvironmentValueName.with(
