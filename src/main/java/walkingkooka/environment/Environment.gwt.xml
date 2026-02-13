@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
+    <inherits name="walkingkooka.currency.Currency"/>
     <inherits name="walkingkooka.net.Net"/>
     <inherits name="walkingkooka.text.printer.Printer"/>
     <inherits name="walkingkooka.watch.Watch"/>
