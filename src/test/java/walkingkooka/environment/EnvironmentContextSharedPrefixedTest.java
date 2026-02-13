@@ -29,6 +29,7 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -44,6 +45,8 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
         "prefix111.",
         Void.class
     );
+
+    private final static Currency CURRENCY = Currency.getInstance("AUD");
 
     private final static Indentation INDENTATION = Indentation.SPACES4;
 
@@ -244,6 +247,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
 
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
@@ -317,6 +321,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                     "key111=value111"
                 ),
                 EnvironmentContexts.empty(
+                    CURRENCY,
                     INDENTATION,
                     LINE_ENDING,
                     LOCALE,
@@ -393,6 +398,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 prefix + key2,
                 String.class
             ),
+            EnvironmentContext.CURRENCY,
             EnvironmentContext.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentContext.LOCALE,
@@ -474,7 +480,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{indentation=\"    \", key111=value111, lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
+            "{currency=\"AUD\", indentation=\"    \", key111=value111, lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -490,6 +496,8 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "  environmentContext\n" +
                 "    EnvironmentContextSharedProperties\n" +
                 "      EmptyEnvironmentContext\n" +
+                "        currency\n" +
+                "          AUD (java.util.Currency)\n" +
                 "        indentation\n" +
                 "          \"    \" (walkingkooka.text.Indentation)\n" +
                 "        lineEnding\n" +

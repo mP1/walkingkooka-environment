@@ -25,6 +25,7 @@ import walkingkooka.text.printer.TreePrintable;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -43,6 +44,21 @@ abstract class EnvironmentContextShared implements EnvironmentContext,
         super();
     }
 
+    // HasCurrency...................................................................................................
+
+    @Override
+    public final Currency currency() {
+        return this.environmentValueOrFail(CURRENCY);
+    }
+
+    @Override
+    public final void setCurrency(final Currency currency) {
+        this.setEnvironmentValue(
+            CURRENCY,
+            currency
+        );
+    }
+    
     // HasIndentation...................................................................................................
 
     @Override

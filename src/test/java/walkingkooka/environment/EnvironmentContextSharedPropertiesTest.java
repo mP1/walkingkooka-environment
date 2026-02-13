@@ -27,6 +27,7 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -40,6 +41,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        Currency.getInstance("AUD"),
         Indentation.SPACES4,
         LineEnding.NL,
         Locale.ENGLISH,
@@ -161,7 +163,19 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     }
 
     // setEnvironmentValue..............................................................................................
+    
+    @Test
+    public void testSetEnvironmentValueWithCurrency() {
+        final EnvironmentContextSharedProperties context = this.createContext();
 
+        final Currency currency = Currency.getInstance("NZD");
+        this.setEnvironmentValueAndCheck(
+            context,
+            EnvironmentValueName.CURRENCY,
+            currency
+        );
+    }
+    
     @Test
     public void testSetEnvironmentValueWithLocale() {
         final EnvironmentContextSharedProperties context = this.createContext();
@@ -212,6 +226,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                 key2,
                 String.class
             ),
+            EnvironmentContext.CURRENCY,
             EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
@@ -269,7 +284,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=en, timeOffset=Z}"
+            "{currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=en, timeOffset=Z}"
         );
     }
 
@@ -281,6 +296,8 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
             this.createContext(),
             "EnvironmentContextSharedProperties\n" +
                 "  EmptyEnvironmentContext\n" +
+                "    currency\n" +
+                "      AUD (java.util.Currency)\n" +
                 "    indentation\n" +
                 "      \"    \" (walkingkooka.text.Indentation)\n" +
                 "    lineEnding\n" +

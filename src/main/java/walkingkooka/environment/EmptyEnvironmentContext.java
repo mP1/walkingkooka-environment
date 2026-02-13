@@ -31,6 +31,7 @@ import walkingkooka.text.printer.TreePrintable;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -46,12 +47,14 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     UsesToStringBuilder,
     TreePrintable {
 
-    static EmptyEnvironmentContext with(final Indentation indentation,
+    static EmptyEnvironmentContext with(final Currency currency,
+                                        final Indentation indentation,
                                         final LineEnding lineEnding,
                                         final Locale locale,
                                         final HasNow hasNow,
                                         final Optional<EmailAddress> user) {
         return new EmptyEnvironmentContext(
+            Objects.requireNonNull(currency, "currency"),
             Objects.requireNonNull(indentation, "indentation"),
             Objects.requireNonNull(lineEnding, "hasLineEnding"),
             Objects.requireNonNull(locale, "locale"),
@@ -61,7 +64,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         );
     }
 
-    private EmptyEnvironmentContext(final Indentation indentation,
+    private EmptyEnvironmentContext(final Currency currency,
+                                    final Indentation indentation,
                                     final LineEnding lineEnding,
                                     final Locale locale,
                                     final HasNow hasNow,
@@ -69,6 +73,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
                                     final Optional<EmailAddress> user) {
         super();
 
+        this.currency = currency;
         this.indentation = indentation;
         this.lineEnding = lineEnding;
         this.locale = locale;
@@ -85,6 +90,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     @Override
     public EnvironmentContext cloneEnvironment() {
         return new EmptyEnvironmentContext(
+            this.currency,
             this.indentation,
             this.lineEnding,
             this.locale,
@@ -105,19 +111,21 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
         return Cast.to(
             Optional.ofNullable(
-                INDENTATION.equals(name) ?
-                    this.indentation :
-                    LINE_ENDING.equals(name) ?
-                        this.lineEnding :
-                        LOCALE.equals(name) ?
-                            this.locale :
-                            NOW.equals(name) ?
-                                this.now() :
-                                TIME_OFFSET.equals(name) ?
-                                    this.timeOffset :
-                                    USER.equals(name) ?
-                                        this.user.orElse(null) :
-                                        null
+                CURRENCY.equals(name) ?
+                    this.currency :
+                    INDENTATION.equals(name) ?
+                        this.indentation :
+                        LINE_ENDING.equals(name) ?
+                            this.lineEnding :
+                            LOCALE.equals(name) ?
+                                this.locale :
+                                NOW.equals(name) ?
+                                    this.now() :
+                                    TIME_OFFSET.equals(name) ?
+                                        this.timeOffset :
+                                        USER.equals(name) ?
+                                            this.user.orElse(null) :
+                                            null
             )
         );
     }
@@ -130,6 +138,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     private final static Set<EnvironmentValueName<?>> NAMES = Sets.of(
+        CURRENCY,
         INDENTATION,
         LINE_ENDING,
         LOCALE,
@@ -139,6 +148,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     );
 
     private final static Set<EnvironmentValueName<?>> NAMES_WITHOUT_USER = Sets.of(
+        CURRENCY,
         INDENTATION,
         LINE_ENDING,
         NOW,
@@ -152,24 +162,28 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (INDENTATION.equals(name)) {
-            this.setIndentation((Indentation) value);
+        if (CURRENCY.equals(name)) {
+            this.setCurrency((Currency) value);
         } else {
-            if (LINE_ENDING.equals(name)) {
-                this.setLineEnding((LineEnding) value);
+            if (INDENTATION.equals(name)) {
+                this.setIndentation((Indentation) value);
             } else {
-                if (LOCALE.equals(name)) {
-                    this.setLocale((Locale) value);
+                if (LINE_ENDING.equals(name)) {
+                    this.setLineEnding((LineEnding) value);
                 } else {
-                    if (TIME_OFFSET.equals(name)) {
-                        this.setTimeOffset((ZoneOffset) value);
+                    if (LOCALE.equals(name)) {
+                        this.setLocale((Locale) value);
                     } else {
-                        if (USER.equals(name)) {
-                            this.setUser(
-                                Optional.of((EmailAddress) value)
-                            );
+                        if (TIME_OFFSET.equals(name)) {
+                            this.setTimeOffset((ZoneOffset) value);
                         } else {
-                            throw name.readOnlyEnvironmentValueException();
+                            if (USER.equals(name)) {
+                                this.setUser(
+                                    Optional.of((EmailAddress) value)
+                                );
+                            } else {
+                                throw name.readOnlyEnvironmentValueException();
+                            }
                         }
                     }
                 }
@@ -181,7 +195,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        if (INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
+        if (CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
             throw name.readOnlyEnvironmentValueException();
         } else {
             if (TIME_OFFSET.equals(name)) {
@@ -195,6 +209,29 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
         // ignore all other removes because the value doesnt exist
     }
+
+    // HasCurrency...................................................................................................
+
+    @Override
+    public Currency currency() {
+        return this.currency;
+    }
+
+    @Override
+    public void setCurrency(final Currency currency) {
+        Objects.requireNonNull(currency, "currency");
+
+        final Currency oldCurrency = this.currency;
+        this.currency = currency;
+
+        this.watchers.onEnvironmentValueChange(
+            CURRENCY,
+            Optional.of(oldCurrency),
+            Optional.of(currency)
+        );
+    }
+
+    private Currency currency;
 
     // HasIndentation...................................................................................................
 
@@ -334,6 +371,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     @Override
     public int hashCode() {
         return Objects.hash(
+            this.currency,
             this.indentation,
             this.lineEnding,
             this.locale,
@@ -351,7 +389,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     private boolean equals0(final EmptyEnvironmentContext other) {
-        return this.indentation.equals(other.indentation) &&
+        return this.currency.equals(other.currency) &&
+            this.indentation.equals(other.indentation) &&
             this.lineEnding.equals(other.lineEnding) &&
             this.locale.equals(other.locale) &&
             this.hasNow.equals(other.hasNow) &&
@@ -371,6 +410,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         b.labelSeparator("=")
             .separator(", ");
         b.append('{');
+
+        b.label("currency");
+        b.value(
+            CharSequences.escape(this.currency.toString())
+        );
 
         b.label("indentation");
         b.value(

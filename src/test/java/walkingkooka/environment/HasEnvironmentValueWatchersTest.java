@@ -25,6 +25,7 @@ import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -32,6 +33,11 @@ import java.util.Set;
 public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasEnvironmentValueWatchers> {
 
     final static class TestHasEnvironmentValueWatchers implements HasEnvironmentValueWatchers {
+
+        @Override
+        public Currency currency() {
+            throw new UnsupportedOperationException();
+        }
 
         @Override
         public Indentation indentation() {
@@ -45,6 +51,11 @@ public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasE
 
         @Override
         public LineEnding lineEnding() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setCurrency(final Currency currency) {
             throw new UnsupportedOperationException();
         }
 

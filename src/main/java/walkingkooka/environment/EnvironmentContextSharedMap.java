@@ -89,6 +89,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         final Set<EnvironmentValueName<?>> names = SortedSets.tree();
         names.addAll(this.values.keySet());
+        names.add(CURRENCY);
         names.add(INDENTATION);
         names.add(LINE_ENDING);
         names.add(LOCALE);
@@ -113,27 +114,31 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         Object oldValue;
         boolean put = false;
 
-        if (INDENTATION.equals(name)) {
-            oldValue = context.indentation();
+        if (CURRENCY.equals(name)) {
+            oldValue = context.currency();
         } else {
-            if (LINE_ENDING.equals(name)) {
-                oldValue = context.lineEnding();
+            if (INDENTATION.equals(name)) {
+                oldValue = context.indentation();
             } else {
-                if (LOCALE.equals(name)) {
-                    oldValue = context.locale();
+                if (LINE_ENDING.equals(name)) {
+                    oldValue = context.lineEnding();
                 } else {
-                    if (NOW.equals(name)) {
-                        oldValue = context.now();
+                    if (LOCALE.equals(name)) {
+                        oldValue = context.locale();
                     } else {
-                        if (TIME_OFFSET.equals(name)) {
-                            oldValue = context.timeOffset();
+                        if (NOW.equals(name)) {
+                            oldValue = context.now();
                         } else {
-                            if (USER.equals(name)) {
-                                oldValue = this.context.user()
-                                    .orElse(null);
+                            if (TIME_OFFSET.equals(name)) {
+                                oldValue = context.timeOffset();
                             } else {
-                                oldValue = this.values.get(name);
-                                put = true;
+                                if (USER.equals(name)) {
+                                    oldValue = this.context.user()
+                                        .orElse(null);
+                                } else {
+                                    oldValue = this.values.get(name);
+                                    put = true;
+                                }
                             }
                         }
                     }
@@ -168,33 +173,38 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
         Object oldValue;
 
-        if (INDENTATION.equals(name)) {
-            oldValue = context.indentation();
+        if (CURRENCY.equals(name)) {
+            oldValue = context.currency();
             context.removeEnvironmentValue(name);
         } else {
-            if (LINE_ENDING.equals(name)) {
-                oldValue = context.lineEnding();
+            if (INDENTATION.equals(name)) {
+                oldValue = context.indentation();
                 context.removeEnvironmentValue(name);
             } else {
-                if (LOCALE.equals(name)) {
-                    oldValue = context.locale();
+                if (LINE_ENDING.equals(name)) {
+                    oldValue = context.lineEnding();
                     context.removeEnvironmentValue(name);
                 } else {
-                    if (NOW.equals(name)) {
-                        oldValue = context.now();
+                    if (LOCALE.equals(name)) {
+                        oldValue = context.locale();
                         context.removeEnvironmentValue(name);
                     } else {
-                        if (TIME_OFFSET.equals(name)) {
-                            oldValue = context.timeOffset();
+                        if (NOW.equals(name)) {
+                            oldValue = context.now();
                             context.removeEnvironmentValue(name);
                         } else {
-                            if (USER.equals(name)) {
-                                oldValue = context.user()
-                                    .orElse(null);
+                            if (TIME_OFFSET.equals(name)) {
+                                oldValue = context.timeOffset();
                                 context.removeEnvironmentValue(name);
                             } else {
-                                oldValue = this.values.get(name);
-                                this.values.remove(name);
+                                if (USER.equals(name)) {
+                                    oldValue = context.user()
+                                        .orElse(null);
+                                    context.removeEnvironmentValue(name);
+                                } else {
+                                    oldValue = this.values.get(name);
+                                    this.values.remove(name);
+                                }
                             }
                         }
                     }
@@ -245,6 +255,14 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     public String toString() {
         final Map<EnvironmentValueName<?>, Object> map = Maps.sorted();
         map.putAll(this.values);
+
+        map.put(
+            CURRENCY,
+            CharSequences.quoteAndEscape(
+                this.currency()
+                    .toString()
+            )
+        );
 
         map.put(
             INDENTATION,

@@ -25,6 +25,7 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -39,6 +40,7 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
         final MissingEnvironmentValueException thrown = assertThrows(
             MissingEnvironmentValueException.class,
             () -> EnvironmentContexts.empty(
+                Currency.getInstance("AUD"),
                 Indentation.SPACES4,
                 LineEnding.NL,
                 Locale.ENGLISH,

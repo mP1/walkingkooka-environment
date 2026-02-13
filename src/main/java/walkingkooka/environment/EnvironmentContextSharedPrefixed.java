@@ -27,6 +27,7 @@ import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -108,35 +109,41 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
                 )
             );
         } else {
-            if (INDENTATION.equals(name)) {
+            if (CURRENCY.equals(name)) {
                 value = Optional.of(
-                    this.context.indentation()
+                    this.context.currency()
                 );
             } else {
-                if (LINE_ENDING.equals(name)) {
+                if (INDENTATION.equals(name)) {
                     value = Optional.of(
-                        this.context.lineEnding()
+                        this.context.indentation()
                     );
                 } else {
-                    if (LOCALE.equals(name)) {
+                    if (LINE_ENDING.equals(name)) {
                         value = Optional.of(
-                            this.context.locale()
+                            this.context.lineEnding()
                         );
                     } else {
-                        if (NOW.equals(name)) {
+                        if (LOCALE.equals(name)) {
                             value = Optional.of(
-                                this.context.now()
+                                this.context.locale()
                             );
                         } else {
-                            if (TIME_OFFSET.equals(name)) {
+                            if (NOW.equals(name)) {
                                 value = Optional.of(
-                                    this.context.timeOffset()
+                                    this.context.now()
                                 );
                             } else {
-                                if (USER.equals(name)) {
-                                    value = this.context.user();
+                                if (TIME_OFFSET.equals(name)) {
+                                    value = Optional.of(
+                                        this.context.timeOffset()
+                                    );
                                 } else {
-                                    value = Optional.empty();
+                                    if (USER.equals(name)) {
+                                        value = this.context.user();
+                                    } else {
+                                        value = Optional.empty();
+                                    }
                                 }
                             }
                         }
@@ -152,6 +159,7 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
     @Override
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         final SortedSet<EnvironmentValueName<?>> names = SortedSets.tree();
+        names.add(CURRENCY);
         names.add(INDENTATION);
         names.add(LINE_ENDING);
         names.add(LOCALE);
@@ -163,7 +171,7 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
         }
 
         for (final EnvironmentValueName<?> name : this.context.environmentValueNames()) {
-            if (INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || TIME_OFFSET.equals(name) || USER.equals(name)) {
+            if (CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || TIME_OFFSET.equals(name) || USER.equals(name)) {
                 continue;
             }
             names.add(
@@ -185,24 +193,28 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (INDENTATION.equals(name)) {
-            this.context.setIndentation((Indentation) value);
+        if (CURRENCY.equals(name)) {
+            this.context.setCurrency((Currency) value);
         } else {
-            if (LINE_ENDING.equals(name)) {
-                this.context.setLineEnding((LineEnding) value);
+            if (INDENTATION.equals(name)) {
+                this.context.setIndentation((Indentation) value);
             } else {
-                if (LOCALE.equals(name)) {
-                    this.context.setLocale((Locale) value);
+                if (LINE_ENDING.equals(name)) {
+                    this.context.setLineEnding((LineEnding) value);
                 } else {
-                    if (TIME_OFFSET.equals(name)) {
-                        this.context.setTimeOffset((ZoneOffset) value);
+                    if (LOCALE.equals(name)) {
+                        this.context.setLocale((Locale) value);
                     } else {
-                        if (USER.equals(name)) {
-                            this.context.setUser(
-                                Optional.of((EmailAddress) value)
-                            );
+                        if (TIME_OFFSET.equals(name)) {
+                            this.context.setTimeOffset((ZoneOffset) value);
                         } else {
-                            throw new UnsupportedOperationException();
+                            if (USER.equals(name)) {
+                                this.context.setUser(
+                                    Optional.of((EmailAddress) value)
+                                );
+                            } else {
+                                throw new UnsupportedOperationException();
+                            }
                         }
                     }
                 }

@@ -24,6 +24,7 @@ import walkingkooka.text.HasIndentation;
 import walkingkooka.text.HasLineEnding;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.util.HasCurrency;
 import walkingkooka.util.HasLocale;
 
 import java.time.LocalDateTime;
@@ -39,6 +40,7 @@ import java.util.Set;
  * of the current user.
  */
 public interface EnvironmentContext extends Context,
+    HasCurrency,
     HasIndentation,
     HasLineEnding,
     HasLocale,
@@ -123,6 +125,11 @@ public interface EnvironmentContext extends Context,
      * Removes the value with the given {@link EnvironmentValueName}.
      */
     void removeEnvironmentValue(final EnvironmentValueName<?> name);
+
+    /**
+     * Sets or replaces the current {@link Currency}
+     */
+    void setCurrency(final Currency currency);
 
     /**
      * Sets or replaces the current {@link Indentation}
