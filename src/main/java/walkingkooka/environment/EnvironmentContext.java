@@ -28,6 +28,7 @@ import walkingkooka.util.HasLocale;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -47,6 +48,8 @@ public interface EnvironmentContext extends Context,
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
     ZoneOffset DEFAULT_TIME_OFFSET = ZoneOffset.UTC;
+
+    EnvironmentValueName<Currency> CURRENCY = EnvironmentValueName.CURRENCY;
 
     EnvironmentValueName<Indentation> INDENTATION = EnvironmentValueName.INDENTATION;
 
