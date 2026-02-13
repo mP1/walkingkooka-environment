@@ -17,7 +17,6 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.Cast;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
@@ -81,7 +80,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         }
 
         return Optional.ofNullable(
-            Cast.to(value)
+            name.cast(value)
         );
     }
 
