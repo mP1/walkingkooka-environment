@@ -36,6 +36,8 @@ package walkingkooka.environment;
 
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
+import walkingkooka.currency.HasCurrency;
+import walkingkooka.currency.HasCurrencyTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.HasIndentation;
 import walkingkooka.text.HasIndentationTesting;
@@ -43,8 +45,6 @@ import walkingkooka.text.HasLineEndingTesting;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
-import walkingkooka.util.HasCurrency;
-import walkingkooka.util.HasCurrencyTesting;
 import walkingkooka.util.HasLocale;
 import walkingkooka.util.HasLocaleTesting;
 

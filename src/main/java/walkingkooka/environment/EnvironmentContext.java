@@ -18,13 +18,13 @@
 package walkingkooka.environment;
 
 import walkingkooka.Context;
+import walkingkooka.currency.HasCurrency;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.HasIndentation;
 import walkingkooka.text.HasLineEnding;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
-import walkingkooka.util.HasCurrency;
 import walkingkooka.util.HasLocale;
 
 import java.time.LocalDateTime;
