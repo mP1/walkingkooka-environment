@@ -172,6 +172,61 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     }
 
     @Test
+    public void testEnvironmentalValueWithDifferentEnvironmentValueNameCase() {
+        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
+        context.setEnvironmentValue(
+            NAME,
+            VALUE
+        );
+
+        final String different = NAME.value()
+            .toUpperCase();
+        this.checkNotEquals(
+            NAME.value(),
+            different
+        );
+
+        final EnvironmentValueName<String> differentEnvironmentValueName = EnvironmentValueName.with(
+            different,
+            NAME.type()
+        );
+        this.checkEquals(
+            differentEnvironmentValueName,
+            NAME
+        );
+
+        this.environmentValueAndCheck(
+            context,
+            differentEnvironmentValueName,
+            VALUE
+        );
+    }
+
+    @Test
+    public void testEnvironmentalValueWithDifferentEnvironmentValueNameType() {
+        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
+        context.setEnvironmentValue(
+            NAME,
+            VALUE
+        );
+
+        final EnvironmentValueName<Object> differentEnvironmentValueName = EnvironmentValueName.with(
+            NAME.value(),
+            Object.class
+        );
+        this.checkNotEquals(
+            differentEnvironmentValueName,
+            NAME
+        );
+
+        this.environmentValueAndCheck(
+            context,
+            differentEnvironmentValueName,
+            VALUE
+        );
+    }
+
+    @Test
     public void testEnvironmentalValueMissing() {
         this.environmentValueAndCheck(
             this.createContext(),
