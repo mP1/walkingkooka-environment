@@ -71,7 +71,14 @@ final public class EnvironmentValueName<T> implements Name,
      */
     public final static int MAX_LENGTH = 255;
 
-    private final static Map<String, EnvironmentValueName<?>> CONSTANTS = Maps.sorted();
+    /**
+     * {@link EnvironmentValueName} are case-insensitive
+     */
+    public final static CaseSensitivity CASE_SENSITIVITY = CaseSensitivity.INSENSITIVE;
+
+    private final static Map<String, EnvironmentValueName<?>> CONSTANTS = Maps.sorted(
+        CASE_SENSITIVITY.comparator()
+    );
 
     /**
      * Registers an {@link EnvironmentValueName} and its type. Note if an attempt is made to register a
@@ -252,6 +259,4 @@ final public class EnvironmentValueName<T> implements Name,
     public CaseSensitivity caseSensitivity() {
         return CASE_SENSITIVITY;
     }
-
-    public final static CaseSensitivity CASE_SENSITIVITY = CaseSensitivity.INSENSITIVE;
 }
