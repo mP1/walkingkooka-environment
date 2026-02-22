@@ -156,6 +156,25 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
             )
         );
     }
+
+    @Test
+    public void testWithCurrencyDifferentCase() {
+        final EnvironmentValueName<Currency> environmentValueName = EnvironmentValueName.CURRENCY;
+
+        final String name = "CURRENCY";
+        this.checkNotEquals(
+            name,
+            environmentValueName.value()
+        );
+
+        assertSame(
+            environmentValueName,
+            EnvironmentValueName.with(
+                name,
+                Currency.class
+            )
+        );
+    }
     
     @Test
     public void testWithLocale() {
