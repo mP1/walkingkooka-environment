@@ -224,6 +224,27 @@ public final class AuditInfo implements HasProperties,
         printer.outdent();
     }
 
+    // fromProperties...................................................................................................
+
+    public static AuditInfo fromProperties(final Properties properties) {
+        Objects.requireNonNull(properties, "properties");
+
+        return AuditInfo.with(
+            EmailAddress.parse(
+                properties.getOrFail(CREATED_BY)
+            ),
+            LocalDateTime.parse(
+                properties.getOrFail(CREATED_TIMESTAMP)
+            ),
+            EmailAddress.parse(
+                properties.getOrFail(MODIFIED_BY)
+            ),
+            LocalDateTime.parse(
+                properties.getOrFail(MODIFIED_TIMESTAMP)
+            )
+        );
+    }
+
     // HasProperties....................................................................................................
 
     @Override
