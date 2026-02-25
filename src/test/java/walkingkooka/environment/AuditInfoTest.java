@@ -37,6 +37,7 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.props.HasPropertiesTesting;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.printer.TreePrintableTesting;
@@ -47,7 +48,8 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class AuditInfoTest implements HashCodeEqualsDefinedTesting2<AuditInfo>,
+public final class AuditInfoTest implements HasPropertiesTesting,
+    HashCodeEqualsDefinedTesting2<AuditInfo>,
     ClassTesting2<AuditInfo>,
     TreePrintableTesting {
 
@@ -445,6 +447,19 @@ public final class AuditInfoTest implements HashCodeEqualsDefinedTesting2<AuditI
                 "    created-by@example.com 1999-12-31T12:58:59\n" +
                 "  modified\n" +
                 "    modified-by@example.com 2000-01-02T12:58:59\n"
+        );
+    }
+
+    // HasProperties....................................................................................................
+
+    @Test
+    public void testProperties() {
+        this.propertiesAndCheck(
+            this.createObject(),
+            "createdBy=created-by@example.com\n" +
+                "createdTimestamp=1999-12-31T12:58:59\n" +
+                "modifiedBy=modified-by@example.com\n" +
+                "modifiedTimestamp=2000-01-02T12:58:59"
         );
     }
 

@@ -18,6 +18,9 @@
 package walkingkooka.environment;
 
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.props.HasProperties;
+import walkingkooka.props.Properties;
+import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
@@ -27,7 +30,8 @@ import java.util.Objects;
 /**
  * Captures the created and modified entries for an entity.
  */
-public final class AuditInfo implements TreePrintable {
+public final class AuditInfo implements HasProperties,
+    TreePrintable {
 
     public static AuditInfo create(final EmailAddress createdBy,
                                    final LocalDateTime createdTimestamp) {
@@ -219,4 +223,28 @@ public final class AuditInfo implements TreePrintable {
         }
         printer.outdent();
     }
+
+    // HasProperties....................................................................................................
+
+    @Override
+    public Properties properties() {
+        return Properties.EMPTY.set(
+            CREATED_BY,
+            this.createdBy.toString()
+        ).set(
+            CREATED_TIMESTAMP,
+            this.createdTimestamp.toString()
+        ).set(
+            MODIFIED_BY,
+            this.modifiedBy.toString()
+        ).set(
+            MODIFIED_TIMESTAMP,
+            this.modifiedTimestamp.toString()
+        );
+    }
+
+    private final static PropertiesPath CREATED_BY = PropertiesPath.parse("createdBy");
+    private final static PropertiesPath CREATED_TIMESTAMP = PropertiesPath.parse("createdTimestamp");
+    private final static PropertiesPath MODIFIED_BY = PropertiesPath.parse("modifiedBy");
+    private final static PropertiesPath MODIFIED_TIMESTAMP = PropertiesPath.parse("modifiedTimestamp");
 }
