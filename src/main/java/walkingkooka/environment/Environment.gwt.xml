@@ -3,6 +3,7 @@
     <inherits name="walkingkooka.currency.Currency"/>
     <inherits name="walkingkooka.net.Net"/>
     <inherits name="walkingkooka.text.printer.Printer"/>
+    <inherits name="walkingkooka.tree.json.Json"/>
     <inherits name="walkingkooka.watch.Watch"/>
 
     <source path="">
