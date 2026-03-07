@@ -267,7 +267,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
         );
         final String value = "world";
 
-        final Runnable remover = environmentContextSharedPrefixed.addEventValueWatcher(
+        final Runnable remover = environmentContextSharedPrefixed.addEnvironmentValueWatcher(
             new EnvironmentValueWatcher() {
                 @Override
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,

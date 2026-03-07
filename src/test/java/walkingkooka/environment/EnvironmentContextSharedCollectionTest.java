@@ -73,7 +73,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
 
     private final static EnvironmentContext FAKE_CONTEXT = new FakeEnvironmentContext() {
         @Override
-        public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+        public Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher) {
             return () -> {};
         }
 

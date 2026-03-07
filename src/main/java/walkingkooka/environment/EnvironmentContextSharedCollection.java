@@ -181,10 +181,10 @@ final class EnvironmentContextSharedCollection extends EnvironmentContextShared 
     }
 
     @Override
-    public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+    public Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher) {
         return this.addWatcher(
             watcher,
-            (w) -> w.addEventValueWatcher(watcher)
+            (w) -> w.addEnvironmentValueWatcher(watcher)
         );
     }
 

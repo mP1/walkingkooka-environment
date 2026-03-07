@@ -196,7 +196,7 @@ public interface EnvironmentContext extends Context,
      * Adds a new {@link EnvironmentValueWatcher} that will be notified whenever an {@link EnvironmentValueName} is added,
      * modified or removed.
      */
-    Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher);
+    Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher);
 
     /**
      * Adds a new {@link EnvironmentValueWatcher} that will be notified whenever an {@link EnvironmentValueName} is added,
