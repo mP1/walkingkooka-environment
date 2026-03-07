@@ -202,7 +202,7 @@ public interface EnvironmentContext extends Context,
      * Adds a new {@link EnvironmentValueWatcher} that will be notified whenever an {@link EnvironmentValueName} is added,
      * modified or removed. The watcher will only ever receive one event and will be automatically removed after that.
      */
-    Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher);
+    Runnable addEnvironmentValueWatcherOnce(final EnvironmentValueWatcher watcher);
 
     /**
      * Gives an empty {@link EnvironmentContextMissingValues}.

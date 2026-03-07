@@ -646,14 +646,14 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
-    // addEventValueWatcherOnce.........................................................................................
+    // addEnvironmentValueWatcherOnce.........................................................................................
 
     @Test
     default void testAddEnvironmentValueWatcherOnceWithNullFails() {
         assertThrows(
             NullPointerException.class,
             () -> this.createContext()
-                .addEventValueWatcherOnce(null)
+                .addEnvironmentValueWatcherOnce(null)
         );
     }
 }
