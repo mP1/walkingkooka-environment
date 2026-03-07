@@ -78,7 +78,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         }
 
         @Override
-        public Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+        public Runnable addEnvironmentValueWatcherOnce(final EnvironmentValueWatcher watcher) {
             return () -> {};
         }
 

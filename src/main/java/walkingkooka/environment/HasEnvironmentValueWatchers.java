@@ -26,7 +26,7 @@ public interface HasEnvironmentValueWatchers extends EnvironmentContext {
     }
 
     @Override
-    default Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+    default Runnable addEnvironmentValueWatcherOnce(final EnvironmentValueWatcher watcher) {
         return this.environmentValueWatchers()
             .addOnce(watcher);
     }

@@ -156,9 +156,9 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
     }
 
     @Override
-    default Runnable addEventValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+    default Runnable addEnvironmentValueWatcherOnce(final EnvironmentValueWatcher watcher) {
         return this.environmentContext()
-            .addEventValueWatcherOnce(watcher);
+            .addEnvironmentValueWatcherOnce(watcher);
     }
 
     EnvironmentContext environmentContext();
