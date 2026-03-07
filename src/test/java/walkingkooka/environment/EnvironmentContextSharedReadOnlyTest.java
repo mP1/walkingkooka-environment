@@ -709,7 +709,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         this.fired = false;
 
-        context.addEventValueWatcher(
+        context.addEnvironmentValueWatcher(
             new EnvironmentValueWatcher() {
                 @Override
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,

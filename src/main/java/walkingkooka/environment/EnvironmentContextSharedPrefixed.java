@@ -230,8 +230,8 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
     }
 
     @Override
-    public Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
-        return this.context.addEventValueWatcher(
+    public Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher) {
+        return this.context.addEnvironmentValueWatcher(
             EnvironmentContextSharedPrefixedEnvironmentValueWatcher.with(
                 this.prefix,
                 watcher

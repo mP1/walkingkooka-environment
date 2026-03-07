@@ -20,7 +20,7 @@ package walkingkooka.environment;
 public interface HasEnvironmentValueWatchers extends EnvironmentContext {
 
     @Override
-    default Runnable addEventValueWatcher(final EnvironmentValueWatcher watcher) {
+    default Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher) {
         return this.environmentValueWatchers()
             .add(watcher);
     }
