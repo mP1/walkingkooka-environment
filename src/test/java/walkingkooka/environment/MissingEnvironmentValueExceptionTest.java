@@ -52,7 +52,7 @@ public class MissingEnvironmentValueExceptionTest implements ThrowableTesting2<M
 
     @Test
     public void testGetMessage() {
-        this.checkMessage(
+        this.getMessageAndCheck(
             new MissingEnvironmentValueException(
                 EnvironmentValueName.with(
                     "missing-123",
