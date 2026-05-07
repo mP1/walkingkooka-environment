@@ -40,10 +40,9 @@ public final class ReadOnlyEnvironmentValueExceptionTest implements ThrowableTes
 
     @Test
     public void testGetMessage() {
-        this.checkEquals(
-            "Read only environment value: locale",
-            new ReadOnlyEnvironmentValueException(EnvironmentValueName.LOCALE)
-                .getMessage()
+        this.getMessageAndCheck(
+            new ReadOnlyEnvironmentValueException(EnvironmentValueName.LOCALE),
+            "Read only environment value: locale"
         );
     }
 
