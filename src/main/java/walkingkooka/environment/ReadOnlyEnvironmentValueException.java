@@ -17,12 +17,12 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.Value;
+import walkingkooka.HasValue;
 
 import java.util.Objects;
 
 public final class ReadOnlyEnvironmentValueException extends IllegalArgumentException
-    implements Value<EnvironmentValueName<?>> {
+    implements HasValue<EnvironmentValueName<?>> {
 
     private static final long serialVersionUID = 1046143335801274563L;
 
