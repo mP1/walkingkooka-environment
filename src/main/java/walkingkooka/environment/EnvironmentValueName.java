@@ -33,6 +33,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionReference;
 import walkingkooka.tree.expression.function.ExpressionFunctionParameterName;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Currency;
@@ -93,6 +94,11 @@ final public class EnvironmentValueName<T> implements Name,
         CONSTANTS.put(name, constant);
         return Cast.to(constant);
     }
+
+    public final static EnvironmentValueName<Charset> CHARSET = registerConstant(
+        "charSet",
+        Charset.class
+    );
 
     public final static EnvironmentValueName<Currency> CURRENCY = registerConstant(
         "currency",
