@@ -96,7 +96,7 @@ final public class EnvironmentValueName<T> implements Name,
     }
 
     public final static EnvironmentValueName<Charset> CHARSET = registerConstant(
-        "charSet",
+        "charset",
         Charset.class
     );
 
