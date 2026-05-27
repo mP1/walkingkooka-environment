@@ -26,6 +26,8 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Currency;
@@ -41,6 +43,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     ToStringTesting<EmptyEnvironmentContext>,
     TreePrintableTesting {
 
+    private final static Charset CHARSET = StandardCharsets.UTF_8;
     private final static Currency CURRENCY = Currency.getInstance("AUD");
     private final static Indentation INDENTATION = Indentation.SPACES4;
     private final static LineEnding LINE_ENDING = LineEnding.NL;
@@ -49,10 +52,27 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     private final static HasNow HAS_NOW = () -> NOW;
 
     @Test
+    public void testWithNullCharsetFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EmptyEnvironmentContext.with(
+                null,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+    
+    @Test
     public void testWithNullCurrencyFails() {
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                CHARSET,
                 null,
                 INDENTATION,
                 LINE_ENDING,
@@ -68,6 +88,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 null,
@@ -83,6 +104,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 null,
@@ -98,6 +120,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -113,6 +136,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -128,6 +152,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         assertThrows(
             NullPointerException.class,
             () -> EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -207,6 +232,15 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         );
     }
 
+    @Test
+    public void testEnvironmentValueWithCharset() {
+        this.environmentValueAndCheck(
+            this.createContext(),
+            EnvironmentValueName.CHARSET,
+            CHARSET
+        );
+    }
+    
     @Test
     public void testEnvironmentValueWithCurrency() {
         this.environmentValueAndCheck(
@@ -326,6 +360,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
 
     private EmptyEnvironmentContext createContext(final Optional<EmailAddress> user) {
         return EmptyEnvironmentContext.with(
+            CHARSET,
             CURRENCY,
             INDENTATION,
             LINE_ENDING,
@@ -340,6 +375,15 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Override
     public void testRemoveEnvironmentValueWithNowFails() {
         throw new UnsupportedOperationException();
+    }
+
+    @Test
+    public void testRemoveEnvironmentValueCharsetFails() {
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> this.createContext()
+                .removeEnvironmentValue(EnvironmentContext.CHARSET)
+        );
     }
 
     @Test
@@ -381,6 +425,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testRemoveEnvironmentValueWithUserNotAnonymous() {
         final EmptyEnvironmentContext context = EmptyEnvironmentContext.with(
+            CHARSET,
             CURRENCY,
             INDENTATION,
             LINE_ENDING,
@@ -400,6 +445,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testRemoveEnvironmentValueUserAndAnonymous() {
         final EmptyEnvironmentContext context = EmptyEnvironmentContext.with(
+            CHARSET,
             CURRENCY,
             INDENTATION,
             LINE_ENDING,
@@ -420,6 +466,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
@@ -429,6 +476,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                     EmailAddress.parse("different@example.com")
                 )
             ),
+            EnvironmentContext.CHARSET,
             EnvironmentContext.CURRENCY,
             EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
@@ -443,6 +491,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEnvironmentalValueNamesWithoutUser() {
         this.environmentValueNamesAndCheck(
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
@@ -450,6 +499,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ),
+            EnvironmentContext.CHARSET,
             EnvironmentContext.CURRENCY,
             EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
@@ -492,9 +542,10 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     // equals...........................................................................................................
 
     @Test
-    public void testEqualsDifferentCurrency() {
+    public void testEqualsDifferentCharset() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 Indentation.SPACES2,
                 LineEnding.NL,
@@ -503,6 +554,31 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
+                StandardCharsets.ISO_8859_1,
+                CURRENCY,
+                Indentation.SPACES2,
+                LineEnding.NL,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentCurrency() {
+        this.checkNotEquals(
+            EmptyEnvironmentContext.with(
+                CHARSET,
+                CURRENCY,
+                Indentation.SPACES2,
+                LineEnding.NL,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            EmptyEnvironmentContext.with(
+                CHARSET,
                 Currency.getInstance("NZD"),
                 Indentation.SPACES4,
                 LineEnding.NL,
@@ -517,6 +593,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentIndentation() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 Indentation.SPACES2,
                 LineEnding.NL,
@@ -525,6 +602,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 Indentation.SPACES4,
                 LineEnding.NL,
@@ -539,6 +617,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentLineEnding() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
@@ -547,6 +626,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LineEnding.CR,
@@ -561,6 +641,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentLocale() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -569,6 +650,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -583,6 +665,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentHasNow() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -591,6 +674,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 EnvironmentContext.ANONYMOUS
             ),
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -605,6 +689,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentUser() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -621,6 +706,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testEqualsDifferentUser2() {
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -631,6 +717,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 )
             ),
             EmptyEnvironmentContext.with(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -656,7 +743,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             this.createContext(
                 EnvironmentContext.ANONYMOUS
             ),
-            "{currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00}"
         );
     }
 
@@ -668,7 +755,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                     EmailAddress.parse("user@example.com")
                 )
             ),
-            "{currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
         );
     }
 
@@ -679,6 +766,8 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         this.treePrintAndCheck(
             this.createContext(),
             "EmptyEnvironmentContext\n" +
+                "  charset\n" +
+                "    UTF-8 (sun.nio.cs.UTF_8)\n" +
                 "  currency\n" +
                 "    AUD (java.util.Currency)\n" +
                 "  indentation\n" +

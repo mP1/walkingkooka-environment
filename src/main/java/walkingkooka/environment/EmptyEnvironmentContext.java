@@ -29,6 +29,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Currency;
@@ -47,13 +48,15 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     UsesToStringBuilder,
     TreePrintable {
 
-    static EmptyEnvironmentContext with(final Currency currency,
+    static EmptyEnvironmentContext with(final Charset charset,
+                                        final Currency currency,
                                         final Indentation indentation,
                                         final LineEnding lineEnding,
                                         final Locale locale,
                                         final HasNow hasNow,
                                         final Optional<EmailAddress> user) {
         return new EmptyEnvironmentContext(
+            Objects.requireNonNull(charset, "charset"),
             Objects.requireNonNull(currency, "currency"),
             Objects.requireNonNull(indentation, "indentation"),
             Objects.requireNonNull(lineEnding, "hasLineEnding"),
@@ -64,7 +67,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         );
     }
 
-    private EmptyEnvironmentContext(final Currency currency,
+    private EmptyEnvironmentContext(final Charset charset,
+                                    final Currency currency,
                                     final Indentation indentation,
                                     final LineEnding lineEnding,
                                     final Locale locale,
@@ -73,6 +77,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
                                     final Optional<EmailAddress> user) {
         super();
 
+        this.charset = charset;
         this.currency = currency;
         this.indentation = indentation;
         this.lineEnding = lineEnding;
@@ -90,6 +95,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     @Override
     public EnvironmentContext cloneEnvironment() {
         return new EmptyEnvironmentContext(
+            this.charset,
             this.currency,
             this.indentation,
             this.lineEnding,
@@ -111,21 +117,23 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
         return Cast.to(
             Optional.ofNullable(
-                CURRENCY.equals(name) ?
-                    this.currency :
-                    INDENTATION.equals(name) ?
-                        this.indentation :
-                        LINE_ENDING.equals(name) ?
-                            this.lineEnding :
-                            LOCALE.equals(name) ?
-                                this.locale :
-                                NOW.equals(name) ?
-                                    this.now() :
-                                    TIME_OFFSET.equals(name) ?
-                                        this.timeOffset :
-                                        USER.equals(name) ?
-                                            this.user.orElse(null) :
-                                            null
+                CHARSET.equals(name) ?
+                    this.charset :
+                    CURRENCY.equals(name) ?
+                        this.currency :
+                        INDENTATION.equals(name) ?
+                            this.indentation :
+                            LINE_ENDING.equals(name) ?
+                                this.lineEnding :
+                                LOCALE.equals(name) ?
+                                    this.locale :
+                                    NOW.equals(name) ?
+                                        this.now() :
+                                        TIME_OFFSET.equals(name) ?
+                                            this.timeOffset :
+                                            USER.equals(name) ?
+                                                this.user.orElse(null) :
+                                                null
             )
         );
     }
@@ -138,6 +146,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     private final static Set<EnvironmentValueName<?>> NAMES = Sets.of(
+        CHARSET,
         CURRENCY,
         INDENTATION,
         LINE_ENDING,
@@ -148,6 +157,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     );
 
     private final static Set<EnvironmentValueName<?>> NAMES_WITHOUT_USER = Sets.of(
+        CHARSET,
         CURRENCY,
         INDENTATION,
         LINE_ENDING,
@@ -162,27 +172,31 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (CURRENCY.equals(name)) {
-            this.setCurrency((Currency) value);
+        if (CHARSET.equals(name)) {
+            this.setCharset((Charset) value);
         } else {
-            if (INDENTATION.equals(name)) {
-                this.setIndentation((Indentation) value);
+            if (CURRENCY.equals(name)) {
+                this.setCurrency((Currency) value);
             } else {
-                if (LINE_ENDING.equals(name)) {
-                    this.setLineEnding((LineEnding) value);
+                if (INDENTATION.equals(name)) {
+                    this.setIndentation((Indentation) value);
                 } else {
-                    if (LOCALE.equals(name)) {
-                        this.setLocale((Locale) value);
+                    if (LINE_ENDING.equals(name)) {
+                        this.setLineEnding((LineEnding) value);
                     } else {
-                        if (TIME_OFFSET.equals(name)) {
-                            this.setTimeOffset((ZoneOffset) value);
+                        if (LOCALE.equals(name)) {
+                            this.setLocale((Locale) value);
                         } else {
-                            if (USER.equals(name)) {
-                                this.setUser(
-                                    Optional.of((EmailAddress) value)
-                                );
+                            if (TIME_OFFSET.equals(name)) {
+                                this.setTimeOffset((ZoneOffset) value);
                             } else {
-                                throw name.readOnlyEnvironmentValueException();
+                                if (USER.equals(name)) {
+                                    this.setUser(
+                                        Optional.of((EmailAddress) value)
+                                    );
+                                } else {
+                                    throw name.readOnlyEnvironmentValueException();
+                                }
                             }
                         }
                     }
@@ -195,7 +209,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        if (CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
+        if (CHARSET.equals(name) || CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
             throw name.readOnlyEnvironmentValueException();
         } else {
             if (TIME_OFFSET.equals(name)) {
@@ -209,6 +223,29 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
         // ignore all other removes because the value doesnt exist
     }
+
+    // HasCharset.......................................................................................................
+
+    @Override
+    public Charset charset() {
+        return this.charset;
+    }
+
+    @Override
+    public void setCharset(final Charset charset) {
+        Objects.requireNonNull(charset, "charset");
+
+        final Charset oldCharset = this.charset;
+        this.charset = charset;
+
+        this.watchers.onEnvironmentValueChange(
+            CHARSET,
+            Optional.of(oldCharset),
+            Optional.of(charset)
+        );
+    }
+
+    private Charset charset;
 
     // HasCurrency...................................................................................................
 
@@ -371,6 +408,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     @Override
     public int hashCode() {
         return Objects.hash(
+            this.charset,
             this.currency,
             this.indentation,
             this.lineEnding,
@@ -389,7 +427,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     }
 
     private boolean equals0(final EmptyEnvironmentContext other) {
-        return this.currency.equals(other.currency) &&
+        return this.charset.equals(other.charset) &&
+            this.currency.equals(other.currency) &&
             this.indentation.equals(other.indentation) &&
             this.lineEnding.equals(other.lineEnding) &&
             this.locale.equals(other.locale) &&
@@ -410,6 +449,11 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         b.labelSeparator("=")
             .separator(", ");
         b.append('{');
+
+        b.label("charset");
+        b.value(
+            CharSequences.escape(this.charset.toString())
+        );
 
         b.label("currency");
         b.value(

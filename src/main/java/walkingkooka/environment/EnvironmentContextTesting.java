@@ -34,6 +34,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.HasCharsetTesting;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.currency.HasCurrency;
@@ -48,6 +49,7 @@ import walkingkooka.text.printer.TreePrintableTesting;
 import walkingkooka.util.HasLocale;
 import walkingkooka.util.HasLocaleTesting;
 
+import java.nio.charset.Charset;
 import java.time.ZoneOffset;
 import java.util.Currency;
 import java.util.Locale;
@@ -56,7 +58,8 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public interface EnvironmentContextTesting extends HasCurrencyTesting,
+public interface EnvironmentContextTesting extends HasCharsetTesting,
+    HasCurrencyTesting,
     HasIndentationTesting,
     HasLineEndingTesting,
     HasLocaleTesting,
@@ -161,6 +164,18 @@ public interface EnvironmentContextTesting extends HasCurrencyTesting,
         );
     }
 
+    // setCharset.......................................................................................................
+
+    default void setCharsetAndCheck(final EnvironmentContext context,
+                                    final Charset charset) {
+        context.setCharset(charset);
+
+        this.charsetAndCheck(
+            context,
+            charset
+        );
+    }
+    
     // currency......................................................................................................
 
     @Override

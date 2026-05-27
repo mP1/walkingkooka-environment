@@ -41,6 +41,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        CHARSET,
         Currency.getInstance("AUD"),
         Indentation.SPACES4,
         LineEnding.NL,
@@ -226,6 +227,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                 key2,
                 String.class
             ),
+            EnvironmentContext.CHARSET,
             EnvironmentContext.CURRENCY,
             EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
@@ -284,7 +286,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=en, timeOffset=Z}"
+            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=en, timeOffset=Z}"
         );
     }
 
@@ -296,6 +298,8 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
             this.createContext(),
             "EnvironmentContextSharedProperties\n" +
                 "  EmptyEnvironmentContext\n" +
+                "    charset\n" +
+                "      UTF-8 (sun.nio.cs.UTF_8)\n" +
                 "    currency\n" +
                 "      AUD (java.util.Currency)\n" +
                 "    indentation\n" +

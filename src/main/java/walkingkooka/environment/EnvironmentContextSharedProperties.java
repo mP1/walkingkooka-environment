@@ -30,6 +30,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
+import java.nio.charset.Charset;
 import java.time.ZoneOffset;
 import java.util.Currency;
 import java.util.Locale;
@@ -83,42 +84,48 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
 
         final Optional<?> value;
 
-        if (CURRENCY.equals(name)) {
+        if (CHARSET.equals(name)) {
             value = Optional.of(
-                this.context.currency()
+                this.context.charset()
             );
         } else {
-            if (INDENTATION.equals(name)) {
+            if (CURRENCY.equals(name)) {
                 value = Optional.of(
-                    this.context.indentation()
+                    this.context.currency()
                 );
             } else {
-                if (LINE_ENDING.equals(name)) {
+                if (INDENTATION.equals(name)) {
                     value = Optional.of(
-                        this.context.lineEnding()
+                        this.context.indentation()
                     );
                 } else {
-                    if (LOCALE.equals(name)) {
+                    if (LINE_ENDING.equals(name)) {
                         value = Optional.of(
-                            this.context.locale()
+                            this.context.lineEnding()
                         );
                     } else {
-                        if (NOW.equals(name)) {
+                        if (LOCALE.equals(name)) {
                             value = Optional.of(
-                                this.context.now()
+                                this.context.locale()
                             );
                         } else {
-                            if (TIME_OFFSET.equals(name)) {
+                            if (NOW.equals(name)) {
                                 value = Optional.of(
-                                    this.context.timeOffset()
+                                    this.context.now()
                                 );
                             } else {
-                                if (USER.equals(name)) {
-                                    value = this.context.user();
-                                } else {
-                                    value = this.properties.get(
-                                        PropertiesPath.parse(name.value())
+                                if (TIME_OFFSET.equals(name)) {
+                                    value = Optional.of(
+                                        this.context.timeOffset()
                                     );
+                                } else {
+                                    if (USER.equals(name)) {
+                                        value = this.context.user();
+                                    } else {
+                                        value = this.properties.get(
+                                            PropertiesPath.parse(name.value())
+                                        );
+                                    }
                                 }
                             }
                         }
@@ -155,27 +162,31 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        if (CURRENCY.equals(name)) {
-            this.context.setCurrency((Currency) value);
+        if (CHARSET.equals(name)) {
+            this.context.setCharset((Charset) value);
         } else {
-            if (INDENTATION.equals(name)) {
-                this.context.setIndentation((Indentation) value);
+            if (CURRENCY.equals(name)) {
+                this.context.setCurrency((Currency) value);
             } else {
-                if (LINE_ENDING.equals(name)) {
-                    this.context.setLineEnding((LineEnding) value);
+                if (INDENTATION.equals(name)) {
+                    this.context.setIndentation((Indentation) value);
                 } else {
-                    if (LOCALE.equals(name)) {
-                        this.context.setLocale((Locale) value);
+                    if (LINE_ENDING.equals(name)) {
+                        this.context.setLineEnding((LineEnding) value);
                     } else {
-                        if (TIME_OFFSET.equals(name)) {
-                            this.context.setTimeOffset((ZoneOffset) value);
+                        if (LOCALE.equals(name)) {
+                            this.context.setLocale((Locale) value);
                         } else {
-                            if (USER.equals(name)) {
-                                this.context.setUser(
-                                    Optional.of((EmailAddress) value)
-                                );
+                            if (TIME_OFFSET.equals(name)) {
+                                this.context.setTimeOffset((ZoneOffset) value);
                             } else {
-                                throw name.readOnlyEnvironmentValueException();
+                                if (USER.equals(name)) {
+                                    this.context.setUser(
+                                        Optional.of((EmailAddress) value)
+                                    );
+                                } else {
+                                    throw name.readOnlyEnvironmentValueException();
+                                }
                             }
                         }
                     }
@@ -248,6 +259,14 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
                 entry.getValue()
             );
         }
+
+        map.put(
+            CHARSET,
+            CharSequences.quoteAndEscape(
+                this.charset()
+                    .toString()
+            )
+        );
 
         map.put(
             CURRENCY,

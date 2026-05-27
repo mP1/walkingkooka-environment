@@ -25,6 +25,8 @@ import walkingkooka.reflect.TypeNameTesting;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.Locale;
@@ -32,6 +34,8 @@ import java.util.Locale;
 public abstract class EnvironmentContextSharedTestCase<C extends EnvironmentContextShared> implements EnvironmentContextTesting2<C>,
     ClassTesting<C>,
     TypeNameTesting<C> {
+
+    final static Charset CHARSET = StandardCharsets.UTF_8;
 
     final static Currency CURRENCY = Currency.getInstance("AUD");
 

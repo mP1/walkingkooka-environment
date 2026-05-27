@@ -143,6 +143,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                before.charset(),
                 before.currency(),
                 before.indentation(),
                 before.lineEnding(),

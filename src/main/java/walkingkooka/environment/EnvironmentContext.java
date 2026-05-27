@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import walkingkooka.Context;
+import walkingkooka.HasCharset;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
@@ -27,6 +28,7 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.util.HasLocale;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Currency;
@@ -40,6 +42,7 @@ import java.util.Set;
  * of the current user.
  */
 public interface EnvironmentContext extends Context,
+    HasCharset,
     HasCurrency,
     HasIndentation,
     HasLineEnding,
@@ -50,6 +53,8 @@ public interface EnvironmentContext extends Context,
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
     ZoneOffset DEFAULT_TIME_OFFSET = ZoneOffset.UTC;
+
+    EnvironmentValueName<Charset> CHARSET = EnvironmentValueName.CHARSET;
 
     EnvironmentValueName<Currency> CURRENCY = EnvironmentValueName.CURRENCY;
 
@@ -125,6 +130,11 @@ public interface EnvironmentContext extends Context,
      * Removes the value with the given {@link EnvironmentValueName}.
      */
     void removeEnvironmentValue(final EnvironmentValueName<?> name);
+
+    /**
+     * Sets or replaces the current {@link Charset}
+     */
+    void setCharset(final Charset charset);
 
     /**
      * Sets or replaces the current {@link Currency}

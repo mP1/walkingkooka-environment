@@ -24,6 +24,7 @@ import walkingkooka.reflect.PublicStaticHelper;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
+import java.nio.charset.Charset;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
@@ -47,13 +48,15 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see EmptyEnvironmentContext}
      */
-    public static EnvironmentContext empty(final Currency currency,
+    public static EnvironmentContext empty(final Charset charset,
+                                           final Currency currency,
                                            final Indentation indentation,
                                            final LineEnding lineEnding,
                                            final Locale locale,
                                            final HasNow hasNow,
                                            final Optional<EmailAddress> user) {
         return EmptyEnvironmentContext.with(
+            charset,
             currency,
             indentation,
             lineEnding,

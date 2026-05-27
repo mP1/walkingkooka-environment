@@ -28,6 +28,8 @@ import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.Locale;
@@ -45,6 +47,8 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
         "prefix111.",
         Void.class
     );
+
+    private final static Charset CHARSET = StandardCharsets.UTF_8;
 
     private final static Currency CURRENCY = Currency.getInstance("AUD");
 
@@ -247,6 +251,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
 
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -321,6 +326,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                     "key111=value111"
                 ),
                 EnvironmentContexts.empty(
+                    CHARSET,
                     CURRENCY,
                     INDENTATION,
                     LINE_ENDING,
@@ -398,6 +404,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 prefix + key2,
                 String.class
             ),
+            EnvironmentContext.CHARSET,
             EnvironmentContext.CURRENCY,
             EnvironmentContext.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
@@ -480,7 +487,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{currency=\"AUD\", indentation=\"    \", key111=value111, lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", key111=value111, lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -496,6 +503,8 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "  environmentContext\n" +
                 "    EnvironmentContextSharedProperties\n" +
                 "      EmptyEnvironmentContext\n" +
+                "        charset\n" +
+                "          UTF-8 (sun.nio.cs.UTF_8)\n" +
                 "        currency\n" +
                 "          AUD (java.util.Currency)\n" +
                 "        indentation\n" +

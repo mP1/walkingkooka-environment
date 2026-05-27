@@ -23,6 +23,8 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.Predicates;
 import walkingkooka.text.LineEnding;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.Locale;
@@ -88,6 +90,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -173,6 +176,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     @Test
     public void testSetEnvironmentContextWithSame() {
         final EnvironmentContext empty = EnvironmentContexts.empty(
+            CHARSET,
             CURRENCY,
             INDENTATION,
             LineEnding.NL,
@@ -198,6 +202,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final HasNow hasNow = () -> NOW;
 
         final EnvironmentContext empty = EnvironmentContexts.empty(
+            CHARSET,
             CURRENCY,
             INDENTATION,
             LineEnding.NL,
@@ -213,6 +218,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         );
 
         final EnvironmentContext different = EnvironmentContexts.empty(
+            CHARSET,
             CURRENCY,
             INDENTATION,
             LineEnding.CRNL,
@@ -243,6 +249,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -269,6 +276,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -351,6 +359,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -397,6 +406,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -473,6 +483,40 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         this.userAndCheck(context);
     }
 
+    // setCharset.......................................................................................................
+
+    @Test
+    public void testSetCharsetWithSame() {
+        this.setCharsetAndCheck(
+            this.createContext(),
+            CHARSET
+        );
+    }
+
+    @Test
+    public void testSetCharsetWithDifferent() {
+        final Charset charset = StandardCharsets.ISO_8859_1;
+
+        this.checkNotEquals(
+            CHARSET,
+            charset
+        );
+
+        final EnvironmentContextSharedReadOnly context = this.createContext(
+            Predicates.is(EnvironmentContext.CHARSET)
+        );
+
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> context.setCharset(charset)
+        );
+
+        this.charsetAndCheck(
+            context,
+            CHARSET
+        );
+    }
+    
     // setCurrency....................................................................................................
 
     @Test
@@ -660,6 +704,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -820,6 +865,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     private EnvironmentContextSharedReadOnly createContext(final Predicate<EnvironmentValueName<?>> readOnlyNames) {
         final EnvironmentContext context = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -840,6 +886,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     @Test
     public void testEnvironmentalValueNames() {
         this.environmentValueNamesAndCheck(
+            EnvironmentValueName.CHARSET,
             EnvironmentValueName.CURRENCY,
             EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
@@ -856,7 +903,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user123@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -869,6 +916,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             "EnvironmentContextSharedReadOnly\n" +
                 "  environmentContext\n" +
                 "    EnvironmentContextSharedMap\n" +
+                "      charset\n" +
+                "        UTF-8 (sun.nio.cs.UTF_8)\n" +
                 "      currency\n" +
                 "        AUD (java.util.Currency)\n" +
                 "      indentation\n" +
