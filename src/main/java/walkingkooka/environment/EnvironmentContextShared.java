@@ -23,6 +23,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Currency;
@@ -44,6 +45,21 @@ abstract class EnvironmentContextShared implements EnvironmentContext,
         super();
     }
 
+    // HasCharset.......................................................................................................
+
+    @Override
+    public final Charset charset() {
+        return this.environmentValueOrFail(CHARSET);
+    }
+
+    @Override
+    public final void setCharset(final Charset charset) {
+        this.setEnvironmentValue(
+            CHARSET,
+            charset
+        );
+    }
+    
     // HasCurrency...................................................................................................
 
     @Override

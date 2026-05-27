@@ -23,6 +23,7 @@ import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Currency;
@@ -33,6 +34,11 @@ import java.util.Set;
 public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasEnvironmentValueWatchers> {
 
     final static class TestHasEnvironmentValueWatchers implements HasEnvironmentValueWatchers {
+
+        @Override
+        public Charset charset() {
+            throw new UnsupportedOperationException();
+        }
 
         @Override
         public Currency currency() {
@@ -51,6 +57,11 @@ public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasE
 
         @Override
         public LineEnding lineEnding() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setCharset(final Charset charset) {
             throw new UnsupportedOperationException();
         }
 

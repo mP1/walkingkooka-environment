@@ -24,6 +24,8 @@ import walkingkooka.ToStringTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
@@ -36,6 +38,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     ToStringTesting<EnvironmentContextSharedMap> {
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
+        CHARSET,
         CURRENCY,
         INDENTATION,
         LINE_ENDING,
@@ -63,6 +66,32 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
     }
 
+    // charset..........................................................................................................
+
+    @Test
+    public void testCharset() {
+        this.charsetAndCheck(
+            this.createContext(),
+            CHARSET
+        );
+    }
+
+    @Test
+    public void testSetCharset() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        final Charset charset = StandardCharsets.ISO_8859_1;
+        this.checkNotEquals(
+            CHARSET,
+            charset
+        );
+
+        this.setCharsetAndCheck(
+            context,
+            charset
+        );
+    }
+    
     // currency...........................................................................................................
 
     @Test
@@ -356,6 +385,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.environmentValueNamesAndCheck(
             context,
+            EnvironmentValueName.CHARSET,
             EnvironmentValueName.CURRENCY,
             EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
@@ -411,6 +441,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.environmentValueNamesAndCheck(
             context,
+            EnvironmentValueName.CHARSET,
             EnvironmentValueName.CURRENCY,
             EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
@@ -467,6 +498,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     public EnvironmentContextSharedMap createContext(final Optional<EmailAddress> user) {
         return EnvironmentContextSharedMap.with(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
@@ -484,6 +516,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         this.checkNotEquals(
             EnvironmentContextSharedMap.with(
                 EnvironmentContexts.empty(
+                    CHARSET,
                     CURRENCY,
                     INDENTATION,
                     LINE_ENDING,
@@ -494,6 +527,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             ),
             EnvironmentContextSharedMap.with(
                 EnvironmentContexts.empty(
+                    CHARSET,
                     CURRENCY,
                     INDENTATION,
                     LINE_ENDING,
@@ -549,7 +583,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z}"
+            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z}"
         );
     }
 
@@ -568,7 +602,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -579,6 +613,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         this.treePrintAndCheck(
             this.createContext(),
             "EnvironmentContextSharedMap\n" +
+                "  charset\n" +
+                "    UTF-8 (sun.nio.cs.UTF_8)\n" +
                 "  currency\n" +
                 "    AUD (java.util.Currency)\n" +
                 "  indentation\n" +
@@ -608,6 +644,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         this.treePrintAndCheck(
             context,
             "EnvironmentContextSharedMap\n" +
+                "  charset\n" +
+                "    UTF-8 (sun.nio.cs.UTF_8)\n" +
                 "  currency\n" +
                 "    AUD (java.util.Currency)\n" +
                 "  Hello\n" +

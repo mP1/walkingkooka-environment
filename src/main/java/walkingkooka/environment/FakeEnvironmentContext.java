@@ -21,6 +21,7 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Currency;
@@ -29,6 +30,11 @@ import java.util.Optional;
 import java.util.Set;
 
 public class FakeEnvironmentContext implements EnvironmentContext {
+
+    @Override
+    public Charset charset() {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public Currency currency() {
@@ -50,6 +56,11 @@ public class FakeEnvironmentContext implements EnvironmentContext {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void setCharset(final Charset charset) {
+        throw new UnsupportedOperationException();
+    }
+    
     @Override
     public void setCurrency(final Currency currency) {
         throw new UnsupportedOperationException();

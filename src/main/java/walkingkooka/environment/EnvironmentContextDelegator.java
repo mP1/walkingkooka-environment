@@ -21,6 +21,7 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Currency;
@@ -60,6 +61,19 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
             .removeEnvironmentValue(name);
     }
 
+    @Override
+    default Charset charset() {
+        return this.environmentValueOrFail(CHARSET);
+    }
+
+    @Override
+    default void setCharset(final Charset charset) {
+        this.setEnvironmentValue(
+            CHARSET,
+            charset
+        );
+    }
+    
     @Override
     default Currency currency() {
         return this.environmentValueOrFail(CURRENCY);

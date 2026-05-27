@@ -49,6 +49,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.readOnly(
         Predicates.always(), // readOnlyNames
         EnvironmentContexts.empty(
+            CHARSET,
             CURRENCY,
             INDENTATION,
             LINE_ENDING,
@@ -72,6 +73,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         @Override
         public Set<EnvironmentValueName<?>> environmentValueNames() {
             return Sets.of(
+                EnvironmentContext.CHARSET,
                 EnvironmentContext.CURRENCY,
                 EnvironmentContext.INDENTATION,
                 EnvironmentContext.LINE_ENDING,
@@ -160,6 +162,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         final EnvironmentContext different = EnvironmentContextSharedCollection.with(
             Lists.of(
                 EnvironmentContexts.empty(
+                    CHARSET,
                     CURRENCY,
                     INDENTATION,
                     LineEnding.CR,
@@ -168,6 +171,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                     EnvironmentContext.ANONYMOUS
                 ),
                 EnvironmentContexts.empty(
+                    CHARSET,
                     CURRENCY,
                     INDENTATION,
                     LineEnding.CR,
@@ -467,6 +471,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                 key22,
                 String.class
             ),
+            EnvironmentContext.CHARSET,
             EnvironmentContext.CURRENCY,
             EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
@@ -559,7 +564,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                     )
                 )
             ),
-            "{currency=AUD, hello.111=Gday, indentation=    , lineEnding=\\n, locale=fr, now=-999999999-01-01T00:00, timeOffset=Z}"
+            "{charset=UTF-8, currency=AUD, hello.111=Gday, indentation=    , lineEnding=\\n, locale=fr, now=-999999999-01-01T00:00, timeOffset=Z}"
         );
     }
 

@@ -25,6 +25,8 @@ import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.Locale;
@@ -32,6 +34,8 @@ import java.util.Set;
 
 public final class EnvironmentContextMissingValuesTest implements ToStringTesting<EnvironmentContextMissingValues>,
     ClassTesting2<EnvironmentContextMissingValues> {
+
+    private final static Charset CHARSET = StandardCharsets.UTF_8;
 
     private final static Currency CURRENCY = Currency.getInstance("AUD");
 
@@ -46,6 +50,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
@@ -79,6 +84,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
@@ -115,6 +121,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
@@ -180,6 +187,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
@@ -194,7 +202,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         this.toStringAndCheck(
             missing,
-            "missing=Hello1, Hello2 environmentContext={currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
+            "missing=Hello1, Hello2 environmentContext={charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
         );
     }
 
@@ -202,6 +210,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
     public void testToStringWithoutMissing() {
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
             EnvironmentContexts.empty(
+                CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LineEnding.NL,
@@ -213,7 +222,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
         this.toStringAndCheck(
             missing,
-            "environmentContext={currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
+            "environmentContext={charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
         );
     }
 
