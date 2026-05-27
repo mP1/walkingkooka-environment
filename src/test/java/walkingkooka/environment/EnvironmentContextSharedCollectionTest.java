@@ -26,11 +26,8 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.Predicates;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
-import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-import java.time.LocalDateTime;
-import java.util.Currency;
 import java.util.Locale;
 import java.util.Set;
 
@@ -41,14 +38,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentContextSharedCollectionTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedCollection>
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedCollection> {
 
-    private final static Currency CURRENCY = Currency.getInstance("AUD");
-
-    private final static Indentation INDENTATION = Indentation.SPACES4;
-
-    private final static LineEnding LINE_ENDING = LineEnding.NL;
-
-    private final static Locale LOCALE = Locale.ENGLISH;
-
     private final static String NAME1 = "hello.111";
 
     private final static String VALUE1 = "Gday";
@@ -56,8 +45,6 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
     private final static String NAME2 = "zebra.222";
 
     private final static String VALUE2 = "Orange";
-
-    private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.readOnly(
         Predicates.always(), // readOnlyNames
@@ -380,7 +367,11 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
             )
         );
 
-        final Locale different = Locale.FRENCH;
+        final Locale different = Locale.ENGLISH;
+        this.checkNotEquals(
+            LOCALE,
+            different
+        );
 
         this.checkNotEquals(
             collectionEnvironmentContext.locale(),
@@ -568,7 +559,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                     )
                 )
             ),
-            "{currency=AUD, hello.111=Gday, indentation=    , lineEnding=\\n, locale=en, now=-999999999-01-01T00:00, timeOffset=Z}"
+            "{currency=AUD, hello.111=Gday, indentation=    , lineEnding=\\n, locale=fr, now=-999999999-01-01T00:00, timeOffset=Z}"
         );
     }
 
