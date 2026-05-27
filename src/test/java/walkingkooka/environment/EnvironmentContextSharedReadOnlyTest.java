@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.Predicates;
-import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -40,18 +39,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     private final Predicate<EnvironmentValueName<?>> READ_ONLY_NAMES = Predicates.is(
         EnvironmentContext.USER
     );
-
-    private final static Currency CURRENCY = Currency.getInstance("AUD");
-
-    private final static Indentation INDENTATION = Indentation.SPACES4;
-
-    private final static LineEnding LINE_ENDING = LineEnding.NL;
-
-    private final static Locale LOCALE = Locale.FRANCE;
-
-    private final static LocalDateTime NOW = LocalDateTime.MIN;
-
-    private final static EmailAddress USER = EmailAddress.parse("user123@example.com");
 
     @Test
     public void testWithNullReadOnlyNamesFails() {
@@ -869,7 +856,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=fr_FR, timeOffset=Z, user=user123@example.com}"
+            "{currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -889,7 +876,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 "      lineEnding\n" +
                 "        \"\\n\"\n" +
                 "      locale\n" +
-                "        fr_FR (java.util.Locale)\n" +
+                "        fr (java.util.Locale)\n" +
                 "      now\n" +
                 "        -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
                 "      timeOffset\n" +

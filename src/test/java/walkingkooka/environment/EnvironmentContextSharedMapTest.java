@@ -21,12 +21,9 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
-import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
-import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
@@ -37,18 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentContextSharedMapTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedMap>
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedMap>,
     ToStringTesting<EnvironmentContextSharedMap> {
-
-    private final static Currency CURRENCY = Currency.getInstance("AUD");
-
-    private final static Indentation INDENTATION = Indentation.SPACES4;
-
-    private final static LineEnding LINE_ENDING = LineEnding.NL;
-
-    private final static Locale LOCALE = Locale.FRENCH;
-
-    private final static LocalDateTime NOW = LocalDateTime.MIN;
-
-    private final static HasNow HAS_NOW = () -> NOW;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
         CURRENCY,
