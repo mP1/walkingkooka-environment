@@ -92,6 +92,14 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest implemen
         };
     }
 
+    @Test
+    public void testToString() {
+        this.toStringAndCheck(
+            EnvironmentConverterStringToEnvironmentValueName.instance(),
+            "TEXT to EnvironmentValueName"
+        );
+    }
+
     @Override
     public Class<EnvironmentConverterStringToEnvironmentValueName<FakeConverterContext>> type() {
         return Cast.to(EnvironmentConverterStringToEnvironmentValueName.class);

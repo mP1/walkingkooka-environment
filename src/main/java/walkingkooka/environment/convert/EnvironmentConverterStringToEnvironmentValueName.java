@@ -59,6 +59,6 @@ final class EnvironmentConverterStringToEnvironmentValueName<C extends Converter
 
     @Override
     public String toString() {
-        return "Text to " + EnvironmentValueName.class.getName();
+        return TEXT + " to " + EnvironmentValueName.class.getSimpleName();
     }
 }
