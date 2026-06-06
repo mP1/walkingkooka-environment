@@ -239,9 +239,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         this.charset = charset;
 
         this.watchers.onEnvironmentValueChange(
-            CHARSET,
-            Optional.of(oldCharset),
-            Optional.of(charset)
+            Optional.of(
+                CHARSET.setValue(oldCharset)
+            ),
+            Optional.of(
+                CHARSET.setValue(charset)
+            )
         );
     }
 
@@ -262,9 +265,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         this.currency = currency;
 
         this.watchers.onEnvironmentValueChange(
-            CURRENCY,
-            Optional.of(oldCurrency),
-            Optional.of(currency)
+            Optional.of(
+                CURRENCY.setValue(oldCurrency)
+            ),
+            Optional.of(
+                CURRENCY.setValue(currency)
+            )
         );
     }
 
@@ -285,9 +291,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         this.indentation = indentation;
 
         this.watchers.onEnvironmentValueChange(
-            INDENTATION,
-            Optional.of(oldIndentation),
-            Optional.of(indentation)
+            Optional.of(
+                INDENTATION.setValue(oldIndentation)
+            ),
+            Optional.of(
+                INDENTATION.setValue(indentation)
+            )
         );
     }
 
@@ -308,9 +317,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         this.lineEnding = lineEnding;
 
         this.watchers.onEnvironmentValueChange(
-            LINE_ENDING,
-            Optional.of(oldLineEnding),
-            Optional.of(lineEnding)
+            Optional.of(
+                LINE_ENDING.setValue(oldLineEnding)
+            ),
+            Optional.of(
+                LINE_ENDING.setValue(lineEnding)
+            )
         );
     }
 
@@ -331,9 +343,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         this.locale = locale;
 
         this.watchers.onEnvironmentValueChange(
-            LOCALE,
-            Optional.of(oldLocale),
-            Optional.of(locale)
+            Optional.of(
+                LOCALE.setValue(oldLocale)
+            ),
+            Optional.of(
+                LOCALE.setValue(locale)
+            )
         );
     }
 
@@ -363,9 +378,12 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         this.timeOffset = Objects.requireNonNull(timeOffset, "timeOffset");
 
         this.watchers.onEnvironmentValueChange(
-            TIME_OFFSET,
-            Optional.of(oldTimeOffset),
-            Optional.of(timeOffset)
+            Optional.of(
+                TIME_OFFSET.setValue(oldTimeOffset)
+            ),
+            Optional.of(
+                TIME_OFFSET.setValue(timeOffset)
+            )
         );
     }
 
@@ -386,9 +404,8 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         this.user = user;
 
         this.watchers.onEnvironmentValueChange(
-            USER,
-            oldUser,
-            user
+            oldUser.map(USER::setValue),
+            user.map(USER::setValue)
         );
     }
 

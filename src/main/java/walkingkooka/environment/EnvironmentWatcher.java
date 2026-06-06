@@ -25,7 +25,6 @@ import java.util.Optional;
  */
 public interface EnvironmentWatcher {
 
-    void onEnvironmentValueChange(final EnvironmentValueName<?> name,
-                                  final Optional<?> oldValue,
-                                  final Optional<?> newValue);
+    void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                  final Optional<EnvironmentValueNameAndValue<?>> newValue);
 }

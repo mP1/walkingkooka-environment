@@ -17,6 +17,8 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -40,24 +42,32 @@ final class EnvironmentContextSharedPrefixedEnvironmentWatcher implements Enviro
     }
 
     @Override
-    public void onEnvironmentValueChange(final EnvironmentValueName<?> name,
-                                         final Optional<?> oldValue,
-                                         final Optional<?> newValue) {
-        EnvironmentValueName<?> fireName;
-
-        if(name.equals(EnvironmentContext.CURRENCY) || name.equals(EnvironmentContext.INDENTATION) || name.equals(EnvironmentContext.LINE_ENDING) || name.equals(EnvironmentContext.LOCALE) || name.equals(EnvironmentContext.TIME_OFFSET) || name.equals(EnvironmentContext.USER)) {
-            fireName = name;
-        } else {
-            fireName = EnvironmentValueName.with(
-                this.prefix + name.value(),
-                name.type()
-            );
-        }
-
+    public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                         final Optional<EnvironmentValueNameAndValue<?>> newValue) {
         this.watcher.onEnvironmentValueChange(
-            fireName,
-            oldValue,
-            newValue
+            this.maybePrefixName(oldValue),
+            this.maybePrefixName(newValue)
+        );
+    }
+
+    private Optional<EnvironmentValueNameAndValue<?>> maybePrefixName(final Optional<EnvironmentValueNameAndValue<?>> value) {
+        return value.map(
+            nv -> {
+                EnvironmentValueName<?> name = nv.name();
+
+                if(name.equals(EnvironmentContext.CURRENCY) || name.equals(EnvironmentContext.INDENTATION) || name.equals(EnvironmentContext.LINE_ENDING) || name.equals(EnvironmentContext.LOCALE) || name.equals(EnvironmentContext.TIME_OFFSET) || name.equals(EnvironmentContext.USER)) {
+                    // nop
+                } else {
+                    name = EnvironmentValueName.with(
+                        this.prefix + name.value(),
+                        name.type()
+                    );
+                }
+
+                return nv.setName(
+                    Cast.to(name)
+                );
+            }
         );
     }
 

@@ -19,35 +19,26 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.Cast;
+import walkingkooka.ToStringTesting;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.LineEnding;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentWatchersEventTest implements ClassTesting<EnvironmentWatchersEvent> {
+public final class EnvironmentWatchersEventTest implements ClassTesting<EnvironmentWatchersEvent<LineEnding>>,
+    ToStringTesting<EnvironmentWatchersEvent<LineEnding>> {
 
     // with.............................................................................................................
-
-    @Test
-    public void testWithNullNameFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> EnvironmentWatchersEvent.with(
-                null,
-                Optional.empty(),
-                Optional.empty()
-            )
-        );
-    }
 
     @Test
     public void testWithNullOldValueFails() {
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentWatchersEvent.with(
-                EnvironmentValueName.LOCALE,
                 null,
                 Optional.empty()
             )
@@ -59,18 +50,43 @@ public final class EnvironmentWatchersEventTest implements ClassTesting<Environm
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentWatchersEvent.with(
-                EnvironmentValueName.LOCALE,
                 Optional.empty(),
                 null
             )
         );
     }
 
+    // toString.........................................................................................................
+
+    @Test
+    public void testToString() {
+        final EnvironmentValueName<LineEnding> name = EnvironmentValueName.LINE_ENDING;
+
+        this.toStringAndCheck(
+            EnvironmentWatchersEvent.with(
+                Optional.of(
+                    EnvironmentValueNameAndValue.with(
+                        name,
+                        LineEnding.NL
+                    )
+                ),
+                Optional.of(
+                    EnvironmentValueNameAndValue.with(
+                        name,
+                        LineEnding.CR
+                    )
+                )
+            ),
+            "lineEnding=\n" +
+                " lineEnding=\r"
+        );
+    }
+
     // class............................................................................................................
 
     @Override
-    public Class<EnvironmentWatchersEvent> type() {
-        return EnvironmentWatchersEvent.class;
+    public Class<EnvironmentWatchersEvent<LineEnding>> type() {
+        return Cast.to(EnvironmentWatchersEvent.class);
     }
 
     @Override

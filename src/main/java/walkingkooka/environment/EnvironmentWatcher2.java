@@ -26,10 +26,8 @@ import java.util.Optional;
 public interface EnvironmentWatcher2 extends EnvironmentWatcher {
 
     @Override
-    default void onEnvironmentValueChange(final EnvironmentValueName<?> name,
-                                          final Optional<?> oldValue,
-                                          final Optional<?> newValue) {
-        Objects.requireNonNull(name, "name");
+    default void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
         Objects.requireNonNull(oldValue, "oldValue");
         Objects.requireNonNull(newValue, "newValue");
 
@@ -38,18 +36,15 @@ public interface EnvironmentWatcher2 extends EnvironmentWatcher {
 
         if (oldEmpty) {
             this.onEnvironmentValueAdd(
-                name,
                 newValue.get()
             );
         } else {
             if (newEmpty) {
                 this.onEnvironmentValueRemove(
-                    name,
                     oldValue.get()
                 );
             } else {
                 this.onEnvironmentValueUpdate(
-                    name,
                     oldValue.get(),
                     newValue.get()
                 );
@@ -57,13 +52,10 @@ public interface EnvironmentWatcher2 extends EnvironmentWatcher {
         }
     }
 
-    void onEnvironmentValueAdd(final EnvironmentValueName<?> name,
-                               final Object newValue);
+    void onEnvironmentValueAdd(final EnvironmentValueNameAndValue<?> value);
 
-    void onEnvironmentValueRemove(final EnvironmentValueName<?> name,
-                                  final Object oldValue);
+    void onEnvironmentValueRemove(final EnvironmentValueNameAndValue<?> name);
 
-    void onEnvironmentValueUpdate(final EnvironmentValueName<?> name,
-                                  final Object oldValue,
-                                  final Object newValue);
+    void onEnvironmentValueUpdate(final EnvironmentValueNameAndValue<?> oldValue,
+                                  final EnvironmentValueNameAndValue<?> newValue);
 }
