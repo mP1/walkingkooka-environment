@@ -233,6 +233,18 @@ final public class EnvironmentValueName<T> implements Name,
         return false; // dont care if this matches the name.
     }
 
+    // EnvironmentValueNameAndValue.....................................................................................
+
+    /**
+     * Creates a {@link EnvironmentValueNameAndValue} with this name and the given value.
+     */
+    public EnvironmentValueNameAndValue<T> setValue(final T value) {
+        return EnvironmentValueNameAndValue.with(
+            this,
+            value
+        );
+    }
+
     // Object...........................................................................................................
 
     @Override

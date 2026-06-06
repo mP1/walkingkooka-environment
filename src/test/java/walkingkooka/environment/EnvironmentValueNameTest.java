@@ -25,6 +25,7 @@ import walkingkooka.compare.ComparableTesting2;
 import walkingkooka.naming.NameTesting2;
 import walkingkooka.reflect.ConstantsTesting;
 import walkingkooka.text.CaseSensitivity;
+import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.util.Currency;
@@ -357,6 +358,21 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     @Override
     public Set<EnvironmentValueName<String>> intentionalDuplicateConstants() {
         return Sets.empty();
+    }
+
+    // setValue.........................................................................................................
+
+    @Test
+    public void testSetValue() {
+        final EnvironmentValueName<LineEnding> name = EnvironmentValueName.LINE_ENDING;
+        final LineEnding value = LineEnding.CR;
+        this.checkEquals(
+            EnvironmentValueNameAndValue.with(
+                name,
+                value
+            ),
+            name.setValue(value)
+        );
     }
 
     // ClassTesting.....................................................................................................
