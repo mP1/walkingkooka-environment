@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.UsesToStringBuilder;
 
@@ -27,23 +28,20 @@ import java.util.function.Consumer;
 /**
  * The event payload used by {@link EnvironmentWatchers}.
  */
-final class EnvironmentWatchersEvent implements Consumer<EnvironmentWatcher>,
+final class EnvironmentWatchersEvent<T> implements Consumer<EnvironmentWatcher>,
     UsesToStringBuilder {
 
-    static EnvironmentWatchersEvent with(final EnvironmentValueName<?> name,
-                                         final Optional<?> oldValue,
-                                         final Optional<?> newValue) {
-        return new EnvironmentWatchersEvent(
-            Objects.requireNonNull(name, "name"),
+    static <T> EnvironmentWatchersEvent<T> with(final Optional<EnvironmentValueNameAndValue<T>> oldValue,
+                                                final Optional<EnvironmentValueNameAndValue<T>> newValue) {
+        return new EnvironmentWatchersEvent<>(
             Objects.requireNonNull(oldValue, "oldValue"),
             Objects.requireNonNull(newValue, "newValue")
         );
     }
 
-    private EnvironmentWatchersEvent(final EnvironmentValueName<?> name,
-                                     final Optional<?> oldValue,
-                                     final Optional<?> newValue) {
-        this.name = name;
+    private EnvironmentWatchersEvent(final Optional<EnvironmentValueNameAndValue<T>> oldValue,
+                                     final Optional<EnvironmentValueNameAndValue<T>> newValue) {
+        super();
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
@@ -53,15 +51,13 @@ final class EnvironmentWatchersEvent implements Consumer<EnvironmentWatcher>,
     @Override
     public void accept(final EnvironmentWatcher watcher) {
         watcher.onEnvironmentValueChange(
-            this.name,
-            this.oldValue,
-            this.newValue
+            Cast.to(this.oldValue),
+            Cast.to(this.newValue)
         );
     }
 
-    private final EnvironmentValueName<?> name;
-    private final Optional<?> oldValue;
-    private final Optional<?> newValue;
+    private final Optional<EnvironmentValueNameAndValue<T>> oldValue;
+    private final Optional<EnvironmentValueNameAndValue<T>> newValue;
 
     // Object...........................................................................................................
 
@@ -74,7 +70,6 @@ final class EnvironmentWatchersEvent implements Consumer<EnvironmentWatcher>,
 
     @Override
     public void buildToString(final ToStringBuilder b) {
-        b.value(this.name);
         b.value(this.oldValue);
         b.value(this.newValue);
     }

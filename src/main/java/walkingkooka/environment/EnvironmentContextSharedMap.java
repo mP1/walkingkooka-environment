@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
@@ -164,9 +165,17 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         }
 
         this.watchers.onEnvironmentValueChange(
-            name,
-            Optional.ofNullable(oldValue),
-            Optional.of(value)
+            Optional.ofNullable(
+                null != oldValue ?
+                    EnvironmentValueNameAndValue.with(
+                        name,
+                        (T) oldValue
+                    ) :
+                    null
+            ),
+            Optional.of(
+                name.setValue(value)
+            )
         );
     }
 
@@ -223,8 +232,14 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         }
 
         this.watchers.onEnvironmentValueChange(
-            name,
-            Optional.ofNullable(oldValue),
+            Optional.ofNullable(
+                null != oldValue ?
+                    EnvironmentValueNameAndValue.with(
+                        name,
+                        Cast.to(oldValue)
+                    ) :
+                    null
+            ),
             Optional.empty()
         );
     }

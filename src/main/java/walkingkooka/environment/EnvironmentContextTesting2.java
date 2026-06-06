@@ -170,12 +170,27 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final AtomicBoolean fired = new AtomicBoolean();
 
         context.addEnvironmentWatcher(
-            (n, ov, nv) -> {
-                checkEquals(EnvironmentContext.CURRENCY, n, "EnvironmentValueName");
-                checkEquals(Optional.of(oldCurrency), ov, "oldValue");
-                checkEquals(Optional.of(newCurrency), nv, "newValue");
+            new EnvironmentWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.CURRENCY.setValue(oldCurrency)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.CURRENCY.setValue(newCurrency)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
 
-                fired.set(true);
+                    fired.set(true);
+                }
             }
         );
 
@@ -216,12 +231,27 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final AtomicBoolean fired = new AtomicBoolean();
 
         context.addEnvironmentWatcher(
-            (n, ov, nv) -> {
-                checkEquals(EnvironmentContext.INDENTATION, n, "EnvironmentValueName");
-                checkEquals(Optional.of(oldIndentation), ov, "oldValue");
-                checkEquals(Optional.of(newIndentation), nv, "newValue");
+            new EnvironmentWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.INDENTATION.setValue(oldIndentation)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.INDENTATION.setValue(newIndentation)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
 
-                fired.set(true);
+                    fired.set(true);
+                }
             }
         );
 
@@ -263,12 +293,27 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final AtomicBoolean fired = new AtomicBoolean();
 
         context.addEnvironmentWatcher(
-            (n, ov, nv) -> {
-                checkEquals(EnvironmentContext.LINE_ENDING, n, "EnvironmentValueName");
-                checkEquals(Optional.of(oldLineEnding), ov, "oldValue");
-                checkEquals(Optional.of(newLineEnding), nv, "newValue");
+            new EnvironmentWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.LINE_ENDING.setValue(oldLineEnding)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.LINE_ENDING.setValue(newLineEnding)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
 
-                fired.set(true);
+                    fired.set(true);
+                }
             }
         );
 
@@ -324,15 +369,30 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final AtomicBoolean fired = new AtomicBoolean();
 
         context.addEnvironmentWatcher(
-            (n, ov, nv) -> {
-                checkEquals(EnvironmentContext.LOCALE, n, "EnvironmentValueName");
-                checkEquals(Optional.of(oldLocale), ov, "oldValue");
-                checkEquals(Optional.of(newLocale), nv, "newValue");
+            new EnvironmentWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.LOCALE.setValue(oldLocale)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.LOCALE.setValue(newLocale)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
 
-                fired.set(true);
+                    fired.set(true);
+                }
             }
         );
-
+        
         this.setLocaleAndCheck(
             context,
             locale
@@ -528,12 +588,27 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final AtomicBoolean fired = new AtomicBoolean();
 
         context.addEnvironmentWatcher(
-            (n, ov, nv) -> {
-                checkEquals(EnvironmentContext.TIME_OFFSET, n, "EnvironmentValueName");
-                checkEquals(Optional.of(oldTimeOffset), ov, "oldValue");
-                checkEquals(Optional.of(newTimeOffset), nv, "newValue");
+            new EnvironmentWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.TIME_OFFSET.setValue(oldTimeOffset)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.TIME_OFFSET.setValue(newTimeOffset)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
 
-                fired.set(true);
+                    fired.set(true);
+                }
             }
         );
 
@@ -599,12 +674,27 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final AtomicBoolean fired = new AtomicBoolean();
 
         context.addEnvironmentWatcher(
-            (n, ov, nv) -> {
-                checkEquals(EnvironmentContext.USER, n, "EnvironmentValueName");
-                checkEquals(oldUser, ov, "oldValue");
-                checkEquals(newUser, nv, "newValue");
+            new EnvironmentWatcher() {
+                @Override
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        oldUser.map(
+                            EnvironmentValueName.USER::setValue
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        newUser.map(
+                            EnvironmentValueName.USER::setValue
+                        ),
+                        newValue,
+                        "newValue"
+                    );
 
-                fired.set(true);
+                    fired.set(true);
+                }
             }
         );
 

@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 
+import walkingkooka.Cast;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.watch.Watchers;
 
@@ -57,14 +58,12 @@ public final class EnvironmentWatchers implements EnvironmentWatcher {
      * Note the event is only fired if the old and new values are different.
      */
     @Override
-    public void onEnvironmentValueChange(final EnvironmentValueName<?> name,
-                                         final Optional<?> oldValue,
-                                         final Optional<?> newValue) {
-        if (false == Objects.equals(oldValue, newValue)) {
-            final EnvironmentWatchersEvent event = EnvironmentWatchersEvent.with(
-                name,
-                oldValue,
-                newValue
+    public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                         final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+        if (false == oldValue.equals(newValue)) {
+            final EnvironmentWatchersEvent<?> event = EnvironmentWatchersEvent.with(
+                Cast.to(oldValue),
+                Cast.to(newValue)
             );
 
             try {
@@ -77,9 +76,9 @@ public final class EnvironmentWatchers implements EnvironmentWatcher {
         }
     }
 
-    private final Watchers<EnvironmentWatchersEvent> watchers = Watchers.empty();
+    private final Watchers<EnvironmentWatchersEvent<?>> watchers = Watchers.empty();
 
-    private final Watchers<EnvironmentWatchersEvent> onceWatchers = Watchers.empty();
+    private final Watchers<EnvironmentWatchersEvent<?>> onceWatchers = Watchers.empty();
 
     /**
      * Cant use Watchers#addOnce because that will remove the watcher during #onBegin

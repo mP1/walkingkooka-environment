@@ -31,25 +31,11 @@ public final class EnvironmentWatcher2Test implements ClassTesting2<EnvironmentW
     // onEnvironmentValue...............................................................................................
 
     @Test
-    public void testOnEnvironmentValueWithNullNameFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> new FakeEnvironmentWatcher2()
-                .onEnvironmentValueChange(
-                    null,
-                    Optional.empty(),
-                    Optional.empty()
-                )
-        );
-    }
-
-    @Test
     public void testOnEnvironmentValueWithNullOldValueFails() {
         assertThrows(
             NullPointerException.class,
             () -> new FakeEnvironmentWatcher2()
                 .onEnvironmentValueChange(
-                    EnvironmentValueName.LOCALE,
                     null,
                     Optional.empty()
                 )
@@ -62,7 +48,6 @@ public final class EnvironmentWatcher2Test implements ClassTesting2<EnvironmentW
             NullPointerException.class,
             () -> new FakeEnvironmentWatcher2()
                 .onEnvironmentValueChange(
-                    EnvironmentValueName.LOCALE,
                     Optional.empty(),
                     null
                 )
@@ -75,22 +60,24 @@ public final class EnvironmentWatcher2Test implements ClassTesting2<EnvironmentW
     public void testOnEnvironmentValueAdd() {
         this.fired = false;
 
-        final EnvironmentValueName<?> name = EnvironmentValueName.LOCALE;
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
         final Locale value = Locale.ENGLISH;
 
         new FakeEnvironmentWatcher2() {
             @Override
-            public void onEnvironmentValueAdd(final EnvironmentValueName<?> n,
-                                              final Object nv) {
-                checkEquals(name, n, "name");
-                checkEquals(value, nv, "newValue");
+            public void onEnvironmentValueAdd(final EnvironmentValueNameAndValue<?> nv) {
+                checkEquals(
+                    name.setValue(value),
+                    nv
+                );
 
                 EnvironmentWatcher2Test.this.fired = true;
             }
         }.onEnvironmentValueChange(
-            name,
             Optional.empty(),
-            Optional.of(value)
+            Optional.of(
+                name.setValue(value)
+            )
         );
 
         this.checkEquals(
@@ -105,23 +92,25 @@ public final class EnvironmentWatcher2Test implements ClassTesting2<EnvironmentW
     public void testOnEnvironmentValueRemove() {
         this.fired = false;
 
-        final EnvironmentValueName<?> name = EnvironmentValueName.LOCALE;
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
         final Locale value = Locale.ENGLISH;
 
         new FakeEnvironmentWatcher2() {
 
             @Override
-            public void onEnvironmentValueRemove(final EnvironmentValueName<?> n,
-                                                 final Object ov) {
-                checkEquals(name, n, "name");
-                checkEquals(value, ov, "oldValue");
+            public void onEnvironmentValueRemove(final EnvironmentValueNameAndValue<?> nv) {
+                checkEquals(
+                    name.setValue(value),
+                    nv
+                );
 
                 EnvironmentWatcher2Test.this.fired = true;
             }
 
         }.onEnvironmentValueChange(
-            name,
-            Optional.of(value),
+            Optional.of(
+                name.setValue(value)
+            ),
             Optional.empty()
         );
 
@@ -137,26 +126,35 @@ public final class EnvironmentWatcher2Test implements ClassTesting2<EnvironmentW
     public void testOnEnvironmentValueUpdate() {
         this.fired = false;
 
-        final EnvironmentValueName<?> name = EnvironmentValueName.LOCALE;
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
         final Locale oldValue = Locale.ENGLISH;
         final Locale newValue = Locale.FRENCH;
 
         new FakeEnvironmentWatcher2() {
 
             @Override
-            public void onEnvironmentValueUpdate(final EnvironmentValueName<?> n,
-                                                 final Object ov,
-                                                 final Object nv) {
-                checkEquals(name, n, "name");
-                checkEquals(oldValue, ov, "oldValue");
-                checkEquals(newValue, nv, "newValue");
+            public void onEnvironmentValueUpdate(final EnvironmentValueNameAndValue<?> ov,
+                                                 final EnvironmentValueNameAndValue<?> nv) {
+                checkEquals(
+                    name.setValue(oldValue),
+                    ov,
+                    "oldValue"
+                );
+                checkEquals(
+                    name.setValue(newValue),
+                    nv,
+                    "newValue"
+                );
 
                 EnvironmentWatcher2Test.this.fired = true;
             }
         }.onEnvironmentValueChange(
-            name,
-            Optional.of(oldValue),
-            Optional.of(newValue)
+            Optional.of(
+                name.setValue(oldValue)
+            ),
+            Optional.of(
+                name.setValue(newValue)
+            )
         );
 
         this.checkEquals(
@@ -170,21 +168,18 @@ public final class EnvironmentWatcher2Test implements ClassTesting2<EnvironmentW
     static class FakeEnvironmentWatcher2 implements EnvironmentWatcher2 {
 
         @Override
-        public void onEnvironmentValueAdd(final EnvironmentValueName<?> n,
-                                          final Object nv) {
+        public void onEnvironmentValueAdd(final EnvironmentValueNameAndValue<?> nv) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void onEnvironmentValueRemove(final EnvironmentValueName<?> n,
-                                             final Object ov) {
+        public void onEnvironmentValueRemove(final EnvironmentValueNameAndValue<?> nv) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void onEnvironmentValueUpdate(final EnvironmentValueName<?> n,
-                                             final Object ov,
-                                             final Object nv) {
+        public void onEnvironmentValueUpdate(final EnvironmentValueNameAndValue<?> ov,
+                                             final EnvironmentValueNameAndValue<?> nv) {
             throw new UnsupportedOperationException();
         }
     }

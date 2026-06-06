@@ -274,25 +274,22 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
 
         final Runnable remover = environmentContextSharedPrefixed.addEnvironmentWatcher(
             new EnvironmentWatcher() {
+
                 @Override
-                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
-                                                     final Optional<?> oldValue,
-                                                     final Optional<?> newValue) {
-                    checkEquals(
-                        EnvironmentValueName.with(
-                            PREFIX + name.value(),
-                            String.class
-                        ),
-                        n,
-                        "name"
-                    );
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.empty(),
                         oldValue,
                         "oldValue"
                     );
                     checkEquals(
-                        Optional.of(value),
+                        Optional.of(
+                            EnvironmentValueName.with(
+                                PREFIX + name.value(),
+                                String.class
+                            ).setValue(value)
+                        ),
                         newValue,
                         "newValue"
                     );

@@ -744,21 +744,19 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         context.addEnvironmentWatcher(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
-                                                     final Optional<?> oldValue,
-                                                     final Optional<?> newValue) {
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
-                        name,
-                        n,
-                        "name"
-                    );
-                    checkEquals(
-                        Optional.of(LOCALE),
+                        Optional.of(
+                            name.setValue(LOCALE)
+                        ),
                         oldValue,
                         "oldValue"
                     );
                     checkEquals(
-                        Optional.of(locale),
+                        Optional.of(
+                            name.setValue(locale)
+                        ),
                         newValue,
                         "newValue"
                     );
@@ -800,9 +798,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         context.addEnvironmentWatcherOnce(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
-                                                     final Optional<?> oldValue,
-                                                     final Optional<?> newValue) {
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         false,
                         EnvironmentContextSharedReadOnlyTest.this.fired,
@@ -810,17 +807,16 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                     );
 
                     checkEquals(
-                        name,
-                        n,
-                        "name"
-                    );
-                    checkEquals(
-                        Optional.of(LOCALE),
+                        Optional.of(
+                            EnvironmentValueName.LOCALE.setValue(LOCALE)
+                        ),
                         oldValue,
                         "oldValue"
                     );
                     checkEquals(
-                        Optional.of(locale),
+                        Optional.of(
+                            EnvironmentValueName.LOCALE.setValue(locale)
+                        ),
                         newValue,
                         "newValue"
                     );

@@ -50,62 +50,45 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
     public void testAddThenFire() {
         this.fired = false;
 
-        final EnvironmentValueName<?> name = EnvironmentValueName.LOCALE;
-        final Optional<Locale> oldValue = Optional.of(
-            Locale.FRANCE
-        );
-        final Optional<Locale> newValue = Optional.of(
-            Locale.GERMANY
-        );
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
+        final Locale oldValue = Locale.FRANCE;
+        final Locale newValue = Locale.GERMANY;
 
         final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
         watchers.add(
             new EnvironmentWatcher() {
-                @Override
-                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
-                                                     final Optional<?> ov,
-                                                     final Optional<?> nv) {
-                    EnvironmentWatchersTest.this.checkEquals(name, n);
-                    EnvironmentWatchersTest.this.checkEquals(oldValue, ov);
-                    EnvironmentWatchersTest.this.checkEquals(newValue, nv);
 
-                    EnvironmentWatchersTest.this.fired = true;
+
+                @Override
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> ov,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> nv) {
+                    checkEquals(
+                        Optional.of(
+                            name.setValue(oldValue)
+                        ),
+                        ov
+                    );
+                    checkEquals(
+                        Optional.of(
+                            name.setValue(newValue)
+                        ),
+                        nv
+                    );
+
+                    fired = true;
                 }
             });
         watchers.onEnvironmentValueChange(
-            name,
-            oldValue,
-            newValue
+            Optional.of(
+                name.setValue(oldValue)
+            ),
+            Optional.of(
+                name.setValue(newValue)
+            )
         );
 
         this.checkEquals(
             true,
-            this.fired
-        );
-    }
-
-    @Test
-    public void testAddThenFireEqualEmptyValues() {
-        this.fired = false;
-
-        final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
-        watchers.add(
-            new EnvironmentWatcher() {
-                @Override
-                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
-                                                     final Optional<?> ov,
-                                                     final Optional<?> nv) {
-                    throw new UnsupportedOperationException();
-                }
-            });
-        watchers.onEnvironmentValueChange(
-            EnvironmentValueName.LOCALE,
-            Optional.empty(),
-            Optional.empty()
-        );
-
-        this.checkEquals(
-            false,
             this.fired
         );
     }
@@ -118,19 +101,18 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
         watchers.add(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
-                                                     final Optional<?> ov,
-                                                     final Optional<?> nv) {
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     throw new UnsupportedOperationException();
                 }
-            });
+            }
+        );
 
-        final Locale locale = Locale.FRANCE;
+        final EnvironmentValueNameAndValue<Locale> environmentValueNameAndValue = EnvironmentValueName.LOCALE.setValue(Locale.FRANCE);
 
         watchers.onEnvironmentValueChange(
-            EnvironmentValueName.LOCALE,
-            Optional.of(locale),
-            Optional.of(locale)
+            Optional.of(environmentValueNameAndValue),
+            Optional.of(environmentValueNameAndValue)
         );
 
         this.checkEquals(
@@ -143,36 +125,33 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
     public void testAddOnceThenFire() {
         this.fired = false;
 
-        final EnvironmentValueName<?> name = EnvironmentValueName.LOCALE;
-        final Optional<Locale> oldValue = Optional.of(
-            Locale.FRANCE
+        final EnvironmentValueName<Locale> name = EnvironmentValueName.LOCALE;
+        final Optional<EnvironmentValueNameAndValue<?>> oldValue = Optional.of(
+            name.setValue(Locale.FRANCE)
         );
-        final Optional<Locale> newValue = Optional.of(
-            Locale.GERMANY
+        final Optional<EnvironmentValueNameAndValue<?>> newValue = Optional.of(
+            name.setValue(Locale.GERMANY)
         );
 
         final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
         watchers.addOnce(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
-                                                     final Optional<?> ov,
-                                                     final Optional<?> nv) {
+                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> ov,
+                                                     final Optional<EnvironmentValueNameAndValue<?>> nv) {
                     checkEquals(
                         false,
-                        EnvironmentWatchersTest.this.fired,
+                        fired,
                         "event should only have been fired once!"
                     );
 
-                    EnvironmentWatchersTest.this.checkEquals(name, n);
-                    EnvironmentWatchersTest.this.checkEquals(oldValue, ov);
-                    EnvironmentWatchersTest.this.checkEquals(newValue, nv);
+                    checkEquals(oldValue, ov);
+                    checkEquals(newValue, nv);
 
-                    EnvironmentWatchersTest.this.fired = true;
+                    fired = true;
                 }
             });
         watchers.onEnvironmentValueChange(
-            name,
             oldValue,
             newValue
         );
