@@ -27,6 +27,8 @@ import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.LineEnding;
 
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentValueNameAndValueTest implements HasNameTesting,
@@ -73,6 +75,64 @@ public final class EnvironmentValueNameAndValueTest implements HasNameTesting,
         );
         this.valueAndCheck(
             nameAndValue,
+            VALUE
+        );
+    }
+
+    // setName..........................................................................................................
+
+    @Test
+    public void testSetNameWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createObject()
+                .setName(null)
+        );
+    }
+
+    @Test
+    public void testSetNameWithSame() {
+        final EnvironmentValueNameAndValue<LineEnding> environmentValueNameAndValue = this.createObject();
+
+        assertSame(
+            environmentValueNameAndValue,
+            environmentValueNameAndValue.setName(NAME)
+        );
+    }
+
+    @Test
+    public void testSetNameWithDifferent() {
+        final EnvironmentValueNameAndValue<LineEnding> environmentValueNameAndValue = this.createObject();
+
+        final EnvironmentValueName<LineEnding> differentName = EnvironmentValueName.with(
+            "DifferentLineEnding",
+            LineEnding.class
+        );
+
+        final EnvironmentValueNameAndValue<LineEnding> different = environmentValueNameAndValue.setName(differentName);
+
+        assertNotSame(
+            environmentValueNameAndValue,
+            different
+        );
+
+        this.nameAndCheck(
+            different,
+            differentName
+        );
+
+        this.valueAndCheck(
+            different,
+            VALUE
+        );
+
+        this.nameAndCheck(
+            environmentValueNameAndValue,
+            NAME
+        );
+
+        this.valueAndCheck(
+            environmentValueNameAndValue,
             VALUE
         );
     }
