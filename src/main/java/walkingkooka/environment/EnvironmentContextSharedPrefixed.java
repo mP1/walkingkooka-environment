@@ -243,9 +243,9 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
     }
 
     @Override
-    public Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher) {
-        return this.context.addEnvironmentValueWatcher(
-            EnvironmentContextSharedPrefixedEnvironmentValueWatcher.with(
+    public Runnable addEnvironmentWatcher(final EnvironmentWatcher watcher) {
+        return this.context.addEnvironmentWatcher(
+            EnvironmentContextSharedPrefixedEnvironmentWatcher.with(
                 this.prefix,
                 watcher
             )
@@ -253,9 +253,9 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
     }
 
     @Override
-    public Runnable addEnvironmentValueWatcherOnce(final EnvironmentValueWatcher watcher) {
-        return this.context.addEnvironmentValueWatcherOnce(
-            EnvironmentContextSharedPrefixedEnvironmentValueWatcher.with(
+    public Runnable addEnvironmentWatcherOnce(final EnvironmentWatcher watcher) {
+        return this.context.addEnvironmentWatcherOnce(
+            EnvironmentContextSharedPrefixedEnvironmentWatcher.with(
                 this.prefix,
                 watcher
             )

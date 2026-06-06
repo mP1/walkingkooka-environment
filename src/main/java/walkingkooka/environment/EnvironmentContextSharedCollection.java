@@ -181,22 +181,22 @@ final class EnvironmentContextSharedCollection extends EnvironmentContextShared 
     }
 
     @Override
-    public Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher) {
+    public Runnable addEnvironmentWatcher(final EnvironmentWatcher watcher) {
         return this.addWatcher(
             watcher,
-            (w) -> w.addEnvironmentValueWatcher(watcher)
+            (w) -> w.addEnvironmentWatcher(watcher)
         );
     }
 
     @Override
-    public Runnable addEnvironmentValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+    public Runnable addEnvironmentWatcherOnce(final EnvironmentWatcher watcher) {
         return this.addWatcher(
             watcher,
-            (w) -> w.addEnvironmentValueWatcherOnce(watcher)
+            (w) -> w.addEnvironmentWatcherOnce(watcher)
         );
     }
 
-    private Runnable addWatcher(final EnvironmentValueWatcher watcher,
+    private Runnable addWatcher(final EnvironmentWatcher watcher,
                                 final Function<EnvironmentContext, Runnable> adder) {
         Objects.requireNonNull(watcher, "watcher");
 

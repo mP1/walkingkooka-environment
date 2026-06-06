@@ -169,7 +169,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         final AtomicBoolean fired = new AtomicBoolean();
 
-        context.addEnvironmentValueWatcher(
+        context.addEnvironmentWatcher(
             (n, ov, nv) -> {
                 checkEquals(EnvironmentContext.CURRENCY, n, "EnvironmentValueName");
                 checkEquals(Optional.of(oldCurrency), ov, "oldValue");
@@ -215,7 +215,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         final AtomicBoolean fired = new AtomicBoolean();
 
-        context.addEnvironmentValueWatcher(
+        context.addEnvironmentWatcher(
             (n, ov, nv) -> {
                 checkEquals(EnvironmentContext.INDENTATION, n, "EnvironmentValueName");
                 checkEquals(Optional.of(oldIndentation), ov, "oldValue");
@@ -262,7 +262,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         final AtomicBoolean fired = new AtomicBoolean();
 
-        context.addEnvironmentValueWatcher(
+        context.addEnvironmentWatcher(
             (n, ov, nv) -> {
                 checkEquals(EnvironmentContext.LINE_ENDING, n, "EnvironmentValueName");
                 checkEquals(Optional.of(oldLineEnding), ov, "oldValue");
@@ -323,7 +323,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         final AtomicBoolean fired = new AtomicBoolean();
 
-        context.addEnvironmentValueWatcher(
+        context.addEnvironmentWatcher(
             (n, ov, nv) -> {
                 checkEquals(EnvironmentContext.LOCALE, n, "EnvironmentValueName");
                 checkEquals(Optional.of(oldLocale), ov, "oldValue");
@@ -527,7 +527,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         final AtomicBoolean fired = new AtomicBoolean();
 
-        context.addEnvironmentValueWatcher(
+        context.addEnvironmentWatcher(
             (n, ov, nv) -> {
                 checkEquals(EnvironmentContext.TIME_OFFSET, n, "EnvironmentValueName");
                 checkEquals(Optional.of(oldTimeOffset), ov, "oldValue");
@@ -598,7 +598,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         final AtomicBoolean fired = new AtomicBoolean();
 
-        context.addEnvironmentValueWatcher(
+        context.addEnvironmentWatcher(
             (n, ov, nv) -> {
                 checkEquals(EnvironmentContext.USER, n, "EnvironmentValueName");
                 checkEquals(oldUser, ov, "oldValue");
@@ -619,25 +619,25 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
     
-    // addEnvironmentValueWatcher.............................................................................................
+    // addEnvironmentWatcher............................................................................................
 
     @Test
-    default void testAddEnvironmentValueWatcherWithNullFails() {
+    default void testAddEnvironmentWatcherWithNullFails() {
         assertThrows(
             NullPointerException.class,
             () -> this.createContext()
-                .addEnvironmentValueWatcher(null)
+                .addEnvironmentWatcher(null)
         );
     }
 
-    // addEnvironmentValueWatcherOnce.........................................................................................
+    // addEnvironmentWatcherOnce........................................................................................
 
     @Test
-    default void testAddEnvironmentValueWatcherOnceWithNullFails() {
+    default void testAddEnvironmentWatcherOnceWithNullFails() {
         assertThrows(
             NullPointerException.class,
             () -> this.createContext()
-                .addEnvironmentValueWatcherOnce(null)
+                .addEnvironmentWatcherOnce(null)
         );
     }
 }

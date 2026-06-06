@@ -741,8 +741,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         this.fired = false;
 
-        context.addEnvironmentValueWatcher(
-            new EnvironmentValueWatcher() {
+        context.addEnvironmentWatcher(
+            new EnvironmentWatcher() {
                 @Override
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
                                                      final Optional<?> oldValue,
@@ -797,8 +797,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         this.fired = false;
 
-        context.addEnvironmentValueWatcherOnce(
-            new EnvironmentValueWatcher() {
+        context.addEnvironmentWatcherOnce(
+            new EnvironmentWatcher() {
                 @Override
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
                                                      final Optional<?> oldValue,

@@ -129,13 +129,13 @@ final class EnvironmentContextSharedReadOnly extends EnvironmentContextShared {
     final EnvironmentContext context;
 
     @Override
-    public Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher) {
-        return this.context.addEnvironmentValueWatcher(watcher);
+    public Runnable addEnvironmentWatcher(final EnvironmentWatcher watcher) {
+        return this.context.addEnvironmentWatcher(watcher);
     }
 
     @Override
-    public Runnable addEnvironmentValueWatcherOnce(final EnvironmentValueWatcher watcher) {
-        return this.context.addEnvironmentValueWatcherOnce(watcher);
+    public Runnable addEnvironmentWatcherOnce(final EnvironmentWatcher watcher) {
+        return this.context.addEnvironmentWatcherOnce(watcher);
     }
 
     // Object...........................................................................................................

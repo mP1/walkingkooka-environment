@@ -26,7 +26,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentValueWatchersEventTest implements ClassTesting<EnvironmentValueWatchersEvent> {
+public final class EnvironmentWatchersEventTest implements ClassTesting<EnvironmentWatchersEvent> {
 
     // with.............................................................................................................
 
@@ -34,7 +34,7 @@ public final class EnvironmentValueWatchersEventTest implements ClassTesting<Env
     public void testWithNullNameFails() {
         assertThrows(
             NullPointerException.class,
-            () -> EnvironmentValueWatchersEvent.with(
+            () -> EnvironmentWatchersEvent.with(
                 null,
                 Optional.empty(),
                 Optional.empty()
@@ -46,7 +46,7 @@ public final class EnvironmentValueWatchersEventTest implements ClassTesting<Env
     public void testWithNullOldValueFails() {
         assertThrows(
             NullPointerException.class,
-            () -> EnvironmentValueWatchersEvent.with(
+            () -> EnvironmentWatchersEvent.with(
                 EnvironmentValueName.LOCALE,
                 null,
                 Optional.empty()
@@ -58,7 +58,7 @@ public final class EnvironmentValueWatchersEventTest implements ClassTesting<Env
     public void testWithNullNewValueFails() {
         assertThrows(
             NullPointerException.class,
-            () -> EnvironmentValueWatchersEvent.with(
+            () -> EnvironmentWatchersEvent.with(
                 EnvironmentValueName.LOCALE,
                 Optional.empty(),
                 null
@@ -69,8 +69,8 @@ public final class EnvironmentValueWatchersEventTest implements ClassTesting<Env
     // class............................................................................................................
 
     @Override
-    public Class<EnvironmentValueWatchersEvent> type() {
-        return EnvironmentValueWatchersEvent.class;
+    public Class<EnvironmentWatchersEvent> type() {
+        return EnvironmentWatchersEvent.class;
     }
 
     @Override

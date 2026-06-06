@@ -21,20 +21,20 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A {@link EnvironmentValueWatcher} that handles fixing the {@link EnvironmentValueName} before firing to the target.
+ * A {@link EnvironmentWatcher} that handles fixing the {@link EnvironmentValueName} before firing to the target.
  */
-final class EnvironmentContextSharedPrefixedEnvironmentValueWatcher implements EnvironmentValueWatcher {
+final class EnvironmentContextSharedPrefixedEnvironmentWatcher implements EnvironmentWatcher {
 
-    static EnvironmentContextSharedPrefixedEnvironmentValueWatcher with(final String prefix,
-                                                                        final EnvironmentValueWatcher watcher) {
-        return new EnvironmentContextSharedPrefixedEnvironmentValueWatcher(
+    static EnvironmentContextSharedPrefixedEnvironmentWatcher with(final String prefix,
+                                                                   final EnvironmentWatcher watcher) {
+        return new EnvironmentContextSharedPrefixedEnvironmentWatcher(
             prefix,
             Objects.requireNonNull(watcher, "watcher")
         );
     }
 
-    private EnvironmentContextSharedPrefixedEnvironmentValueWatcher(final String prefix,
-                                                                    final EnvironmentValueWatcher watcher) {
+    private EnvironmentContextSharedPrefixedEnvironmentWatcher(final String prefix,
+                                                               final EnvironmentWatcher watcher) {
         this.prefix = prefix;
         this.watcher = watcher;
     }
@@ -62,7 +62,7 @@ final class EnvironmentContextSharedPrefixedEnvironmentValueWatcher implements E
     }
 
     private final String prefix;
-    private final EnvironmentValueWatcher watcher;
+    private final EnvironmentWatcher watcher;
 
     // Object...........................................................................................................
 

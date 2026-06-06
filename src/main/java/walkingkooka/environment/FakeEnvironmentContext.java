@@ -138,12 +138,12 @@ public class FakeEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher) {
+    public Runnable addEnvironmentWatcher(final EnvironmentWatcher watcher) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Runnable addEnvironmentValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+    public Runnable addEnvironmentWatcherOnce(final EnvironmentWatcher watcher) {
         throw new UnsupportedOperationException();
     }
 }
