@@ -26,7 +26,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentValueWatcher2Test implements ClassTesting2<EnvironmentValueWatcher2> {
+public final class EnvironmentWatcher2Test implements ClassTesting2<EnvironmentWatcher2> {
 
     // onEnvironmentValue...............................................................................................
 
@@ -34,7 +34,7 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
     public void testOnEnvironmentValueWithNullNameFails() {
         assertThrows(
             NullPointerException.class,
-            () -> new FakeEnvironmentValueWatcher2()
+            () -> new FakeEnvironmentWatcher2()
                 .onEnvironmentValueChange(
                     null,
                     Optional.empty(),
@@ -47,7 +47,7 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
     public void testOnEnvironmentValueWithNullOldValueFails() {
         assertThrows(
             NullPointerException.class,
-            () -> new FakeEnvironmentValueWatcher2()
+            () -> new FakeEnvironmentWatcher2()
                 .onEnvironmentValueChange(
                     EnvironmentValueName.LOCALE,
                     null,
@@ -60,7 +60,7 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
     public void testOnEnvironmentValueWithNullNewValueFails() {
         assertThrows(
             NullPointerException.class,
-            () -> new FakeEnvironmentValueWatcher2()
+            () -> new FakeEnvironmentWatcher2()
                 .onEnvironmentValueChange(
                     EnvironmentValueName.LOCALE,
                     Optional.empty(),
@@ -78,14 +78,14 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
         final EnvironmentValueName<?> name = EnvironmentValueName.LOCALE;
         final Locale value = Locale.ENGLISH;
 
-        new FakeEnvironmentValueWatcher2() {
+        new FakeEnvironmentWatcher2() {
             @Override
             public void onEnvironmentValueAdd(final EnvironmentValueName<?> n,
                                               final Object nv) {
                 checkEquals(name, n, "name");
                 checkEquals(value, nv, "newValue");
 
-                EnvironmentValueWatcher2Test.this.fired = true;
+                EnvironmentWatcher2Test.this.fired = true;
             }
         }.onEnvironmentValueChange(
             name,
@@ -108,7 +108,7 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
         final EnvironmentValueName<?> name = EnvironmentValueName.LOCALE;
         final Locale value = Locale.ENGLISH;
 
-        new FakeEnvironmentValueWatcher2() {
+        new FakeEnvironmentWatcher2() {
 
             @Override
             public void onEnvironmentValueRemove(final EnvironmentValueName<?> n,
@@ -116,7 +116,7 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
                 checkEquals(name, n, "name");
                 checkEquals(value, ov, "oldValue");
 
-                EnvironmentValueWatcher2Test.this.fired = true;
+                EnvironmentWatcher2Test.this.fired = true;
             }
 
         }.onEnvironmentValueChange(
@@ -141,7 +141,7 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
         final Locale oldValue = Locale.ENGLISH;
         final Locale newValue = Locale.FRENCH;
 
-        new FakeEnvironmentValueWatcher2() {
+        new FakeEnvironmentWatcher2() {
 
             @Override
             public void onEnvironmentValueUpdate(final EnvironmentValueName<?> n,
@@ -151,7 +151,7 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
                 checkEquals(oldValue, ov, "oldValue");
                 checkEquals(newValue, nv, "newValue");
 
-                EnvironmentValueWatcher2Test.this.fired = true;
+                EnvironmentWatcher2Test.this.fired = true;
             }
         }.onEnvironmentValueChange(
             name,
@@ -167,7 +167,7 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
 
     private boolean fired;
 
-    static class FakeEnvironmentValueWatcher2 implements EnvironmentValueWatcher2 {
+    static class FakeEnvironmentWatcher2 implements EnvironmentWatcher2 {
 
         @Override
         public void onEnvironmentValueAdd(final EnvironmentValueName<?> n,
@@ -192,8 +192,8 @@ public final class EnvironmentValueWatcher2Test implements ClassTesting2<Environ
     // class............................................................................................................
 
     @Override
-    public Class<EnvironmentValueWatcher2> type() {
-        return EnvironmentValueWatcher2.class;
+    public Class<EnvironmentWatcher2> type() {
+        return EnvironmentWatcher2.class;
     }
 
     @Override

@@ -34,7 +34,7 @@ import java.util.Set;
  * {@link Map}.
  */
 final class EnvironmentContextSharedMap extends EnvironmentContextShared
-    implements HasEnvironmentValueWatchers {
+    implements HasEnvironmentWatchers {
 
     static EnvironmentContextSharedMap with(final EnvironmentContext context) {
         return new EnvironmentContextSharedMap(
@@ -233,14 +233,14 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
     private final EnvironmentContext context;
 
-    // HasEnvironmentValueWatchers......................................................................................
+    // HasEnvironmentWatchers......................................................................................
 
     @Override
-    public EnvironmentValueWatchers environmentValueWatchers() {
+    public EnvironmentWatchers environmentValueWatchers() {
         return this.watchers;
     }
 
-    private final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
+    private final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
 
     // Object...........................................................................................................
 

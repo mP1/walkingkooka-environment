@@ -26,13 +26,13 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentValueWatchersTest implements ClassTesting<EnvironmentValueWatchers> {
+public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWatchers> {
 
     @Test
     public void testAddWithNullFails() {
         assertThrows(
             NullPointerException.class,
-            () -> EnvironmentValueWatchers.empty()
+            () -> EnvironmentWatchers.empty()
                 .add(null)
         );
     }
@@ -41,7 +41,7 @@ public final class EnvironmentValueWatchersTest implements ClassTesting<Environm
     public void testAddOnceWithNullFails() {
         assertThrows(
             NullPointerException.class,
-            () -> EnvironmentValueWatchers.empty()
+            () -> EnvironmentWatchers.empty()
                 .addOnce(null)
         );
     }
@@ -58,18 +58,18 @@ public final class EnvironmentValueWatchersTest implements ClassTesting<Environm
             Locale.GERMANY
         );
 
-        final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
+        final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
         watchers.add(
-            new EnvironmentValueWatcher() {
+            new EnvironmentWatcher() {
                 @Override
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
                                                      final Optional<?> ov,
                                                      final Optional<?> nv) {
-                    EnvironmentValueWatchersTest.this.checkEquals(name, n);
-                    EnvironmentValueWatchersTest.this.checkEquals(oldValue, ov);
-                    EnvironmentValueWatchersTest.this.checkEquals(newValue, nv);
+                    EnvironmentWatchersTest.this.checkEquals(name, n);
+                    EnvironmentWatchersTest.this.checkEquals(oldValue, ov);
+                    EnvironmentWatchersTest.this.checkEquals(newValue, nv);
 
-                    EnvironmentValueWatchersTest.this.fired = true;
+                    EnvironmentWatchersTest.this.fired = true;
                 }
             });
         watchers.onEnvironmentValueChange(
@@ -88,9 +88,9 @@ public final class EnvironmentValueWatchersTest implements ClassTesting<Environm
     public void testAddThenFireEqualEmptyValues() {
         this.fired = false;
 
-        final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
+        final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
         watchers.add(
-            new EnvironmentValueWatcher() {
+            new EnvironmentWatcher() {
                 @Override
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
                                                      final Optional<?> ov,
@@ -114,9 +114,9 @@ public final class EnvironmentValueWatchersTest implements ClassTesting<Environm
     public void testAddThenFireEqualValues() {
         this.fired = false;
 
-        final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
+        final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
         watchers.add(
-            new EnvironmentValueWatcher() {
+            new EnvironmentWatcher() {
                 @Override
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
                                                      final Optional<?> ov,
@@ -151,24 +151,24 @@ public final class EnvironmentValueWatchersTest implements ClassTesting<Environm
             Locale.GERMANY
         );
 
-        final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
+        final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
         watchers.addOnce(
-            new EnvironmentValueWatcher() {
+            new EnvironmentWatcher() {
                 @Override
                 public void onEnvironmentValueChange(final EnvironmentValueName<?> n,
                                                      final Optional<?> ov,
                                                      final Optional<?> nv) {
                     checkEquals(
                         false,
-                        EnvironmentValueWatchersTest.this.fired,
+                        EnvironmentWatchersTest.this.fired,
                         "event should only have been fired once!"
                     );
 
-                    EnvironmentValueWatchersTest.this.checkEquals(name, n);
-                    EnvironmentValueWatchersTest.this.checkEquals(oldValue, ov);
-                    EnvironmentValueWatchersTest.this.checkEquals(newValue, nv);
+                    EnvironmentWatchersTest.this.checkEquals(name, n);
+                    EnvironmentWatchersTest.this.checkEquals(oldValue, ov);
+                    EnvironmentWatchersTest.this.checkEquals(newValue, nv);
 
-                    EnvironmentValueWatchersTest.this.fired = true;
+                    EnvironmentWatchersTest.this.fired = true;
                 }
             });
         watchers.onEnvironmentValueChange(
@@ -188,8 +188,8 @@ public final class EnvironmentValueWatchersTest implements ClassTesting<Environm
     // ClassTesting....................................................................................................
 
     @Override
-    public Class<EnvironmentValueWatchers> type() {
-        return EnvironmentValueWatchers.class;
+    public Class<EnvironmentWatchers> type() {
+        return EnvironmentWatchers.class;
     }
 
     @Override

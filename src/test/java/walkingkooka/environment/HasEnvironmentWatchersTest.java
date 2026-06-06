@@ -31,9 +31,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
-public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasEnvironmentValueWatchers> {
+public final class HasEnvironmentWatchersTest implements ClassTesting2<HasEnvironmentWatchers> {
 
-    final static class TestHasEnvironmentValueWatchers implements HasEnvironmentValueWatchers {
+    final static class TestHasEnvironmentWatchers implements HasEnvironmentWatchers {
 
         @Override
         public Charset charset() {
@@ -142,16 +142,16 @@ public final class HasEnvironmentValueWatchersTest implements ClassTesting2<HasE
         }
 
         @Override
-        public EnvironmentValueWatchers environmentValueWatchers() {
-            return EnvironmentValueWatchers.empty();
+        public EnvironmentWatchers environmentValueWatchers() {
+            return EnvironmentWatchers.empty();
         }
     }
 
     // class............................................................................................................
 
     @Override
-    public Class<HasEnvironmentValueWatchers> type() {
-        return HasEnvironmentValueWatchers.class;
+    public Class<HasEnvironmentWatchers> type() {
+        return HasEnvironmentWatchers.class;
     }
 
     @Override

@@ -21,9 +21,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A {@link EnvironmentValueWatcher} that routes each event to add/remove/update.
+ * A {@link EnvironmentWatcher} that routes each event to add/remove/update.
  */
-public interface EnvironmentValueWatcher2 extends EnvironmentValueWatcher {
+public interface EnvironmentWatcher2 extends EnvironmentWatcher {
 
     @Override
     default void onEnvironmentValueChange(final EnvironmentValueName<?> name,

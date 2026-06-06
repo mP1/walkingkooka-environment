@@ -25,33 +25,33 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
- * The event payload used by {@link EnvironmentValueWatchers}.
+ * The event payload used by {@link EnvironmentWatchers}.
  */
-final class EnvironmentValueWatchersEvent implements Consumer<EnvironmentValueWatcher>,
+final class EnvironmentWatchersEvent implements Consumer<EnvironmentWatcher>,
     UsesToStringBuilder {
 
-    static EnvironmentValueWatchersEvent with(final EnvironmentValueName<?> name,
-                                              final Optional<?> oldValue,
-                                              final Optional<?> newValue) {
-        return new EnvironmentValueWatchersEvent(
+    static EnvironmentWatchersEvent with(final EnvironmentValueName<?> name,
+                                         final Optional<?> oldValue,
+                                         final Optional<?> newValue) {
+        return new EnvironmentWatchersEvent(
             Objects.requireNonNull(name, "name"),
             Objects.requireNonNull(oldValue, "oldValue"),
             Objects.requireNonNull(newValue, "newValue")
         );
     }
 
-    private EnvironmentValueWatchersEvent(final EnvironmentValueName<?> name,
-                                          final Optional<?> oldValue,
-                                          final Optional<?> newValue) {
+    private EnvironmentWatchersEvent(final EnvironmentValueName<?> name,
+                                     final Optional<?> oldValue,
+                                     final Optional<?> newValue) {
         this.name = name;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
 
-    // Consumer<EnvironmentValueWatcher>................................................................................
+    // Consumer<EnvironmentWatcher>................................................................................
 
     @Override
-    public void accept(final EnvironmentValueWatcher watcher) {
+    public void accept(final EnvironmentWatcher watcher) {
         watcher.onEnvironmentValueChange(
             this.name,
             this.oldValue,

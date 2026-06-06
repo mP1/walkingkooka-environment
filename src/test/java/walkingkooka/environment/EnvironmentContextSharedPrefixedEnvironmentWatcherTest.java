@@ -17,15 +17,18 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.reflect.ClassTesting;
+import walkingkooka.reflect.JavaVisibility;
 
-import java.util.Optional;
+public final class EnvironmentContextSharedPrefixedEnvironmentWatcherTest implements ClassTesting<EnvironmentContextSharedPrefixedEnvironmentWatcher> {
 
-/**
- * A watcher that receives all {@link EnvironmentContext} value change events.
- */
-public interface EnvironmentValueWatcher {
+    @Override
+    public Class<EnvironmentContextSharedPrefixedEnvironmentWatcher> type() {
+        return EnvironmentContextSharedPrefixedEnvironmentWatcher.class;
+    }
 
-    void onEnvironmentValueChange(final EnvironmentValueName<?> name,
-                                  final Optional<?> oldValue,
-                                  final Optional<?> newValue);
+    @Override
+    public JavaVisibility typeVisibility() {
+        return JavaVisibility.PACKAGE_PRIVATE;
+    }
 }

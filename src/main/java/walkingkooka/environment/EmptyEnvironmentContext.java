@@ -44,7 +44,7 @@ import java.util.Set;
  * Attempts to get any other {@link EnvironmentValueName} will return nothing, setting/removing will throw {@link UnsupportedOperationException}.
  */
 final class EmptyEnvironmentContext implements EnvironmentContext,
-    HasEnvironmentValueWatchers,
+    HasEnvironmentWatchers,
     UsesToStringBuilder,
     TreePrintable {
 
@@ -394,14 +394,14 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
     private Optional<EmailAddress> user;
 
-    // HasEnvironmentValueWatchers......................................................................................
+    // HasEnvironmentWatchers......................................................................................
 
     @Override
-    public EnvironmentValueWatchers environmentValueWatchers() {
+    public EnvironmentWatchers environmentValueWatchers() {
         return this.watchers;
     }
 
-    private final EnvironmentValueWatchers watchers = EnvironmentValueWatchers.empty();
+    private final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
 
     // Object...........................................................................................................
 

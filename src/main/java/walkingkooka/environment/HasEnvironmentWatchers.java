@@ -17,19 +17,19 @@
 
 package walkingkooka.environment;
 
-public interface HasEnvironmentValueWatchers extends EnvironmentContext {
+public interface HasEnvironmentWatchers extends EnvironmentContext {
 
     @Override
-    default Runnable addEnvironmentValueWatcher(final EnvironmentValueWatcher watcher) {
+    default Runnable addEnvironmentWatcher(final EnvironmentWatcher watcher) {
         return this.environmentValueWatchers()
             .add(watcher);
     }
 
     @Override
-    default Runnable addEnvironmentValueWatcherOnce(final EnvironmentValueWatcher watcher) {
+    default Runnable addEnvironmentWatcherOnce(final EnvironmentWatcher watcher) {
         return this.environmentValueWatchers()
             .addOnce(watcher);
     }
 
-    EnvironmentValueWatchers environmentValueWatchers();
+    EnvironmentWatchers environmentValueWatchers();
 }

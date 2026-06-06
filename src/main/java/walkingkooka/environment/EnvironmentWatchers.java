@@ -26,16 +26,16 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A collection of {@link EnvironmentValueWatcher}. Note the event is only fired to watchers if the old and new values
+ * A collection of {@link EnvironmentWatcher}. Note the event is only fired to watchers if the old and new values
  * are different.
  */
-public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
+public final class EnvironmentWatchers implements EnvironmentWatcher {
 
-    public static EnvironmentValueWatchers empty() {
-        return new EnvironmentValueWatchers();
+    public static EnvironmentWatchers empty() {
+        return new EnvironmentWatchers();
     }
 
-    public Runnable add(final EnvironmentValueWatcher watcher) {
+    public Runnable add(final EnvironmentWatcher watcher) {
         Objects.requireNonNull(watcher, "watcher");
 
         return this.watchers.add(
@@ -43,7 +43,7 @@ public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
         );
     }
 
-    public Runnable addOnce(final EnvironmentValueWatcher watcher) {
+    public Runnable addOnce(final EnvironmentWatcher watcher) {
         Objects.requireNonNull(watcher, "watcher");
 
         final Runnable remover = this.onceWatchers.addOnce(
@@ -61,7 +61,7 @@ public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
                                          final Optional<?> oldValue,
                                          final Optional<?> newValue) {
         if (false == Objects.equals(oldValue, newValue)) {
-            final EnvironmentValueWatchersEvent event = EnvironmentValueWatchersEvent.with(
+            final EnvironmentWatchersEvent event = EnvironmentWatchersEvent.with(
                 name,
                 oldValue,
                 newValue
@@ -77,9 +77,9 @@ public final class EnvironmentValueWatchers implements EnvironmentValueWatcher {
         }
     }
 
-    private final Watchers<EnvironmentValueWatchersEvent> watchers = Watchers.create();
+    private final Watchers<EnvironmentWatchersEvent> watchers = Watchers.create();
 
-    private final Watchers<EnvironmentValueWatchersEvent> onceWatchers = Watchers.create();
+    private final Watchers<EnvironmentWatchersEvent> onceWatchers = Watchers.create();
 
     /**
      * Cant use Watchers#addOnce because that will remove the watcher during #onBegin
