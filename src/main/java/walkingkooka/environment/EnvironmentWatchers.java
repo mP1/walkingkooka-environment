@@ -77,9 +77,9 @@ public final class EnvironmentWatchers implements EnvironmentWatcher {
         }
     }
 
-    private final Watchers<EnvironmentWatchersEvent> watchers = Watchers.create();
+    private final Watchers<EnvironmentWatchersEvent> watchers = Watchers.empty();
 
-    private final Watchers<EnvironmentWatchersEvent> onceWatchers = Watchers.create();
+    private final Watchers<EnvironmentWatchersEvent> onceWatchers = Watchers.empty();
 
     /**
      * Cant use Watchers#addOnce because that will remove the watcher during #onBegin
