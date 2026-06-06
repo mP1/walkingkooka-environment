@@ -53,6 +53,15 @@ public final class EnvironmentValueNameAndValue<T> implements HasName<Environmen
 
     private final EnvironmentValueName<T> name;
 
+    /**
+     * Would be setter that returns a {@link EnvironmentValueNameAndValue} with the given name and the current value.
+     */
+    public EnvironmentValueNameAndValue<T> setName(final EnvironmentValueName<T> name) {
+        return this.name.equals(name) ?
+            this :
+            with(name, this.value);
+    }
+
     // HasValue.........................................................................................................
 
     @Override
