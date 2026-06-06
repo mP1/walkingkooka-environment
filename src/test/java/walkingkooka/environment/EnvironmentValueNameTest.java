@@ -375,7 +375,7 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         );
     }
 
-    // ClassTesting.....................................................................................................
+    // Class............................................................................................................
 
     @Override
     public Class<EnvironmentValueName<String>> type() {
