@@ -172,8 +172,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         context.addEnvironmentWatcher(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
                             EnvironmentValueName.CURRENCY.setValue(oldCurrency)
@@ -233,8 +233,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         context.addEnvironmentWatcher(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
                             EnvironmentValueName.INDENTATION.setValue(oldIndentation)
@@ -295,8 +295,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         context.addEnvironmentWatcher(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
                             EnvironmentValueName.LINE_ENDING.setValue(oldLineEnding)
@@ -371,8 +371,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         context.addEnvironmentWatcher(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
                             EnvironmentValueName.LOCALE.setValue(oldLocale)
@@ -590,8 +590,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         context.addEnvironmentWatcher(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
                             EnvironmentValueName.TIME_OFFSET.setValue(oldTimeOffset)
@@ -676,8 +676,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         context.addEnvironmentWatcher(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         oldUser.map(
                             EnvironmentValueName.USER::setValue

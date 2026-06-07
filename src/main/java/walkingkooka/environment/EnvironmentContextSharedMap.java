@@ -164,7 +164,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
             );
         }
 
-        this.watchers.onEnvironmentValueChange(
+        this.watchers.onValueChange(
             Optional.ofNullable(
                 null != oldValue ?
                     EnvironmentValueNameAndValue.with(
@@ -231,7 +231,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
             }
         }
 
-        this.watchers.onEnvironmentValueChange(
+        this.watchers.onValueChange(
             Optional.ofNullable(
                 null != oldValue ?
                     EnvironmentValueNameAndValue.with(

@@ -17,45 +17,11 @@
 
 package walkingkooka.environment;
 
-import java.util.Objects;
-import java.util.Optional;
+import walkingkooka.watch.ValueChangeWatcher2;
 
 /**
- * A {@link EnvironmentWatcher} that routes each event to add/remove/update.
+ * A {@link EnvironmentWatcher} that routes each event to add/remove/replace.
  */
-public interface EnvironmentWatcher2 extends EnvironmentWatcher {
-
-    @Override
-    default void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
-        Objects.requireNonNull(oldValue, "oldValue");
-        Objects.requireNonNull(newValue, "newValue");
-
-        final boolean oldEmpty = oldValue.isEmpty();
-        final boolean newEmpty = newValue.isEmpty();
-
-        if (oldEmpty) {
-            this.onEnvironmentValueAdd(
-                newValue.get()
-            );
-        } else {
-            if (newEmpty) {
-                this.onEnvironmentValueRemove(
-                    oldValue.get()
-                );
-            } else {
-                this.onEnvironmentValueUpdate(
-                    oldValue.get(),
-                    newValue.get()
-                );
-            }
-        }
-    }
-
-    void onEnvironmentValueAdd(final EnvironmentValueNameAndValue<?> value);
-
-    void onEnvironmentValueRemove(final EnvironmentValueNameAndValue<?> name);
-
-    void onEnvironmentValueUpdate(final EnvironmentValueNameAndValue<?> oldValue,
-                                  final EnvironmentValueNameAndValue<?> newValue);
+public interface EnvironmentWatcher2 extends EnvironmentWatcher,
+    ValueChangeWatcher2<EnvironmentValueNameAndValue<?>> {
 }

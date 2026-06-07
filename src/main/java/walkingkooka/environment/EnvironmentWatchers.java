@@ -18,12 +18,8 @@
 package walkingkooka.environment;
 
 
-import walkingkooka.Cast;
-import walkingkooka.collect.list.Lists;
-import walkingkooka.watch.Watchers;
+import walkingkooka.watch.ValueChangeWatchers;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -37,59 +33,28 @@ public final class EnvironmentWatchers implements EnvironmentWatcher {
     }
 
     public Runnable add(final EnvironmentWatcher watcher) {
-        Objects.requireNonNull(watcher, "watcher");
-
-        return this.watchers.add(
-            (e) -> e.accept(watcher)
-        );
+        return this.watchers.add(watcher);
     }
 
     public Runnable addOnce(final EnvironmentWatcher watcher) {
-        Objects.requireNonNull(watcher, "watcher");
-
-        final Runnable remover = this.onceWatchers.addOnce(
-            (e) -> e.accept(watcher)
-        );
-        this.onceRemovers.add(remover);
-        return remover;
+        return this.watchers.addOnce(watcher);
     }
 
     /**
      * Note the event is only fired if the old and new values are different.
      */
     @Override
-    public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                         final Optional<EnvironmentValueNameAndValue<?>> newValue) {
-        if (false == oldValue.equals(newValue)) {
-            final EnvironmentWatchersEvent<?> event = EnvironmentWatchersEvent.with(
-                Cast.to(oldValue),
-                Cast.to(newValue)
-            );
-
-            try {
-                this.onceWatchers.accept(event);
-                this.watchers.accept(event);
-            } finally {
-                this.onceRemovers.forEach(Runnable::run);
-                this.onceRemovers.clear();
-            }
-        }
+    public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                              final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+        this.watchers.onValueChange(oldValue, newValue);
     }
 
-    private final Watchers<EnvironmentWatchersEvent<?>> watchers = Watchers.empty();
-
-    private final Watchers<EnvironmentWatchersEvent<?>> onceWatchers = Watchers.empty();
-
-    /**
-     * Cant use Watchers#addOnce because that will remove the watcher during #onBegin
-     * meaning events afterward will never be received because watcher is gone by then.
-     */
-    private final List<Runnable> onceRemovers = Lists.copyOnWrite();
+    private final ValueChangeWatchers<EnvironmentValueNameAndValue<?>> watchers = ValueChangeWatchers.empty();
 
     // Object...........................................................................................................
 
     @Override
     public String toString() {
-        return "watchers: " + this.watchers + " onceWatchers: " + this.onceWatchers;
+        return this.watchers.toString();
     }
 }
