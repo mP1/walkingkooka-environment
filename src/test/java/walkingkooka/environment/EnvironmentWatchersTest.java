@@ -60,8 +60,8 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
 
 
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> ov,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> nv) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> ov,
+                                          final Optional<EnvironmentValueNameAndValue<?>> nv) {
                     checkEquals(
                         Optional.of(
                             name.setValue(oldValue)
@@ -78,7 +78,7 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
                     fired = true;
                 }
             });
-        watchers.onEnvironmentValueChange(
+        watchers.onValueChange(
             Optional.of(
                 name.setValue(oldValue)
             ),
@@ -101,8 +101,8 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
         watchers.add(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     throw new UnsupportedOperationException();
                 }
             }
@@ -110,7 +110,7 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
 
         final EnvironmentValueNameAndValue<Locale> environmentValueNameAndValue = EnvironmentValueName.LOCALE.setValue(Locale.FRANCE);
 
-        watchers.onEnvironmentValueChange(
+        watchers.onValueChange(
             Optional.of(environmentValueNameAndValue),
             Optional.of(environmentValueNameAndValue)
         );
@@ -137,8 +137,8 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
         watchers.addOnce(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> ov,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> nv) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> ov,
+                                          final Optional<EnvironmentValueNameAndValue<?>> nv) {
                     checkEquals(
                         false,
                         fired,
@@ -151,7 +151,7 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
                     fired = true;
                 }
             });
-        watchers.onEnvironmentValueChange(
+        watchers.onValueChange(
             oldValue,
             newValue
         );

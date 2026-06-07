@@ -744,8 +744,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         context.addEnvironmentWatcher(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
                             name.setValue(LOCALE)
@@ -798,8 +798,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         context.addEnvironmentWatcherOnce(
             new EnvironmentWatcher() {
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         false,
                         EnvironmentContextSharedReadOnlyTest.this.fired,

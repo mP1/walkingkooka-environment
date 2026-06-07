@@ -276,8 +276,8 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
             new EnvironmentWatcher() {
 
                 @Override
-                public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                                     final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.empty(),
                         oldValue,

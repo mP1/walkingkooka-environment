@@ -238,7 +238,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final Charset oldCharset = this.charset;
         this.charset = charset;
 
-        this.watchers.onEnvironmentValueChange(
+        this.watchers.onValueChange(
             Optional.of(
                 CHARSET.setValue(oldCharset)
             ),
@@ -264,7 +264,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final Currency oldCurrency = this.currency;
         this.currency = currency;
 
-        this.watchers.onEnvironmentValueChange(
+        this.watchers.onValueChange(
             Optional.of(
                 CURRENCY.setValue(oldCurrency)
             ),
@@ -290,7 +290,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final Indentation oldIndentation = this.indentation;
         this.indentation = indentation;
 
-        this.watchers.onEnvironmentValueChange(
+        this.watchers.onValueChange(
             Optional.of(
                 INDENTATION.setValue(oldIndentation)
             ),
@@ -316,7 +316,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final LineEnding oldLineEnding = this.lineEnding;
         this.lineEnding = lineEnding;
 
-        this.watchers.onEnvironmentValueChange(
+        this.watchers.onValueChange(
             Optional.of(
                 LINE_ENDING.setValue(oldLineEnding)
             ),
@@ -342,7 +342,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final Locale oldLocale = this.locale;
         this.locale = locale;
 
-        this.watchers.onEnvironmentValueChange(
+        this.watchers.onValueChange(
             Optional.of(
                 LOCALE.setValue(oldLocale)
             ),
@@ -377,7 +377,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final ZoneOffset oldTimeOffset = this.timeOffset;
         this.timeOffset = Objects.requireNonNull(timeOffset, "timeOffset");
 
-        this.watchers.onEnvironmentValueChange(
+        this.watchers.onValueChange(
             Optional.of(
                 TIME_OFFSET.setValue(oldTimeOffset)
             ),
@@ -403,7 +403,7 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final Optional<EmailAddress> oldUser = this.user;
         this.user = user;
 
-        this.watchers.onEnvironmentValueChange(
+        this.watchers.onValueChange(
             oldUser.map(USER::setValue),
             user.map(USER::setValue)
         );

@@ -18,13 +18,10 @@
 package walkingkooka.environment;
 
 
-import java.util.Optional;
+import walkingkooka.watch.ValueChangeWatcher;
 
 /**
- * A watcher that receives all {@link EnvironmentContext} value change events.
+ * A {@link ValueChangeWatcher} that receives all {@link EnvironmentContext} value change events.
  */
-public interface EnvironmentWatcher {
-
-    void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                  final Optional<EnvironmentValueNameAndValue<?>> newValue);
+public interface EnvironmentWatcher extends ValueChangeWatcher<EnvironmentValueNameAndValue<?>> {
 }

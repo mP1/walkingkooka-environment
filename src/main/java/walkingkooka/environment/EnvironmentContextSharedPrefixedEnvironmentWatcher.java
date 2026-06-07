@@ -42,9 +42,9 @@ final class EnvironmentContextSharedPrefixedEnvironmentWatcher implements Enviro
     }
 
     @Override
-    public void onEnvironmentValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                         final Optional<EnvironmentValueNameAndValue<?>> newValue) {
-        this.watcher.onEnvironmentValueChange(
+    public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                              final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+        this.watcher.onValueChange(
             this.maybePrefixName(oldValue),
             this.maybePrefixName(newValue)
         );
