@@ -211,6 +211,17 @@ final public class EnvironmentValueName<T> implements Name,
         context.removeEnvironmentValue(this);
     }
 
+    public void setEnvironmentValue(final T value,
+                                    final EnvironmentContext context) {
+        Objects.requireNonNull(value, "value");
+        Objects.requireNonNull(context, "context");
+
+        context.setEnvironmentValue(
+            this,
+            value
+        );
+    }
+
     /**
      * Creates but does not throw the given {@link MissingEnvironmentValueException}.
      */
