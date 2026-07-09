@@ -40,6 +40,7 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The name of an environment value. Names must start with a letter, followed by letters/digits/dash and are case-sensitive.
@@ -196,6 +197,14 @@ final public class EnvironmentValueName<T> implements Name,
     }
 
     private final Class<T> type;
+
+    /**
+     * Gets the value for this name.
+     */
+    public Optional<T> getEnvironmentValue(final EnvironmentContext context) {
+        Objects.requireNonNull(context, "context");
+        return context.environmentValue(this);
+    }
 
     /**
      * Creates but does not throw the given {@link MissingEnvironmentValueException}.
