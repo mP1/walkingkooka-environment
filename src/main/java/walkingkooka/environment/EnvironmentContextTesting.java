@@ -17,15 +17,13 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.HasCharsetTesting;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.currency.HasCurrencyTesting;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.BinaryTextContextTesting;
 import walkingkooka.text.HasIndentation;
-import walkingkooka.text.HasIndentationTesting;
-import walkingkooka.text.HasLineEndingTesting;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
@@ -41,10 +39,8 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public interface EnvironmentContextTesting extends HasCharsetTesting,
+public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     HasCurrencyTesting,
-    HasIndentationTesting,
-    HasLineEndingTesting,
     HasLocaleTesting,
     HasTimeOffsetTesting,
     HasUserTesting,
@@ -194,7 +190,7 @@ public interface EnvironmentContextTesting extends HasCharsetTesting,
     @Override
     default void indentationAndCheck(final HasIndentation has,
                                      final Indentation expected) {
-        HasIndentationTesting.super.indentationAndCheck(
+        BinaryTextContextTesting.super.indentationAndCheck(
             has,
             expected
         );
