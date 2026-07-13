@@ -18,12 +18,10 @@
 package walkingkooka.environment;
 
 import walkingkooka.Context;
-import walkingkooka.HasCharset;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
-import walkingkooka.text.HasIndentation;
-import walkingkooka.text.HasLineEnding;
+import walkingkooka.text.BinaryTextContext;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.util.HasLocale;
@@ -42,10 +40,8 @@ import java.util.Set;
  * of the current user.
  */
 public interface EnvironmentContext extends Context,
-    HasCharset,
+    BinaryTextContext,
     HasCurrency,
-    HasIndentation,
-    HasLineEnding,
     HasLocale,
     HasNow,
     HasUser {
