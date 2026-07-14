@@ -179,7 +179,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             CHARSET,
             CURRENCY,
             INDENTATION,
-            LineEnding.NL,
+            LINE_ENDING,
             Locale.FRENCH,
             LocalDateTime::now,
             Optional.of(
@@ -205,7 +205,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             CHARSET,
             CURRENCY,
             INDENTATION,
-            LineEnding.NL,
+            LINE_ENDING,
             Locale.FRENCH,
             hasNow,
             Optional.of(
@@ -215,6 +215,12 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             empty
+        );
+
+        this.checkNotEquals(
+            LINE_ENDING,
+            LineEnding.CRNL,
+            "different line ending"
         );
 
         final EnvironmentContext different = EnvironmentContexts.empty(

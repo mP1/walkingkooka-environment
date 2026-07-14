@@ -136,7 +136,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
                 StandardCharsets.UTF_8,
                 Currency.getInstance("AUD"),
                 EnvironmentContextDelegatorTest.INDENTATION,
-                LineEnding.NL,
+                EnvironmentContextDelegatorTest.LINE_ENDING,
                 Locale.ENGLISH,
                 () -> LocalDateTime.MIN,
                 EnvironmentContext.ANONYMOUS
