@@ -43,7 +43,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
         CHARSET,
         Currency.getInstance("AUD"),
         INDENTATION,
-        LineEnding.NL,
+        LINE_ENDING,
         Locale.ENGLISH,
         () -> NOW,
         EnvironmentContext.ANONYMOUS

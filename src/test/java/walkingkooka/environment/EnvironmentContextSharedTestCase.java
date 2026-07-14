@@ -22,7 +22,6 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.TypeNameTesting;
-import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
 import java.util.Currency;
@@ -33,8 +32,6 @@ public abstract class EnvironmentContextSharedTestCase<C extends EnvironmentCont
     TypeNameTesting<C> {
 
     final static Currency CURRENCY = Currency.getInstance("AUD");
-
-    final static LineEnding LINE_ENDING = LineEnding.NL;
 
     final static Locale LOCALE = Locale.FRENCH;
 

@@ -43,7 +43,6 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     TreePrintableTesting {
 
     private final static Currency CURRENCY = Currency.getInstance("AUD");
-    private final static LineEnding LINE_ENDING = LineEnding.NL;
     private final static Locale LOCALE = Locale.ENGLISH;
     private final static LocalDateTime NOW = LocalDateTime.MIN;
     private final static HasNow HAS_NOW = () -> NOW;
