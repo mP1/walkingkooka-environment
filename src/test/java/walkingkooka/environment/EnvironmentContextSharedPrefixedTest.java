@@ -28,8 +28,6 @@ import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.Locale;
@@ -47,8 +45,6 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
         "prefix111.",
         Void.class
     );
-
-    private final static Charset CHARSET = StandardCharsets.UTF_8;
 
     private final static Currency CURRENCY = Currency.getInstance("AUD");
 
