@@ -43,7 +43,6 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     TreePrintableTesting {
 
     private final static Currency CURRENCY = Currency.getInstance("AUD");
-    private final static Indentation INDENTATION = Indentation.SPACES4;
     private final static LineEnding LINE_ENDING = LineEnding.NL;
     private final static Locale LOCALE = Locale.ENGLISH;
     private final static LocalDateTime NOW = LocalDateTime.MIN;
@@ -545,7 +544,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EmptyEnvironmentContext.with(
                 CHARSET,
                 CURRENCY,
-                Indentation.SPACES2,
+                INDENTATION,
                 LineEnding.NL,
                 LOCALE,
                 HAS_NOW,
@@ -554,7 +553,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EmptyEnvironmentContext.with(
                 StandardCharsets.ISO_8859_1,
                 CURRENCY,
-                Indentation.SPACES2,
+                INDENTATION,
                 LineEnding.NL,
                 LOCALE,
                 HAS_NOW,
@@ -569,7 +568,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EmptyEnvironmentContext.with(
                 CHARSET,
                 CURRENCY,
-                Indentation.SPACES2,
+                INDENTATION,
                 LineEnding.NL,
                 LOCALE,
                 HAS_NOW,
@@ -578,7 +577,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             EmptyEnvironmentContext.with(
                 CHARSET,
                 Currency.getInstance("NZD"),
-                Indentation.SPACES4,
+                INDENTATION,
                 LineEnding.NL,
                 LOCALE,
                 HAS_NOW,
@@ -589,6 +588,11 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
 
     @Test
     public void testEqualsDifferentIndentation() {
+        this.checkNotEquals(
+            INDENTATION,
+            Indentation.SPACES4
+        );
+
         this.checkNotEquals(
             EmptyEnvironmentContext.with(
                 CHARSET,
@@ -741,7 +745,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             this.createContext(
                 EnvironmentContext.ANONYMOUS
             ),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00}"
         );
     }
 
@@ -753,7 +757,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                     EmailAddress.parse("user@example.com")
                 )
             ),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
         );
     }
 
@@ -769,7 +773,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 "  currency\n" +
                 "    AUD (java.util.Currency)\n" +
                 "  indentation\n" +
-                "    \"    \" (walkingkooka.text.Indentation)\n" +
+                "    \"  \" (walkingkooka.text.Indentation)\n" +
                 "  lineEnding\n" +
                 "    \"\\n\"\n" +
                 "  now\n" +

@@ -22,7 +22,6 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.TypeNameTesting;
-import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -34,8 +33,6 @@ public abstract class EnvironmentContextSharedTestCase<C extends EnvironmentCont
     TypeNameTesting<C> {
 
     final static Currency CURRENCY = Currency.getInstance("AUD");
-
-    final static Indentation INDENTATION = Indentation.SPACES4;
 
     final static LineEnding LINE_ENDING = LineEnding.NL;
 

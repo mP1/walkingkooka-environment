@@ -583,7 +583,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z}"
+            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=fr, timeOffset=Z}"
         );
     }
 
@@ -602,7 +602,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -618,7 +618,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                 "  currency\n" +
                 "    AUD (java.util.Currency)\n" +
                 "  indentation\n" +
-                "    \"    \" (walkingkooka.text.Indentation)\n" +
+                "    \"  \" (walkingkooka.text.Indentation)\n" +
                 "  lineEnding\n" +
                 "    \"\\n\"\n" +
                 "  locale\n" +
@@ -651,7 +651,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                 "  Hello\n" +
                 "    \"world\"\n" +
                 "  indentation\n" +
-                "    \"    \" (walkingkooka.text.Indentation)\n" +
+                "    \"  \" (walkingkooka.text.Indentation)\n" +
                 "  lineEnding\n" +
                 "    \"\\n\"\n" +
                 "  locale\n" +
