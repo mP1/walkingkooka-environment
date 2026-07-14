@@ -26,7 +26,6 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -43,7 +42,6 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     ToStringTesting<EmptyEnvironmentContext>,
     TreePrintableTesting {
 
-    private final static Charset CHARSET = StandardCharsets.UTF_8;
     private final static Currency CURRENCY = Currency.getInstance("AUD");
     private final static Indentation INDENTATION = Indentation.SPACES4;
     private final static LineEnding LINE_ENDING = LineEnding.NL;
