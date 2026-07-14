@@ -23,7 +23,6 @@ import walkingkooka.ToStringTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
-import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -43,7 +42,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
         CHARSET,
         Currency.getInstance("AUD"),
-        Indentation.SPACES4,
+        INDENTATION,
         LineEnding.NL,
         Locale.ENGLISH,
         () -> NOW,
@@ -286,7 +285,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"    \", lineEnding=\"\\n\", locale=en, timeOffset=Z}"
+            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=en, timeOffset=Z}"
         );
     }
 
@@ -303,7 +302,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                 "    currency\n" +
                 "      AUD (java.util.Currency)\n" +
                 "    indentation\n" +
-                "      \"    \" (walkingkooka.text.Indentation)\n" +
+                "      \"  \" (walkingkooka.text.Indentation)\n" +
                 "    lineEnding\n" +
                 "      \"\\n\"\n" +
                 "    now\n" +

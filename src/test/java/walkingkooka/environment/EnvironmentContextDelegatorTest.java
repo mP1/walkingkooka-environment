@@ -135,7 +135,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
             return EnvironmentContexts.empty(
                 StandardCharsets.UTF_8,
                 Currency.getInstance("AUD"),
-                Indentation.SPACES4,
+                EnvironmentContextDelegatorTest.INDENTATION,
                 LineEnding.NL,
                 Locale.ENGLISH,
                 () -> LocalDateTime.MIN,

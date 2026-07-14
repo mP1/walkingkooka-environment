@@ -25,7 +25,6 @@ import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
-import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
@@ -47,8 +46,6 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     );
 
     private final static Currency CURRENCY = Currency.getInstance("AUD");
-
-    private final static Indentation INDENTATION = Indentation.SPACES4;
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
@@ -480,7 +477,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", key111=value111, lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", key111=value111, lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -501,7 +498,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "        currency\n" +
                 "          AUD (java.util.Currency)\n" +
                 "        indentation\n" +
-                "          \"    \" (walkingkooka.text.Indentation)\n" +
+                "          \"  \" (walkingkooka.text.Indentation)\n" +
                 "        lineEnding\n" +
                 "          \"\\n\"\n" +
                 "        locale\n" +
