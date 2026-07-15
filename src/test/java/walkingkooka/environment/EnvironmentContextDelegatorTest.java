@@ -23,7 +23,6 @@ import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -137,7 +136,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
                 EnvironmentContextDelegatorTest.INDENTATION,
                 EnvironmentContextDelegatorTest.LINE_ENDING,
                 EnvironmentContextDelegatorTest.LOCALE,
-                () -> LocalDateTime.MIN,
+                EnvironmentContextDelegatorTest.HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             );
         }
