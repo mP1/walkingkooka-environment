@@ -28,7 +28,6 @@ import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.LineEnding;
 
 import java.time.LocalDateTime;
-import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -44,8 +43,6 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
         "prefix111.",
         Void.class
     );
-
-    private final static Currency CURRENCY = Currency.getInstance("AUD");
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
