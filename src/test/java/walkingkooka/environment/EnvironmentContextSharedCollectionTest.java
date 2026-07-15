@@ -374,22 +374,22 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         final Locale different = Locale.ENGLISH;
         this.checkNotEquals(
             LOCALE,
-            different
+            DIFFERENT_LOCALE
         );
 
         this.checkNotEquals(
             collectionEnvironmentContext.locale(),
-            different
+            DIFFERENT_LOCALE
         );
 
         this.setLocaleAndCheck(
             collectionEnvironmentContext,
-            different
+            DIFFERENT_LOCALE
         );
 
         this.localeAndCheck(
             wrapped,
-            different
+            DIFFERENT_LOCALE
         );
     }
 

@@ -41,7 +41,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
         Currency.getInstance("AUD"),
         INDENTATION,
         LINE_ENDING,
-        Locale.ENGLISH,
+        LOCALE,
         () -> NOW,
         EnvironmentContext.ANONYMOUS
     );
@@ -282,7 +282,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=en, timeOffset=Z}"
+            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z}"
         );
     }
 
@@ -305,7 +305,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                 "    now\n" +
                 "      1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "    locale\n" +
-                "      en (java.util.Locale)\n" +
+                "      en_AU (java.util.Locale)\n" +
                 "    timeOffset\n" +
                 "      Z (java.time.ZoneOffset)\n" +
                 "  properties\n" +
