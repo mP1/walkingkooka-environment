@@ -38,7 +38,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
         CHARSET,
-        Currency.getInstance("AUD"),
+        CURRENCY,
         INDENTATION,
         LINE_ENDING,
         LOCALE,

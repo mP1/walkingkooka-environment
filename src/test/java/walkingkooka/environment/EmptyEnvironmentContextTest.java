@@ -41,8 +41,6 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     ToStringTesting<EmptyEnvironmentContext>,
     TreePrintableTesting {
 
-    private final static Currency CURRENCY = Currency.getInstance("AUD");
-
     @Test
     public void testWithNullCharsetFails() {
         assertThrows(
