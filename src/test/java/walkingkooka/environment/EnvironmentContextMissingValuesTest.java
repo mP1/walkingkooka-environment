@@ -41,6 +41,8 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
     private final static Indentation INDENTATION = Indentation.SPACES4;
 
+    private final static LineEnding LINE_ENDING = LineEnding.NL;
+
     @Test
     public void testMissingWhenOne() {
         final EnvironmentValueName<String> name = EnvironmentValueName.with(
@@ -53,7 +55,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
-                LineEnding.NL,
+                LINE_ENDING,
                 Locale.ENGLISH,
                 LocalDateTime::now,
                 EnvironmentContext.ANONYMOUS
@@ -87,7 +89,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
-                LineEnding.NL,
+                LINE_ENDING,
                 Locale.ENGLISH,
                 LocalDateTime::now,
                 EnvironmentContext.ANONYMOUS
@@ -124,7 +126,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
-                LineEnding.NL,
+                LINE_ENDING,
                 Locale.ENGLISH,
                 LocalDateTime::now,
                 EnvironmentContext.ANONYMOUS
@@ -190,7 +192,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
-                LineEnding.NL,
+                LINE_ENDING,
                 Locale.ENGLISH,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
@@ -213,7 +215,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
-                LineEnding.NL,
+                LINE_ENDING,
                 Locale.ENGLISH,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
