@@ -24,13 +24,10 @@ import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.TypeNameTesting;
 
 import java.time.LocalDateTime;
-import java.util.Locale;
 
 public abstract class EnvironmentContextSharedTestCase<C extends EnvironmentContextShared> implements EnvironmentContextTesting2<C>,
     ClassTesting<C>,
     TypeNameTesting<C> {
-
-    final static Locale LOCALE = Locale.FRENCH;
 
     final static LocalDateTime NOW = LocalDateTime.MIN;
 

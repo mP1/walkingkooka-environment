@@ -905,7 +905,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user123@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -927,7 +927,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 "      lineEnding\n" +
                 "        \"\\n\"\n" +
                 "      locale\n" +
-                "        fr (java.util.Locale)\n" +
+                "        en_AU (java.util.Locale)\n" +
                 "      now\n" +
                 "        -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
                 "      timeOffset\n" +
