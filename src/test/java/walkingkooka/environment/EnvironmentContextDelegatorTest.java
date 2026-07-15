@@ -24,7 +24,6 @@ import walkingkooka.text.LineEnding;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -134,7 +133,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
         public EnvironmentContext environmentContext() {
             return EnvironmentContexts.empty(
                 StandardCharsets.UTF_8,
-                Currency.getInstance("AUD"),
+                EnvironmentContextDelegatorTest.CURRENCY,
                 EnvironmentContextDelegatorTest.INDENTATION,
                 EnvironmentContextDelegatorTest.LINE_ENDING,
                 EnvironmentContextDelegatorTest.LOCALE,

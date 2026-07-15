@@ -159,9 +159,9 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     default void testSetCurrencyWithDifferentAndWatcher() {
         final C context = this.createContext();
 
-        Currency currency = Currency.getInstance("AUD");
+        Currency currency = CURRENCY;
         if (context.currency().equals(currency)) {
-            currency = Currency.getInstance("NZD");
+            currency = DIFFERENT_CURRENCY;
         }
 
         final Currency oldCurrency = context.currency();
