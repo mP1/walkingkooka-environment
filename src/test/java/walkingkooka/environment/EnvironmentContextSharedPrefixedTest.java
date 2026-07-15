@@ -44,8 +44,6 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
         Void.class
     );
 
-    private final static LineEnding LINE_ENDING = LineEnding.NL;
-
     private final static Locale LOCALE = Locale.FRENCH;
 
     private final static HasNow HAS_NOW = () -> LocalDateTime.of(
