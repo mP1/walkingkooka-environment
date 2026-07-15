@@ -21,6 +21,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.currency.HasCurrencyTesting;
+import walkingkooka.datetime.HasNowTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.BinaryTextContextTesting;
 import walkingkooka.text.HasIndentation;
@@ -42,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     HasCurrencyTesting,
     HasLocaleTesting,
+    HasNowTesting,
     HasTimeOffsetTesting,
     HasUserTesting,
     TreePrintableTesting {

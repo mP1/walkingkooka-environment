@@ -929,7 +929,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 "      locale\n" +
                 "        en_AU (java.util.Locale)\n" +
                 "      now\n" +
-                "        -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "        1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "      timeOffset\n" +
                 "        Z (java.time.ZoneOffset)\n" +
                 "      user\n" +
