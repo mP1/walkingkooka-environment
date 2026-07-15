@@ -137,7 +137,7 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
                 Currency.getInstance("AUD"),
                 EnvironmentContextDelegatorTest.INDENTATION,
                 EnvironmentContextDelegatorTest.LINE_ENDING,
-                Locale.ENGLISH,
+                EnvironmentContextDelegatorTest.LOCALE,
                 () -> LocalDateTime.MIN,
                 EnvironmentContext.ANONYMOUS
             );
