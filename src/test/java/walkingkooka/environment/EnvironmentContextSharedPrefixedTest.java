@@ -21,13 +21,11 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.set.Sets;
-import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.LineEnding;
 
-import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -42,14 +40,6 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with(
         "prefix111.",
         Void.class
-    );
-
-    private final static HasNow HAS_NOW = () -> LocalDateTime.of(
-        1999,
-        12,
-        31,
-        12,
-        59
     );
 
     private final static Optional<EmailAddress> USER = Optional.of(
@@ -497,7 +487,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "        locale\n" +
                 "          en_AU (java.util.Locale)\n" +
                 "        now\n" +
-                "          1999-12-31T12:59 (java.time.LocalDateTime)\n" +
+                "          1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "        timeOffset\n" +
                 "          Z (java.time.ZoneOffset)\n" +
                 "        user\n" +

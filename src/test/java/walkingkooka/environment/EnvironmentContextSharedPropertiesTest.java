@@ -25,7 +25,6 @@ import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.LineEnding;
 
-import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -36,8 +35,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentContextSharedPropertiesTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedProperties>
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedProperties>,
     ToStringTesting<EnvironmentContextSharedProperties> {
-
-    private final static LocalDateTime NOW = LocalDateTime.MIN;
 
     private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
         CHARSET,
@@ -306,7 +303,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                 "    lineEnding\n" +
                 "      \"\\n\"\n" +
                 "    now\n" +
-                "      -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "      1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "    locale\n" +
                 "      en (java.util.Locale)\n" +
                 "    timeOffset\n" +

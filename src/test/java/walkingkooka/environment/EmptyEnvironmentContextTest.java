@@ -20,7 +20,6 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
-import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -43,8 +42,6 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     TreePrintableTesting {
 
     private final static Currency CURRENCY = Currency.getInstance("AUD");
-    private final static LocalDateTime NOW = LocalDateTime.MIN;
-    private final static HasNow HAS_NOW = () -> NOW;
 
     @Test
     public void testWithNullCharsetFails() {
@@ -514,7 +511,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         context.setTimeOffset(zoneOffset);
 
         this.checkEquals(
-            LocalDateTime.MIN.atOffset(zoneOffset)
+            NOW.atOffset(zoneOffset)
                 .toLocalDateTime(),
             context.now()
         );
@@ -528,7 +525,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         context.setTimeOffset(zoneOffset);
 
         this.checkEquals(
-            LocalDateTime.MIN.atOffset(zoneOffset)
+            NOW.atOffset(zoneOffset)
                 .toLocalDateTime(),
             context.now()
         );
@@ -743,7 +740,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             this.createContext(
                 EnvironmentContext.ANONYMOUS
             ),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en-AU\", now=-999999999-01-01T00:00}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en-AU\", now=1999-12-31T12:58:59}"
         );
     }
 
@@ -755,7 +752,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                     EmailAddress.parse("user@example.com")
                 )
             ),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en-AU\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en-AU\", now=1999-12-31T12:58:59, user=\"user@example.com\"}"
         );
     }
 
@@ -775,7 +772,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 "  lineEnding\n" +
                 "    \"\\n\"\n" +
                 "  now\n" +
-                "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
+                "    1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "  locale\n" +
                 "    en_AU (java.util.Locale)\n" +
                 "  timeOffset\n" +

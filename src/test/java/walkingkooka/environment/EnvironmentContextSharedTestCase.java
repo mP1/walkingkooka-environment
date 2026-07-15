@@ -17,21 +17,14 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.TypeNameTesting;
 
-import java.time.LocalDateTime;
-
 public abstract class EnvironmentContextSharedTestCase<C extends EnvironmentContextShared> implements EnvironmentContextTesting2<C>,
     ClassTesting<C>,
     TypeNameTesting<C> {
-
-    final static LocalDateTime NOW = LocalDateTime.MIN;
-
-    final static HasNow HAS_NOW = () -> NOW;
 
     final static EmailAddress USER = EmailAddress.parse("user123@example.com");
 
