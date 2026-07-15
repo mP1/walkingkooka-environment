@@ -182,9 +182,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             LINE_ENDING,
             Locale.FRENCH,
             LocalDateTime::now,
-            Optional.of(
-                EmailAddress.parse("user123@example.com")
-            )
+            Optional.of(USER)
         );
         final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
@@ -208,9 +206,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             LINE_ENDING,
             Locale.FRENCH,
             hasNow,
-            Optional.of(
-                EmailAddress.parse("user123@example.com")
-            )
+            Optional.of(USER)
         );
         final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
@@ -230,9 +226,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             LineEnding.CRNL,
             Locale.GERMAN,
             hasNow,
-            Optional.of(
-                EmailAddress.parse("user123@example.com")
-            )
+            Optional.of(USER)
         );
 
         this.checkNotEquals(
@@ -681,7 +675,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
     @Test
     public void testSetUserWithDifferent() {
-        final EmailAddress user = EmailAddress.parse("different@examoke.com");
+        final EmailAddress user = DIFFERENT_USER;
 
         this.checkNotEquals(
             USER,

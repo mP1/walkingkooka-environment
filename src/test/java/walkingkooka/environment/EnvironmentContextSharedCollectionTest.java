@@ -22,7 +22,6 @@ import walkingkooka.Cast;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.set.Sets;
-import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.Predicates;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
@@ -408,16 +407,14 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
             )
         );
 
-        final EmailAddress different = EmailAddress.parse("different@example.com");
-
         this.setUserAndCheck(
             collectionEnvironmentContext,
-            different
+            DIFFERENT_USER
         );
 
         this.userAndCheck(
             wrapped,
-            different
+            DIFFERENT_USER
         );
     }
 

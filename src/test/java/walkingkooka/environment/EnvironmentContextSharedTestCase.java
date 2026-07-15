@@ -17,7 +17,6 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.TypeNameTesting;
@@ -25,8 +24,6 @@ import walkingkooka.reflect.TypeNameTesting;
 public abstract class EnvironmentContextSharedTestCase<C extends EnvironmentContextShared> implements EnvironmentContextTesting2<C>,
     ClassTesting<C>,
     TypeNameTesting<C> {
-
-    final static EmailAddress USER = EmailAddress.parse("user123@example.com");
 
     EnvironmentContextSharedTestCase() {
         super();

@@ -20,7 +20,6 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
-import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.LineEnding;
@@ -187,13 +186,10 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
 
     @Test
     public void testSetEnvironmentValueWithUser() {
-        final EnvironmentContextSharedProperties context = this.createContext();
-
-        final EmailAddress user = EmailAddress.parse("different@example.com");
         this.setEnvironmentValueAndCheck(
-            context,
+            this.createContext(),
             EnvironmentContext.USER,
-            user
+            DIFFERENT_USER
         );
     }
 

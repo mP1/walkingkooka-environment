@@ -659,9 +659,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     default void testSetUserWithDifferentAndWatcher() {
         final C context = this.createContext();
 
-        Optional<EmailAddress> user = Optional.of(
-            EmailAddress.parse("different@example.com")
-        );
+        Optional<EmailAddress> user = Optional.of(DIFFERENT_USER);
         if (context.user().equals(user)) {
             user = Optional.of(
                 EmailAddress.parse("different2@example.com")
