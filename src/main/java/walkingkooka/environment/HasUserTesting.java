@@ -24,6 +24,10 @@ import java.util.Optional;
 
 public interface HasUserTesting extends TreePrintableTesting {
 
+    EmailAddress USER = EmailAddress.parse("user123@example.com");
+
+    EmailAddress DIFFERENT_USER = EmailAddress.parse("different-user-456@example.com");
+
     // user.............................................................................................................
 
     default void userAndCheck(final HasUser has) {

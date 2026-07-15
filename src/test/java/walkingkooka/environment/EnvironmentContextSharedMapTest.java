@@ -295,8 +295,6 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     private Locale locale;
 
-    private final static EmailAddress USER = EmailAddress.parse("user@example.com");
-
     @Test
     public void testEnvironmentalValueWithUser() {
         this.environmentValueAndCheck(
@@ -332,7 +330,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             USER
         );
 
-        this.user = EmailAddress.parse("user-changed@example.com");
+        this.user = DIFFERENT_USER;
 
         this.environmentValueAndCheck(
             context,
@@ -405,9 +403,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         final EnvironmentContextSharedMap context = this.createContext(
-            Optional.of(
-                EmailAddress.parse("user183@example.com")
-            )
+            Optional.of(USER)
         );
         context.setEnvironmentValue(
             name1,
@@ -458,13 +454,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     @Test
     public void testSetUser() {
-        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
-
-        final EmailAddress email = EmailAddress.parse("different@example.com");
-
         this.setUserAndCheck(
-            context,
-            email
+            EnvironmentContextSharedMap.with(CONTEXT),
+            DIFFERENT_USER
         );
     }
 
@@ -533,9 +525,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                     LINE_ENDING,
                     Locale.GERMAN,
                     HAS_NOW,
-                    Optional.of(
-                        EmailAddress.parse("different@example.com")
-                    )
+                    Optional.of(DIFFERENT_USER)
                 )
             )
         );

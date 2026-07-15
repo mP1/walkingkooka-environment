@@ -279,14 +279,12 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
 
     @Test
     public void testEnvironmentValueWithUserPresent() {
-        final EmailAddress user = EmailAddress.parse("user127@example.com");
-
         this.environmentValueAndCheck(
             this.createContext(
-                Optional.of(user)
+                Optional.of(USER)
             ),
             EnvironmentValueName.USER,
-            user
+            USER
         );
     }
 
@@ -312,12 +310,11 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     @Test
     public void testSetEnvironmentValueWithUser() {
         final EmptyEnvironmentContext context = this.createContext();
-
-        final EmailAddress user = EmailAddress.parse("different@example.com");
+        
         this.setEnvironmentValueAndCheck(
             context,
             EnvironmentContext.USER,
-            user
+            DIFFERENT_USER
         );
     }
 
@@ -337,7 +334,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     public void testSetUserWithDifferent() {
         this.setUserAndCheck(
             this.createContext(),
-            EmailAddress.parse("different@example.com")
+            DIFFERENT_USER
         );
     }
 
@@ -421,9 +418,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             LINE_ENDING,
             LOCALE,
             HAS_NOW,
-            Optional.of(
-                EmailAddress.parse("user@example.com")
-            )
+            Optional.of(USER)
         );
 
         this.removeEnvironmentValueAndCheck(
@@ -463,7 +458,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 LOCALE,
                 HAS_NOW,
                 Optional.of(
-                    EmailAddress.parse("different@example.com")
+                    DIFFERENT_USER
                 )
             ),
             EnvironmentContext.CHARSET,
@@ -691,7 +686,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 LOCALE,
                 HAS_NOW,
                 Optional.of(
-                    EmailAddress.parse("different@example.com")
+                    DIFFERENT_USER
                 )
             )
         );
@@ -707,9 +702,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
-                Optional.of(
-                    EmailAddress.parse("user1@example.com")
-                )
+                Optional.of(USER)
             ),
             EmptyEnvironmentContext.with(
                 CHARSET,
@@ -718,9 +711,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 LINE_ENDING,
                 LOCALE,
                 HAS_NOW,
-                Optional.of(
-                    EmailAddress.parse("user222@example.com")
-                )
+                Optional.of(DIFFERENT_USER)
             )
         );
     }
@@ -747,10 +738,10 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
         this.toStringAndCheck(
             this.createContext(
                 Optional.of(
-                    EmailAddress.parse("user@example.com")
+                    USER
                 )
             ),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en-AU\", now=1999-12-31T12:58:59, user=\"user@example.com\"}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en-AU\", now=1999-12-31T12:58:59, user=\"user123@example.com\"}"
         );
     }
 
