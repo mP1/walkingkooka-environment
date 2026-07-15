@@ -43,7 +43,6 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
     TreePrintableTesting {
 
     private final static Currency CURRENCY = Currency.getInstance("AUD");
-    private final static Locale LOCALE = Locale.ENGLISH;
     private final static LocalDateTime NOW = LocalDateTime.MIN;
     private final static HasNow HAS_NOW = () -> NOW;
 
@@ -744,7 +743,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
             this.createContext(
                 EnvironmentContext.ANONYMOUS
             ),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en-AU\", now=-999999999-01-01T00:00}"
         );
     }
 
@@ -756,7 +755,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                     EmailAddress.parse("user@example.com")
                 )
             ),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=\"en-AU\", now=-999999999-01-01T00:00, user=\"user@example.com\"}"
         );
     }
 
@@ -778,7 +777,7 @@ public final class EmptyEnvironmentContextTest implements EnvironmentContextTest
                 "  now\n" +
                 "    -999999999-01-01T00:00 (java.time.LocalDateTime)\n" +
                 "  locale\n" +
-                "    en (java.util.Locale)\n" +
+                "    en_AU (java.util.Locale)\n" +
                 "  timeOffset\n" +
                 "    Z (java.time.ZoneOffset)\n"
         );

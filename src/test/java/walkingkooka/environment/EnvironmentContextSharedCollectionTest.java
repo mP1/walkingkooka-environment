@@ -564,7 +564,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                     )
                 )
             ),
-            "{charset=UTF-8, currency=AUD, hello.111=Gday, indentation=  , lineEnding=\\n, locale=fr, now=-999999999-01-01T00:00, timeOffset=Z}"
+            "{charset=UTF-8, currency=AUD, hello.111=Gday, indentation=  , lineEnding=\\n, locale=en_AU, now=-999999999-01-01T00:00, timeOffset=Z}"
         );
     }
 

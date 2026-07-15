@@ -44,8 +44,6 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
         Void.class
     );
 
-    private final static Locale LOCALE = Locale.FRENCH;
-
     private final static HasNow HAS_NOW = () -> LocalDateTime.of(
         1999,
         12,
@@ -472,7 +470,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", key111=value111, lineEnding=\"\\n\", locale=fr, timeOffset=Z, user=user@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", key111=value111, lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -497,7 +495,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "        lineEnding\n" +
                 "          \"\\n\"\n" +
                 "        locale\n" +
-                "          fr (java.util.Locale)\n" +
+                "          en_AU (java.util.Locale)\n" +
                 "        now\n" +
                 "          1999-12-31T12:59 (java.time.LocalDateTime)\n" +
                 "        timeOffset\n" +
