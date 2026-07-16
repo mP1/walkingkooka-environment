@@ -23,6 +23,7 @@ import walkingkooka.currency.HasCurrency;
 import walkingkooka.currency.HasCurrencyTesting;
 import walkingkooka.datetime.HasNowTesting;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.predicate.Predicates;
 import walkingkooka.text.BinaryTextContextTesting;
 import walkingkooka.text.HasIndentation;
 import walkingkooka.text.Indentation;
@@ -47,6 +48,22 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     HasTimeOffsetTesting,
     HasUserTesting,
     TreePrintableTesting {
+
+    /**
+     * A read only {@link EnvironmentContext}. If a mutable copy is required it must be {@link EnvironmentContext#cloneEnvironment()}.
+     */
+    EnvironmentContext ENVIRONMENT_CONTEXT = EnvironmentContexts.readOnly(
+        Predicates.always(), // all values are read-only
+        EnvironmentContexts.empty(
+            CHARSET,
+            CURRENCY,
+            INDENTATION,
+            LINE_ENDING,
+            LOCALE,
+            HAS_NOW,
+            OPTIONAL_USER
+        )
+    );
 
     // environmentValue.................................................................................................
 
