@@ -54,14 +54,16 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
      */
     EnvironmentContext ENVIRONMENT_CONTEXT = EnvironmentContexts.readOnly(
         Predicates.always(), // all values are read-only
-        EnvironmentContexts.empty(
-            CHARSET,
-            CURRENCY,
-            INDENTATION,
-            LINE_ENDING,
-            LOCALE,
-            HAS_NOW,
-            OPTIONAL_USER
+        EnvironmentContexts.map(
+            EnvironmentContexts.empty(
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                HAS_NOW,
+                OPTIONAL_USER
+            )
         )
     );
 
