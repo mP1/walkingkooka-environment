@@ -63,104 +63,98 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
 
     @Override
     default Charset charset() {
-        return this.environmentValueOrFail(CHARSET);
+        return CHARSET.getEnvironmentValueOrFail(this);
     }
 
     @Override
     default void setCharset(final Charset charset) {
-        this.setEnvironmentValue(
-            CHARSET,
-            charset
+        CHARSET.setEnvironmentValue(
+            charset,
+            this
         );
     }
     
     @Override
     default Currency currency() {
-        return this.environmentValueOrFail(CURRENCY);
+        return CURRENCY.getEnvironmentValueOrFail(this);
     }
 
     @Override
     default void setCurrency(final Currency currency) {
-        this.setEnvironmentValue(
-            CURRENCY,
-            currency
+        CURRENCY.setEnvironmentValue(
+            currency,
+            this
         );
     }
     
     @Override
     default Indentation indentation() {
-        return this.environmentValueOrFail(INDENTATION);
+        return INDENTATION.getEnvironmentValueOrFail(this);
     }
 
     @Override
     default void setIndentation(final Indentation indentation) {
-        this.setEnvironmentValue(
-            INDENTATION,
-            indentation
+        INDENTATION.setEnvironmentValue(
+            indentation,
+            this
         );
     }
     
     @Override
     default LineEnding lineEnding() {
-        return this.environmentValueOrFail(LINE_ENDING);
+        return LINE_ENDING.getEnvironmentValueOrFail(this);
     }
 
     @Override
     default void setLineEnding(final LineEnding lineEnding) {
-        this.setEnvironmentValue(
-            LINE_ENDING,
-            lineEnding
+        LINE_ENDING.setEnvironmentValue(
+            lineEnding,
+            this
         );
     }
 
     @Override
     default Locale locale() {
-        return this.environmentValueOrFail(LOCALE);
+        return LOCALE.getEnvironmentValueOrFail(this);
     }
 
     @Override
     default void setLocale(final Locale locale) {
-        this.setEnvironmentValue(
-            LOCALE,
-            locale
+        LOCALE.setEnvironmentValue(
+            locale,
+            this
         );
     }
 
     @Override
     default LocalDateTime now() {
-        return this.environmentValueOrFail(NOW);
+        return NOW.getEnvironmentValueOrFail(this);
     }
 
     @Override
     default ZoneOffset timeOffset() {
-        return this.environmentValueOrFail(TIME_OFFSET);
+        return TIME_OFFSET.getEnvironmentValueOrFail(this);
     }
 
     @Override
     default void setTimeOffset(final ZoneOffset timeOffset) {
-        this.setEnvironmentValue(
-            TIME_OFFSET,
-            timeOffset
+        TIME_OFFSET.setEnvironmentValue(
+            timeOffset,
+            this
         );
     }
 
     @Override
     default Optional<EmailAddress> user() {
-        return this.environmentValue(USER);
+        return USER.getEnvironmentValue(this);
     }
 
     @Override
     default void setUser(final Optional<EmailAddress> user) {
-        Objects.requireNonNull(user, "user");
-
-        if (user.isPresent()) {
-            this.setEnvironmentValue(
-                USER,
-                user.get()
-            );
-        } else {
-            this.removeEnvironmentValue(USER);
-        }
+        USER.setOrRemoveEnvironmentValue(
+            user,
+            this
+        );
     }
 
     @Override
