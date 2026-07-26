@@ -67,6 +67,24 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
         )
     );
 
+    /**
+     * A read only {@link EnvironmentContext}. If a mutable copy is required it must be {@link EnvironmentContext#cloneEnvironment()}.
+     */
+    EnvironmentContext DIFFERENT_ENVIRONMENT_CONTEXT = EnvironmentContexts.readOnly(
+        Predicates.always(), // all values are read-only
+        EnvironmentContexts.map(
+            EnvironmentContexts.empty(
+                DIFFERENT_CHARSET,
+                DIFFERENT_CURRENCY,
+                DIFFERENT_INDENTATION,
+                DIFFERENT_LINE_ENDING,
+                DIFFERENT_LOCALE,
+                HAS_NOW,
+                Optional.of(DIFFERENT_USER)
+            )
+        )
+    );
+
     // environmentValue.................................................................................................
 
     default <T> void environmentValueAndCheck(final EnvironmentContext context,

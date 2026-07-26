@@ -30,6 +30,14 @@ public final class EnvironmentContextTestingTest implements ClassTesting<Environ
         context.setLocale(EnvironmentContextTesting.DIFFERENT_LOCALE);
     }
 
+    @Test
+    public void testEnvironmentContextConstantsDifferent() {
+        this.checkNotEquals(
+            EnvironmentContextTesting.ENVIRONMENT_CONTEXT,
+            EnvironmentContextTesting.DIFFERENT_ENVIRONMENT_CONTEXT
+        );
+    }
+
     // class............................................................................................................
 
     @Override
