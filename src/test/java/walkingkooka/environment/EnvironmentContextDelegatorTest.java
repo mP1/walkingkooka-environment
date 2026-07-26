@@ -22,7 +22,6 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -51,11 +50,6 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
 
     @Override
     public void testSetLineEndingWithDifferentAndWatcher() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void testSetLocaleWithDifferent() {
         throw new UnsupportedOperationException();
     }
 
@@ -106,40 +100,30 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
 
         @Override
         public void setIndentation(final Indentation indentation) {
-            Objects.requireNonNull(indentation, "indentation");
-            throw new UnsupportedOperationException();
+            this.environmentContext.setIndentation(indentation);
         }
         
         @Override
         public void setLineEnding(final LineEnding lineEnding) {
-            Objects.requireNonNull(lineEnding, "lineEnding");
-            throw new UnsupportedOperationException();
+            this.environmentContext.setLineEnding(lineEnding);
         }
 
         @Override
         public void setLocale(final Locale locale) {
-            Objects.requireNonNull(locale, "locale");
-            throw new UnsupportedOperationException();
+            this.environmentContext.setLocale(locale);
         }
 
         @Override
         public void setUser(final Optional<EmailAddress> user) {
-            Objects.requireNonNull(user, "user");
-            throw new UnsupportedOperationException();
+            this.environmentContext.setUser(user);
         }
 
         @Override
         public EnvironmentContext environmentContext() {
-            return EnvironmentContexts.empty(
-                StandardCharsets.UTF_8,
-                EnvironmentContextDelegatorTest.CURRENCY,
-                EnvironmentContextDelegatorTest.INDENTATION,
-                EnvironmentContextDelegatorTest.LINE_ENDING,
-                EnvironmentContextDelegatorTest.LOCALE,
-                EnvironmentContextDelegatorTest.HAS_NOW,
-                EnvironmentContext.ANONYMOUS
-            );
+            return this.environmentContext;
         }
+
+        private final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
 
         @Override
         public String toString() {
