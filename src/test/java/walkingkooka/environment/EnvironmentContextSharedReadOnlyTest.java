@@ -18,15 +18,9 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.Predicates;
-import walkingkooka.text.LineEnding;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -95,8 +89,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
-                Optional.of(USER)
+                HAS_NOW,
+                OPTIONAL_USER
             )
         );
         environmentContext.setEnvironmentValue(
@@ -180,9 +174,9 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             CURRENCY,
             INDENTATION,
             LINE_ENDING,
-            Locale.FRENCH,
-            LocalDateTime::now,
-            Optional.of(USER)
+            LOCALE,
+            HAS_NOW,
+            OPTIONAL_USER
         );
         final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
@@ -197,36 +191,28 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
     @Test
     public void testSetEnvironmentContext() {
-        final HasNow hasNow = () -> NOW;
-
         final EnvironmentContext empty = EnvironmentContexts.empty(
             CHARSET,
             CURRENCY,
             INDENTATION,
             LINE_ENDING,
-            Locale.FRENCH,
-            hasNow,
-            Optional.of(USER)
+            LOCALE,
+            HAS_NOW,
+            OPTIONAL_USER
         );
         final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
             empty
         );
 
-        this.checkNotEquals(
-            LINE_ENDING,
-            LineEnding.CRNL,
-            "different line ending"
-        );
-
         final EnvironmentContext different = EnvironmentContexts.empty(
             CHARSET,
             CURRENCY,
             INDENTATION,
-            LineEnding.CRNL,
-            Locale.GERMAN,
-            hasNow,
-            Optional.of(USER)
+            DIFFERENT_LINE_ENDING,
+            LOCALE,
+            HAS_NOW,
+            OPTIONAL_USER
         );
 
         this.checkNotEquals(
@@ -254,8 +240,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
-                Optional.of(USER)
+                HAS_NOW,
+                OPTIONAL_USER
             )
         );
 
@@ -281,8 +267,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
-                Optional.of(USER)
+                HAS_NOW,
+                OPTIONAL_USER
             )
         );
         context.setEnvironmentValue(
@@ -308,16 +294,10 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             Predicates.never()
         );
 
-        final Locale locale = Locale.GERMAN;
-        this.checkNotEquals(
-            LOCALE,
-            locale
-        );
-
         this.setEnvironmentValueAndCheck(
             context,
             name,
-            locale
+            DIFFERENT_LOCALE
         );
     }
 
@@ -329,17 +309,11 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             Predicates.is(name)
         );
 
-        final Locale locale = Locale.GERMAN;
-        this.checkNotEquals(
-            LOCALE,
-            locale
-        );
-
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
             () -> context.setEnvironmentValue(
                 name,
-                locale
+                DIFFERENT_LOCALE
             )
         );
 
@@ -364,8 +338,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
-                Optional.of(USER)
+                HAS_NOW,
+                OPTIONAL_USER
             )
         );
         context.setEnvironmentValue(
@@ -411,7 +385,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 user
             )
         );
@@ -495,20 +469,13 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
     @Test
     public void testSetCharsetWithDifferent() {
-        final Charset charset = StandardCharsets.ISO_8859_1;
-
-        this.checkNotEquals(
-            CHARSET,
-            charset
-        );
-
         final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.is(EnvironmentContext.CHARSET)
         );
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
-            () -> context.setCharset(charset)
+            () -> context.setCharset(DIFFERENT_CHARSET)
         );
 
         this.charsetAndCheck(
@@ -529,20 +496,13 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
     @Test
     public void testSetCurrencyWithDifferent() {
-        final Currency currency = Currency.getInstance("NZD");
-
-        this.checkNotEquals(
-            CURRENCY,
-            currency
-        );
-
         final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.is(EnvironmentContext.CURRENCY)
         );
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
-            () -> context.setCurrency(currency)
+            () -> context.setCurrency(DIFFERENT_CURRENCY)
         );
 
         this.currencyAndCheck(
@@ -568,20 +528,13 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
     @Test
     public void testSetLineEndingWithDifferent() {
-        final LineEnding lineEnding = LineEnding.CRNL;
-
-        this.checkNotEquals(
-            LINE_ENDING,
-            lineEnding
-        );
-
         final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.is(EnvironmentContext.LINE_ENDING)
         );
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
-            () -> context.setLineEnding(lineEnding)
+            () -> context.setLineEnding(DIFFERENT_LINE_ENDING)
         );
 
         this.lineEndingAndCheck(
@@ -614,20 +567,13 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
     @Test
     public void testSetLineEndingWithDifferentFails() {
-        final Locale locale = Locale.GERMAN;
-
-        this.checkNotEquals(
-            LOCALE,
-            locale
-        );
-
         final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.is(EnvironmentContext.LOCALE)
         );
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
-            () -> context.setLocale(locale)
+            () -> context.setLocale(DIFFERENT_LOCALE)
         );
 
         this.localeAndCheck(
@@ -675,19 +621,12 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
     @Test
     public void testSetUserWithDifferent() {
-        final EmailAddress user = DIFFERENT_USER;
-
-        this.checkNotEquals(
-            USER,
-            user
-        );
-
         final EnvironmentContextSharedReadOnly context = this.createContext();
 
         assertThrows(
             ReadOnlyEnvironmentValueException.class,
             () -> context.setUser(
-                Optional.of(user)
+                Optional.of(DIFFERENT_USER)
             )
         );
 
@@ -709,7 +648,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
+                HAS_NOW,
                 user
             )
         );
@@ -733,12 +672,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             Predicates.never()
         );
 
-        final Locale locale = Locale.GERMAN;
-        this.checkNotEquals(
-            LOCALE,
-            locale
-        );
-
         this.fired = false;
 
         context.addEnvironmentWatcher(
@@ -755,7 +688,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                     );
                     checkEquals(
                         Optional.of(
-                            name.setValue(locale)
+                            name.setValue(DIFFERENT_LOCALE)
                         ),
                         newValue,
                         "newValue"
@@ -769,7 +702,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         this.setEnvironmentValueAndCheck(
             context,
             name,
-            locale
+            DIFFERENT_LOCALE
         );
 
         this.checkEquals(
@@ -785,12 +718,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         final EnvironmentContextSharedReadOnly context = this.createContext(
             Predicates.never()
-        );
-
-        final Locale locale = Locale.GERMAN;
-        this.checkNotEquals(
-            LOCALE,
-            locale
         );
 
         this.fired = false;
@@ -815,7 +742,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                     );
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.LOCALE.setValue(locale)
+                            EnvironmentValueName.LOCALE.setValue(DIFFERENT_LOCALE)
                         ),
                         newValue,
                         "newValue"
@@ -829,7 +756,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         this.setEnvironmentValueAndCheck(
             context,
             name,
-            locale
+            DIFFERENT_LOCALE
         );
 
         this.checkEquals(
@@ -866,8 +793,8 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
-                () -> NOW,
-                Optional.of(USER)
+                HAS_NOW,
+                OPTIONAL_USER
             )
         );
         context.setLocale(LOCALE);
