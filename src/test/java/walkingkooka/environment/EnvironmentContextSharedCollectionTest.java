@@ -145,7 +145,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
 
         final EnvironmentContext different = EnvironmentContextSharedCollection.with(
             Lists.of(
-                EnvironmentContexts.empty(
+                EnvironmentContexts.map(
                     CHARSET,
                     CURRENCY,
                     INDENTATION,

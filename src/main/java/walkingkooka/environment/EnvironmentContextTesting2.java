@@ -125,15 +125,13 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final C before = this.createContext();
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
-            EnvironmentContexts.empty(
-                before.charset(),
-                before.currency(),
-                before.indentation(),
-                before.lineEnding(),
-                before.locale(),
-                before, // HasNow
-                before.user()
-            )
+            before.charset(),
+            before.currency(),
+            before.indentation(),
+            before.lineEnding(),
+            before.locale(),
+            before, // HasNow
+            before.user()
         );
 
         final EnvironmentContext after = before.setEnvironmentContext(environmentContext);

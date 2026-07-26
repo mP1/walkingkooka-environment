@@ -212,7 +212,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testSetEnvironmentValueWithWatcher() {
         this.fired = false;
 
-        final EnvironmentContext context = EnvironmentContexts.map(ENVIRONMENT_CONTEXT);
+        final EnvironmentContext context = ENVIRONMENT_CONTEXT.cloneEnvironment();
 
         final EnvironmentContextSharedPrefixed environmentContextSharedPrefixed = EnvironmentContextSharedPrefixed.with(
             PREFIX,

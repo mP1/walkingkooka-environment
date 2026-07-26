@@ -55,15 +55,13 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     EnvironmentContext ENVIRONMENT_CONTEXT = EnvironmentContexts.readOnly(
         Predicates.always(), // all values are read-only
         EnvironmentContexts.map(
-            EnvironmentContexts.empty(
-                CHARSET,
-                CURRENCY,
-                INDENTATION,
-                LINE_ENDING,
-                LOCALE,
-                HAS_NOW,
-                OPTIONAL_USER
-            )
+            CHARSET,
+            CURRENCY,
+            INDENTATION,
+            LINE_ENDING,
+            LOCALE,
+            HAS_NOW,
+            OPTIONAL_USER
         )
     );
 
@@ -73,15 +71,13 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     EnvironmentContext DIFFERENT_ENVIRONMENT_CONTEXT = EnvironmentContexts.readOnly(
         Predicates.always(), // all values are read-only
         EnvironmentContexts.map(
-            EnvironmentContexts.empty(
-                DIFFERENT_CHARSET,
-                DIFFERENT_CURRENCY,
-                DIFFERENT_INDENTATION,
-                DIFFERENT_LINE_ENDING,
-                DIFFERENT_LOCALE,
-                HAS_NOW,
-                Optional.of(DIFFERENT_USER)
-            )
+            DIFFERENT_CHARSET,
+            DIFFERENT_CURRENCY,
+            DIFFERENT_INDENTATION,
+            DIFFERENT_LINE_ENDING,
+            DIFFERENT_LOCALE,
+            HAS_NOW,
+            Optional.of(DIFFERENT_USER)
         )
     );
 

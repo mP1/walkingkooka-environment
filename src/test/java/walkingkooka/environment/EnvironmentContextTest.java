@@ -40,7 +40,7 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
     public void testEnvironmentValueOrFail() {
         final MissingEnvironmentValueException thrown = assertThrows(
             MissingEnvironmentValueException.class,
-            () -> EnvironmentContexts.empty(
+            () -> EnvironmentContexts.map(
                 StandardCharsets.UTF_8,
                 Currency.getInstance("AUD"),
                 Indentation.SPACES4,

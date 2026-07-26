@@ -18,13 +18,21 @@
 package walkingkooka.environment;
 
 import walkingkooka.Cast;
+import walkingkooka.ToStringBuilder;
+import walkingkooka.ToStringBuilderOption;
+import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
+import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
-import walkingkooka.text.CharSequences;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 
+import java.nio.charset.Charset;
+import java.util.Currency;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -35,36 +43,85 @@ import java.util.Set;
  * {@link Map}.
  */
 final class EnvironmentContextSharedMap extends EnvironmentContextShared
-    implements HasEnvironmentWatchers {
+    implements HasEnvironmentWatchers,
+    UsesToStringBuilder {
 
-    static EnvironmentContextSharedMap with(final EnvironmentContext context) {
+    static EnvironmentContextSharedMap with(final Charset charset,
+                                            final Currency currency,
+                                            final Indentation indentation,
+                                            final LineEnding lineEnding,
+                                            final Locale locale,
+                                            final HasNow hasNow,
+                                            final Optional<EmailAddress> user) {
+        Objects.requireNonNull(charset, "charset");
+        Objects.requireNonNull(currency, "currency");
+        Objects.requireNonNull(indentation, "indentation");
+        Objects.requireNonNull(lineEnding, "lineEnding");
+        Objects.requireNonNull(locale, "locale");
+        Objects.requireNonNull(hasNow, "hasNow");
+        Objects.requireNonNull(user, "user");
+
+        final Map<EnvironmentValueName<?>, Object> values = Maps.sorted();
+        values.put(
+            EnvironmentValueName.CHARSET,
+            charset
+        );
+        values.put(
+            EnvironmentValueName.CURRENCY,
+            currency
+        );
+        values.put(
+            EnvironmentValueName.INDENTATION,
+            indentation
+        );
+        values.put(
+            EnvironmentValueName.LINE_ENDING,
+            lineEnding
+        );
+        values.put(
+            EnvironmentValueName.LOCALE,
+            locale
+        );
+        values.put(
+            EnvironmentValueName.TIME_OFFSET,
+            DEFAULT_TIME_OFFSET
+        );
+        user.ifPresent(
+            u -> values.put(
+                EnvironmentValueName.USER,
+                u
+            )
+        );
+
         return new EnvironmentContextSharedMap(
-            Objects.requireNonNull(context, "context")
+            values,
+            hasNow
         );
     }
 
-    private EnvironmentContextSharedMap(final EnvironmentContext context) {
+    private EnvironmentContextSharedMap(final Map<EnvironmentValueName<?>, Object> values,
+                                        final HasNow hasNow) {
         super();
-        this.values = Maps.sorted();
-        this.context = context;
+
+        this.values = values;
+        this.hasNow = hasNow;
     }
 
     @Override
     public EnvironmentContext cloneEnvironment() {
-        final EnvironmentContextSharedMap clone = new EnvironmentContextSharedMap(
-            Objects.requireNonNull(
-                this.context.cloneEnvironment(),
-                "context"
-            )
-        );
+        final Map<EnvironmentValueName<?>, Object> values = Maps.sorted();
 
-        clone.values.putAll(
-            this.values
-        );
+        values.putAll(this.values);
 
-        return clone;
+        return new EnvironmentContextSharedMap(
+            values,
+            this.hasNow
+        );
     }
 
+    /**
+     * Returns the given {@link EnvironmentContext}.
+     */
     @Override
     public EnvironmentContext setEnvironmentContext(final EnvironmentContext context) {
         return Objects.requireNonNull(context, "context");
@@ -74,10 +131,17 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         Objects.requireNonNull(name, "name");
 
-        Object value = this.context.environmentValue(name)
-            .orElse(null);
-        if (null == value) {
+        Object value;
+
+        if (EnvironmentValueName.NOW.equals(name)) {
+            value = this.hasNow.now();
+        } else {
             value = this.values.get(name);
+            if (null == value) {
+                if (EnvironmentValueName.TIME_OFFSET.equals(name)) {
+                    value = DEFAULT_TIME_OFFSET;
+                }
+            }
         }
 
         return Optional.ofNullable(
@@ -85,22 +149,15 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         );
     }
 
+    private final HasNow hasNow;
+
     @Override
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         final Set<EnvironmentValueName<?>> names = SortedSets.tree();
+
         names.addAll(this.values.keySet());
-
-        names.add(CHARSET);
-        names.add(CURRENCY);
-        names.add(INDENTATION);
-        names.add(LINE_ENDING);
-        names.add(LOCALE);
-        names.add(NOW);
-        names.add(TIME_OFFSET);
-
-        if (this.context.user().isPresent()) {
-            names.add(USER);
-        }
+        names.add(EnvironmentValueName.NOW);
+        names.add(EnvironmentValueName.TIME_OFFSET);
 
         return Sets.readOnly(names);
     }
@@ -111,58 +168,14 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
 
-        final EnvironmentContext context = this.context;
-
-        Object oldValue;
-        boolean put = false;
-
-        if (CHARSET.equals(name)) {
-            oldValue = context.charset();
-        } else {
-            if (CURRENCY.equals(name)) {
-                oldValue = context.currency();
-            } else {
-                if (INDENTATION.equals(name)) {
-                    oldValue = context.indentation();
-                } else {
-                    if (LINE_ENDING.equals(name)) {
-                        oldValue = context.lineEnding();
-                    } else {
-                        if (LOCALE.equals(name)) {
-                            oldValue = context.locale();
-                        } else {
-                            if (NOW.equals(name)) {
-                                oldValue = context.now();
-                            } else {
-                                if (TIME_OFFSET.equals(name)) {
-                                    oldValue = context.timeOffset();
-                                } else {
-                                    if (USER.equals(name)) {
-                                        oldValue = this.context.user()
-                                            .orElse(null);
-                                    } else {
-                                        oldValue = this.values.get(name);
-                                        put = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        if (EnvironmentValueName.NOW.equals(name)) {
+            throw name.readOnlyEnvironmentValueException();
         }
 
-        if (put) {
-            this.values.put(
-                name,
-                value
-            );
-        } else {
-            context.setEnvironmentValue(
-                name,
-                value
-            );
-        }
+        final Object oldValue = this.values.put(
+            name,
+            value
+        );
 
         this.watchers.onValueChange(
             Optional.ofNullable(
@@ -183,53 +196,11 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        final EnvironmentContext context = this.context;
-
-        Object oldValue;
-
-        if (CHARSET.equals(name)) {
-            oldValue = context.charset();
-            context.removeEnvironmentValue(name);
-        } else {
-            if (CURRENCY.equals(name)) {
-                oldValue = context.currency();
-                context.removeEnvironmentValue(name);
-            } else {
-                if (INDENTATION.equals(name)) {
-                    oldValue = context.indentation();
-                    context.removeEnvironmentValue(name);
-                } else {
-                    if (LINE_ENDING.equals(name)) {
-                        oldValue = context.lineEnding();
-                        context.removeEnvironmentValue(name);
-                    } else {
-                        if (LOCALE.equals(name)) {
-                            oldValue = context.locale();
-                            context.removeEnvironmentValue(name);
-                        } else {
-                            if (NOW.equals(name)) {
-                                oldValue = context.now();
-                                context.removeEnvironmentValue(name);
-                            } else {
-                                if (TIME_OFFSET.equals(name)) {
-                                    oldValue = context.timeOffset();
-                                    context.removeEnvironmentValue(name);
-                                } else {
-                                    if (USER.equals(name)) {
-                                        oldValue = context.user()
-                                            .orElse(null);
-                                        context.removeEnvironmentValue(name);
-                                    } else {
-                                        oldValue = this.values.get(name);
-                                        this.values.remove(name);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        if (CHARSET.equals(name) || CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
+            throw name.readOnlyEnvironmentValueException();
         }
+
+        final Object oldValue = this.values.remove(name);
 
         this.watchers.onValueChange(
             Optional.ofNullable(
@@ -244,11 +215,10 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         );
     }
 
-    private final Map<EnvironmentValueName<?>, Object> values;
+    // @VisibleForTesting
+    final Map<EnvironmentValueName<?>, Object> values;
 
-    private final EnvironmentContext context;
-
-    // HasEnvironmentWatchers......................................................................................
+    // HasEnvironmentWatchers...........................................................................................
 
     @Override
     public EnvironmentWatchers environmentValueWatchers() {
@@ -261,7 +231,10 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
     @Override
     public int hashCode() {
-        return this.context.hashCode();
+        return Objects.hash(
+            this.values,
+            this.hasNow
+        );
     }
 
     @Override
@@ -273,66 +246,39 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
     private boolean equals0(final EnvironmentContextSharedMap other) {
         return this.values.equals(other.values) &&
-            this.context.equals(other.context);
+            this.hasNow.equals(other.hasNow);
     }
 
     @Override
     public String toString() {
-        final Map<EnvironmentValueName<?>, Object> map = Maps.sorted();
-        map.putAll(this.values);
+        return ToStringBuilder.buildFrom(this);
+    }
 
-        map.put(
-            CHARSET,
-            CharSequences.quoteAndEscape(
-                this.charset()
-                    .toString()
-            )
-        );
+    // UsesToStringBuilder..............................................................................................
 
-        map.put(
-            CURRENCY,
-            CharSequences.quoteAndEscape(
-                this.currency()
-                    .toString()
-            )
-        );
+    @Override
+    public void buildToString(final ToStringBuilder b) {
+        b.enable(ToStringBuilderOption.ESCAPE);
+        b.append('{');
+        b.separator(", ");
 
-        map.put(
-            INDENTATION,
-            CharSequences.quoteAndEscape(
-                this.indentation()
-                    .toString()
-            )
-        );
+        for (EnvironmentValueName<?> name : this.values.keySet()) {
+            b.label(name.value());
 
-        map.put(
-            LINE_ENDING,
-            CharSequences.quoteAndEscape(
-                this.lineEnding()
-                    .toString()
-            )
-        );
-        map.put(
-            LOCALE,
-            this.locale()
-        );
-
-        map.put(
-            TIME_OFFSET,
-            this.timeOffset()
-        );
-
-        final EmailAddress user = this.user()
-            .orElse(null);
-        if (null != user) {
-            map.put(
-                USER,
-                user
-            );
+            final Object value = this.values.get(name);
+            if (null != value) {
+                b.value(
+                    // escape lineEndings
+                    name == EnvironmentValueName.LINE_ENDING ?
+                        value.toString() :
+                        value
+                );
+            }
         }
 
-        return map.toString();
+        b.append('}');
     }
+
 
     // TreePrintable....................................................................................................
 
