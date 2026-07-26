@@ -222,9 +222,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
             String.class
         );
 
-        final EnvironmentContext wrapped = EnvironmentContexts.map(
-            ENVIRONMENT_CONTEXT
-        );
+        final EnvironmentContext wrapped = ENVIRONMENT_CONTEXT.cloneEnvironment();
         wrapped.setEnvironmentValue(
             name,
             VALUE1
@@ -266,9 +264,8 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
             String.class
         );
 
-        final EnvironmentContext wrapped = EnvironmentContexts.map(
-            ENVIRONMENT_CONTEXT
-        );
+        final EnvironmentContext wrapped = ENVIRONMENT_CONTEXT.cloneEnvironment();
+
         wrapped.setEnvironmentValue(
             name,
             VALUE1
@@ -303,9 +300,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
 
     @Test
     public void testSetLineEnding() {
-        final EnvironmentContext wrapped = EnvironmentContexts.map(
-            ENVIRONMENT_CONTEXT.cloneEnvironment()
-        );
+        final EnvironmentContext wrapped = ENVIRONMENT_CONTEXT.cloneEnvironment();
 
         this.setLineEndingAndCheck(
             EnvironmentContextSharedCollection.with(
@@ -327,9 +322,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
 
     @Test
     public void testSetLocale() {
-        final EnvironmentContext wrapped = EnvironmentContexts.map(
-            ENVIRONMENT_CONTEXT.cloneEnvironment()
-        );
+        final EnvironmentContext wrapped = ENVIRONMENT_CONTEXT.cloneEnvironment();
 
         final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
             Lists.of(
@@ -364,9 +357,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
 
     @Test
     public void testSetUser() {
-        final EnvironmentContext wrapped = EnvironmentContexts.map(
-            ENVIRONMENT_CONTEXT.cloneEnvironment()
-        );
+        final EnvironmentContext wrapped = ENVIRONMENT_CONTEXT.cloneEnvironment();
 
         final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
             Lists.of(
