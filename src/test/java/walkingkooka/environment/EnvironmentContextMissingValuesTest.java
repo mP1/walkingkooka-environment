@@ -19,29 +19,14 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.set.Sets;
-import walkingkooka.datetime.HasNow;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.util.Currency;
-import java.util.Locale;
 import java.util.Set;
 
-public final class EnvironmentContextMissingValuesTest implements ToStringTesting<EnvironmentContextMissingValues>,
+public final class EnvironmentContextMissingValuesTest implements EnvironmentContextTesting,
+    ToStringTesting<EnvironmentContextMissingValues>,
     ClassTesting2<EnvironmentContextMissingValues> {
-
-    private final static Charset CHARSET = StandardCharsets.UTF_8;
-
-    private final static Currency CURRENCY = Currency.getInstance("AUD");
-
-    private final static Indentation INDENTATION = Indentation.SPACES4;
-
-    private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     @Test
     public void testMissingWhenOne() {
@@ -50,17 +35,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
             String.class
         );
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
-            EnvironmentContexts.empty(
-                CHARSET,
-                CURRENCY,
-                INDENTATION,
-                LINE_ENDING,
-                Locale.ENGLISH,
-                LocalDateTime::now,
-                EnvironmentContext.ANONYMOUS
-            )
-        );
+        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
 
         this.checkEquals(
             null,
@@ -84,17 +59,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
             String.class
         );
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
-            EnvironmentContexts.empty(
-                CHARSET,
-                CURRENCY,
-                INDENTATION,
-                LINE_ENDING,
-                Locale.ENGLISH,
-                LocalDateTime::now,
-                EnvironmentContext.ANONYMOUS
-            )
-        );
+        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
 
         this.checkEquals(
             null,
@@ -121,17 +86,7 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
         );
         final String value = "world";
 
-        final EnvironmentContext environmentContext = EnvironmentContexts.map(
-            EnvironmentContexts.empty(
-                CHARSET,
-                CURRENCY,
-                INDENTATION,
-                LINE_ENDING,
-                Locale.ENGLISH,
-                LocalDateTime::now,
-                EnvironmentContext.ANONYMOUS
-            )
-        );
+        final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
         environmentContext.setEnvironmentValue(
             name,
             value
@@ -168,14 +123,6 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
 
     // toString.........................................................................................................
 
-    private final HasNow HAS_NOW = () -> LocalDateTime.of(
-        1999,
-        12,
-        31,
-        12,
-        58
-    );
-
     @Test
     public void testToStringWithMissing() {
         final EnvironmentValueName<String> name1 = EnvironmentValueName.with(
@@ -187,44 +134,24 @@ public final class EnvironmentContextMissingValuesTest implements ToStringTestin
             String.class
         );
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
-            EnvironmentContexts.empty(
-                CHARSET,
-                CURRENCY,
-                INDENTATION,
-                LINE_ENDING,
-                Locale.ENGLISH,
-                HAS_NOW,
-                EnvironmentContext.ANONYMOUS
-            )
-        );
+        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
 
         missing.getOrNull(name1);
         missing.getOrNull(name2);
 
         this.toStringAndCheck(
             missing,
-            "missing=Hello1, Hello2 environmentContext={charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
+            "missing=Hello1, Hello2 environmentContext={charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
         );
     }
 
     @Test
     public void testToStringWithoutMissing() {
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(
-            EnvironmentContexts.empty(
-                CHARSET,
-                CURRENCY,
-                INDENTATION,
-                LINE_ENDING,
-                Locale.ENGLISH,
-                HAS_NOW,
-                EnvironmentContext.ANONYMOUS
-            )
-        );
+        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
 
         this.toStringAndCheck(
             missing,
-            "environmentContext={charset=\"UTF-8\", currency=\"AUD\", indentation=\"    \", lineEnding=\"\\n\", locale=\"en\", now=1999-12-31T12:58}"
+            "environmentContext={charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
         );
     }
 
