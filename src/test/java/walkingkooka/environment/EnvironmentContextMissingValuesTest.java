@@ -141,7 +141,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
 
         this.toStringAndCheck(
             missing,
-            "missing=Hello1, Hello2 environmentContext={charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
+            "missing=Hello1, Hello2 environmentContext={charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -151,7 +151,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
 
         this.toStringAndCheck(
             missing,
-            "environmentContext={charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
+            "environmentContext={charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
         );
     }
 

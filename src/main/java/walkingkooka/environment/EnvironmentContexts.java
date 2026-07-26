@@ -46,27 +46,6 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     }
 
     /**
-     * {@see EmptyEnvironmentContext}
-     */
-    public static EnvironmentContext empty(final Charset charset,
-                                           final Currency currency,
-                                           final Indentation indentation,
-                                           final LineEnding lineEnding,
-                                           final Locale locale,
-                                           final HasNow hasNow,
-                                           final Optional<EmailAddress> user) {
-        return EmptyEnvironmentContext.with(
-            charset,
-            currency,
-            indentation,
-            lineEnding,
-            locale,
-            hasNow,
-            user
-        );
-    }
-
-    /**
      * {@see FakeEnvironmentContext}
      */
     public static EnvironmentContext fake() {
@@ -76,8 +55,22 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see EnvironmentContextSharedMap}
      */
-    public static EnvironmentContext map(final EnvironmentContext context) {
-        return EnvironmentContextSharedMap.with(context);
+    public static EnvironmentContext map(final Charset charset,
+                                         final Currency currency,
+                                         final Indentation indentation,
+                                         final LineEnding lineEnding,
+                                         final Locale locale,
+                                         final HasNow hasNow,
+                                         final Optional<EmailAddress> user) {
+        return EnvironmentContextSharedMap.with(
+            charset,
+            currency,
+            indentation,
+            lineEnding,
+            locale,
+            hasNow,
+            user
+        );
     }
 
     /**

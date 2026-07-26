@@ -83,7 +83,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final String helloValue = "World";
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
-            EnvironmentContexts.empty(
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
@@ -91,7 +90,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 LOCALE,
                 HAS_NOW,
                 OPTIONAL_USER
-            )
         );
         environmentContext.setEnvironmentValue(
             hello,
@@ -169,7 +167,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
     @Test
     public void testSetEnvironmentContextWithSame() {
-        final EnvironmentContext empty = EnvironmentContexts.empty(
+        final EnvironmentContext map = EnvironmentContexts.map(
             CHARSET,
             CURRENCY,
             INDENTATION,
@@ -180,18 +178,18 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         );
         final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
-            empty
+            map
         );
 
         assertSame(
-            readOnly.setEnvironmentContext(empty),
-            empty
+            readOnly.setEnvironmentContext(map),
+            map
         );
     }
 
     @Test
     public void testSetEnvironmentContext() {
-        final EnvironmentContext empty = EnvironmentContexts.empty(
+        final EnvironmentContext map = EnvironmentContexts.map(
             CHARSET,
             CURRENCY,
             INDENTATION,
@@ -202,10 +200,10 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         );
         final EnvironmentContextSharedReadOnly readOnly = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
-            empty
+            map
         );
 
-        final EnvironmentContext different = EnvironmentContexts.empty(
+        final EnvironmentContext different = EnvironmentContexts.map(
             CHARSET,
             CURRENCY,
             INDENTATION,
@@ -216,7 +214,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         );
 
         this.checkNotEquals(
-            empty,
+            map,
             different
         );
 
@@ -234,7 +232,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     public void testSetEnvironmentValueSame() {
         final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
-            EnvironmentContexts.empty(
+            EnvironmentContexts.map(
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
@@ -261,7 +259,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final String value = "World123";
 
         final EnvironmentContext context = EnvironmentContexts.map(
-            EnvironmentContexts.empty(
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
@@ -269,7 +266,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 LOCALE,
                 HAS_NOW,
                 OPTIONAL_USER
-            )
         );
         context.setEnvironmentValue(
             name,
@@ -332,7 +328,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         final String value = "value1";
 
         final EnvironmentContext context = EnvironmentContexts.map(
-            EnvironmentContexts.empty(
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
@@ -340,7 +335,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 LOCALE,
                 HAS_NOW,
                 OPTIONAL_USER
-            )
         );
         context.setEnvironmentValue(
             name,
@@ -379,7 +373,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
-            EnvironmentContexts.empty(
+            EnvironmentContexts.map(
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
@@ -483,7 +477,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             CHARSET
         );
     }
-    
+
     // setCurrency....................................................................................................
 
     @Test
@@ -515,7 +509,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     public void testSetCurrencyWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
     }
-    
+
     // setLineEnding....................................................................................................
 
     @Test
@@ -642,7 +636,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
         final EnvironmentContextSharedReadOnly context = EnvironmentContextSharedReadOnly.with(
             READ_ONLY_NAMES,
-            EnvironmentContexts.empty(
+            EnvironmentContexts.map(
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
@@ -787,7 +781,6 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
 
     private EnvironmentContextSharedReadOnly createContext(final Predicate<EnvironmentValueName<?>> readOnlyNames) {
         final EnvironmentContext context = EnvironmentContexts.map(
-            EnvironmentContexts.empty(
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
@@ -795,9 +788,9 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 LOCALE,
                 HAS_NOW,
                 OPTIONAL_USER
-            )
         );
         context.setLocale(LOCALE);
+
         return EnvironmentContextSharedReadOnly.with(
             readOnlyNames,
             context
@@ -826,7 +819,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
+            "{charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
         );
     }
 

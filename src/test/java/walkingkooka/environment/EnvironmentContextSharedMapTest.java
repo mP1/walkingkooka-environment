@@ -18,7 +18,6 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.Cast;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.net.email.EmailAddress;
@@ -30,22 +29,13 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentContextSharedMapTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedMap>
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedMap>,
     ToStringTesting<EnvironmentContextSharedMap> {
-
-    private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
-        CHARSET,
-        CURRENCY,
-        INDENTATION,
-        LINE_ENDING,
-        LOCALE,
-        HAS_NOW,
-        EnvironmentContext.ANONYMOUS
-    );
 
     private final static EnvironmentValueName<String> NAME = EnvironmentValueName.with(
         "hello.123",
@@ -54,15 +44,133 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     private final static String VALUE = "Gday";
 
-    // with.............................................................................................................
-
     @Test
-    public void testWithNullContextFails() {
+    public void testWithNullCharsetFails() {
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentContextSharedMap.with(
+                null,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullCurrencyFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentContextSharedMap.with(
+                CHARSET,
+                null,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullIndentationFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentContextSharedMap.with(
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                null,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullLineEndingFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentContextSharedMap.with(
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                null,
+                LOCALE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullLocaleFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentContextSharedMap.with(
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                null,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullHasNowFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentContextSharedMap.with(
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                null,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullUserFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentContextSharedMap.with(
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                HAS_NOW,
                 null
             )
+        );
+    }
+
+    // cloneEnvironment.................................................................................................
+
+    @Test
+    public void testCloneEnvironment() {
+        final EnvironmentContextSharedMap context = this.createContext();
+        final EnvironmentContext cloned = context.cloneEnvironment();
+
+        assertNotSame(
+            context,
+            cloned
+        );
+
+        this.checkEquals(
+            cloned,
+            context
         );
     }
 
@@ -91,7 +199,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             charset
         );
     }
-    
+
     // currency...........................................................................................................
 
     @Test
@@ -117,7 +225,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             currency
         );
     }
-    
+
     // lineEnding...........................................................................................................
 
     @Test
@@ -143,7 +251,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             lineEnding
         );
     }
-    
+
     // locale...........................................................................................................
 
     @Test
@@ -172,7 +280,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     @Test
     public void testEnvironmentalValue() {
-        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
+        final EnvironmentContextSharedMap context = this.createContext();
         context.setEnvironmentValue(
             NAME,
             VALUE
@@ -187,7 +295,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     @Test
     public void testEnvironmentalValueWithDifferentEnvironmentValueNameCase() {
-        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
+        final EnvironmentContextSharedMap context = this.createContext();
         context.setEnvironmentValue(
             NAME,
             VALUE
@@ -218,7 +326,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     @Test
     public void testEnvironmentalValueWithDifferentEnvironmentValueNameType() {
-        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
+        final EnvironmentContextSharedMap context = this.createContext();
         context.setEnvironmentValue(
             NAME,
             VALUE
@@ -261,41 +369,6 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     }
 
     @Test
-    public void testEnvironmentalValueWithLocaleAfterWrappedContextLocaleChange() {
-        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(
-            new FakeEnvironmentContext() {
-
-                @Override
-                public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
-                    return Optional.ofNullable(
-                        name.equals(LOCALE) ?
-                            Cast.to(EnvironmentContextSharedMapTest.LOCALE) :
-                            null
-                    );
-                }
-            }
-        );
-
-        this.locale = LOCALE;
-
-        this.environmentValueAndCheck(
-            context,
-            EnvironmentValueName.LOCALE,
-            LOCALE
-        );
-
-        this.locale = LOCALE;
-
-        this.environmentValueAndCheck(
-            context,
-            EnvironmentValueName.LOCALE,
-            this.locale
-        );
-    }
-
-    private Locale locale;
-
-    @Test
     public void testEnvironmentalValueWithUser() {
         this.environmentValueAndCheck(
             this.createContext(
@@ -306,41 +379,6 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
     }
 
-    @Test
-    public void testEnvironmentalValueWithUserAfterWrappedContextUserChange() {
-        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(
-            new FakeEnvironmentContext() {
-
-                @Override
-                public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
-                    return Optional.ofNullable(
-                        name.equals(USER) ?
-                            Cast.to(EnvironmentContextSharedMapTest.this.user) :
-                            null
-                    );
-                }
-            }
-        );
-
-        this.user = USER;
-
-        this.environmentValueAndCheck(
-            context,
-            EnvironmentValueName.USER,
-            USER
-        );
-
-        this.user = DIFFERENT_USER;
-
-        this.environmentValueAndCheck(
-            context,
-            EnvironmentValueName.USER,
-            this.user
-        );
-    }
-
-    private EmailAddress user;
-
     // environmentValueNames............................................................................................
 
     @Test
@@ -350,7 +388,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             String.class
         );
 
-        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
+        final EnvironmentContextSharedMap context = this.createContext();
         context.setEnvironmentValue(
             name1,
             VALUE
@@ -389,9 +427,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
             EnvironmentValueName.NOW,
+            EnvironmentValueName.TIME_OFFSET,
             name1,
-            name2,
-            EnvironmentValueName.TIME_OFFSET
+            name2
         );
     }
 
@@ -455,7 +493,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     @Test
     public void testSetUser() {
         this.setUserAndCheck(
-            EnvironmentContextSharedMap.with(CONTEXT),
+            this.createContext(),
             DIFFERENT_USER
         );
     }
@@ -489,15 +527,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     public EnvironmentContextSharedMap createContext(final Optional<EmailAddress> user) {
         return EnvironmentContextSharedMap.with(
-            EnvironmentContexts.empty(
-                CHARSET,
-                CURRENCY,
-                INDENTATION,
-                LINE_ENDING,
-                LOCALE,
-                HAS_NOW,
-                user
-            )
+            CHARSET,
+            CURRENCY,
+            INDENTATION,
+            LINE_ENDING,
+            LOCALE,
+            HAS_NOW,
+            user
         );
     }
 
@@ -507,26 +543,22 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     public void testEqualsDifferentContext() {
         this.checkNotEquals(
             EnvironmentContextSharedMap.with(
-                EnvironmentContexts.empty(
-                    CHARSET,
-                    CURRENCY,
-                    INDENTATION,
-                    LINE_ENDING,
-                    Locale.FRANCE,
-                    HAS_NOW,
-                    EnvironmentContext.ANONYMOUS
-                )
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                Locale.FRANCE,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
             ),
             EnvironmentContextSharedMap.with(
-                EnvironmentContexts.empty(
-                    CHARSET,
-                    CURRENCY,
-                    INDENTATION,
-                    LINE_ENDING,
-                    Locale.GERMAN,
-                    HAS_NOW,
-                    Optional.of(DIFFERENT_USER)
-                )
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                Locale.GERMAN,
+                HAS_NOW,
+                Optional.of(DIFFERENT_USER)
             )
         );
     }
@@ -565,7 +597,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     @Test
     public void testToString() {
-        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
+        final EnvironmentContextSharedMap context = this.createContext();
         context.setEnvironmentValue(
             NAME,
             VALUE
@@ -573,13 +605,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z}"
+            "{charset=UTF-8, currency=AUD, hello.123=\"Gday\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z}"
         );
     }
 
     @Test
     public void testToStringWithUser() {
-        final EnvironmentContextSharedMap context = EnvironmentContextSharedMap.with(CONTEXT);
+        final EnvironmentContextSharedMap context = this.createContext();
         context.setEnvironmentValue(
             NAME,
             VALUE
@@ -592,7 +624,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user@example.com}"
+            "{charset=UTF-8, currency=AUD, hello.123=\"Gday\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user@example.com}"
         );
     }
 
