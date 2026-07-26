@@ -264,16 +264,9 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
         for (EnvironmentValueName<?> name : this.values.keySet()) {
             b.label(name.value());
-
-            final Object value = this.values.get(name);
-            if (null != value) {
-                b.value(
-                    // escape lineEndings
-                    name == EnvironmentValueName.LINE_ENDING ?
-                        value.toString() :
-                        value
-                );
-            }
+            b.value(
+                this.values.get(name)
+            );
         }
 
         b.append('}');
