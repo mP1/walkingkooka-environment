@@ -24,9 +24,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
-import walkingkooka.text.LineEnding;
 
-import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,16 +32,13 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentContextSharedPrefixedTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedPrefixed>
-    implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedPrefixed>,
+    implements EnvironmentContextTesting,
+    HashCodeEqualsDefinedTesting2<EnvironmentContextSharedPrefixed>,
     ToStringTesting<EnvironmentContextSharedPrefixed> {
 
     private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with(
         "prefix111.",
         Void.class
-    );
-
-    private final static Optional<EmailAddress> USER = Optional.of(
-        EmailAddress.parse("user@example.com")
     );
 
     private final static EnvironmentContext CONTEXT = new FakeEnvironmentContext() {
@@ -54,7 +49,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
 
         @Override
         public Optional<EmailAddress> user() {
-            return EnvironmentContextSharedPrefixedTest.USER;
+            return OPTIONAL_USER;
         }
     };
 
@@ -172,7 +167,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
         this.environmentValueAndCheck(
             context,
             EnvironmentContext.LOCALE,
-            context.locale()
+            LOCALE
         );
     }
 
@@ -183,7 +178,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
         this.environmentValueAndCheck(
             context,
             EnvironmentContext.USER,
-            context.user()
+            USER
         );
     }
 
@@ -193,17 +188,9 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testSetEnvironmentContext() {
         final EnvironmentContextSharedPrefixed context = this.createContext();
 
-        final EnvironmentContext different = this.createContext();
-        different.setLineEnding(LineEnding.CRNL);
-
-        this.checkNotEquals(
-            context,
-            different
-        );
-
         assertSame(
-            different,
-            context.setEnvironmentContext(different)
+            DIFFERENT_ENVIRONMENT_CONTEXT,
+            context.setEnvironmentContext(DIFFERENT_ENVIRONMENT_CONTEXT)
         );
     }
 
@@ -225,17 +212,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testSetEnvironmentValueWithWatcher() {
         this.fired = false;
 
-        final EnvironmentContext context = EnvironmentContexts.map(
-            EnvironmentContexts.empty(
-                CHARSET,
-                CURRENCY,
-                INDENTATION,
-                LINE_ENDING,
-                LOCALE,
-                HAS_NOW,
-                EnvironmentContext.ANONYMOUS
-            )
-        );
+        final EnvironmentContext context = EnvironmentContexts.map(ENVIRONMENT_CONTEXT);
 
         final EnvironmentContextSharedPrefixed environmentContextSharedPrefixed = EnvironmentContextSharedPrefixed.with(
             PREFIX,
@@ -298,15 +275,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 Properties.parse(
                     "key111=value111"
                 ),
-                EnvironmentContexts.empty(
-                    CHARSET,
-                    CURRENCY,
-                    INDENTATION,
-                    LINE_ENDING,
-                    LOCALE,
-                    HAS_NOW,
-                    USER
-                )
+                ENVIRONMENT_CONTEXT.cloneEnvironment()
             )
         );
     }
@@ -392,25 +361,17 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
 
     @Test
     public void testSetEnvironmentValueWithLocale() {
-        final EnvironmentContextSharedPrefixed context = this.createContext();
-
-        final Locale locale = Locale.GERMAN;
-        this.setEnvironmentValueAndCheck(
-            context,
-            EnvironmentValueName.LOCALE,
-            locale
+        this.setLocaleAndCheck(
+            this.createContext(),
+            DIFFERENT_LOCALE
         );
     }
 
     @Test
     public void testSetEnvironmentValueWithUser() {
-        final EnvironmentContextSharedPrefixed context = this.createContext();
-
-        final EmailAddress user = EmailAddress.parse("different@example.com");
-        this.setEnvironmentValueAndCheck(
-            context,
-            EnvironmentContext.USER,
-            user
+        this.setUserAndCheck(
+            this.createContext(),
+            DIFFERENT_USER
         );
     }
 
@@ -460,7 +421,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", key111=value111, lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", key111=value111, lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -475,7 +436,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "    prefix111.\n" +
                 "  environmentContext\n" +
                 "    EnvironmentContextSharedProperties\n" +
-                "      EmptyEnvironmentContext\n" +
+                "      EnvironmentContextSharedMap\n" +
                 "        charset\n" +
                 "          UTF-8 (sun.nio.cs.UTF_8)\n" +
                 "        currency\n" +
@@ -491,7 +452,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "        timeOffset\n" +
                 "          Z (java.time.ZoneOffset)\n" +
                 "        user\n" +
-                "          user@example.com (walkingkooka.net.email.EmailAddress)\n" +
+                "          user123@example.com (walkingkooka.net.email.EmailAddress)\n" +
                 "      properties\n" +
                 "        key111=value111\n"
         );
