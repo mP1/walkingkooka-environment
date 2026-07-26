@@ -22,7 +22,6 @@ import walkingkooka.Cast;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.set.Sets;
-import walkingkooka.predicate.Predicates;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
 import walkingkooka.text.LineEnding;
@@ -44,19 +43,6 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
     private final static String NAME2 = "zebra.222";
 
     private final static String VALUE2 = "Orange";
-
-    private final static EnvironmentContext CONTEXT = EnvironmentContexts.readOnly(
-        Predicates.always(), // readOnlyNames
-        EnvironmentContexts.empty(
-            CHARSET,
-            CURRENCY,
-            INDENTATION,
-            LINE_ENDING,
-            LOCALE,
-            () -> NOW,
-            EnvironmentContext.ANONYMOUS
-        )
-    );
 
     private final static EnvironmentContext FAKE_CONTEXT = new FakeEnvironmentContext() {
         @Override
@@ -108,9 +94,9 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
     @Test
     public void testWithOneEnvironmentContext() {
         assertSame(
-            CONTEXT,
+            ENVIRONMENT_CONTEXT,
             EnvironmentContextSharedCollection.with(
-                Lists.of(CONTEXT)
+                Lists.of(ENVIRONMENT_CONTEXT)
             )
         );
     }
@@ -119,9 +105,8 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
 
     @Test
     public void testCloneEnvironment() {
-        final EnvironmentContext context = EnvironmentContexts.map(
-            CONTEXT
-        );
+        final EnvironmentContext context = ENVIRONMENT_CONTEXT.cloneEnvironment();
+
         context.setEnvironmentValue(
             EnvironmentValueName.with(NAME1, String.class),
             VALUE1
@@ -130,7 +115,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         final EnvironmentContext collection = EnvironmentContextSharedCollection.with(
             Lists.of(
                 context,
-                CONTEXT
+                ENVIRONMENT_CONTEXT
             )
         );
         final EnvironmentContext clone = collection.cloneEnvironment();
@@ -169,15 +154,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                     () -> NOW,
                     EnvironmentContext.ANONYMOUS
                 ),
-                EnvironmentContexts.empty(
-                    CHARSET,
-                    CURRENCY,
-                    INDENTATION,
-                    LineEnding.CR,
-                    Locale.GERMAN,
-                    () -> NOW,
-                    EnvironmentContext.ANONYMOUS
-                )
+                DIFFERENT_ENVIRONMENT_CONTEXT
             )
         );
 
@@ -246,7 +223,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         );
 
         final EnvironmentContext wrapped = EnvironmentContexts.map(
-            CONTEXT
+            ENVIRONMENT_CONTEXT
         );
         wrapped.setEnvironmentValue(
             name,
@@ -255,7 +232,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
 
         final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
             Lists.of(
-                CONTEXT.cloneEnvironment(),
+                ENVIRONMENT_CONTEXT.cloneEnvironment(),
                 wrapped
             )
         );
@@ -290,7 +267,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         );
 
         final EnvironmentContext wrapped = EnvironmentContexts.map(
-            CONTEXT
+            ENVIRONMENT_CONTEXT
         );
         wrapped.setEnvironmentValue(
             name,
@@ -299,7 +276,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
 
         final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
             Lists.of(
-                CONTEXT.cloneEnvironment(),
+                ENVIRONMENT_CONTEXT.cloneEnvironment(),
                 wrapped
             )
         );
@@ -327,31 +304,22 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
     @Test
     public void testSetLineEnding() {
         final EnvironmentContext wrapped = EnvironmentContexts.map(
-            CONTEXT.cloneEnvironment()
-        );
-
-        final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
-            Lists.of(
-                wrapped,
-                FAKE_CONTEXT
-            )
-        );
-
-        final LineEnding different = LineEnding.CRNL;
-
-        this.checkNotEquals(
-            collectionEnvironmentContext.lineEnding(),
-            different
+            ENVIRONMENT_CONTEXT.cloneEnvironment()
         );
 
         this.setLineEndingAndCheck(
-            collectionEnvironmentContext,
-            different
+            EnvironmentContextSharedCollection.with(
+                Lists.of(
+                    wrapped,
+                    FAKE_CONTEXT
+                )
+            ),
+            DIFFERENT_LINE_ENDING
         );
 
         this.lineEndingAndCheck(
             wrapped,
-            different
+            DIFFERENT_LINE_ENDING
         );
     }
 
@@ -360,7 +328,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
     @Test
     public void testSetLocale() {
         final EnvironmentContext wrapped = EnvironmentContexts.map(
-            CONTEXT.cloneEnvironment()
+            ENVIRONMENT_CONTEXT.cloneEnvironment()
         );
 
         final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
@@ -397,7 +365,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
     @Test
     public void testSetUser() {
         final EnvironmentContext wrapped = EnvironmentContexts.map(
-            CONTEXT.cloneEnvironment()
+            ENVIRONMENT_CONTEXT.cloneEnvironment()
         );
 
         final EnvironmentContext collectionEnvironmentContext = EnvironmentContextSharedCollection.with(
@@ -483,7 +451,7 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         return Cast.to(
             EnvironmentContextSharedCollection.with(
                 Lists.of(
-                    CONTEXT.cloneEnvironment(),
+                    ENVIRONMENT_CONTEXT.cloneEnvironment(),
                     EnvironmentContexts.properties(
                         Properties.EMPTY.set(
                             PropertiesPath.parse(NAME1),
@@ -518,14 +486,14 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
                             PropertiesPath.parse(NAME1),
                             VALUE1
                         ),
-                        CONTEXT
+                        ENVIRONMENT_CONTEXT
                     ),
                     EnvironmentContexts.properties(
                         Properties.EMPTY.set(
                             PropertiesPath.parse(NAME1),
                             "different-value"
                         ),
-                        CONTEXT
+                        ENVIRONMENT_CONTEXT
                     )
                 )
             )
@@ -544,24 +512,24 @@ public final class EnvironmentContextSharedCollectionTest extends EnvironmentCon
         this.toStringAndCheck(
             EnvironmentContextSharedCollection.with(
                 Lists.of(
-                    CONTEXT,
+                    ENVIRONMENT_CONTEXT,
                     EnvironmentContexts.properties(
                         Properties.EMPTY.set(
                             PropertiesPath.parse(NAME1),
                             VALUE1
                         ),
-                        CONTEXT
+                        ENVIRONMENT_CONTEXT
                     ),
                     EnvironmentContexts.properties(
                         Properties.EMPTY.set(
                             PropertiesPath.parse(NAME1),
                             "different-value"
                         ),
-                        CONTEXT
+                        ENVIRONMENT_CONTEXT
                     )
                 )
             ),
-            "{charset=UTF-8, currency=AUD, hello.111=Gday, indentation=  , lineEnding=\\n, locale=en_AU, now=1999-12-31T12:58:59, timeOffset=Z}"
+            "{charset=UTF-8, currency=AUD, hello.111=Gday, indentation=  , lineEnding=\\n, locale=en_AU, now=1999-12-31T12:58:59, timeOffset=Z, user=user123@example.com}"
         );
     }
 
