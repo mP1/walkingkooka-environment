@@ -35,16 +35,6 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedProperties>,
     ToStringTesting<EnvironmentContextSharedProperties> {
 
-    private final static EnvironmentContext CONTEXT = EnvironmentContexts.empty(
-        CHARSET,
-        CURRENCY,
-        INDENTATION,
-        LINE_ENDING,
-        LOCALE,
-        () -> NOW,
-        EnvironmentContext.ANONYMOUS
-    );
-
     private final static String NAME = "hello.123";
 
     private final static String VALUE = "Gday";
@@ -57,7 +47,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
             NullPointerException.class,
             () -> EnvironmentContextSharedProperties.with(
                 null,
-                CONTEXT
+                ENVIRONMENT_CONTEXT
             )
         );
     }
@@ -141,7 +131,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
         this.environmentValueAndCheck(
             this.createContext(),
             EnvironmentValueName.LOCALE,
-            CONTEXT.locale()
+            ENVIRONMENT_CONTEXT.locale()
         );
     }
 
@@ -209,7 +199,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                     PropertiesPath.parse(key2),
                     "value222"
                 ),
-                CONTEXT
+                ENVIRONMENT_CONTEXT
             ),
             EnvironmentValueName.with(
                 key1,
@@ -225,7 +215,8 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
             EnvironmentContext.NOW,
-            EnvironmentContext.TIME_OFFSET
+            EnvironmentContext.TIME_OFFSET,
+            EnvironmentContext.USER
         );
     }
 
@@ -236,7 +227,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                 PropertiesPath.parse(NAME),
                 VALUE
             ),
-            CONTEXT.cloneEnvironment()
+            ENVIRONMENT_CONTEXT.cloneEnvironment()
         );
     }
 
@@ -247,14 +238,14 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
         this.checkNotEquals(
             EnvironmentContextSharedProperties.with(
                 Properties.EMPTY,
-                CONTEXT
+                ENVIRONMENT_CONTEXT
             )
         );
     }
 
     @Test
     public void testEqualsDifferentContext() {
-        final EnvironmentContext context = CONTEXT.cloneEnvironment();
+        final EnvironmentContext context = ENVIRONMENT_CONTEXT.cloneEnvironment();
         context.setLineEnding(
             LineEnding.CRNL
         );
@@ -278,7 +269,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z}"
+            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -289,7 +280,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
         this.treePrintAndCheck(
             this.createContext(),
             "EnvironmentContextSharedProperties\n" +
-                "  EmptyEnvironmentContext\n" +
+                "  EnvironmentContextSharedMap\n" +
                 "    charset\n" +
                 "      UTF-8 (sun.nio.cs.UTF_8)\n" +
                 "    currency\n" +
@@ -298,12 +289,14 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                 "      \"  \" (walkingkooka.text.Indentation)\n" +
                 "    lineEnding\n" +
                 "      \"\\n\"\n" +
-                "    now\n" +
-                "      1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "    locale\n" +
                 "      en_AU (java.util.Locale)\n" +
+                "    now\n" +
+                "      1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "    timeOffset\n" +
                 "      Z (java.time.ZoneOffset)\n" +
+                "    user\n" +
+                "      user123@example.com (walkingkooka.net.email.EmailAddress)\n" +
                 "  properties\n" +
                 "    hello.123=Gday\n"
         );
