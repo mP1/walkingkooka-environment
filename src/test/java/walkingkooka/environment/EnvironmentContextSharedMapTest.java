@@ -498,6 +498,14 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
     }
 
+    @Test
+    public void testClearUser() {
+        final EnvironmentContextSharedMap context = this.createContext();
+        context.clearUser();
+
+        this.userAndCheck(context);
+    }
+
     // setEnvironmentContext............................................................................................
 
     @Test
