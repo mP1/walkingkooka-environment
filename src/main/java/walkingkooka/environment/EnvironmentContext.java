@@ -162,6 +162,10 @@ public interface EnvironmentContext extends Context,
      */
     void setTimeOffset(final ZoneOffset timeOffset);
 
+    default void clearUser() {
+        this.setUser(ANONYMOUS);
+    }
+
     /**
      * Sets or replaces the user.
      */
