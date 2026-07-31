@@ -17,23 +17,12 @@
 
 package walkingkooka.environment;
 
-import org.junit.jupiter.api.Test;
+import java.util.Optional;
 
-public final class HasAuditInfoTestingTest implements HasAuditInfoTesting {
+/**
+ * Contains a getter to return the {@link AuditInfo}.
+ */
+public interface HasOptionalAuditInfo {
 
-    @Test
-    public void testAuditInfoAndCheck() {
-        this.auditInfoAndCheck(
-            HAS_AUDIT_INFO,
-            AUDIT_INFO
-        );
-    }
-
-    @Test
-    public void testAuditInfoNotEqualDifferentAuditInfo() {
-        this.checkNotEquals(
-            AUDIT_INFO,
-            DIFFERENT_AUDIT_INFO
-        );
-    }
+    Optional<AuditInfo> auditInfo();
 }
