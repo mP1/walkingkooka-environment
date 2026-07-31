@@ -22,7 +22,7 @@ import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.util.Optional;
 
-public interface HasAuditInfoTesting extends HasNowTesting,
+public interface HasOptionalAuditInfoTesting extends HasNowTesting,
     HasUserTesting,
     TreePrintableTesting {
 
@@ -38,18 +38,18 @@ public interface HasAuditInfoTesting extends HasNowTesting,
         DIFFERENT_NOW
     );
 
-    HasAuditInfo HAS_AUDIT_INFO = () -> OPTIONAL_AUDIT_INFO;
+    HasOptionalAuditInfo HAS_AUDIT_INFO = () -> OPTIONAL_AUDIT_INFO;
 
     // user.............................................................................................................
 
-    default void auditInfoAndCheck(final HasAuditInfo has) {
+    default void auditInfoAndCheck(final HasOptionalAuditInfo has) {
         this.auditInfoAndCheck(
             has,
             Optional.empty()
         );
     }
 
-    default void auditInfoAndCheck(final HasAuditInfo has,
+    default void auditInfoAndCheck(final HasOptionalAuditInfo has,
                                    final AuditInfo expected) {
         this.auditInfoAndCheck(
             has,
@@ -57,7 +57,7 @@ public interface HasAuditInfoTesting extends HasNowTesting,
         );
     }
 
-    default void auditInfoAndCheck(final HasAuditInfo has,
+    default void auditInfoAndCheck(final HasOptionalAuditInfo has,
                                    final Optional<AuditInfo> expected) {
         this.checkEquals(
             expected,
