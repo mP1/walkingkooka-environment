@@ -33,7 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class AuditInfoTest implements HasLastModifiedTesting,
+public final class AuditInfoTest implements HasAuditInfoTesting,
+    HasLastModifiedTesting,
     HasPropertiesTesting,
     HashCodeEqualsDefinedTesting2<AuditInfo>,
     ClassTesting2<AuditInfo>,
@@ -528,6 +529,16 @@ public final class AuditInfoTest implements HasLastModifiedTesting,
             CREATED_TIMESTAMP,
             MODIFIED_BY,
             MODIFIED_TIMESTAMP
+        );
+    }
+
+    // HasAuditInfo.....................................................................................................
+
+    @Test
+    public void testHasAuditInfo() {
+        this.auditInfoAndCheck(
+            this.createObject(),
+            this.createObject()
         );
     }
 
