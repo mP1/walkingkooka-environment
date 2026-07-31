@@ -19,7 +19,7 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
-import walkingkooka.datetime.HasOptionalLastModifiedTesting;
+import walkingkooka.datetime.HasLastModifiedTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.HasPropertiesTesting;
 import walkingkooka.props.Properties;
@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class AuditInfoTest implements HasOptionalLastModifiedTesting,
+public final class AuditInfoTest implements HasLastModifiedTesting,
     HasPropertiesTesting,
     HashCodeEqualsDefinedTesting2<AuditInfo>,
     ClassTesting2<AuditInfo>,
