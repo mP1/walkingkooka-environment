@@ -24,7 +24,7 @@ public final class HasOptionalAuditInfoTestingTest implements HasOptionalAuditIn
     @Test
     public void testAuditInfoAndCheck() {
         this.auditInfoAndCheck(
-            HAS_AUDIT_INFO,
+            HAS_OPTIONAL_AUDIT_INFO,
             AUDIT_INFO
         );
     }
