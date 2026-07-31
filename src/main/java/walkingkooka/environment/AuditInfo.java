@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.datetime.HasLastModified;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.HasProperties;
 import walkingkooka.props.Properties;
@@ -26,11 +27,13 @@ import walkingkooka.text.printer.TreePrintable;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Captures the created and modified entries for an entity.
  */
-public final class AuditInfo implements HasProperties,
+public final class AuditInfo implements HasLastModified,
+    HasProperties,
     TreePrintable {
 
     public static AuditInfo create(final EmailAddress createdBy,
@@ -242,6 +245,15 @@ public final class AuditInfo implements HasProperties,
             LocalDateTime.parse(
                 properties.getOrFail(MODIFIED_TIMESTAMP)
             )
+        );
+    }
+
+    // HasLastModified..................................................................................................
+
+    @Override
+    public Optional<LocalDateTime> lastModified() {
+        return Optional.of(
+            this.modifiedTimestamp
         );
     }
 
