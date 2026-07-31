@@ -17,17 +17,24 @@
 
 package walkingkooka.environment;
 
-public interface HasAuditInfoTesting extends AuditInfoTesting {
+import walkingkooka.datetime.HasNowTesting;
+import walkingkooka.text.printer.TreePrintableTesting;
 
-    HasAuditInfo HAS_AUDIT_INFO = () -> AUDIT_INFO;
+import java.util.Optional;
 
-    // auditInfoAndCheck................................................................................................
+public interface AuditInfoTesting extends HasNowTesting,
+    HasUserTesting,
+    TreePrintableTesting {
 
-    default void auditInfoAndCheck(final HasAuditInfo has,
-                                   final AuditInfo expected) {
-        this.checkEquals(
-            expected,
-            has.auditInfo()
-        );
-    }
+    AuditInfo AUDIT_INFO = AuditInfo.create(
+        USER,
+        NOW
+    );
+
+    Optional<AuditInfo> OPTIONAL_AUDIT_INFO = Optional.of(AUDIT_INFO);
+
+    AuditInfo DIFFERENT_AUDIT_INFO = AuditInfo.create(
+        DIFFERENT_USER,
+        DIFFERENT_NOW
+    );
 }
