@@ -32,7 +32,7 @@ import java.util.Optional;
 /**
  * Captures the created and modified entries for an entity.
  */
-public final class AuditInfo implements HasOptionalAuditInfo,
+public final class AuditInfo implements HasAuditInfo,
     HasLastModified,
     HasProperties,
     TreePrintable {
@@ -249,11 +249,11 @@ public final class AuditInfo implements HasOptionalAuditInfo,
         );
     }
 
-    // HasOptionalAuditInfo.....................................................................................................
+    // HasAuditInfo.....................................................................................................
 
     @Override
-    public Optional<AuditInfo> auditInfo() {
-        return Optional.of(this);
+    public AuditInfo auditInfo() {
+        return this;
     }
 
     // HasLastModified..................................................................................................
