@@ -38,7 +38,7 @@ public interface HasOptionalAuditInfoTesting extends HasNowTesting,
         DIFFERENT_NOW
     );
 
-    HasOptionalAuditInfo HAS_AUDIT_INFO = () -> OPTIONAL_AUDIT_INFO;
+    HasOptionalAuditInfo HAS_OPTIONAL_AUDIT_INFO = () -> OPTIONAL_AUDIT_INFO;
 
     // user.............................................................................................................
 
