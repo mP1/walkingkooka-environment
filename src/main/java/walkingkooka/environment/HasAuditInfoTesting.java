@@ -18,7 +18,6 @@
 package walkingkooka.environment;
 
 import walkingkooka.datetime.HasNowTesting;
-import walkingkooka.environment.convert.HasAuditInfo;
 import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.util.Optional;
