@@ -15,9 +15,7 @@
  *
  */
 
-package walkingkooka.environment.convert;
-
-import walkingkooka.environment.AuditInfo;
+package walkingkooka.environment;
 
 import java.util.Optional;
 

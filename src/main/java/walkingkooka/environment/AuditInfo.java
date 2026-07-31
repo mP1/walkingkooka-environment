@@ -18,7 +18,6 @@
 package walkingkooka.environment;
 
 import walkingkooka.datetime.HasLastModified;
-import walkingkooka.environment.convert.HasAuditInfo;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.HasProperties;
 import walkingkooka.props.Properties;
