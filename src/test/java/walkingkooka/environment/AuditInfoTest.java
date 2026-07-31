@@ -422,7 +422,7 @@ public final class AuditInfoTest implements HasAuditInfoTesting,
             info.modifiedTimestamp()
         );
 
-        this.hasLastModifiedAndCheck(
+        this.lastModifiedAndCheck(
             info,
             expected
         );
