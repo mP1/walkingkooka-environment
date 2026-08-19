@@ -238,13 +238,10 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final Charset oldCharset = this.charset;
         this.charset = charset;
 
-        this.watchers.onValueChange(
-            Optional.of(
-                CHARSET.setValue(oldCharset)
-            ),
-            Optional.of(
-                CHARSET.setValue(charset)
-            )
+        this.fireOnWatch(
+            CHARSET,
+            oldCharset,
+            charset
         );
     }
 
@@ -264,13 +261,10 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final Currency oldCurrency = this.currency;
         this.currency = currency;
 
-        this.watchers.onValueChange(
-            Optional.of(
-                CURRENCY.setValue(oldCurrency)
-            ),
-            Optional.of(
-                CURRENCY.setValue(currency)
-            )
+        this.fireOnWatch(
+            CURRENCY,
+            oldCurrency,
+            currency
         );
     }
 
@@ -290,13 +284,10 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final Indentation oldIndentation = this.indentation;
         this.indentation = indentation;
 
-        this.watchers.onValueChange(
-            Optional.of(
-                INDENTATION.setValue(oldIndentation)
-            ),
-            Optional.of(
-                INDENTATION.setValue(indentation)
-            )
+        this.fireOnWatch(
+            INDENTATION,
+            oldIndentation,
+            indentation
         );
     }
 
@@ -316,13 +307,10 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final LineEnding oldLineEnding = this.lineEnding;
         this.lineEnding = lineEnding;
 
-        this.watchers.onValueChange(
-            Optional.of(
-                LINE_ENDING.setValue(oldLineEnding)
-            ),
-            Optional.of(
-                LINE_ENDING.setValue(lineEnding)
-            )
+        this.fireOnWatch(
+            LINE_ENDING,
+            oldLineEnding,
+            lineEnding
         );
     }
 
@@ -342,13 +330,10 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final Locale oldLocale = this.locale;
         this.locale = locale;
 
-        this.watchers.onValueChange(
-            Optional.of(
-                LOCALE.setValue(oldLocale)
-            ),
-            Optional.of(
-                LOCALE.setValue(locale)
-            )
+        this.fireOnWatch(
+            LOCALE,
+            oldLocale,
+            locale
         );
     }
 
@@ -377,13 +362,10 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
         final ZoneOffset oldTimeOffset = this.timeOffset;
         this.timeOffset = Objects.requireNonNull(timeOffset, "timeOffset");
 
-        this.watchers.onValueChange(
-            Optional.of(
-                TIME_OFFSET.setValue(oldTimeOffset)
-            ),
-            Optional.of(
-                TIME_OFFSET.setValue(timeOffset)
-            )
+        this.fireOnWatch(
+            TIME_OFFSET,
+            oldTimeOffset,
+            timeOffset
         );
     }
 
@@ -416,6 +398,19 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
     @Override
     public EnvironmentWatchers environmentValueWatchers() {
         return this.watchers;
+    }
+
+    private <T> void fireOnWatch(final EnvironmentValueName<T> name,
+                                 final T oldValue,
+                                 final T newValue) {
+        this.watchers.onValueChange(
+            Optional.of(
+                name.setValue(oldValue)
+            ),
+            Optional.of(
+                name.setValue(newValue)
+            )
+        );
     }
 
     private final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
