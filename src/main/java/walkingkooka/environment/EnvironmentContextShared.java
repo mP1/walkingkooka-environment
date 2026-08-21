@@ -45,6 +45,13 @@ abstract class EnvironmentContextShared implements EnvironmentContext,
         super();
     }
 
+    // CanParseEnvironmentValueName.....................................................................................
+
+    @Override
+    public final EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
+        return EnvironmentValueName.parseEnvironmentValueName(value);
+    }
+
     // HasCharset.......................................................................................................
 
     @Override

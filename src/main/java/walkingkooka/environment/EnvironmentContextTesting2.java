@@ -42,6 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting2<C extends EnvironmentContext> extends EnvironmentContextTesting,
+    CanParseEnvironmentValueNameTesting2<C>,
     ContextTesting<C> {
 
     // constants........................................................................................................
@@ -725,5 +726,12 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             () -> this.createContext()
                 .addEnvironmentWatcherOnce(null)
         );
+    }
+
+    // CanParseEnvironmentValueNameTesting2.............................................................................
+
+    @Override
+    default C createCanParseEnvironmentValueName() {
+        return this.createContext();
     }
 }
