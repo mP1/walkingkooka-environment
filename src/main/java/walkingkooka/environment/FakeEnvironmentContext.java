@@ -146,4 +146,11 @@ public class FakeEnvironmentContext implements EnvironmentContext {
     public Runnable addEnvironmentWatcherOnce(final EnvironmentWatcher watcher) {
         throw new UnsupportedOperationException();
     }
+
+    // CanParseEnvironmentValueName.....................................................................................
+
+    @Override
+    public EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
+        throw new UnsupportedOperationException();
+    }
 }

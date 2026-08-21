@@ -42,6 +42,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting extends BinaryTextContextTesting,
+    CanParseEnvironmentValueNameTesting,
     HasCurrencyTesting,
     HasLocaleTesting,
     HasNowTesting,

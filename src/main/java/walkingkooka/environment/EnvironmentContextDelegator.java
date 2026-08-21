@@ -169,5 +169,11 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
             .addEnvironmentWatcherOnce(watcher);
     }
 
+    @Override
+    default EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
+        return this.environmentContext()
+            .parseEnvironmentValueName(value);
+    }
+
     EnvironmentContext environmentContext();
 }

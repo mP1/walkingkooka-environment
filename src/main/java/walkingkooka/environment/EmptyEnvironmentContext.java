@@ -415,6 +415,13 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
     private final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
 
+    // CanParseEnvironmentValueName.....................................................................................
+
+    @Override
+    public EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
+        return EnvironmentValueName.parseEnvironmentValueName(value);
+    }
+
     // Object...........................................................................................................
 
     @Override

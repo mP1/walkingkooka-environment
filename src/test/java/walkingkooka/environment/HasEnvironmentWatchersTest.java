@@ -145,6 +145,11 @@ public final class HasEnvironmentWatchersTest implements ClassTesting2<HasEnviro
         public EnvironmentWatchers environmentValueWatchers() {
             return EnvironmentWatchers.empty();
         }
+
+        @Override
+        public EnvironmentValueName<?> parseEnvironmentValueName(final String name) {
+            throw new UnsupportedOperationException();
+        }
     }
 
     // class............................................................................................................

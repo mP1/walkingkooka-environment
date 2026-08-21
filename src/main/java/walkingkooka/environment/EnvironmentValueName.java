@@ -321,4 +321,18 @@ final public class EnvironmentValueName<T> implements Name,
     public CaseSensitivity caseSensitivity() {
         return CASE_SENSITIVITY;
     }
+
+    // CanParseEnvironmentValueName.....................................................................................
+
+    static EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
+        final EnvironmentValueName<?> environmentValueName = CONSTANTS.get(
+            Objects.requireNonNull(value, "value")
+        );
+
+        if (null == environmentValueName) {
+            throw new IllegalArgumentException("Unknown environment value name " + CharSequences.quote(value));
+        }
+
+        return environmentValueName;
+    }
 }

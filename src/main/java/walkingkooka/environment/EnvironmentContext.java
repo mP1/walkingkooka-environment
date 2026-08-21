@@ -41,6 +41,7 @@ import java.util.Set;
  */
 public interface EnvironmentContext extends Context,
     BinaryTextContext,
+    CanParseEnvironmentValueName,
     HasCurrency,
     HasLocale,
     HasNow,
