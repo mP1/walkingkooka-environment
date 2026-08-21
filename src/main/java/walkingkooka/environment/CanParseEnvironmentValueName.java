@@ -25,5 +25,5 @@ public interface CanParseEnvironmentValueName {
     /**
      * Intended to lookup and return a {@link EnvironmentValueName}
      */
-    EnvironmentValueName<?> parseEnvironmentValueName(final String value);
+    EnvironmentValueName<?> parseEnvironmentValueName(final String name);
 }
