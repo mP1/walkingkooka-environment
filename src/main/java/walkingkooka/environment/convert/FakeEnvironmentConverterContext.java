@@ -19,7 +19,7 @@ package walkingkooka.environment.convert;
 
 import walkingkooka.convert.FakeConverterContext;
 
-public class FakeEnvironmentConverterContext extends FakeConverterContext {
+public class FakeEnvironmentConverterContext extends FakeConverterContext implements EnvironmentConverterContext {
 
     public FakeEnvironmentConverterContext() {
         super();
