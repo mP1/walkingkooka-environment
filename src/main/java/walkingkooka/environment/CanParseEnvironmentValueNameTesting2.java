@@ -32,6 +32,55 @@ public interface CanParseEnvironmentValueNameTesting2<C extends CanParseEnvironm
         );
     }
 
+    @Test
+    default void testParseEnvironmentValueNameWithNullUnknownFails() {
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> this.createCanParseEnvironmentValueName()
+                .parseEnvironmentValueName("?unknown")
+        );
+    }
+
+    @Test
+    default void testParseEnvironmentValueNameWithCharset() {
+        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.CHARSET);
+    }
+
+    @Test
+    default void testParseEnvironmentValueNameWithCurrency() {
+        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.CURRENCY);
+    }
+
+    @Test
+    default void testParseEnvironmentValueNameWithIndentation() {
+        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.INDENTATION);
+    }
+
+    @Test
+    default void testParseEnvironmentValueNameWithLineEnding() {
+        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.LINE_ENDING);
+    }
+
+    @Test
+    default void testParseEnvironmentValueNameWithLocale() {
+        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.LOCALE);
+    }
+
+    @Test
+    default void testParseEnvironmentValueNameWithNow() {
+        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.NOW);
+    }
+
+    @Test
+    default void testParseEnvironmentValueNameWithTimeOffset() {
+        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.TIME_OFFSET);
+    }
+
+    @Test
+    default void testParseEnvironmentValueNameWithUser() {
+        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.USER);
+    }
+
     default void parseEnvironmentValueNameAndCheck(final EnvironmentValueName<?> expected) {
         this.parseEnvironmentValueNameAndCheck(
             expected.value(),
