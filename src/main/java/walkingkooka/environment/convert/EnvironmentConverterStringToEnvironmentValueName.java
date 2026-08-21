@@ -18,19 +18,18 @@
 package walkingkooka.environment.convert;
 
 import walkingkooka.Cast;
-import walkingkooka.convert.ConverterContext;
 import walkingkooka.convert.TextToTryingShortCircuitingConverter;
 import walkingkooka.environment.EnvironmentValueName;
 
 /**
  * A converter that converts a {@link String} or text like value into a {@link EnvironmentValueName}.
  */
-final class EnvironmentConverterStringToEnvironmentValueName<C extends ConverterContext> implements TextToTryingShortCircuitingConverter<C> {
+final class EnvironmentConverterStringToEnvironmentValueName<C extends EnvironmentConverterContext> implements TextToTryingShortCircuitingConverter<C> {
 
     /**
      * Type-safe getter.
      */
-    static <C extends ConverterContext> EnvironmentConverterStringToEnvironmentValueName<C> instance() {
+    static <C extends EnvironmentConverterContext> EnvironmentConverterStringToEnvironmentValueName<C> instance() {
         return Cast.to(INSTANCE);
     }
 
@@ -42,15 +41,15 @@ final class EnvironmentConverterStringToEnvironmentValueName<C extends Converter
 
     @Override
     public boolean isTargetType(final Object value,
-                                final Class type,
-                                final ConverterContext context) {
+                                final Class<?> type,
+                                final C context) {
         return type == EnvironmentValueName.class;
     }
 
     @Override
     public Object parseText(final String text,
-                            final Class type,
-                            final ConverterContext context) {
+                            final Class<?> type,
+                            final C context) {
         return EnvironmentValueName.with(
             text,
             Object.class

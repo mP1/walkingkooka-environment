@@ -23,10 +23,9 @@ import walkingkooka.Either;
 import walkingkooka.convert.Converter;
 import walkingkooka.convert.ConverterTesting2;
 import walkingkooka.convert.Converters;
-import walkingkooka.convert.FakeConverterContext;
 import walkingkooka.environment.EnvironmentValueName;
 
-public final class EnvironmentConverterStringToEnvironmentValueNameTest implements ConverterTesting2<EnvironmentConverterStringToEnvironmentValueName<FakeConverterContext>, FakeConverterContext> {
+public final class EnvironmentConverterStringToEnvironmentValueNameTest implements ConverterTesting2<EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext>, FakeEnvironmentConverterContext> {
 
     @Test
     public void testConvertStringToEnvironmentValueName() {
@@ -60,13 +59,13 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest implemen
     }
 
     @Override
-    public EnvironmentConverterStringToEnvironmentValueName<FakeConverterContext> createConverter() {
+    public EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext> createConverter() {
         return EnvironmentConverterStringToEnvironmentValueName.instance();
     }
 
     @Override
-    public FakeConverterContext createContext() {
-        return new FakeConverterContext() {
+    public FakeEnvironmentConverterContext createContext() {
+        return new FakeEnvironmentConverterContext() {
 
             @Override
             public boolean canConvert(final Object value,
@@ -88,7 +87,7 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest implemen
                 );
             }
 
-            private final Converter<FakeConverterContext> converter = Converters.characterOrCharSequenceOrHasTextOrStringToCharacterOrCharSequenceOrString();
+            private final Converter<FakeEnvironmentConverterContext> converter = Converters.characterOrCharSequenceOrHasTextOrStringToCharacterOrCharSequenceOrString();
         };
     }
 
@@ -101,7 +100,7 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest implemen
     }
 
     @Override
-    public Class<EnvironmentConverterStringToEnvironmentValueName<FakeConverterContext>> type() {
+    public Class<EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext>> type() {
         return Cast.to(EnvironmentConverterStringToEnvironmentValueName.class);
     }
 }
