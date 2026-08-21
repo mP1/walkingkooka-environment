@@ -18,10 +18,16 @@
 package walkingkooka.environment.convert;
 
 import walkingkooka.convert.FakeConverterContext;
+import walkingkooka.environment.EnvironmentValueName;
 
 public class FakeEnvironmentConverterContext extends FakeConverterContext implements EnvironmentConverterContext {
 
     public FakeEnvironmentConverterContext() {
         super();
+    }
+
+    @Override
+    public EnvironmentValueName<?> parseEnvironmentValueName(final String name) {
+        throw new UnsupportedOperationException();
     }
 }

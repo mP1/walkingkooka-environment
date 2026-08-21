@@ -41,24 +41,24 @@ public final class TestEnvironmentConverterContextDelegatorTest implements Envir
     }
 
     final static class TestEnvironmentConverterContextDelegator implements EnvironmentConverterContextDelegator {
+
         @Override
         public EnvironmentConverterContext environmentConverterContext() {
             return this.context;
         }
 
         private final EnvironmentConverterContext context = EnvironmentConverterContexts.basic(
-            EnvironmentConverterContextBasic.with(
-                ConverterContexts.basic(
-                    false, // canNumbersHaveGroupSeparator
-                    Converters.JAVA_EPOCH_OFFSET, // dateOffset
-                    ',', // valueSeparator
-                    Converters.toCsvStringList(),
-                    BinaryNumberConverterFunctions.multiply(), // multiplier
-                    BINARY_TEXT_CONTEXT,
-                    CURRENCY_LOCALE_CONTEXT,
-                    DATE_TIME_CONTEXT,
-                    DECIMAL_NUMBER_CONTEXT
-                )
+            ENVIRONMENT_CONTEXT, // CanParseEnvironmentValueName
+            ConverterContexts.basic(
+                false, // canNumbersHaveGroupSeparator
+                Converters.JAVA_EPOCH_OFFSET, // dateOffset
+                ',', // valueSeparator
+                Converters.toCsvStringList(),
+                BinaryNumberConverterFunctions.multiply(), // multiplier
+                BINARY_TEXT_CONTEXT,
+                CURRENCY_LOCALE_CONTEXT,
+                DATE_TIME_CONTEXT,
+                DECIMAL_NUMBER_CONTEXT
             )
         );
 

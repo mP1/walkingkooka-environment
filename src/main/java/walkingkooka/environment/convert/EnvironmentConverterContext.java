@@ -18,6 +18,8 @@
 package walkingkooka.environment.convert;
 
 import walkingkooka.convert.ConverterContext;
+import walkingkooka.environment.CanParseEnvironmentValueName;
 
-public interface EnvironmentConverterContext extends ConverterContext {
+public interface EnvironmentConverterContext extends ConverterContext,
+    CanParseEnvironmentValueName {
 }

@@ -19,22 +19,35 @@ package walkingkooka.environment.convert;
 
 import walkingkooka.convert.ConverterContext;
 import walkingkooka.convert.ConverterContextDelegator;
+import walkingkooka.environment.CanParseEnvironmentValueName;
+import walkingkooka.environment.EnvironmentValueName;
 
 import java.util.Objects;
 
 final class EnvironmentConverterContextBasic implements EnvironmentConverterContext,
     ConverterContextDelegator {
 
-    static EnvironmentConverterContextBasic with(final ConverterContext context) {
+    static EnvironmentConverterContextBasic with(final CanParseEnvironmentValueName canParseEnvironmentValueName,
+                                                 final ConverterContext context) {
         return new EnvironmentConverterContextBasic(
+            Objects.requireNonNull(canParseEnvironmentValueName, "canParseEnvironmentValueName"),
             Objects.requireNonNull(context, "context")
         );
     }
 
-    private EnvironmentConverterContextBasic(final ConverterContext context) {
+    private EnvironmentConverterContextBasic(final CanParseEnvironmentValueName canParseEnvironmentValueName,
+                                             final ConverterContext context) {
         super();
+        this.canParseEnvironmentValueName = canParseEnvironmentValueName;
         this.context = context;
     }
+
+    @Override
+    public EnvironmentValueName<?> parseEnvironmentValueName(final String name) {
+        return this.canParseEnvironmentValueName.parseEnvironmentValueName(name);
+    }
+
+    private final CanParseEnvironmentValueName canParseEnvironmentValueName;
 
     // ConverterContextDelegator........................................................................................
 
