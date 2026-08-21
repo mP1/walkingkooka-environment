@@ -17,24 +17,11 @@
 
 package walkingkooka.environment.convert;
 
-import walkingkooka.reflect.PublicStaticHelper;
+import walkingkooka.convert.FakeConverterContext;
 
-/**
- * A collection of {@link EnvironmentConverterContext} factory methods.
- */
-public final class EnvironmentConverterContexts implements PublicStaticHelper {
+public class FakeEnvironmentConverterContext extends FakeConverterContext {
 
-    /**
-     * {@see FakeEnvironmentContext}
-     */
-    public static FakeEnvironmentConverterContext fake() {
-        return new FakeEnvironmentConverterContext();
-    }
-
-    /**
-     * Stop creation
-     */
-    private EnvironmentConverterContexts() {
-        throw new UnsupportedOperationException();
+    public FakeEnvironmentConverterContext() {
+        super();
     }
 }
