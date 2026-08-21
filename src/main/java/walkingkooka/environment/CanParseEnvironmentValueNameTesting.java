@@ -22,12 +22,12 @@ import walkingkooka.text.printer.TreePrintableTesting;
 public interface CanParseEnvironmentValueNameTesting extends TreePrintableTesting {
 
     default void parseEnvironmentValueNameAndCheck(final CanParseEnvironmentValueName can,
-                                                   final String value,
+                                                   final String name,
                                                    final EnvironmentValueName<?> expected) {
         this.checkEquals(
             expected,
-            can.parseEnvironmentValueName(value),
-            value
+            can.parseEnvironmentValueName(name),
+            name
         );
     }
 }
