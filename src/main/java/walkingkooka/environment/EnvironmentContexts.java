@@ -26,7 +26,6 @@ import walkingkooka.text.LineEnding;
 
 import java.nio.charset.Charset;
 import java.util.Currency;
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -35,15 +34,6 @@ import java.util.function.Predicate;
  * A collection of {@link EnvironmentContext} factory methods.
  */
 public final class EnvironmentContexts implements PublicStaticHelper {
-
-    /**
-     * {@see EnvironmentContextSharedCollection}
-     */
-    public static EnvironmentContext collection(final List<EnvironmentContext> contexts) {
-        return EnvironmentContextSharedCollection.with(
-            contexts
-        );
-    }
 
     /**
      * {@see FakeEnvironmentContext}
