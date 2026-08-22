@@ -61,35 +61,56 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         Objects.requireNonNull(hasNow, "hasNow");
         Objects.requireNonNull(user, "user");
 
-        final Map<EnvironmentValueName<?>, Object> values = Maps.sorted();
+        final Map<EnvironmentValueName<?>, EnvironmentContextSharedMapValue<?>> values = Maps.sorted();
         values.put(
             EnvironmentValueName.CHARSET,
-            charset
+            EnvironmentContextSharedMapValue.with(
+                EnvironmentValueName.CHARSET,
+                charset
+            )
         );
         values.put(
             EnvironmentValueName.CURRENCY,
-            currency
+            EnvironmentContextSharedMapValue.with(
+                EnvironmentValueName.CURRENCY,
+                currency
+            )
         );
         values.put(
             EnvironmentValueName.INDENTATION,
-            indentation
+            EnvironmentContextSharedMapValue.with(
+                EnvironmentValueName.INDENTATION,
+                indentation
+            )
         );
         values.put(
             EnvironmentValueName.LINE_ENDING,
-            lineEnding
+            EnvironmentContextSharedMapValue.with(
+                EnvironmentValueName.LINE_ENDING,
+                lineEnding
+            )
         );
         values.put(
             EnvironmentValueName.LOCALE,
-            locale
+            EnvironmentContextSharedMapValue.with(
+                EnvironmentValueName.LOCALE,
+                locale
+            )
         );
         values.put(
             EnvironmentValueName.TIME_OFFSET,
-            DEFAULT_TIME_OFFSET
+            EnvironmentContextSharedMapValue.with(
+                EnvironmentValueName.TIME_OFFSET,
+                DEFAULT_TIME_OFFSET
+            )
         );
         user.ifPresent(
             u -> values.put(
                 EnvironmentValueName.USER,
-                u
+                EnvironmentContextSharedMapValue.with(
+                    EnvironmentValueName.USER,
+                    u
+                )
             )
         );
 
@@ -99,7 +120,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         );
     }
 
-    private EnvironmentContextSharedMap(final Map<EnvironmentValueName<?>, Object> values,
+    private EnvironmentContextSharedMap(final Map<EnvironmentValueName<?>, EnvironmentContextSharedMapValue<?>> values,
                                         final HasNow hasNow) {
         super();
 
@@ -109,9 +130,14 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
     @Override
     public EnvironmentContext cloneEnvironment() {
-        final Map<EnvironmentValueName<?>, Object> values = Maps.sorted();
+        final Map<EnvironmentValueName<?>, EnvironmentContextSharedMapValue<?>> values = Maps.sorted();
 
-        values.putAll(this.values);
+        for (final EnvironmentContextSharedMapValue<?> value : this.values.values()) {
+            values.put(
+                value.environmentValueName,
+                value.copy()
+            );
+        }
 
         return new EnvironmentContextSharedMap(
             values,
@@ -136,10 +162,14 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         if (EnvironmentValueName.NOW.equals(name)) {
             value = this.hasNow.now();
         } else {
-            value = this.values.get(name);
-            if (null == value) {
+            final EnvironmentContextSharedMapValue<?> environmentContextSharedMapValue = this.values.get(name);
+            if (null != environmentContextSharedMapValue) {
+                value = environmentContextSharedMapValue.value;
+            } else {
                 if (EnvironmentValueName.TIME_OFFSET.equals(name)) {
                     value = DEFAULT_TIME_OFFSET;
+                } else {
+                    value = null;
                 }
             }
         }
@@ -155,7 +185,12 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         final Set<EnvironmentValueName<?>> names = SortedSets.tree();
 
-        names.addAll(this.values.keySet());
+        for (EnvironmentContextSharedMapValue<?> value : this.values.values()) {
+            names.add(
+                value.environmentValueName
+            );
+        }
+
         names.add(EnvironmentValueName.NOW);
         names.add(EnvironmentValueName.TIME_OFFSET);
 
@@ -172,17 +207,33 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
             throw name.readOnlyEnvironmentValueException();
         }
 
-        final Object oldValue = this.values.put(
-            name,
-            value
+        final T oldValue;
+
+        final Map<EnvironmentValueName<?>, EnvironmentContextSharedMapValue<?>> values = this.values;
+
+        final EnvironmentContextSharedMapValue<T> environmentContextSharedMapValue = Cast.to(
+            values.get(name)
         );
+        if (null == environmentContextSharedMapValue) {
+            this.values.put(
+                name,
+                EnvironmentContextSharedMapValue.with(
+                    name,
+                    value
+                )
+            );
+            oldValue = null;
+        } else {
+            oldValue = environmentContextSharedMapValue.value;
+            environmentContextSharedMapValue.value = Cast.to(value);
+        }
 
         this.watchers.onValueChange(
             Optional.ofNullable(
                 null != oldValue ?
                     EnvironmentValueNameAndValue.with(
                         name,
-                        (T) oldValue
+                        oldValue
                     ) :
                     null
             ),
@@ -216,7 +267,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     }
 
     // @VisibleForTesting
-    final Map<EnvironmentValueName<?>, Object> values;
+    final Map<EnvironmentValueName<?>, EnvironmentContextSharedMapValue<?>> values;
 
     // HasEnvironmentWatchers...........................................................................................
 
@@ -262,10 +313,10 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         b.append('{');
         b.separator(", ");
 
-        for (EnvironmentValueName<?> name : this.values.keySet()) {
-            b.label(name.value());
+        for (EnvironmentContextSharedMapValue<?> value : this.values.values()) {
+            b.label(value.environmentValueName.value());
             b.value(
-                this.values.get(name)
+                value.value
             );
         }
 
