@@ -32,6 +32,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public final class EnvironmentContextSharedMapTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedMap>
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedMap>,
@@ -524,6 +525,40 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             different,
             context.setEnvironmentContext(different)
         );
+    }
+
+    // setEnvironmentValueName..........................................................................................
+
+    @Test
+    public void testSetEnvironmentValueNameDifferentName() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        final EnvironmentValueName<String> name = EnvironmentValueName.with("MAGIC", String.class);
+
+        context.setEnvironmentValue(
+            name,
+            VALUE
+        );
+
+        final EnvironmentValueName<String> different = EnvironmentValueName.with("magic", String.class);
+
+        context.setEnvironmentValue(
+            different,
+            VALUE
+        );
+
+        for (final EnvironmentValueName<?> possible : context.environmentValueNames()) {
+            if (possible.equals(name)) {
+                assertSame(
+                    name,
+                    possible
+                );
+                return;
+            }
+        }
+
+        // first $name was overwritten
+        fail("EnvironmentValueName " + name + " missing from environmentValueNames");
     }
 
     // Context..........................................................................................................
