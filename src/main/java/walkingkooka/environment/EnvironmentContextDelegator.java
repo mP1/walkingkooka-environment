@@ -30,7 +30,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-public interface EnvironmentContextDelegator extends EnvironmentContext {
+public interface EnvironmentContextDelegator extends EnvironmentContext,
+    CanParseEnvironmentValueNameDelegator {
 
     @Override
     default <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
@@ -169,11 +170,12 @@ public interface EnvironmentContextDelegator extends EnvironmentContext {
             .addEnvironmentWatcherOnce(watcher);
     }
 
-    @Override
-    default EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
-        return this.environmentContext()
-            .parseEnvironmentValueName(value);
-    }
-
     EnvironmentContext environmentContext();
+
+    // CanParseEnvironmentValueNameDelegator............................................................................
+
+    @Override
+    default CanParseEnvironmentValueName canParseEnvironmentValueName() {
+        return this.environmentContext();
+    }
 }
