@@ -18,6 +18,7 @@
 package walkingkooka.environment.convert;
 
 import walkingkooka.convert.ConverterContext;
+import walkingkooka.environment.CanParseEnvironmentValueName;
 import walkingkooka.reflect.PublicStaticHelper;
 
 /**
@@ -28,8 +29,12 @@ public final class EnvironmentConverterContexts implements PublicStaticHelper {
     /**
      * {@link EnvironmentConverterContextBasic}
      */
-    public static EnvironmentConverterContext basic(final ConverterContext context) {
-        return EnvironmentConverterContextBasic.with(context);
+    public static EnvironmentConverterContext basic(final CanParseEnvironmentValueName canParseEnvironmentValueName,
+                                                    final ConverterContext context) {
+        return EnvironmentConverterContextBasic.with(
+            canParseEnvironmentValueName,
+            context
+        );
     }
 
     /**

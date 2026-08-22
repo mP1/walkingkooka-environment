@@ -18,6 +18,8 @@
 package walkingkooka.environment.convert;
 
 import walkingkooka.convert.ConverterContextTesting;
+import walkingkooka.environment.CanParseEnvironmentValueNameTesting;
 
-public interface EnvironmentConverterContextTesting extends ConverterContextTesting {
+public interface EnvironmentConverterContextTesting extends ConverterContextTesting,
+    CanParseEnvironmentValueNameTesting {
 }

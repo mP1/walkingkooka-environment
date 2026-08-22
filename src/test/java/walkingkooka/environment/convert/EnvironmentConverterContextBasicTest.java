@@ -23,6 +23,8 @@ import walkingkooka.convert.BinaryNumberConverterFunctions;
 import walkingkooka.convert.ConverterContexts;
 import walkingkooka.convert.Converters;
 import walkingkooka.currency.CurrencyLocaleContextTesting;
+import walkingkooka.environment.CanParseEnvironmentValueName;
+import walkingkooka.environment.EnvironmentContextTesting;
 import walkingkooka.math.DecimalNumberContext;
 import walkingkooka.math.DecimalNumberContextDelegator;
 import walkingkooka.math.DecimalNumberContextTesting;
@@ -36,13 +38,30 @@ public final class EnvironmentConverterContextBasicTest implements EnvironmentCo
     BinaryTextContextTesting,
     CurrencyLocaleContextTesting,
     DecimalNumberContextTesting,
-    DecimalNumberContextDelegator {
+    DecimalNumberContextDelegator,
+    EnvironmentContextTesting {
+
+    private final static CanParseEnvironmentValueName CAN_PARSE_ENVIRONMENT_VALUE_NAME = ENVIRONMENT_CONTEXT;
 
     @Test
-    public void testWithNullContextFails() {
+    public void testWithNullCanParseEnvironmentValueNameFails() {
         assertThrows(
             NullPointerException.class,
-            () -> EnvironmentConverterContextBasic.with(null)
+            () -> EnvironmentConverterContextBasic.with(
+                null,
+                ConverterContexts.fake()
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullConverterContextFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentConverterContextBasic.with(
+                CAN_PARSE_ENVIRONMENT_VALUE_NAME,
+                null
+            )
         );
     }
 
@@ -60,6 +79,7 @@ public final class EnvironmentConverterContextBasicTest implements EnvironmentCo
     @Override
     public EnvironmentConverterContextBasic createContext() {
         return EnvironmentConverterContextBasic.with(
+            CAN_PARSE_ENVIRONMENT_VALUE_NAME,
             ConverterContexts.basic(
                 false, // canNumbersHaveGroupSeparator
                 Converters.JAVA_EPOCH_OFFSET, // dateOffset

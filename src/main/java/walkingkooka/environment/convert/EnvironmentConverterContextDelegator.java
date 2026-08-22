@@ -19,9 +19,19 @@ package walkingkooka.environment.convert;
 
 import walkingkooka.convert.ConverterContext;
 import walkingkooka.convert.ConverterContextDelegator;
+import walkingkooka.environment.CanParseEnvironmentValueName;
+import walkingkooka.environment.CanParseEnvironmentValueNameDelegator;
 
 public interface EnvironmentConverterContextDelegator extends EnvironmentConverterContext,
-    ConverterContextDelegator {
+    ConverterContextDelegator,
+    CanParseEnvironmentValueNameDelegator {
+
+    // CanParseEnvironmentValueNameDelegator............................................................................
+
+    @Override
+    default CanParseEnvironmentValueName canParseEnvironmentValueName() {
+        return this.environmentConverterContext();
+    }
 
     // ConverterContextDelegator........................................................................................
 

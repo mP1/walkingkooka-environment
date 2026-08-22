@@ -18,9 +18,16 @@
 package walkingkooka.environment.convert;
 
 import walkingkooka.convert.ConverterContextTesting2;
+import walkingkooka.environment.CanParseEnvironmentValueNameTesting2;
 
 public interface EnvironmentConverterContextTesting2<C extends EnvironmentConverterContext> extends EnvironmentConverterContextTesting,
-    ConverterContextTesting2<C> {
+    ConverterContextTesting2<C>,
+    CanParseEnvironmentValueNameTesting2<C> {
+
+    @Override
+    default C createCanParseEnvironmentValueName() {
+        return this.createContext();
+    }
 
     @Override
     default String typeNameSuffix() {
