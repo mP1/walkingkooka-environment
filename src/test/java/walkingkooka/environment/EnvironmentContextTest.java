@@ -21,9 +21,11 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.ThrowableTesting;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Currency;
@@ -32,7 +34,60 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentContextTest implements ClassTesting<EnvironmentContext> {
+public final class EnvironmentContextTest implements ClassTesting<EnvironmentContext>,
+    CanParseEnvironmentValueNameTesting,
+    ThrowableTesting {
+
+    // ENVIRONMENT_CONTEXT_PARSE........................................................................................
+
+    @Test
+    public void testEnvironmentContextParseWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentContext.ENVIRONMENT_CONTEXT_PARSE.parseEnvironmentValueName(null)
+        );
+    }
+
+    @Test
+    public void testEnvironmentContextParseWithUnknownFails() {
+        final IllegalArgumentException thrown = assertThrows(
+            IllegalArgumentException.class,
+            () -> EnvironmentContext.ENVIRONMENT_CONTEXT_PARSE.parseEnvironmentValueName("unknown")
+        );
+
+        this.getMessageAndCheck(
+            thrown,
+            "Unknown environment value name \"unknown\""
+        );
+    }
+
+    @Test
+    public void testEnvironmentContextParseWithCharset() {
+        this.parseEnvironmentValueNameAndCheck(
+            EnvironmentContext.ENVIRONMENT_CONTEXT_PARSE,
+            EnvironmentValueName.CHARSET
+        );
+    }
+
+    @Test
+    public void testEnvironmentContextParseWithEnvironmentConstants() throws Exception {
+        int i = 0;
+
+        for(final Field field : EnvironmentContext.class.getDeclaredFields()) {
+            if(field.getType() == EnvironmentValueName.class) {
+                this.parseEnvironmentValueNameAndCheck(
+                    EnvironmentContext.ENVIRONMENT_CONTEXT_PARSE,
+                    (EnvironmentValueName<?>) field.get(null)
+                );
+                i++;
+            }
+        }
+
+        this.checkNotEquals(
+            0,
+            i
+        );
+    }
 
     // environmentValueOrFail...........................................................................................
 

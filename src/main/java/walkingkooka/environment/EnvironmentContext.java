@@ -22,6 +22,7 @@ import walkingkooka.currency.HasCurrency;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.BinaryTextContext;
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.util.HasLocale;
@@ -66,6 +67,47 @@ public interface EnvironmentContext extends Context,
     EnvironmentValueName<ZoneOffset> TIME_OFFSET = EnvironmentValueName.TIME_OFFSET;
 
     EnvironmentValueName<EmailAddress> USER = EnvironmentValueName.USER;
+
+    /**
+     * A {@link CanParseEnvironmentValueName} that only works for {@link EnvironmentContext}.
+     */
+    CanParseEnvironmentValueName ENVIRONMENT_CONTEXT_PARSE = (final String name) -> {
+        Objects.requireNonNull(name, "name");
+
+        final EnvironmentValueName<?> environmentValueName;
+
+        // assumes Case insensitive
+        switch (name.toLowerCase()) {
+            case "charset":
+                environmentValueName = CHARSET;
+                break;
+            case "currency":
+                environmentValueName = CURRENCY;
+                break;
+            case "indentation":
+                environmentValueName = INDENTATION;
+                break;
+            case "lineending":
+                environmentValueName = LINE_ENDING;
+                break;
+            case "locale":
+                environmentValueName = LOCALE;
+                break;
+            case "now":
+                environmentValueName = NOW;
+                break;
+            case "timeoffset":
+                environmentValueName = TIME_OFFSET;
+                break;
+            case "user":
+                environmentValueName = USER;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown environment value name " + CharSequences.quoteAndEscape(name));
+        }
+
+        return environmentValueName;
+    };
 
     /**
      * Returns a {@link EnvironmentContext} taking a snapshot of environment values. This is useful for environments
