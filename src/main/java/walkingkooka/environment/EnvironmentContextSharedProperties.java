@@ -226,6 +226,13 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
         return this.context.addEnvironmentWatcherOnce(watcher);
     }
 
+    // CanParseEnvironmentValueName.....................................................................................
+
+    @Override
+    public EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
+        return this.context.parseEnvironmentValueName(value);
+    }
+
     // Object...........................................................................................................
 
     @Override

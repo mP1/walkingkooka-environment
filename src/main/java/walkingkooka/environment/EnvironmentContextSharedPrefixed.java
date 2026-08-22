@@ -262,6 +262,13 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
         );
     }
 
+    // CanParseEnvironmentValueName.....................................................................................
+
+    @Override
+    public EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
+        return this.context.parseEnvironmentValueName(value);
+    }
+
     // @VisibleForTesting
     final EnvironmentContext context;
 

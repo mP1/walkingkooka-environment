@@ -324,15 +324,42 @@ final public class EnvironmentValueName<T> implements Name,
 
     // CanParseEnvironmentValueName.....................................................................................
 
-    static EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
-        final EnvironmentValueName<?> environmentValueName = CONSTANTS.get(
-            Objects.requireNonNull(value, "value")
-        );
+    static Optional<EnvironmentValueName<?>> parseEnvironmentValueName(final String name) {
+        Objects.requireNonNull(name, "name");
 
-        if (null == environmentValueName) {
-            throw new IllegalArgumentException("Unknown environment value name " + CharSequences.quote(value));
+        final EnvironmentValueName<?> environmentValueName;
+
+        // assumes Case insensitive
+        switch (name.toLowerCase()) {
+            case "charset":
+                environmentValueName = CHARSET;
+                break;
+            case "currency":
+                environmentValueName = CURRENCY;
+                break;
+            case "indentation":
+                environmentValueName = INDENTATION;
+                break;
+            case "lineending":
+                environmentValueName = LINE_ENDING;
+                break;
+            case "locale":
+                environmentValueName = LOCALE;
+                break;
+            case "now":
+                environmentValueName = NOW;
+                break;
+            case "timeoffset":
+                environmentValueName = TIME_OFFSET;
+                break;
+            case "user":
+                environmentValueName = USER;
+                break;
+            default:
+                environmentValueName = null;
+                break;
         }
 
-        return environmentValueName;
+        return Optional.ofNullable(environmentValueName);
     }
 }

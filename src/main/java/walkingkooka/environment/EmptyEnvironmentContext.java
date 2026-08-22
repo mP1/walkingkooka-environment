@@ -419,7 +419,9 @@ final class EmptyEnvironmentContext implements EnvironmentContext,
 
     @Override
     public EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
-        return EnvironmentValueName.parseEnvironmentValueName(value);
+        return EnvironmentValueName.parseEnvironmentValueName(value)
+            // Unknown environment value: "unknown123"
+            .orElseThrow(() -> new IllegalArgumentException("Unknown environment value: " + CharSequences.quoteAndEscape(value)));
     }
 
     // Object...........................................................................................................
