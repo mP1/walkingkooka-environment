@@ -561,6 +561,29 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         fail("EnvironmentValueName " + name + " missing from environmentValueNames");
     }
 
+    // CanParseEnvironmentValueName.....................................................................................
+
+    @Test
+    public void testParseEnvironmentValueNameAfterSetDifferent() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "MAGIC",
+            String.class
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            name,
+            VALUE
+        );
+
+        this.parseEnvironmentValueNameAndCheck(
+            context,
+            name
+        );
+    }
+
     // Context..........................................................................................................
 
     @Override

@@ -26,6 +26,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.datetime.HasNow;
 import walkingkooka.net.email.EmailAddress;
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
@@ -277,6 +278,31 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     }
 
     private final EnvironmentWatchers watchers = EnvironmentWatchers.empty();
+
+    // CanParseEnvironmentValueName.....................................................................................
+
+    @Override
+    public EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
+        EnvironmentValueName<?> environmentValueName = EnvironmentValueName.parseEnvironmentValueName(value)
+            .orElse(null);
+        if (null == environmentValueName) {
+            environmentValueName = EnvironmentValueName.with(
+                value,
+                Object.class
+            );
+
+            EnvironmentContextSharedMapValue<?> environmentContextSharedMapValue = this.values.get(environmentValueName);
+            if (null != environmentContextSharedMapValue) {
+                environmentValueName = environmentContextSharedMapValue.environmentValueName;
+            }
+        }
+
+        if (null == environmentValueName) {
+            throw new IllegalArgumentException("Unknown environment value name " + CharSequences.quoteAndEscape(value));
+        }
+
+        return environmentValueName;
+    }
 
     // Object...........................................................................................................
 
