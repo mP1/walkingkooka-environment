@@ -43,7 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting2<C extends EnvironmentContext> extends EnvironmentContextTesting,
     CanParseEnvironmentValueNameTesting2<C>,
-    ContextTesting<C> {
+    ContextTesting<C>,
+    HasEnvironmentContextTesting {
 
     // constants........................................................................................................
 
@@ -733,5 +734,17 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     @Override
     default C createCanParseEnvironmentValueName() {
         return this.createContext();
+    }
+
+    // HasEnvironmentContext............................................................................................
+
+    @Test
+    default void testEnvironmentContext() {
+        final C context = this.createContext();
+
+        this.environmentContextAndCheck(
+            context,
+            context
+        );
     }
 }
