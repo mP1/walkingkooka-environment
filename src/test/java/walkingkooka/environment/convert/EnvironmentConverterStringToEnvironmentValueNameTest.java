@@ -23,9 +23,19 @@ import walkingkooka.Either;
 import walkingkooka.convert.Converter;
 import walkingkooka.convert.ConverterTesting2;
 import walkingkooka.convert.Converters;
+import walkingkooka.environment.EnvironmentContextTesting;
 import walkingkooka.environment.EnvironmentValueName;
 
-public final class EnvironmentConverterStringToEnvironmentValueNameTest implements ConverterTesting2<EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext>, FakeEnvironmentConverterContext> {
+public final class EnvironmentConverterStringToEnvironmentValueNameTest implements ConverterTesting2<EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext>, FakeEnvironmentConverterContext>,
+    EnvironmentContextTesting {
+
+    @Test
+    public void testConvertStringCurrencyToEnvironmentValueName() {
+        this.convertAndCheck(
+            "currency",
+            EnvironmentValueName.CURRENCY
+        );
+    }
 
     @Test
     public void testConvertStringToEnvironmentValueName() {
@@ -88,6 +98,13 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest implemen
             }
 
             private final Converter<FakeEnvironmentConverterContext> converter = Converters.characterOrCharSequenceOrHasTextOrStringToCharacterOrCharSequenceOrString();
+
+            @Override
+            public EnvironmentValueName<?> parseEnvironmentValueName(final String name) {
+                return ENVIRONMENT_CONTEXT.parseEnvironmentValueName(
+                    name.toUpperCase()
+                );
+            }
         };
     }
 
