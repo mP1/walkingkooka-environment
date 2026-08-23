@@ -22,10 +22,10 @@ import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.map.Maps;
-import walkingkooka.net.header.HasContentType;
-import walkingkooka.net.header.MediaType;
 import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtension;
+import walkingkooka.net.header.HasContentType;
+import walkingkooka.net.header.MediaType;
 
 import java.util.Map;
 import java.util.Objects;
@@ -37,6 +37,7 @@ import java.util.Optional;
 public final class Environment implements CanBeEmpty,
     HasContentType,
     HasEnvironment,
+    HasEnvironmentContext,
     HasFileExtension,
     UsesToStringBuilder {
 
@@ -96,7 +97,8 @@ public final class Environment implements CanBeEmpty,
             new Environment(values);
     }
 
-    private final Map<EnvironmentValueName<?>, Object> values;
+    // EnvironmentEnvironmentContext
+    final Map<EnvironmentValueName<?>, Object> values;
 
     // CanBeEmpty.......................................................................................................
 
@@ -151,6 +153,13 @@ public final class Environment implements CanBeEmpty,
     @Override
     public Environment environment() {
         return this;
+    }
+
+    // HasEnvironmentContext............................................................................................
+
+    @Override
+    public EnvironmentContext environmentContext() {
+        return EnvironmentEnvironmentContext.with(this);
     }
 
     // HasFileExtension.................................................................................................
