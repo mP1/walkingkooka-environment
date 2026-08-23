@@ -1,0 +1,288 @@
+/*
+ * Copyright 2024 Miroslav Pokorny (github.com/mP1)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+package walkingkooka.environment;
+
+import org.junit.jupiter.api.Test;
+import walkingkooka.HashCodeEqualsDefinedTesting2;
+import walkingkooka.ToStringTesting;
+import walkingkooka.reflect.ClassTesting;
+import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.CharSequences;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Environment>,
+    ClassTesting<Environment>,
+    ToStringTesting<Environment>,
+    EnvironmentContextTesting {
+
+    // get..............................................................................................................
+
+    @Test
+    public void testGetWithNullNameFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> Environment.empty().get(null)
+        );
+    }
+
+    @Test
+    public void testGetUnknown() {
+        this.getAndCheck(
+            Environment.empty(),
+            EnvironmentValueName.LOCALE,
+            Optional.empty()
+        );
+    }
+
+    @Test
+    public void testGet() {
+        this.getAndCheck(
+            this.createObject(),
+            EnvironmentValueName.CURRENCY,
+            Optional.of(
+                CURRENCY
+            )
+        );
+    }
+
+    private <T> void getAndCheck(final Environment environment,
+                                 final EnvironmentValueName<T> name,
+                                 final Optional<T> expected) {
+        this.checkEquals(
+            expected,
+            environment.get(name),
+            () -> " get " + name
+        );
+    }
+
+    // set..............................................................................................................
+
+    @Test
+    public void testSetWithNullNameFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> Environment.empty().set(
+                null,
+                CURRENCY
+            )
+        );
+    }
+
+    @Test
+    public void testSetWithNullValueFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> Environment.empty().set(
+                EnvironmentValueName.CURRENCY,
+                null
+            )
+        );
+    }
+
+    @Test
+    public void testSetWithSame() {
+        this.setAndCheck(
+            this.createObject(),
+            EnvironmentValueName.CURRENCY,
+            CURRENCY
+        );
+    }
+
+    @Test
+    public void testSetWithDifferent() {
+        this.setAndCheck(
+            Environment.empty(),
+            EnvironmentValueName.CURRENCY,
+            CURRENCY,
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CURRENCY,
+                    CURRENCY
+                )
+        );
+    }
+
+    @Test
+    public void testSet2() {
+        this.setAndCheck(
+            this.createObject(),
+            EnvironmentValueName.LOCALE,
+            LOCALE,
+            this.createObject()
+                .set(
+                    EnvironmentValueName.LOCALE,
+                    LOCALE
+                )
+        );
+    }
+
+    private <T> void setAndCheck(final Environment environment,
+                                 final EnvironmentValueName<T> name,
+                                 final T value) {
+        this.setAndCheck(
+            environment,
+            name,
+            value,
+            environment
+        );
+    }
+
+    private <T> void setAndCheck(final Environment environment,
+                                 final EnvironmentValueName<T> name,
+                                 final T value,
+                                 final Environment expected) {
+        final Environment after = environment.set(
+            name,
+            value
+        );
+
+        if (expected.equals(environment)) {
+            assertSame(
+                after,
+                environment
+            );
+        } else {
+            this.checkEquals(
+                expected,
+                after,
+                () -> " set " + name + " " + CharSequences.quoteIfChars(value)
+            );
+
+        }
+    }
+
+    // remove..............................................................................................................
+
+    @Test
+    public void testRemoveWithNullNameFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> Environment.empty()
+                .remove(
+                    null
+                )
+        );
+    }
+
+    @Test
+    public void testRemoveWithUnknown() {
+        this.removeAndCheck(
+            this.createObject(),
+            EnvironmentValueName.LOCALE
+        );
+    }
+
+    @Test
+    public void testRemoveExisting() {
+        this.removeAndCheck(
+            this.createObject(),
+            EnvironmentValueName.CURRENCY,
+            Environment.empty()
+        );
+    }
+
+    @Test
+    public void testRemove2() {
+        this.removeAndCheck(
+            this.createObject()
+                .set(
+                    EnvironmentValueName.LOCALE,
+                    LOCALE
+                ),
+            EnvironmentValueName.LOCALE,
+            this.createObject()
+        );
+    }
+
+    private void removeAndCheck(final Environment environment,
+                                final EnvironmentValueName<?> name) {
+        this.removeAndCheck(
+            environment,
+            name,
+            environment
+        );
+    }
+
+    private void removeAndCheck(final Environment environment,
+                                final EnvironmentValueName<?> name,
+                                final Environment expected) {
+        final Environment after = environment.remove(name);
+
+        if (expected.equals(environment)) {
+            assertSame(
+                after,
+                environment
+            );
+        } else {
+            this.checkEquals(
+                expected,
+                after,
+                () -> " remove " + name
+            );
+
+        }
+    }
+
+    // hashCode/equals..................................................................................................
+
+    @Test
+    public void testEqualsDifferent() {
+        this.checkNotEquals(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CURRENCY,
+                    DIFFERENT_CURRENCY
+                )
+        );
+    }
+
+    @Override
+    public Environment createObject() {
+        return Environment.empty()
+            .set(
+                EnvironmentValueName.CURRENCY,
+                CURRENCY
+            );
+    }
+
+    // toString.........................................................................................................
+
+    @Test
+    public void testToString() {
+        this.toStringAndCheck(
+            this.createObject(),
+            "{currency=AUD}"
+        );
+    }
+
+    // class............................................................................................................
+
+    @Override
+    public Class<Environment> type() {
+        return Environment.class;
+    }
+
+    @Override
+    public JavaVisibility typeVisibility() {
+        return JavaVisibility.PUBLIC;
+    }
+}
