@@ -22,6 +22,8 @@ import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.map.Maps;
+import walkingkooka.net.header.HasContentType;
+import walkingkooka.net.header.MediaType;
 
 import java.util.Map;
 import java.util.Objects;
@@ -31,6 +33,7 @@ import java.util.Optional;
  * An immutable store of {@link EnvironmentValueName} and values.
  */
 public final class Environment implements CanBeEmpty,
+    HasContentType,
     HasEnvironment,
     UsesToStringBuilder {
 
@@ -131,6 +134,13 @@ public final class Environment implements CanBeEmpty,
             builder.value(this.values);
         }
         builder.append("}");
+    }
+
+    // HasContentType...................................................................................................
+
+    @Override
+    public Optional<MediaType> contentType() {
+        return Optional.of(MediaType.TEXT_ENV);
     }
 
     // HasEnvironment...................................................................................................

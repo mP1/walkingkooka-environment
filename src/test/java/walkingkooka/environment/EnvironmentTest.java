@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.CanBeEmptyTesting;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
+import walkingkooka.net.header.HasContentTypeTesting;
+import walkingkooka.net.header.MediaType;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
@@ -33,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Environment>,
     CanBeEmptyTesting,
     ClassTesting<Environment>,
+    HasContentTypeTesting,
     HasEnvironmentTesting,
     ToStringTesting<Environment>,
     EnvironmentContextTesting {
@@ -295,6 +298,16 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         this.toStringAndCheck(
             this.createObject(),
             "{currency=AUD}"
+        );
+    }
+
+    // HasContentType...................................................................................................
+
+    @Test
+    public void testContentType() {
+        this.contentTypeAndCheck(
+            Environment.empty(),
+            MediaType.TEXT_ENV
         );
     }
 
