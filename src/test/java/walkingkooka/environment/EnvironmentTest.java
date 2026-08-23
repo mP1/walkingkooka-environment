@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Environment>,
     CanBeEmptyTesting,
     ClassTesting<Environment>,
+    HasEnvironmentTesting,
     ToStringTesting<Environment>,
     EnvironmentContextTesting {
 
@@ -294,6 +295,18 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         this.toStringAndCheck(
             this.createObject(),
             "{currency=AUD}"
+        );
+    }
+
+    // HasEnvironment...................................................................................................
+
+    @Test
+    public void testEnvironment() {
+        final Environment environment = this.createObject();
+
+        this.environmentAndCheck(
+            environment,
+            environment
         );
     }
 
