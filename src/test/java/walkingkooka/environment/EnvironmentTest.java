@@ -23,6 +23,8 @@ import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.net.header.HasContentTypeTesting;
 import walkingkooka.net.header.MediaType;
+import walkingkooka.io.FileExtension;
+import walkingkooka.io.HasFileExtensionTesting;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
@@ -37,6 +39,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     ClassTesting<Environment>,
     HasContentTypeTesting,
     HasEnvironmentTesting,
+    HasFileExtensionTesting,
     ToStringTesting<Environment>,
     EnvironmentContextTesting {
 
@@ -320,6 +323,16 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         this.environmentAndCheck(
             environment,
             environment
+        );
+    }
+
+    // HasFileExtension.................................................................................................
+
+    @Test
+    public void testFileExtension() {
+        this.fileExtensionAndCheck(
+            this.createObject(),
+            FileExtension.ENV
         );
     }
 
