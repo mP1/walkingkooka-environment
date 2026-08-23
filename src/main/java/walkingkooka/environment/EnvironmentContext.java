@@ -45,6 +45,7 @@ public interface EnvironmentContext extends Context,
     CanParseEnvironmentValueName,
     HasCurrency,
     HasEnvironment,
+    HasEnvironmentContext,
     HasLocale,
     HasNow,
     HasUser {
@@ -245,5 +246,12 @@ public interface EnvironmentContext extends Context,
         }
 
         return environment;
+    }
+
+    // HasEnvironmentContext............................................................................................
+
+    @Override
+    default EnvironmentContext environmentContext() {
+        return this;
     }
 }

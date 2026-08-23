@@ -17,5 +17,17 @@
 
 package walkingkooka.environment;
 
+import org.junit.jupiter.api.Test;
+
 public final class HasEnvironmentContextTestingTest implements HasEnvironmentContextTesting {
+
+    @Test
+    public void testEnvironmentContext() {
+        final EnvironmentContext context = EnvironmentContexts.fake();
+
+        this.environmentContextAndCheck(
+            context,
+            context
+        );
+    }
 }
