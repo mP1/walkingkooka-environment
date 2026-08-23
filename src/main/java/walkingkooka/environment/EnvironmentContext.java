@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
 import walkingkooka.Context;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.datetime.HasNow;
@@ -43,6 +44,7 @@ public interface EnvironmentContext extends Context,
     BinaryTextContext,
     CanParseEnvironmentValueName,
     HasCurrency,
+    HasEnvironment,
     HasLocale,
     HasNow,
     HasUser {
@@ -220,5 +222,28 @@ public interface EnvironmentContext extends Context,
      */
     default EnvironmentContextMissingValues environmentContextMissingValues() {
         return EnvironmentContextMissingValues.with(this);
+    }
+
+    // HasEnvironment...................................................................................................
+
+    @Override
+    default Environment environment() {
+        Environment environment = Environment.empty();
+
+        for (final EnvironmentValueName<?> name : this.environmentValueNames()) {
+            final Object valueOrNull = environmentValue(name)
+                .orElseThrow(null);
+
+            if (null != valueOrNull) {
+                environment = environment.set(
+                    name,
+                    Cast.to(
+                        name.cast(valueOrNull)
+                    )
+                );
+            }
+        }
+
+        return environment;
     }
 }

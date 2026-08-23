@@ -853,6 +853,41 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
         );
     }
 
+    // HasEnvironment...................................................................................................
+
+    @Test
+    public void testEnvironment() {
+        this.environmentAndCheck(
+            this.createContext(),
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CHARSET,
+                    CHARSET
+                ).set(
+                    EnvironmentValueName.CURRENCY,
+                    CURRENCY
+                ).set(
+                    EnvironmentValueName.INDENTATION,
+                    INDENTATION
+                ).set(
+                    EnvironmentValueName.LINE_ENDING,
+                    LINE_ENDING
+                ).set(
+                    EnvironmentValueName.LOCALE,
+                    LOCALE
+                ).set(
+                    EnvironmentValueName.NOW,
+                    NOW
+                ).set(
+                    EnvironmentValueName.TIME_OFFSET,
+                    EnvironmentContext.DEFAULT_TIME_OFFSET
+                ).set(
+                    EnvironmentValueName.USER,
+                    USER
+                )
+        );
+    }
+
     // class............................................................................................................
 
     @Override
