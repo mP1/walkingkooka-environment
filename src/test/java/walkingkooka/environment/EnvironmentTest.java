@@ -168,7 +168,6 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
                 after,
                 () -> " set " + name + " " + CharSequences.quoteIfChars(value)
             );
-
         }
 
         this.isEmptyAndCheck(
@@ -245,7 +244,6 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
                 after,
                 () -> " remove " + name
             );
-
         }
     }
 
