@@ -31,6 +31,7 @@ import java.util.Optional;
  * An immutable store of {@link EnvironmentValueName} and values.
  */
 public final class Environment implements CanBeEmpty,
+    HasEnvironment,
     UsesToStringBuilder {
 
     /**
@@ -130,5 +131,12 @@ public final class Environment implements CanBeEmpty,
             builder.value(this.values);
         }
         builder.append("}");
+    }
+
+    // HasEnvironment...................................................................................................
+
+    @Override
+    public Environment environment() {
+        return this;
     }
 }
