@@ -603,6 +603,81 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
     }
 
+    // HasEnvironment...................................................................................................
+
+    @Test
+    public void testEnvironment() {
+        this.environmentAndCheck(
+            this.createContext(),
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CHARSET,
+                    CHARSET
+                ).set(
+                    EnvironmentValueName.CURRENCY,
+                    CURRENCY
+                ).set(
+                    EnvironmentValueName.INDENTATION,
+                    INDENTATION
+                ).set(
+                    EnvironmentValueName.LINE_ENDING,
+                    LINE_ENDING
+                ).set(
+                    EnvironmentValueName.LOCALE,
+                    LOCALE
+                ).set(
+                    EnvironmentValueName.NOW,
+                    NOW
+                ).set(
+                    EnvironmentValueName.TIME_OFFSET,
+                    EnvironmentContext.DEFAULT_TIME_OFFSET
+                )
+        );
+    }
+
+    @Test
+    public void testEnvironment2() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        final EnvironmentValueName<String> name = EnvironmentValueName.with("MAGIC", String.class);
+        final String value = "123";
+
+        context.setEnvironmentValue(
+            name,
+            value
+        );
+
+        this.environmentAndCheck(
+            context,
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CHARSET,
+                    CHARSET
+                ).set(
+                    EnvironmentValueName.CURRENCY,
+                    CURRENCY
+                ).set(
+                    EnvironmentValueName.INDENTATION,
+                    INDENTATION
+                ).set(
+                    EnvironmentValueName.LINE_ENDING,
+                    LINE_ENDING
+                ).set(
+                    EnvironmentValueName.LOCALE,
+                    LOCALE
+                ).set(
+                    EnvironmentValueName.NOW,
+                    NOW
+                ).set(
+                    EnvironmentValueName.TIME_OFFSET,
+                    EnvironmentContext.DEFAULT_TIME_OFFSET
+                ).set(
+                    name,
+                    value
+                )
+        );
+    }
+
     // hashCode/equals..................................................................................................
 
     @Test
