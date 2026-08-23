@@ -22,7 +22,7 @@ import walkingkooka.convert.TextToTryingShortCircuitingConverter;
 import walkingkooka.environment.EnvironmentValueName;
 
 /**
- * A converter that converts a {@link String} or text like value into a {@link EnvironmentValueName}.
+ * A converter that converts a {@link String} or text like value into a {@link EnvironmentValueName} using {@link EnvironmentConverterContext#parseEnvironmentValueName(String)}.
  */
 final class EnvironmentConverterStringToEnvironmentValueName<C extends EnvironmentConverterContext> implements TextToTryingShortCircuitingConverter<C> {
 
@@ -50,10 +50,7 @@ final class EnvironmentConverterStringToEnvironmentValueName<C extends Environme
     public Object parseText(final String text,
                             final Class<?> type,
                             final C context) {
-        return EnvironmentValueName.with(
-            text,
-            Object.class
-        );
+        return context.parseEnvironmentValueName(text);
     }
 
     @Override
