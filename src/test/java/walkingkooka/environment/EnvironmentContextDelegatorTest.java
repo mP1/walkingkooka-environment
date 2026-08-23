@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import org.junit.jupiter.api.Test;
 import walkingkooka.environment.EnvironmentContextDelegatorTest.TestEnvironmentContextDelegator;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
@@ -71,6 +72,19 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
     @Override
     public TestEnvironmentContextDelegator createContext() {
         return new TestEnvironmentContextDelegator();
+    }
+
+    // HasEnvironmentContext............................................................................................
+
+    @Test
+    @Override
+    public void testEnvironmentContext() {
+        final TestEnvironmentContextDelegator context = this.createContext();
+
+        this.environmentContextAndCheck(
+            context,
+            context.environmentContext
+        );
     }
 
     // class............................................................................................................
