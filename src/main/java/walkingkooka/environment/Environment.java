@@ -24,6 +24,8 @@ import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.header.HasContentType;
 import walkingkooka.net.header.MediaType;
+import walkingkooka.io.FileExtension;
+import walkingkooka.io.HasFileExtension;
 
 import java.util.Map;
 import java.util.Objects;
@@ -35,6 +37,7 @@ import java.util.Optional;
 public final class Environment implements CanBeEmpty,
     HasContentType,
     HasEnvironment,
+    HasFileExtension,
     UsesToStringBuilder {
 
     /**
@@ -148,5 +151,14 @@ public final class Environment implements CanBeEmpty,
     @Override
     public Environment environment() {
         return this;
+    }
+
+    // HasFileExtension.................................................................................................
+
+    @Override
+    public Optional<FileExtension> fileExtension() {
+        return Optional.of(
+            FileExtension.ENV
+        );
     }
 }
