@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.CanBeEmpty;
 import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.UsesToStringBuilder;
@@ -29,7 +30,8 @@ import java.util.Optional;
 /**
  * An immutable store of {@link EnvironmentValueName} and values.
  */
-public final class Environment implements UsesToStringBuilder {
+public final class Environment implements CanBeEmpty,
+    UsesToStringBuilder {
 
     /**
      * An new and empty {@link Environment}.
@@ -88,6 +90,13 @@ public final class Environment implements UsesToStringBuilder {
     }
 
     private final Map<EnvironmentValueName<?>, Object> values;
+
+    // CanBeEmpty.......................................................................................................
+
+    @Override
+    public boolean isEmpty() {
+        return this.values.isEmpty();
+    }
 
     // Object...........................................................................................................
 

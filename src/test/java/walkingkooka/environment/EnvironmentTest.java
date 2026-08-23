@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.CanBeEmptyTesting;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.reflect.ClassTesting;
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Environment>,
+    CanBeEmptyTesting,
     ClassTesting<Environment>,
     ToStringTesting<Environment>,
     EnvironmentContextTesting {
@@ -168,6 +170,11 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
             );
 
         }
+
+        this.isEmptyAndCheck(
+            after,
+            false
+        );
     }
 
     // remove..............................................................................................................
@@ -240,6 +247,24 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
             );
 
         }
+    }
+
+    // CanBeEmpty.......................................................................................................
+
+    @Test
+    public void testCanBeEmptyWhenEmpty() {
+        this.isEmptyAndCheck(
+            Environment.empty(),
+            true
+        );
+    }
+
+    @Test
+    public void testCanBeEmptyWhenNotEmpty() {
+        this.isEmptyAndCheck(
+            this.createObject(),
+            false
+        );
     }
 
     // hashCode/equals..................................................................................................
