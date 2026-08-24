@@ -26,6 +26,13 @@ import walkingkooka.reflect.PublicStaticHelper;
 public final class EnvironmentConverters implements PublicStaticHelper {
 
     /**
+     * {@see EnvironmentConverterEnvironmentToBinary}
+     */
+    public static <C extends EnvironmentConverterContext> Converter<C> environmentToBinary() {
+        return EnvironmentConverterEnvironmentToBinary.instance();
+    }
+
+    /**
      * {@see EnvironmentConverterEnvironmentToString}
      */
     public static <C extends EnvironmentConverterContext> Converter<C> environmentToString() {
