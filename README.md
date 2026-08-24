@@ -48,6 +48,7 @@ Within a spreadsheet terminal session, additional values are available. The list
 
 A collection of converters that are particularly useful within expressions and support passing environment values.
 
+- [environment-to-binary](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterEnvironmentToBinary.java)
 - [string-to-environment-value-name](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterStringToEnvironmentValueName.java)
 - [environment-to-string](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterEnvironmentToString.java)
 
