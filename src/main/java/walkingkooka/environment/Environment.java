@@ -44,6 +44,11 @@ public final class Environment implements CanBeEmpty,
     UsesToStringBuilder {
 
     /**
+     * The separator to be used between a {@link EnvironmentValueName} and value when converting an {@link String} to {@link Environment}.
+     */
+    public final static String SEPARATOR = "=";
+
+    /**
      * An new and empty {@link Environment}.
      */
     public static Environment empty() {
