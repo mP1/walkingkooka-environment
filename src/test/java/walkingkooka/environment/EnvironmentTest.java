@@ -21,15 +21,17 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.CanBeEmptyTesting;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
-import walkingkooka.net.header.HasContentTypeTesting;
-import walkingkooka.net.header.MediaType;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtensionTesting;
+import walkingkooka.net.header.HasContentTypeTesting;
+import walkingkooka.net.header.MediaType;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -252,6 +254,35 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
                 () -> " remove " + name
             );
         }
+    }
+
+    // names............................................................................................................
+
+    @Test
+    public void testNamesReadOnly() {
+        final Set<EnvironmentValueName<?>> names = this.createObject()
+            .names();
+
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> names.add(
+                EnvironmentValueName.with(
+                    "magic",
+                    String.class
+                )
+            )
+        );
+    }
+
+    @Test
+    public void testNames() {
+        this.checkEquals(
+            Sets.of(
+                EnvironmentValueName.CURRENCY
+            ),
+            this.createObject()
+                .names()
+        );
     }
 
     // CanBeEmpty.......................................................................................................

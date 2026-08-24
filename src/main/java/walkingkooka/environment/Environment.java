@@ -22,6 +22,7 @@ import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.map.Maps;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtension;
 import walkingkooka.net.header.HasContentType;
@@ -30,6 +31,7 @@ import walkingkooka.net.header.MediaType;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * An immutable store of {@link EnvironmentValueName} and values.
@@ -95,6 +97,12 @@ public final class Environment implements CanBeEmpty,
         return this.values.equals(values) ?
             this :
             new Environment(values);
+    }
+
+    public Set<EnvironmentValueName<?>> names() {
+        return Sets.readOnly(
+            this.values.keySet()
+        );
     }
 
     // EnvironmentEnvironmentContext
