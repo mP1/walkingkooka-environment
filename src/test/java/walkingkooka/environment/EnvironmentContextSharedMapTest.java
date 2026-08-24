@@ -678,6 +678,38 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
     }
 
+    // copyEnvironment..................................................................................................
+
+    @Test
+    public void testCopyEnvironmentReplaces() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        final EnvironmentValueName<String> name = EnvironmentValueName.with(
+            "MAGIC",
+            String.class
+        );
+        final String value = "123";
+
+        final Environment environment = Environment.empty()
+            .set(
+                name,
+                value
+            );
+
+        final EnvironmentContext expected = context.cloneEnvironment();
+        name.setEnvironmentValue(
+            value,
+            expected
+        );
+
+        context.copyEnvironment(environment);
+
+        this.checkEquals(
+            expected,
+            context
+        );
+    }
+
     // hashCode/equals..................................................................................................
 
     @Test

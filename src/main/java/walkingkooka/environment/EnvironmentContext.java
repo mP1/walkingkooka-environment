@@ -219,6 +219,25 @@ public interface EnvironmentContext extends Context,
     Runnable addEnvironmentWatcherOnce(final EnvironmentWatcher watcher);
 
     /**
+     * Copies all the values from the given {@link Environment}.
+     */
+    default void copyEnvironment(final Environment environment) {
+        Objects.requireNonNull(environment, "environment");
+
+        for(final EnvironmentValueName<?> name : environment.names()) {
+            final Object value = environment.get(name)
+                .orElse(null);
+
+            if(null != value) {
+                name.setEnvironmentValue(
+                    Cast.to(value),
+                    this
+                );
+            }
+        }
+    }
+
+    /**
      * Gives an empty {@link EnvironmentContextMissingValues}.
      */
     default EnvironmentContextMissingValues environmentContextMissingValues() {
