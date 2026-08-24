@@ -729,6 +729,17 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
+    // copyEnvironment..................................................................................................
+
+    @Test
+    default void testCopyEnvironmentWithNullEnvironmentFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .copyEnvironment(null)
+        );
+    }
+
     // CanParseEnvironmentValueNameTesting2.............................................................................
 
     @Override
