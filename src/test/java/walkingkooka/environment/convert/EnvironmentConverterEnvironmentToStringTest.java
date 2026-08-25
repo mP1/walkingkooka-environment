@@ -59,7 +59,7 @@ public final class EnvironmentConverterEnvironmentToStringTest implements Conver
             this.createContext(
                 LineEnding.CR
             ),
-            "currency=\"AUD\"\r"
+            "currency=AUD\r"
         );
     }
 
@@ -71,7 +71,7 @@ public final class EnvironmentConverterEnvironmentToStringTest implements Conver
                     EnvironmentValueName.CURRENCY,
                     CURRENCY
                 ),
-            "currency=\"AUD\"\n"
+            "currency=AUD\n"
         );
     }
 
@@ -89,9 +89,21 @@ public final class EnvironmentConverterEnvironmentToStringTest implements Conver
                     EnvironmentValueName.with("hello-time", LocalTime.class),
                     NOW.toLocalTime()
                 ),
-            "currency=\"AUD\"\n" +
-                "hello-time=\"59:58:12\"\n" +
-                "locale=\"en-AU\"\n"
+            "currency=AUD\n" +
+                "hello-time=59:58:12\n" +
+                "locale=en-AU\n"
+        );
+    }
+
+    @Test
+    public void testConvertEnvironmentToStringRequiresEscaping() {
+        this.convertAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.LINE_ENDING,
+                    LINE_ENDING
+                ),
+            "lineEnding=\"\\n\"\n"
         );
     }
 

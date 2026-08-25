@@ -78,7 +78,7 @@ final class EnvironmentConverterEnvironmentToString<C extends EnvironmentConvert
                         )
                     ).append(Environment.SEPARATOR)
                     .append(
-                        CharSequences.quoteIfChars(
+                        CharSequences.quoteIfNecessary(
                             context.convertOrFail(
                                 value,
                                 String.class
