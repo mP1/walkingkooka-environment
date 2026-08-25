@@ -62,7 +62,7 @@ public final class EnvironmentConverterEnvironmentToBinaryTest implements Conver
                 LineEnding.CR
             ),
             Binary.with(
-                "currency=\"AUD\"\r".getBytes(CHARSET)
+                "currency=AUD\r".getBytes(CHARSET)
             )
         );
     }
@@ -76,7 +76,7 @@ public final class EnvironmentConverterEnvironmentToBinaryTest implements Conver
                     CURRENCY
                 ),
             Binary.with(
-                "currency=\"AUD\"\n".getBytes(CHARSET)
+                "currency=AUD\n".getBytes(CHARSET)
             )
         );
     }
@@ -89,6 +89,9 @@ public final class EnvironmentConverterEnvironmentToBinaryTest implements Conver
                     EnvironmentValueName.CURRENCY,
                     CURRENCY
                 ).set(
+                    EnvironmentValueName.LINE_ENDING,
+                    LINE_ENDING
+                ).set(
                     EnvironmentValueName.LOCALE,
                     LOCALE
                 ).set(
@@ -97,9 +100,10 @@ public final class EnvironmentConverterEnvironmentToBinaryTest implements Conver
                 ),
             Binary.with(
                 (
-                    "currency=\"AUD\"\n" +
-                        "hello-time=\"59:58:12\"\n" +
-                        "locale=\"en-AU\"\n"
+                    "currency=AUD\n" +
+                        "hello-time=59:58:12\n" +
+                        "lineEnding=\"\\n\"\n" +
+                        "locale=en-AU\n"
                 ).getBytes(CHARSET)
             )
         );
