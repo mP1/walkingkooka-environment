@@ -23,7 +23,6 @@ import walkingkooka.convert.BinaryNumberConverterFunctions;
 import walkingkooka.convert.ConverterContexts;
 import walkingkooka.convert.Converters;
 import walkingkooka.currency.CurrencyLocaleContextTesting;
-import walkingkooka.environment.CanParseEnvironmentValueName;
 import walkingkooka.environment.EnvironmentContextTesting;
 import walkingkooka.math.DecimalNumberContext;
 import walkingkooka.math.DecimalNumberContextDelegator;
@@ -40,8 +39,6 @@ public final class EnvironmentConverterContextBasicTest implements EnvironmentCo
     DecimalNumberContextTesting,
     DecimalNumberContextDelegator,
     EnvironmentContextTesting {
-
-    private final static CanParseEnvironmentValueName CAN_PARSE_ENVIRONMENT_VALUE_NAME = ENVIRONMENT_CONTEXT;
 
     @Test
     public void testWithNullCanParseEnvironmentValueNameFails() {
