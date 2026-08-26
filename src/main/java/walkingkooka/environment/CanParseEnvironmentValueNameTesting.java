@@ -21,6 +21,19 @@ import walkingkooka.text.printer.TreePrintableTesting;
 
 public interface CanParseEnvironmentValueNameTesting extends TreePrintableTesting {
 
+    CanParseEnvironmentValueName CAN_PARSE_ENVIRONMENT_VALUE_NAME = new CanParseEnvironmentValueName() {
+        @Override
+        public EnvironmentValueName<?> parseEnvironmentValueName(String name) {
+            return EnvironmentContextTesting.ENVIRONMENT_CONTEXT.parseEnvironmentValueName(name);
+        }
+
+        // stable toString so #toString tests wont break
+        @Override
+        public String toString() {
+            return EnvironmentContextTesting.ENVIRONMENT_CONTEXT.toString();
+        }
+    };
+
     default void parseEnvironmentValueNameAndCheck(final CanParseEnvironmentValueName can,
                                                    final EnvironmentValueName<?> expected) {
         this.parseEnvironmentValueNameAndCheck(
