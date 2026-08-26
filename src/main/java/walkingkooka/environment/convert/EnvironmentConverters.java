@@ -40,6 +40,13 @@ public final class EnvironmentConverters implements PublicStaticHelper {
     }
 
     /**
+     * {@see EnvironmentConverterStringToEnvironment}
+     */
+    public static <C extends EnvironmentConverterContext> Converter<C> textToEnvironment() {
+        return EnvironmentConverterStringToEnvironment.instance();
+    }
+
+    /**
      * {@see EnvironmentConverterStringToEnvironmentValueName}
      */
     public static <C extends EnvironmentConverterContext> Converter<C> textToEnvironmentValueName() {
