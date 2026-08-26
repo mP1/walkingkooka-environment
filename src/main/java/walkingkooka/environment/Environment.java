@@ -177,10 +177,10 @@ public final class Environment implements CanBeEmpty,
 
     // HasFileExtension.................................................................................................
 
+    public final static FileExtension FILE_EXTENSION = FileExtension.ENV;
+
     @Override
     public Optional<FileExtension> fileExtension() {
-        return Optional.of(
-            FileExtension.ENV
-        );
+        return Optional.of(FILE_EXTENSION);
     }
 }
