@@ -85,6 +85,36 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         );
     }
 
+    // getOrFail........................................................................................................
+
+    @Test
+    public void testGetOrFailMissingFails() {
+        assertThrows(
+            MissingEnvironmentValueException.class,
+            () -> this.createObject()
+                .getOrFail(EnvironmentValueName.LOCALE)
+        );
+    }
+
+    @Test
+    public void testGetOrFail() {
+        this.getOrFailAndCheck(
+            this.createObject(),
+            EnvironmentValueName.CURRENCY,
+            CURRENCY
+        );
+    }
+
+    private <T> void getOrFailAndCheck(final Environment environment,
+                                       final EnvironmentValueName<T> name,
+                                       final T expected) {
+        this.checkEquals(
+            expected,
+            environment.getOrFail(name),
+            () -> " getOrFail " + name
+        );
+    }
+
     // set..............................................................................................................
 
     @Test

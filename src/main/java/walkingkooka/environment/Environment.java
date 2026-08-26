@@ -73,6 +73,11 @@ public final class Environment implements CanBeEmpty,
         );
     }
 
+    public <T> T getOrFail(final EnvironmentValueName<T> name) {
+        return this.get(name)
+            .orElseThrow(() -> name.missingEnvironmentValueException());
+    }
+
     public <T> Environment set(final EnvironmentValueName<T> name,
                                final T value) {
         Objects.requireNonNull(name, "name");
