@@ -156,9 +156,11 @@ public final class Environment implements CanBeEmpty,
 
     // HasContentType...................................................................................................
 
+    public final static MediaType CONTENT_TYPE = MediaType.TEXT_ENV;
+
     @Override
     public Optional<MediaType> contentType() {
-        return Optional.of(MediaType.TEXT_ENV);
+        return Optional.of(CONTENT_TYPE);
     }
 
     // HasEnvironment...................................................................................................
