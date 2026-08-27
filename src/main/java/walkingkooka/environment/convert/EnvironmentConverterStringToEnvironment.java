@@ -94,6 +94,7 @@ final class EnvironmentConverterStringToEnvironment<C extends EnvironmentConvert
         final int MODE_TOKEN_RAW_VALUE = 9;
         final int MODE_TOKEN_SINGLE_QUOTED_VALUE = 10;
         final int MODE_TOKEN_DOUBLE_QUOTED_VALUE = 11;
+        final int MODE_TOKEN_QUOTED_VALUE_AFTER = 12;
 
         final TextCursor textCursor = TextCursors.charSequence(text);
         TextCursorSavePoint start = null;
@@ -268,6 +269,21 @@ final class EnvironmentConverterStringToEnvironment<C extends EnvironmentConvert
                 case MODE_TOKEN_SINGLE_QUOTED_VALUE:
                 case MODE_TOKEN_DOUBLE_QUOTED_VALUE:
                     break;
+                case MODE_TOKEN_QUOTED_VALUE_AFTER:
+                    switch (c) {
+                        case FORM_FEED:
+                        case SPACES:
+                        case TAB:
+                        case CR:
+                        case NL:
+                            textCursor.next(); // skip
+                            break;
+                        default:
+                            throw textCursor.lineInfo()
+                                .invalidCharacterException()
+                                .orElseThrow();
+                    }
+                    break;
                 default:
                     throw new IllegalStateException("Invalid tokenMode: " + tokenMode);
             }
@@ -436,6 +452,7 @@ final class EnvironmentConverterStringToEnvironment<C extends EnvironmentConvert
             case MODE_TOKEN_COMMENT_CR:
             case MODE_TOKEN_SPACES: // space might be before key but file is not empty so must be an empty line
             case MODE_TOKEN_SPACES_CR:
+            case MODE_TOKEN_QUOTED_VALUE_AFTER:
                 // nop
                 break;
             case MODE_TOKEN_KEY:
