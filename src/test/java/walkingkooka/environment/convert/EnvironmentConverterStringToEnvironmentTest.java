@@ -201,6 +201,21 @@ public final class EnvironmentConverterStringToEnvironmentTest implements Conver
     }
 
     @Test
+    public void testConvertStringToEnvironmentUnnecessaryDoubleQuotedValueThenRawValue() {
+        this.convertAndCheck(
+            "currency=\"AUD\"\nhello=world",
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CURRENCY,
+                    CURRENCY
+                ).set(
+                    HELLO,
+                    "world"
+                )
+        );
+    }
+
+    @Test
     public void testConvertStringToEnvironmentDoubleQuotedThenNonSpacesFails() {
         this.convertFails(
             "currency=\"AUD\" !",
@@ -216,6 +231,21 @@ public final class EnvironmentConverterStringToEnvironmentTest implements Conver
                 .set(
                     EnvironmentValueName.CURRENCY,
                     CURRENCY
+                )
+        );
+    }
+
+    @Test
+    public void testConvertStringToEnvironmentUnnecessarySingleQuotedValueThenRawValue() {
+        this.convertAndCheck(
+            "currency='AUD'\nhello=world",
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CURRENCY,
+                    CURRENCY
+                ).set(
+                    HELLO,
+                    "world"
                 )
         );
     }

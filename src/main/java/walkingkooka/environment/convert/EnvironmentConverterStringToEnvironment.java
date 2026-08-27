@@ -274,9 +274,12 @@ final class EnvironmentConverterStringToEnvironment<C extends EnvironmentConvert
                         case FORM_FEED:
                         case SPACES:
                         case TAB:
+                            textCursor.next();
+                            break;
                         case CR:
                         case NL:
-                            textCursor.next(); // skip
+                            textCursor.next();
+                            tokenMode = MODE_TOKEN_START_OF_LINE;
                             break;
                         default:
                             throw textCursor.lineInfo()
@@ -325,7 +328,7 @@ final class EnvironmentConverterStringToEnvironment<C extends EnvironmentConvert
                                             b.toString(),
                                             context
                                         );
-                                        tokenMode = MODE_TOKEN_START_OF_LINE;
+                                        tokenMode = MODE_TOKEN_QUOTED_VALUE_AFTER;
                                         b = null;
                                         name = null;
                                         break;
@@ -339,7 +342,7 @@ final class EnvironmentConverterStringToEnvironment<C extends EnvironmentConvert
                                             b.toString(),
                                             context
                                         );
-                                        tokenMode = MODE_TOKEN_START_OF_LINE;
+                                        tokenMode = MODE_TOKEN_QUOTED_VALUE_AFTER;
                                         b = null;
                                         name = null;
                                         break;
