@@ -107,6 +107,21 @@ public final class EnvironmentConverterEnvironmentToStringTest implements Conver
         );
     }
 
+    @Test
+    public void testConvertEnvironmentToStringAllEntries() {
+        this.convertAndCheck(
+            ENVIRONMENT_CONTEXT.environment(),
+            "charset=UTF-8\n" +
+                "currency=AUD\n" +
+                "indentation=\"  \"\n" +
+                "lineEnding=\"\\n\"\n" +
+                "locale=en-AU\n" +
+                "now=1999-12-31T12:58:59\n" +
+                "timeOffset=Z\n" +
+                "user=user123@example.com\n"
+        );
+    }
+
     @Override
     public EnvironmentConverterEnvironmentToString<FakeEnvironmentConverterContext> createConverter() {
         return EnvironmentConverterEnvironmentToString.instance();
