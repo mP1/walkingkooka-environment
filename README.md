@@ -52,4 +52,5 @@ A collection of converters that are particularly useful within expressions and s
 - [environment-to-string](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterEnvironmentToString.java)
 - [string-to-environment](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterStringToEnvironment.java)
 - [string-to-environment-value-name](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterStringToEnvironmentValueName.java)
+- [to-environment](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterToEnvironment.java)
 
