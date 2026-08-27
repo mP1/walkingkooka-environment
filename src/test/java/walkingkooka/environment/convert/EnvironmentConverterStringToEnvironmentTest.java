@@ -201,6 +201,14 @@ public final class EnvironmentConverterStringToEnvironmentTest implements Conver
     }
 
     @Test
+    public void testConvertStringToEnvironmentDoubleQuotedThenNonSpacesFails() {
+        this.convertFails(
+            "currency=\"AUD\" !",
+            Environment.class
+        );
+    }
+
+    @Test
     public void testConvertStringToEnvironmentUnnecessarySingleQuotedValue() {
         this.convertAndCheck(
             "currency='AUD'",
@@ -209,6 +217,14 @@ public final class EnvironmentConverterStringToEnvironmentTest implements Conver
                     EnvironmentValueName.CURRENCY,
                     CURRENCY
                 )
+        );
+    }
+
+    @Test
+    public void testConvertStringToEnvironmentSingleQuotedThenNonSpacesFails() {
+        this.convertFails(
+            "currency='AUD' !",
+            Environment.class
         );
     }
 
@@ -303,6 +319,36 @@ public final class EnvironmentConverterStringToEnvironmentTest implements Conver
     public void testConvertStringToEnvironmentMultipleEntriesIncludingEscapings() {
         this.convertAndCheck(
             "currency=AUD\nlineEnding=\"\\n\"",
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CURRENCY,
+                    CURRENCY
+                ).set(
+                    EnvironmentValueName.LINE_ENDING,
+                    LINE_ENDING
+                )
+        );
+    }
+
+    @Test
+    public void testConvertStringToEnvironmentDoubleQuotedSpaces() {
+        this.convertAndCheck(
+            "currency=\"AUD\" \nlineEnding=\"\\n\"",
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CURRENCY,
+                    CURRENCY
+                ).set(
+                    EnvironmentValueName.LINE_ENDING,
+                    LINE_ENDING
+                )
+        );
+    }
+
+    @Test
+    public void testConvertStringToEnvironmentSingleQuotedSpaces() {
+        this.convertAndCheck(
+            "currency='AUD' \nlineEnding=\"\\n\"",
             Environment.empty()
                 .set(
                     EnvironmentValueName.CURRENCY,
