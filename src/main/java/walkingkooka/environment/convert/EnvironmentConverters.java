@@ -54,6 +54,13 @@ public final class EnvironmentConverters implements PublicStaticHelper {
     }
 
     /**
+     * {@see EnvironmentConverterToEnvironment}
+     */
+    public static <C extends EnvironmentConverterContext> Converter<C> toEnvironment() {
+        return EnvironmentConverterToEnvironment.instance();
+    }
+
+    /**
      * Stop creation
      */
     private EnvironmentConverters() {
