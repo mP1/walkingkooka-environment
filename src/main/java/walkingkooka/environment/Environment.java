@@ -30,6 +30,7 @@ import walkingkooka.io.HasFileExtension;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.net.header.HasContentType;
 import walkingkooka.net.header.MediaType;
+import walkingkooka.text.BinaryTextContext;
 import walkingkooka.text.HasIndentation;
 import walkingkooka.text.HasLineEnding;
 import walkingkooka.text.Indentation;
@@ -48,7 +49,8 @@ import java.util.Set;
 /**
  * An immutable store of {@link EnvironmentValueName} and values.
  */
-public final class Environment implements CanBeEmpty,
+public final class Environment implements BinaryTextContext,
+    CanBeEmpty,
     HasCharset,
     HasContentType,
     HasCurrency,

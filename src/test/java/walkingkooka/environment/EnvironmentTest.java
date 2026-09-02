@@ -29,6 +29,8 @@ import walkingkooka.net.header.HasContentTypeTesting;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.BinaryTextContext;
+import walkingkooka.text.BinaryTextContextTesting;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.HasIndentationTesting;
 import walkingkooka.text.HasLineEndingTesting;
@@ -41,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Environment>,
+    BinaryTextContextTesting,
     CanBeEmptyTesting,
     ClassTesting<Environment>,
     HasContentTypeTesting,
@@ -589,6 +592,36 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
                     DIFFERENT_USER
                 ),
             DIFFERENT_USER
+        );
+    }
+
+    // HasBinaryTextContext.............................................................................................
+
+    @Test
+    public void testHasBinaryTextContext() {
+        final BinaryTextContext binaryTextContext = Environment.empty()
+            .set(
+                EnvironmentValueName.CHARSET,
+                CHARSET
+            ).set(
+                EnvironmentValueName.INDENTATION,
+                INDENTATION
+            ).set(
+                EnvironmentValueName.LINE_ENDING,
+                LINE_ENDING
+            );
+
+        this.charsetAndCheck(
+            binaryTextContext,
+            CHARSET
+        );
+        this.indentationAndCheck(
+            binaryTextContext,
+            INDENTATION
+        );
+        this.lineEndingAndCheck(
+            binaryTextContext,
+            LINE_ENDING
         );
     }
 
