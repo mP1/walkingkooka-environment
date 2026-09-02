@@ -37,6 +37,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.util.HasLocale;
 
 import java.nio.charset.Charset;
+import java.time.ZoneOffset;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
@@ -57,6 +58,7 @@ public final class Environment implements CanBeEmpty,
     HasIndentation,
     HasLineEnding,
     HasLocale,
+    HasTimeOffset,
     HasUser,
     UsesToStringBuilder {
 
@@ -175,6 +177,13 @@ public final class Environment implements CanBeEmpty,
     @Override
     public Locale locale() {
         return this.getOrFail(EnvironmentValueName.LOCALE);
+    }
+
+    // HasTimeOffset....................................................................................................
+
+    @Override
+    public ZoneOffset timeOffset() {
+        return this.getOrFail(EnvironmentValueName.TIME_OFFSET);
     }
 
     // HasUser..........................................................................................................

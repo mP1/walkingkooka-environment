@@ -33,6 +33,7 @@ import walkingkooka.text.CharSequences;
 import walkingkooka.text.HasIndentationTesting;
 import walkingkooka.text.HasLineEndingTesting;
 
+import java.time.ZoneOffset;
 import java.util.Optional;
 import java.util.Set;
 
@@ -48,6 +49,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     HasFileExtensionTesting,
     HasIndentationTesting,
     HasLineEndingTesting,
+    HasTimeOffsetTesting,
     HasUserTesting,
     ToStringTesting<Environment>,
     EnvironmentContextTesting {
@@ -534,6 +536,36 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         );
     }
 
+    // HasTimeOffset....................................................................................................
+
+    private final static ZoneOffset TIME_OFFSET = ZoneOffset.UTC;
+
+    @Test
+    public void testTimeOffset() {
+        this.timeOffsetAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.TIME_OFFSET,
+                    TIME_OFFSET
+                ),
+            TIME_OFFSET
+        );
+    }
+
+    private final static ZoneOffset DIFFERENT_TIME_OFFSET = ZoneOffset.ofHours(12);
+
+    @Test
+    public void testTimeOffset2() {
+        this.timeOffsetAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.TIME_OFFSET,
+                    DIFFERENT_TIME_OFFSET
+                ),
+            DIFFERENT_TIME_OFFSET
+        );
+    }
+    
     // HasUser........................................................................................................
 
     @Test
