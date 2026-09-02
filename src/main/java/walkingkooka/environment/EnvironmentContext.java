@@ -48,6 +48,7 @@ public interface EnvironmentContext extends Context,
     HasEnvironmentContext,
     HasLocale,
     HasNow,
+    HasTimeOffset,
     HasUser {
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
@@ -155,11 +156,6 @@ public interface EnvironmentContext extends Context,
      * Sets or replaces the current {@link Locale}
      */
     void setLocale(final Locale locale);
-
-    /**
-     * Gets the current {@link ZoneOffset} if one is present.
-     */
-    ZoneOffset timeOffset();
 
     /**
      * Sets or replaces the current {@link Locale}
