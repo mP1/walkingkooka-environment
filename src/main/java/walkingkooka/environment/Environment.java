@@ -27,6 +27,8 @@ import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtension;
 import walkingkooka.net.header.HasContentType;
 import walkingkooka.net.header.MediaType;
+import walkingkooka.text.HasIndentation;
+import walkingkooka.text.Indentation;
 
 import java.util.Map;
 import java.util.Objects;
@@ -41,6 +43,7 @@ public final class Environment implements CanBeEmpty,
     HasEnvironment,
     HasEnvironmentContext,
     HasFileExtension,
+    HasIndentation,
     UsesToStringBuilder {
 
     /**
@@ -123,6 +126,13 @@ public final class Environment implements CanBeEmpty,
     @Override
     public boolean isEmpty() {
         return this.values.isEmpty();
+    }
+
+    // HasIndentation...................................................................................................
+
+    @Override
+    public Indentation indentation() {
+        return this.getOrFail(EnvironmentValueName.INDENTATION);
     }
 
     // Object...........................................................................................................

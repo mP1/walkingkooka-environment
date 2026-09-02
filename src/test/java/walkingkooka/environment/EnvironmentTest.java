@@ -29,6 +29,7 @@ import walkingkooka.net.header.MediaType;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.HasIndentationTesting;
 
 import java.util.Optional;
 import java.util.Set;
@@ -42,6 +43,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     HasContentTypeTesting,
     HasEnvironmentTesting,
     HasFileExtensionTesting,
+    HasIndentationTesting,
     ToStringTesting<Environment>,
     EnvironmentContextTesting {
 
@@ -394,6 +396,32 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         this.fileExtensionAndCheck(
             this.createObject(),
             FileExtension.ENV
+        );
+    }
+
+    // HasIndentation...................................................................................................
+
+    @Test
+    public void testIndentation() {
+        this.indentationAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.INDENTATION,
+                    INDENTATION
+                ),
+            INDENTATION
+        );
+    }
+
+    @Test
+    public void testIndentation2() {
+        this.indentationAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.INDENTATION,
+                    DIFFERENT_INDENTATION
+                ),
+            DIFFERENT_INDENTATION
         );
     }
 
