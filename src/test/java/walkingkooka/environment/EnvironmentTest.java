@@ -479,6 +479,32 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         );
     }
 
+    // HasLocale........................................................................................................
+
+    @Test
+    public void testLocale() {
+        this.localeAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.LOCALE,
+                    LOCALE
+                ),
+            LOCALE
+        );
+    }
+
+    @Test
+    public void testLocale2() {
+        this.localeAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.LOCALE,
+                    DIFFERENT_LOCALE
+                ),
+            DIFFERENT_LOCALE
+        );
+    }
+
     // class............................................................................................................
 
     @Override

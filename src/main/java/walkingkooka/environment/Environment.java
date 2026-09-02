@@ -31,9 +31,11 @@ import walkingkooka.net.header.HasContentType;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.text.HasIndentation;
 import walkingkooka.text.Indentation;
+import walkingkooka.util.HasLocale;
 
 import java.nio.charset.Charset;
 import java.util.Currency;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,6 +52,7 @@ public final class Environment implements CanBeEmpty,
     HasEnvironmentContext,
     HasFileExtension,
     HasIndentation,
+    HasLocale,
     UsesToStringBuilder {
 
     /**
@@ -153,6 +156,13 @@ public final class Environment implements CanBeEmpty,
     @Override
     public Indentation indentation() {
         return this.getOrFail(EnvironmentValueName.INDENTATION);
+    }
+
+    // HasLocale........................................................................................................
+
+    @Override
+    public Locale locale() {
+        return this.getOrFail(EnvironmentValueName.LOCALE);
     }
 
     // Object...........................................................................................................
