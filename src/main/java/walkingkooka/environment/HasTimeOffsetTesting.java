@@ -25,11 +25,11 @@ public interface HasTimeOffsetTesting extends TreePrintableTesting {
 
     // timeOffset.......................................................................................................
 
-    default void timeOffsetAndCheck(final EnvironmentContext context,
+    default void timeOffsetAndCheck(final HasTimeOffset has,
                                     final ZoneOffset expected) {
         this.checkEquals(
             expected,
-            context.timeOffset()
+            has.timeOffset()
         );
     }
 }

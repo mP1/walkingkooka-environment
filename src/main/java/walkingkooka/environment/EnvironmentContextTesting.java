@@ -311,6 +311,22 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     // timeOffset.......................................................................................................
 
     @Override
+    default void timeOffsetAndCheck(final HasTimeOffset has,
+                                    final ZoneOffset expected) {
+        HasTimeOffsetTesting.super.timeOffsetAndCheck(
+            has,
+            expected
+        );
+
+        if (has instanceof EnvironmentContext) {
+            this.environmentValueAndCheck(
+                (EnvironmentContext) has,
+                EnvironmentContext.TIME_OFFSET,
+                expected
+            );
+        }
+    }
+
     default void timeOffsetAndCheck(final EnvironmentContext context,
                                     final ZoneOffset expected) {
         HasTimeOffsetTesting.super.timeOffsetAndCheck(
