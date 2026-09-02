@@ -31,6 +31,7 @@ import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.HasIndentationTesting;
+import walkingkooka.text.HasLineEndingTesting;
 
 import java.util.Optional;
 import java.util.Set;
@@ -46,6 +47,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     HasEnvironmentTesting,
     HasFileExtensionTesting,
     HasIndentationTesting,
+    HasLineEndingTesting,
     ToStringTesting<Environment>,
     EnvironmentContextTesting {
 
@@ -476,6 +478,32 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
                     DIFFERENT_INDENTATION
                 ),
             DIFFERENT_INDENTATION
+        );
+    }
+
+    // HasLineEnding....................................................................................................
+
+    @Test
+    public void testLineEnding() {
+        this.lineEndingAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.LINE_ENDING,
+                    LINE_ENDING
+                ),
+            LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testLineEnding2() {
+        this.lineEndingAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.LINE_ENDING,
+                    DIFFERENT_LINE_ENDING
+                ),
+            DIFFERENT_LINE_ENDING
         );
     }
 
