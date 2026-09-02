@@ -48,6 +48,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     HasFileExtensionTesting,
     HasIndentationTesting,
     HasLineEndingTesting,
+    HasUserTesting,
     ToStringTesting<Environment>,
     EnvironmentContextTesting {
 
@@ -530,6 +531,32 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
                     DIFFERENT_LOCALE
                 ),
             DIFFERENT_LOCALE
+        );
+    }
+
+    // HasUser........................................................................................................
+
+    @Test
+    public void testUser() {
+        this.userAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.USER,
+                    USER
+                ),
+            USER
+        );
+    }
+
+    @Test
+    public void testUser2() {
+        this.userAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.USER,
+                    DIFFERENT_USER
+                ),
+            DIFFERENT_USER
         );
     }
 

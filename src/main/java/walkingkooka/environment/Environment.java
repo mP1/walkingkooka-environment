@@ -27,6 +27,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtension;
+import walkingkooka.net.email.EmailAddress;
 import walkingkooka.net.header.HasContentType;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.text.HasIndentation;
@@ -56,6 +57,7 @@ public final class Environment implements CanBeEmpty,
     HasIndentation,
     HasLineEnding,
     HasLocale,
+    HasUser,
     UsesToStringBuilder {
 
     /**
@@ -173,6 +175,13 @@ public final class Environment implements CanBeEmpty,
     @Override
     public Locale locale() {
         return this.getOrFail(EnvironmentValueName.LOCALE);
+    }
+
+    // HasUser..........................................................................................................
+
+    @Override
+    public Optional<EmailAddress> user() {
+        return this.get(EnvironmentValueName.USER);
     }
 
     // Object...........................................................................................................
