@@ -22,6 +22,7 @@ import walkingkooka.CanBeEmptyTesting;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.set.Sets;
+import walkingkooka.currency.HasCurrencyTesting;
 import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtensionTesting;
 import walkingkooka.net.header.HasContentTypeTesting;
@@ -41,6 +42,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     CanBeEmptyTesting,
     ClassTesting<Environment>,
     HasContentTypeTesting,
+    HasCurrencyTesting,
     HasEnvironmentTesting,
     HasFileExtensionTesting,
     HasIndentationTesting,
@@ -422,6 +424,32 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
                     DIFFERENT_CHARSET
                 ),
             DIFFERENT_CHARSET
+        );
+    }
+
+    // HasCurrency......................................................................................................
+
+    @Test
+    public void testCurrency() {
+        this.currencyAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CURRENCY,
+                    CURRENCY
+                ),
+            CURRENCY
+        );
+    }
+
+    @Test
+    public void testCurrency2() {
+        this.currencyAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CURRENCY,
+                    DIFFERENT_CURRENCY
+                ),
+            DIFFERENT_CURRENCY
         );
     }
     
