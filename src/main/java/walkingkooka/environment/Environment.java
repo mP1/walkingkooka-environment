@@ -24,6 +24,7 @@ import walkingkooka.ToStringBuilder;
 import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
+import walkingkooka.currency.HasCurrency;
 import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtension;
 import walkingkooka.net.header.HasContentType;
@@ -32,6 +33,7 @@ import walkingkooka.text.HasIndentation;
 import walkingkooka.text.Indentation;
 
 import java.nio.charset.Charset;
+import java.util.Currency;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -43,6 +45,7 @@ import java.util.Set;
 public final class Environment implements CanBeEmpty,
     HasCharset,
     HasContentType,
+    HasCurrency,
     HasEnvironment,
     HasEnvironmentContext,
     HasFileExtension,
@@ -136,6 +139,13 @@ public final class Environment implements CanBeEmpty,
     @Override
     public Charset charset() {
         return this.getOrFail(EnvironmentValueName.CHARSET);
+    }
+
+    // HasCurrency......................................................................................................
+
+    @Override
+    public Currency currency() {
+        return this.getOrFail(EnvironmentValueName.CURRENCY);
     }
 
     // HasIndentation...................................................................................................
