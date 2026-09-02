@@ -399,6 +399,32 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         );
     }
 
+    // HasCharset...................................................................................................
+
+    @Test
+    public void testCharset() {
+        this.charsetAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CHARSET,
+                    CHARSET
+                ),
+            CHARSET
+        );
+    }
+
+    @Test
+    public void testCharset2() {
+        this.charsetAndCheck(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CHARSET,
+                    DIFFERENT_CHARSET
+                ),
+            DIFFERENT_CHARSET
+        );
+    }
+    
     // HasIndentation...................................................................................................
 
     @Test
