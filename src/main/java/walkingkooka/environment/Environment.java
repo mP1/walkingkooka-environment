@@ -19,6 +19,7 @@ package walkingkooka.environment;
 
 import walkingkooka.CanBeEmpty;
 import walkingkooka.Cast;
+import walkingkooka.HasCharset;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.map.Maps;
@@ -30,6 +31,7 @@ import walkingkooka.net.header.MediaType;
 import walkingkooka.text.HasIndentation;
 import walkingkooka.text.Indentation;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,6 +41,7 @@ import java.util.Set;
  * An immutable store of {@link EnvironmentValueName} and values.
  */
 public final class Environment implements CanBeEmpty,
+    HasCharset,
     HasContentType,
     HasEnvironment,
     HasEnvironmentContext,
@@ -126,6 +129,13 @@ public final class Environment implements CanBeEmpty,
     @Override
     public boolean isEmpty() {
         return this.values.isEmpty();
+    }
+
+    // HasCharset.......................................................................................................
+
+    @Override
+    public Charset charset() {
+        return this.getOrFail(EnvironmentValueName.CHARSET);
     }
 
     // HasIndentation...................................................................................................
