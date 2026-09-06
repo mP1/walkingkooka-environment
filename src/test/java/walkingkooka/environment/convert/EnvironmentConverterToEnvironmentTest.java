@@ -3,13 +3,12 @@ package walkingkooka.environment.convert;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
-import walkingkooka.convert.ConverterTesting2;
 import walkingkooka.currency.CurrencyContextTesting;
 import walkingkooka.environment.Environment;
 import walkingkooka.environment.EnvironmentValueName;
 
-public final class EnvironmentConverterToEnvironmentTest implements ConverterTesting2<EnvironmentConverterToEnvironment<EnvironmentConverterContext>, EnvironmentConverterContext>,
-    CurrencyContextTesting {
+public final class EnvironmentConverterToEnvironmentTest extends EnvironmentConverterTestCase<EnvironmentConverterToEnvironment<FakeEnvironmentConverterContext>>
+    implements CurrencyContextTesting {
 
     @Test
     public void testConvertStringToEnvironmentFails() {
@@ -41,12 +40,12 @@ public final class EnvironmentConverterToEnvironmentTest implements ConverterTes
     }
 
     @Override
-    public EnvironmentConverterToEnvironment<EnvironmentConverterContext> createConverter() {
+    public EnvironmentConverterToEnvironment<FakeEnvironmentConverterContext> createConverter() {
         return EnvironmentConverterToEnvironment.instance();
     }
 
     @Override
-    public EnvironmentConverterContext createContext() {
+    public FakeEnvironmentConverterContext createContext() {
         return EnvironmentConverterContexts.fake();
     }
 
@@ -61,12 +60,7 @@ public final class EnvironmentConverterToEnvironmentTest implements ConverterTes
     // class............................................................................................................
 
     @Override
-    public Class<EnvironmentConverterToEnvironment<EnvironmentConverterContext>> type() {
+    public Class<EnvironmentConverterToEnvironment<FakeEnvironmentConverterContext>> type() {
         return Cast.to(EnvironmentConverterToEnvironment.class);
-    }
-
-    @Override
-    public void testTypeNaming() {
-        throw new UnsupportedOperationException();
     }
 }

@@ -22,7 +22,6 @@ import walkingkooka.Cast;
 import walkingkooka.Either;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.convert.Converter;
-import walkingkooka.convert.ConverterTesting2;
 import walkingkooka.convert.Converters;
 import walkingkooka.datetime.DateTimeContextTesting;
 import walkingkooka.environment.Environment;
@@ -34,8 +33,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public final class EnvironmentConverterEnvironmentToStringTest implements ConverterTesting2<EnvironmentConverterEnvironmentToString<FakeEnvironmentConverterContext>, FakeEnvironmentConverterContext>,
-    DateTimeContextTesting,
+public final class EnvironmentConverterEnvironmentToStringTest extends EnvironmentConverterTestCase<EnvironmentConverterEnvironmentToString<FakeEnvironmentConverterContext>>
+    implements DateTimeContextTesting,
     EnvironmentContextTesting {
 
     @Test
@@ -195,10 +194,5 @@ public final class EnvironmentConverterEnvironmentToStringTest implements Conver
     @Override
     public Class<EnvironmentConverterEnvironmentToString<FakeEnvironmentConverterContext>> type() {
         return Cast.to(EnvironmentConverterEnvironmentToString.class);
-    }
-
-    @Override
-    public void testTypeNaming() {
-        throw new UnsupportedOperationException();
     }
 }

@@ -23,7 +23,6 @@ import walkingkooka.Cast;
 import walkingkooka.Either;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.convert.Converter;
-import walkingkooka.convert.ConverterTesting2;
 import walkingkooka.convert.Converters;
 import walkingkooka.datetime.DateTimeContextTesting;
 import walkingkooka.environment.Environment;
@@ -36,8 +35,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public final class EnvironmentConverterEnvironmentToBinaryTest implements ConverterTesting2<EnvironmentConverterEnvironmentToBinary<FakeEnvironmentConverterContext>, FakeEnvironmentConverterContext>,
-    DateTimeContextTesting,
+public final class EnvironmentConverterEnvironmentToBinaryTest extends EnvironmentConverterTestCase<EnvironmentConverterEnvironmentToBinary<FakeEnvironmentConverterContext>>
+    implements DateTimeContextTesting,
     EnvironmentContextTesting {
 
     @Test
@@ -189,10 +188,5 @@ public final class EnvironmentConverterEnvironmentToBinaryTest implements Conver
     @Override
     public Class<EnvironmentConverterEnvironmentToBinary<FakeEnvironmentConverterContext>> type() {
         return Cast.to(EnvironmentConverterEnvironmentToBinary.class);
-    }
-
-    @Override
-    public void testTypeNaming() {
-        throw new UnsupportedOperationException();
     }
 }
