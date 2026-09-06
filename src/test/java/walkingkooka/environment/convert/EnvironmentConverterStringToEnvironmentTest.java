@@ -22,7 +22,6 @@ import walkingkooka.Cast;
 import walkingkooka.Either;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.convert.Converter;
-import walkingkooka.convert.ConverterTesting2;
 import walkingkooka.convert.Converters;
 import walkingkooka.currency.CurrencyCode;
 import walkingkooka.currency.CurrencyContextTesting;
@@ -35,8 +34,8 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 
-public final class EnvironmentConverterStringToEnvironmentTest implements ConverterTesting2<EnvironmentConverterStringToEnvironment<FakeEnvironmentConverterContext>, FakeEnvironmentConverterContext>,
-    CurrencyContextTesting,
+public final class EnvironmentConverterStringToEnvironmentTest extends EnvironmentConverterTestCase<EnvironmentConverterStringToEnvironment<FakeEnvironmentConverterContext>>
+    implements CurrencyContextTesting,
     EnvironmentContextTesting {
 
     private final static EnvironmentValueName<String> HELLO = EnvironmentValueName.with(
@@ -466,10 +465,5 @@ public final class EnvironmentConverterStringToEnvironmentTest implements Conver
     @Override
     public Class<EnvironmentConverterStringToEnvironment<FakeEnvironmentConverterContext>> type() {
         return Cast.to(EnvironmentConverterStringToEnvironment.class);
-    }
-
-    @Override
-    public void testTypeNaming() {
-        throw new UnsupportedOperationException();
     }
 }

@@ -21,13 +21,12 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
 import walkingkooka.Either;
 import walkingkooka.convert.Converter;
-import walkingkooka.convert.ConverterTesting2;
 import walkingkooka.convert.Converters;
 import walkingkooka.environment.EnvironmentContextTesting;
 import walkingkooka.environment.EnvironmentValueName;
 
-public final class EnvironmentConverterStringToEnvironmentValueNameTest implements ConverterTesting2<EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext>, FakeEnvironmentConverterContext>,
-    EnvironmentContextTesting {
+public final class EnvironmentConverterStringToEnvironmentValueNameTest extends EnvironmentConverterTestCase<EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext>>
+    implements EnvironmentContextTesting {
 
     @Test
     public void testConvertStringCurrencyToEnvironmentValueName() {
@@ -61,11 +60,6 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest implemen
                 Object.class
             )
         );
-    }
-
-    @Override
-    public void testTypeNaming() {
-        throw new UnsupportedOperationException();
     }
 
     @Override
