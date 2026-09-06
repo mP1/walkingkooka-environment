@@ -31,7 +31,8 @@ import walkingkooka.text.cursor.TextCursors;
 /**
  * A {@link walkingkooka.convert.Converter} that converts a {@link String} or text like value into a {@link EnvironmentValueName} using {@link EnvironmentConverterContext#parseEnvironmentValueName(String)}.
  */
-final class EnvironmentConverterStringToEnvironment<C extends EnvironmentConverterContext> implements TextToTryingShortCircuitingConverter<C> {
+final class EnvironmentConverterStringToEnvironment<C extends EnvironmentConverterContext> extends EnvironmentConverter<C>
+    implements TextToTryingShortCircuitingConverter<C> {
 
     /**
      * Type-safe getter.

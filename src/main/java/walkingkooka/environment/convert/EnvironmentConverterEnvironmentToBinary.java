@@ -33,7 +33,8 @@ import java.util.Objects;
  * lineEnding=\\n
  * </pre>
  */
-final class EnvironmentConverterEnvironmentToBinary<C extends EnvironmentConverterContext> implements TryingShortCircuitingConverter<C> {
+final class EnvironmentConverterEnvironmentToBinary<C extends EnvironmentConverterContext> extends EnvironmentConverter<C>
+    implements TryingShortCircuitingConverter<C> {
 
     /**
      * Type-safe getter.

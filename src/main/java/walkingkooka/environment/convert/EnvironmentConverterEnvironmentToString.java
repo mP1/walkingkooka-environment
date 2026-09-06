@@ -30,7 +30,8 @@ import java.util.Objects;
 /**
  * A {@link walkingkooka.convert.Converter} that converts a {@link String} or text like value into a {@link EnvironmentValueName} using {@link EnvironmentConverterContext#parseEnvironmentValueName(String)}.
  */
-final class EnvironmentConverterEnvironmentToString<C extends EnvironmentConverterContext> implements TryingShortCircuitingConverter<C> {
+final class EnvironmentConverterEnvironmentToString<C extends EnvironmentConverterContext> extends EnvironmentConverter<C>
+    implements TryingShortCircuitingConverter<C> {
 
     /**
      * Type-safe getter.
