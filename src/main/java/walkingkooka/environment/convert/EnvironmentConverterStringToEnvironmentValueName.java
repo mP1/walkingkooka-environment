@@ -24,7 +24,8 @@ import walkingkooka.environment.EnvironmentValueName;
 /**
  * A converter that converts a {@link String} or text like value into a {@link EnvironmentValueName} using {@link EnvironmentConverterContext#parseEnvironmentValueName(String)}.
  */
-final class EnvironmentConverterStringToEnvironmentValueName<C extends EnvironmentConverterContext> implements TextToTryingShortCircuitingConverter<C> {
+final class EnvironmentConverterStringToEnvironmentValueName<C extends EnvironmentConverterContext> extends EnvironmentConverter<C>
+    implements TextToTryingShortCircuitingConverter<C> {
 
     /**
      * Type-safe getter.

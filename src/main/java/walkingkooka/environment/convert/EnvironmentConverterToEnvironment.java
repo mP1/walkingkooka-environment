@@ -8,7 +8,8 @@ import walkingkooka.environment.HasEnvironment;
 /**
  * A Converter that converts any {@link HasEnvironment} into a {@link Environment}.
  */
-final class EnvironmentConverterToEnvironment<C extends EnvironmentConverterContext> implements TryingShortCircuitingConverter<C> {
+final class EnvironmentConverterToEnvironment<C extends EnvironmentConverterContext> extends EnvironmentConverter<C>
+    implements TryingShortCircuitingConverter<C> {
 
     /**
      * Type safe instance getter
