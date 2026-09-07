@@ -17,6 +17,8 @@
 
 package walkingkooka.environment.convert;
 
+import walkingkooka.ToStringBuilder;
+import walkingkooka.UsesToStringBuilder;
 import walkingkooka.convert.ConverterContext;
 import walkingkooka.convert.ConverterContextDelegator;
 import walkingkooka.environment.EnvironmentContext;
@@ -25,7 +27,8 @@ import walkingkooka.environment.EnvironmentValueName;
 import java.util.Objects;
 
 final class EnvironmentConverterContextBasic implements EnvironmentConverterContext,
-    ConverterContextDelegator {
+    ConverterContextDelegator,
+    UsesToStringBuilder {
 
     static EnvironmentConverterContextBasic with(final ConverterContext converterContext,
                                                  final EnvironmentContext environmentContext) {
@@ -62,6 +65,16 @@ final class EnvironmentConverterContextBasic implements EnvironmentConverterCont
 
     @Override
     public String toString() {
-        return this.converterContext + " " + this.environmentContext;
+        return ToStringBuilder.buildFrom(this);
+    }
+
+    // UsesToStringBuilder..............................................................................................
+
+    @Override
+    public void buildToString(final ToStringBuilder b) {
+        b.label("converterContext")
+            .value(this.converterContext)
+            .label("environmentContext")
+            .value(this.environmentContext);
     }
 }

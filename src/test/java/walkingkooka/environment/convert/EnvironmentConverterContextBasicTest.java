@@ -18,6 +18,7 @@
 package walkingkooka.environment.convert;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.ToStringTesting;
 import walkingkooka.collect.list.CsvStringList;
 import walkingkooka.convert.BinaryNumberConverterFunctions;
 import walkingkooka.convert.ConverterContext;
@@ -39,7 +40,8 @@ public final class EnvironmentConverterContextBasicTest implements EnvironmentCo
     CurrencyLocaleContextTesting,
     DecimalNumberContextTesting,
     DecimalNumberContextDelegator,
-    EnvironmentContextTesting {
+    EnvironmentContextTesting,
+    ToStringTesting<EnvironmentConverterContextBasic> {
 
     private final static ConverterContext CONVERTER_CONTEXT = ConverterContexts.basic(
         false, // canNumbersHaveGroupSeparator
@@ -107,6 +109,16 @@ public final class EnvironmentConverterContextBasicTest implements EnvironmentCo
     @Override
     public MathContext mathContext() {
         return MATH_CONTEXT;
+    }
+
+    // toString.........................................................................................................
+
+    @Test
+    public void testToString() {
+        this.toStringAndCheck(
+            this.createContext(),
+            "converterContext=binaryTextContext=charset=\"UTF-8\" indentation=\"  \" lineEnding=\"\\n\" dateTimeContext=symbols=ampms=\"am\", \"pm\" monthNames=\"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \"July\", \"August\", \"September\", \"October\", \"November\", \"December\" monthNameAbbreviations=\"Jan.\", \"Feb.\", \"Mar.\", \"Apr.\", \"May\", \"Jun.\", \"Jul.\", \"Aug.\", \"Sep.\", \"Oct.\", \"Nov.\", \"Dec.\" weekDayNames=\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\" weekDayNameAbbreviations=\"Sun.\", \"Mon.\", \"Tue.\", \"Wed.\", \"Thu.\", \"Fri.\", \"Sat.\" locale=\"en-AU\" twoDigitYear=50 decimalNumberContext=locale=en_US \"mathContext\" precision=7 roundingMode=HALF_EVEN \"decimalNumberSymbols\" negativeSign='-' positiveSign='+' zeroDigit='0' currencySymbol=\"$\" decimalSeparator='.' exponentSymbol=\"E\" groupSeparator=',' infinitySymbol=\"∞\" monetaryDecimalSeparator='.' nanSymbol=\"NaN\" percentSymbol='%' permillSymb environmentContext={charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, t"
+        );
     }
 
     // class............................................................................................................
