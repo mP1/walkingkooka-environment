@@ -48,20 +48,8 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
      */
     public final static EnvironmentValueNameSet EMPTY = new EnvironmentValueNameSet(SortedSets.empty());
 
-    /**
-     * Factory that creates a {@link EnvironmentValueNameSet} after taking a copy.
-     */
-    public static EnvironmentValueNameSet with(final Collection<EnvironmentValueName<?>> names) {
-        return names instanceof EnvironmentValueNameSet ?
-            (EnvironmentValueNameSet) names :
-            withCopy(
-                new TreeSet<>(
-                    Objects.requireNonNull(names, "names")
-                )
-            );
-    }
-
-    private static EnvironmentValueNameSet withCopy(final SortedSet<EnvironmentValueName<?>> names) {
+    // @VisibleForTesting
+    static EnvironmentValueNameSet with(final SortedSet<EnvironmentValueName<?>> names) {
         return names.isEmpty() ?
             EMPTY :
             new EnvironmentValueNameSet(names);
@@ -91,7 +79,7 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
     @Override
     public EnvironmentValueNameSet subSet(final EnvironmentValueName<?> from,
                                           final EnvironmentValueName<?> to) {
-        return withCopy(
+        return with(
             this.names.subSet(
                 from,
                 to
@@ -101,14 +89,14 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
 
     @Override
     public EnvironmentValueNameSet headSet(final EnvironmentValueName<?> name) {
-        return withCopy(
+        return with(
             this.names.headSet(name)
         );
     }
 
     @Override
     public EnvironmentValueNameSet tailSet(final EnvironmentValueName<?> name) {
-        return withCopy(
+        return with(
             this.names.tailSet(name)
         );
     }
@@ -130,7 +118,7 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
         );
         return this.names.equals(copy) ?
             this :
-            withCopy(copy);
+            with(copy);
     }
 
     @Override
@@ -204,7 +192,7 @@ public final class EnvironmentValueNameSet extends AbstractSet<EnvironmentValueN
             }
         }
 
-        return withCopy(names);
+        return with(names);
     }
 
     // TreePrintable....................................................................................................
