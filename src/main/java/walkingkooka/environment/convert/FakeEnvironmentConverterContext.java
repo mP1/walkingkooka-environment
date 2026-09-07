@@ -19,6 +19,9 @@ package walkingkooka.environment.convert;
 
 import walkingkooka.convert.FakeConverterContext;
 import walkingkooka.environment.EnvironmentValueName;
+import walkingkooka.net.email.EmailAddress;
+
+import java.util.Optional;
 
 public class FakeEnvironmentConverterContext extends FakeConverterContext implements EnvironmentConverterContext {
 
@@ -28,6 +31,11 @@ public class FakeEnvironmentConverterContext extends FakeConverterContext implem
 
     @Override
     public EnvironmentValueName<?> parseEnvironmentValueName(final String name) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Optional<EmailAddress> user() {
         throw new UnsupportedOperationException();
     }
 }

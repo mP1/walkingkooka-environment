@@ -17,20 +17,10 @@
 
 package walkingkooka.environment.convert;
 
-import org.junit.jupiter.api.Test;
-import walkingkooka.environment.HasUser;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 
 public class EnvironmentConverterContextTest implements ClassTesting<EnvironmentConverterContext> {
-
-    @Test
-    public void testTypeMissingHasUser() {
-        this.checkEquals(
-            false,
-            new FakeEnvironmentConverterContext() instanceof HasUser
-        );
-    }
 
     // class............................................................................................................
 
