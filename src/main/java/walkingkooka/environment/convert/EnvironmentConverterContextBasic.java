@@ -19,7 +19,7 @@ package walkingkooka.environment.convert;
 
 import walkingkooka.convert.ConverterContext;
 import walkingkooka.convert.ConverterContextDelegator;
-import walkingkooka.environment.CanParseEnvironmentValueName;
+import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentValueName;
 
 import java.util.Objects;
@@ -27,41 +27,41 @@ import java.util.Objects;
 final class EnvironmentConverterContextBasic implements EnvironmentConverterContext,
     ConverterContextDelegator {
 
-    static EnvironmentConverterContextBasic with(final CanParseEnvironmentValueName canParseEnvironmentValueName,
-                                                 final ConverterContext context) {
+    static EnvironmentConverterContextBasic with(final ConverterContext converterContext,
+                                                 final EnvironmentContext environmentContext) {
         return new EnvironmentConverterContextBasic(
-            Objects.requireNonNull(canParseEnvironmentValueName, "canParseEnvironmentValueName"),
-            Objects.requireNonNull(context, "context")
+            Objects.requireNonNull(converterContext, "converterContext"),
+            Objects.requireNonNull(environmentContext, "environmentContext")
         );
     }
 
-    private EnvironmentConverterContextBasic(final CanParseEnvironmentValueName canParseEnvironmentValueName,
-                                             final ConverterContext context) {
+    private EnvironmentConverterContextBasic(final ConverterContext converterContext,
+                                             final EnvironmentContext environmentContext) {
         super();
-        this.canParseEnvironmentValueName = canParseEnvironmentValueName;
-        this.context = context;
+        this.converterContext = converterContext;
+        this.environmentContext = environmentContext;
     }
 
     @Override
     public EnvironmentValueName<?> parseEnvironmentValueName(final String name) {
-        return this.canParseEnvironmentValueName.parseEnvironmentValueName(name);
+        return this.environmentContext.parseEnvironmentValueName(name);
     }
 
-    private final CanParseEnvironmentValueName canParseEnvironmentValueName;
+    private final EnvironmentContext environmentContext;
 
     // ConverterContextDelegator........................................................................................
 
     @Override
     public ConverterContext converterContext() {
-        return this.context;
+        return this.converterContext;
     }
 
-    private final ConverterContext context;
+    private final ConverterContext converterContext;
 
     // Object...........................................................................................................
 
     @Override
     public String toString() {
-        return this.context.toString();
+        return this.converterContext + " " + this.environmentContext;
     }
 }
