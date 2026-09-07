@@ -20,6 +20,7 @@ package walkingkooka.environment.convert;
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.list.CsvStringList;
 import walkingkooka.convert.BinaryNumberConverterFunctions;
+import walkingkooka.convert.ConverterContext;
 import walkingkooka.convert.ConverterContexts;
 import walkingkooka.convert.Converters;
 import walkingkooka.currency.CurrencyLocaleContextTesting;
@@ -40,24 +41,36 @@ public final class EnvironmentConverterContextBasicTest implements EnvironmentCo
     DecimalNumberContextDelegator,
     EnvironmentContextTesting {
 
-    @Test
-    public void testWithNullCanParseEnvironmentValueNameFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> EnvironmentConverterContextBasic.with(
-                null,
-                ConverterContexts.fake()
-            )
-        );
-    }
+    private final static ConverterContext CONVERTER_CONTEXT = ConverterContexts.basic(
+        false, // canNumbersHaveGroupSeparator
+        Converters.JAVA_EPOCH_OFFSET, // dateOffset
+        ',', // valueSeparator
+        Converters.toCsvStringList(),
+        BinaryNumberConverterFunctions.multiply(), // multiplier
+        BINARY_TEXT_CONTEXT,
+        CURRENCY_LOCALE_CONTEXT,
+        DATE_TIME_CONTEXT,
+        DECIMAL_NUMBER_CONTEXT
+    );
 
     @Test
     public void testWithNullConverterContextFails() {
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentConverterContextBasic.with(
-                CAN_PARSE_ENVIRONMENT_VALUE_NAME,
+                CONVERTER_CONTEXT,
                 null
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullEnvironmentContextFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentConverterContextBasic.with(
+                null,
+                ENVIRONMENT_CONTEXT
             )
         );
     }
@@ -76,18 +89,8 @@ public final class EnvironmentConverterContextBasicTest implements EnvironmentCo
     @Override
     public EnvironmentConverterContextBasic createContext() {
         return EnvironmentConverterContextBasic.with(
-            CAN_PARSE_ENVIRONMENT_VALUE_NAME,
-            ConverterContexts.basic(
-                false, // canNumbersHaveGroupSeparator
-                Converters.JAVA_EPOCH_OFFSET, // dateOffset
-                ',', // valueSeparator
-                Converters.toCsvStringList(),
-                BinaryNumberConverterFunctions.multiply(), // multiplier
-                BINARY_TEXT_CONTEXT,
-                CURRENCY_LOCALE_CONTEXT,
-                DATE_TIME_CONTEXT,
-                DECIMAL_NUMBER_CONTEXT
-            )
+            CONVERTER_CONTEXT,
+            ENVIRONMENT_CONTEXT
         );
     }
 

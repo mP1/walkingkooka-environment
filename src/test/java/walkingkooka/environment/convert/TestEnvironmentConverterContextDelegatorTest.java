@@ -48,7 +48,6 @@ public final class TestEnvironmentConverterContextDelegatorTest implements Envir
         }
 
         private final EnvironmentConverterContext context = EnvironmentConverterContexts.basic(
-            ENVIRONMENT_CONTEXT, // CanParseEnvironmentValueName
             ConverterContexts.basic(
                 false, // canNumbersHaveGroupSeparator
                 Converters.JAVA_EPOCH_OFFSET, // dateOffset
@@ -59,7 +58,8 @@ public final class TestEnvironmentConverterContextDelegatorTest implements Envir
                 CURRENCY_LOCALE_CONTEXT,
                 DATE_TIME_CONTEXT,
                 DECIMAL_NUMBER_CONTEXT
-            )
+            ),
+            ENVIRONMENT_CONTEXT
         );
 
         @Override
