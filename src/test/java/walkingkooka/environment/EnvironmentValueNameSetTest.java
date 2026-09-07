@@ -25,29 +25,11 @@ import walkingkooka.text.HasTextTesting;
 import walkingkooka.text.printer.TreePrintableTesting;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentValueNameSetTest implements ImmutableSortedSetTesting<EnvironmentValueNameSet, EnvironmentValueName<?>>,
     HasTextTesting,
     ParseStringTesting<EnvironmentValueNameSet>,
     TreePrintableTesting {
-
-    @Test
-    public void testWithNullFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> EnvironmentValueNameSet.with(null)
-        );
-    }
-
-    @Test
-    public void testWithEnvironmentValueNameSetDoesntWrap() {
-        final EnvironmentValueNameSet set = this.createSet();
-        assertSame(
-            set,
-            EnvironmentValueNameSet.with(set)
-        );
-    }
 
     @Test
     public void testDeleteBecomesEmpty() {
@@ -61,6 +43,15 @@ public final class EnvironmentValueNameSetTest implements ImmutableSortedSetTest
             EnvironmentValueNameSet.with(
                 SortedSets.of(name)
             ).delete(name)
+        );
+    }
+
+    @Test
+    public void testSetElementsWithEnvironmentValueNameSetDoesntWrap() {
+        final EnvironmentValueNameSet set = this.createSet();
+        assertSame(
+            set,
+            set.setElements(set)
         );
     }
 
