@@ -19,7 +19,9 @@ package walkingkooka.environment.convert;
 
 import walkingkooka.convert.ConverterContext;
 import walkingkooka.environment.CanParseEnvironmentValueName;
+import walkingkooka.environment.HasUser;
 
 public interface EnvironmentConverterContext extends ConverterContext,
-    CanParseEnvironmentValueName {
+    CanParseEnvironmentValueName,
+    HasUser {
 }

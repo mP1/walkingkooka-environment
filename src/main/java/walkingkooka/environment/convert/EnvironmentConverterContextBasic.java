@@ -23,8 +23,10 @@ import walkingkooka.convert.ConverterContext;
 import walkingkooka.convert.ConverterContextDelegator;
 import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentValueName;
+import walkingkooka.net.email.EmailAddress;
 
 import java.util.Objects;
+import java.util.Optional;
 
 final class EnvironmentConverterContextBasic implements EnvironmentConverterContext,
     ConverterContextDelegator,
@@ -51,6 +53,13 @@ final class EnvironmentConverterContextBasic implements EnvironmentConverterCont
     }
 
     private final EnvironmentContext environmentContext;
+
+    // HasUser..........................................................................................................
+
+    @Override
+    public Optional<EmailAddress> user() {
+        return this.environmentContext.user();
+    }
 
     // ConverterContextDelegator........................................................................................
 

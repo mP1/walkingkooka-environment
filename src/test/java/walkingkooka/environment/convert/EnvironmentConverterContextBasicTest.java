@@ -88,6 +88,16 @@ public final class EnvironmentConverterContextBasicTest implements EnvironmentCo
         );
     }
 
+    // HasUser..........................................................................................................
+
+    @Test
+    public void testUser() {
+        this.userAndCheck(
+            this.createContext(),
+            USER
+        );
+    }
+
     @Override
     public EnvironmentConverterContextBasic createContext() {
         return EnvironmentConverterContextBasic.with(
