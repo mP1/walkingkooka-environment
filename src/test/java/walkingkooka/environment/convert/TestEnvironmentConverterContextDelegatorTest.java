@@ -91,6 +91,11 @@ public final class TestEnvironmentConverterContextDelegatorTest implements Envir
     }
 
     @Override
+    public void testTestNaming() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void testTypeNaming() {
         throw new UnsupportedOperationException();
     }

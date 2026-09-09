@@ -18,7 +18,6 @@
 package walkingkooka.environment;
 
 import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.TypeNameTesting;
 
 public abstract class EnvironmentContextSharedTestCase<C extends EnvironmentContextShared> implements EnvironmentContextTesting2<C>,
@@ -39,10 +38,5 @@ public abstract class EnvironmentContextSharedTestCase<C extends EnvironmentCont
     @Override
     public final String typeNameSuffix() {
         return "";
-    }
-
-    @Override
-    public final JavaVisibility typeVisibility() {
-        return JavaVisibility.PACKAGE_PRIVATE;
     }
 }
