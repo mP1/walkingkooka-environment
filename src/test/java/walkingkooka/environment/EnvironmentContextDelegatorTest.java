@@ -95,6 +95,11 @@ public final class EnvironmentContextDelegatorTest implements EnvironmentContext
     }
 
     @Override
+    public void testTestNaming() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Class<TestEnvironmentContextDelegator> type() {
         return TestEnvironmentContextDelegator.class;
     }
