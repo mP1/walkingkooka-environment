@@ -18,6 +18,7 @@
 
 <module>
     <inherits name="walkingkooka.currency.Currency"/>
+    <inherits name="walkingkooka.logging.Logging"/>
     <inherits name="walkingkooka.net.Net"/>
     <inherits name="walkingkooka.text.printer.Printer"/>
     <inherits name="walkingkooka.tree.json.Json"/>
