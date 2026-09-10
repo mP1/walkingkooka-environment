@@ -22,6 +22,7 @@ import walkingkooka.InvalidCharacterException;
 import walkingkooka.InvalidTextLengthException;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.compare.Comparators;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.naming.Name;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.character.CharPredicate;
@@ -119,6 +120,11 @@ final public class EnvironmentValueName<T> implements Name,
     public final static EnvironmentValueName<Locale> LOCALE = registerConstant(
         "locale",
         Locale.class
+    );
+
+    public final static EnvironmentValueName<LoggingLevel> LOGGING_LEVEL = registerConstant(
+        "loggingLevel",
+        LoggingLevel.class
     );
 
     public final static EnvironmentValueName<LocalDateTime> NOW = registerConstant(
