@@ -26,6 +26,16 @@ public final class HasTimeOffsetTestingTest implements HasTimeOffsetTesting,
     TreePrintableTesting {
 
     @Test
+    public void testConstants() {
+        this.checkNotEquals(
+            ZONE_OFFSET,
+            DIFFERENT_ZONE_OFFSET
+        );
+    }
+
+    // timeOffsetAndCheck...............................................................................................
+
+    @Test
     public void testTimeOffsetAndCheck() {
         this.timeOffsetAndCheck(
             EnvironmentContextTesting.ENVIRONMENT_CONTEXT,

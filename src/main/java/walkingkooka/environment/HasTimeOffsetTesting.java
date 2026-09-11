@@ -23,6 +23,10 @@ import java.time.ZoneOffset;
 
 public interface HasTimeOffsetTesting extends TreePrintableTesting {
 
+    ZoneOffset ZONE_OFFSET = EnvironmentContext.DEFAULT_TIME_OFFSET;
+
+    ZoneOffset DIFFERENT_ZONE_OFFSET = ZoneOffset.ofHours(12);
+
     // timeOffset.......................................................................................................
 
     default void timeOffsetAndCheck(final HasTimeOffset has,
