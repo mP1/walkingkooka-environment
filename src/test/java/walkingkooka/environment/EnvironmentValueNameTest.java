@@ -24,6 +24,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.compare.ComparableTesting2;
 import walkingkooka.naming.NameTesting2;
 import walkingkooka.reflect.ConstantsTesting;
+import walkingkooka.reflect.ThrowableTesting;
 import walkingkooka.text.CaseSensitivity;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
@@ -37,6 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentValueName<String>, EnvironmentValueName<String>>,
     ComparableTesting2<EnvironmentValueName<String>>,
+    ThrowableTesting,
     TreePrintableTesting,
     ConstantsTesting<EnvironmentValueName<String>> {
 
@@ -50,10 +52,9 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
             )
         );
 
-        this.checkEquals(
-            "Invalid character '1' at 0",
-            thrown.getMessage(),
-            "message"
+        this.getMessageAndCheck(
+            thrown,
+            "Invalid character '1' at 0"
         );
     }
 
@@ -67,10 +68,9 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
             )
         );
 
-        this.checkEquals(
-            "Invalid character '$' at 3",
-            thrown.getMessage(),
-            "message"
+        this.getMessageAndCheck(
+            thrown,
+            "Invalid character '$' at 3"
         );
     }
 
@@ -84,10 +84,9 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
             )
         );
 
-        this.checkEquals(
-            "Invalid character '.' at 4",
-            thrown.getMessage(),
-            "message"
+        this.getMessageAndCheck(
+            thrown,
+            "Invalid character '.' at 4"
         );
     }
 
@@ -112,9 +111,9 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
             )
         );
 
-        this.checkEquals(
-            "Invalid type \"java.lang.Integer\" expected \"java.util.Locale\"",
-            thrown.getMessage()
+        this.getMessageAndCheck(
+            thrown,
+            "Invalid type \"java.lang.Integer\" expected \"java.util.Locale\""
         );
     }
 
@@ -200,9 +199,9 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
             )
         );
 
-        this.checkEquals(
-            "Invalid type \"java.lang.String\" expected \"java.util.Locale\"",
-            thrown.getMessage()
+        this.getMessageAndCheck(
+            thrown,
+            "Invalid type \"java.lang.String\" expected \"java.util.Locale\""
         );
     }
 
