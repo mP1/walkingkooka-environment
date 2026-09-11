@@ -20,8 +20,12 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
+import walkingkooka.logging.CanLog;
+import walkingkooka.logging.CanLogs;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.Printers;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -204,6 +208,173 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                 HAS_NOW,
                 null
             )
+        );
+    }
+
+    // log..............................................................................................................
+
+    private final static String MESSAGE1 = "Message111";
+    private final static String MESSAGE2 = "Message222";
+    private final static String MESSAGE3 = "Message333";
+
+    @Test
+    public void testLog() {
+        final StringBuilder b = new StringBuilder();
+
+        final EnvironmentContextSharedMap context = this.createContext(b);
+
+        context.setLoggingLevel(LoggingLevel.DEBUG);
+
+        context.log(
+            LoggingLevel.DEBUG,
+            MESSAGE1
+        );
+
+        this.checkEquals(
+            MESSAGE1 + LINE_ENDING,
+            b.toString()
+        );
+    }
+
+    @Test
+    public void testLog2() {
+        final StringBuilder b = new StringBuilder();
+
+        final EnvironmentContextSharedMap context = this.createContext(b);
+
+        context.setLoggingLevel(LoggingLevel.INFO);
+
+        context.log(
+            LoggingLevel.WARN,
+            MESSAGE1
+        );
+
+        this.checkEquals(
+            MESSAGE1 + LINE_ENDING,
+            b.toString()
+        );
+    }
+
+    @Test
+    public void testDebug() {
+        final StringBuilder b = new StringBuilder();
+
+        final EnvironmentContextSharedMap context = this.createContext(b);
+
+        context.setLoggingLevel(LoggingLevel.DEBUG);
+
+        context.debug(
+            MESSAGE1
+        );
+
+        this.checkEquals(
+            MESSAGE1 + LINE_ENDING,
+            b.toString()
+        );
+    }
+
+    @Test
+    public void testInfo() {
+        final StringBuilder b = new StringBuilder();
+
+        final EnvironmentContextSharedMap context = this.createContext(b);
+
+        context.setLoggingLevel(LoggingLevel.INFO);
+
+        context.info(
+            MESSAGE1
+        );
+
+        this.checkEquals(
+            MESSAGE1 + LINE_ENDING,
+            b.toString()
+        );
+    }
+
+    @Test
+    public void testWarn() {
+        final StringBuilder b = new StringBuilder();
+
+        final EnvironmentContextSharedMap context = this.createContext(b);
+
+        context.setLoggingLevel(LoggingLevel.WARN);
+
+        context.warn(
+            MESSAGE1
+        );
+
+        this.checkEquals(
+            MESSAGE1 + LINE_ENDING,
+            b.toString()
+        );
+    }
+
+    @Test
+    public void testError() {
+        final StringBuilder b = new StringBuilder();
+
+        final EnvironmentContextSharedMap context = this.createContext(b);
+
+        context.setLoggingLevel(LoggingLevel.ERROR);
+
+        context.error(
+            MESSAGE1
+        );
+
+        this.checkEquals(
+            MESSAGE1 + LINE_ENDING,
+            b.toString()
+        );
+    }
+
+    @Test
+    public void testLogDisabled() {
+        final EnvironmentContextSharedMap context = this.createContext(
+            CanLogs.fake()
+        );
+
+        context.setLoggingLevel(LoggingLevel.INFO);
+        context.log(
+            LoggingLevel.DEBUG,
+            MESSAGE1 + LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testDebugDisabled() {
+        final EnvironmentContextSharedMap context = this.createContext(
+            CanLogs.fake()
+        );
+
+        context.setLoggingLevel(LoggingLevel.INFO);
+        context.debug(
+            MESSAGE1
+        );
+    }
+
+    @Test
+    public void testLogLevelChanged() {
+        final StringBuilder b = new StringBuilder();
+
+        final EnvironmentContextSharedMap context = this.createContext(b);
+
+        context.setLoggingLevel(LoggingLevel.DEBUG);
+        context.debug(
+            MESSAGE1
+        );
+
+        context.setLoggingLevel(LoggingLevel.INFO);
+        context.debug(MESSAGE2);
+
+        context.setLoggingLevel(LoggingLevel.WARN);
+        context.error(
+            MESSAGE3
+        );
+
+        this.checkEquals(
+            MESSAGE1 + LINE_ENDING +
+                MESSAGE3 + LINE_ENDING,
+            b.toString()
         );
     }
 
@@ -661,9 +832,35 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         return this.createContext(EnvironmentContext.ANONYMOUS);
     }
 
-    public EnvironmentContextSharedMap createContext(final Optional<EmailAddress> user) {
-        return EnvironmentContextSharedMap.with(
+    private EnvironmentContextSharedMap createContext(final StringBuilder b) {
+        return this.createContext(
+            CanLogs.printer(
+                Printers.stringBuilder(
+                    b,
+                    LINE_ENDING
+                )
+            )
+        );
+    }
+
+    private EnvironmentContextSharedMap createContext(final CanLog canLog) {
+        return this.createContext(
+            canLog,
+            OPTIONAL_USER
+        );
+    }
+
+    private EnvironmentContextSharedMap createContext(final Optional<EmailAddress> user) {
+        return this.createContext(
             CAN_LOG,
+            user
+        );
+    }
+
+    private EnvironmentContextSharedMap createContext(final CanLog canLog,
+                                                      final Optional<EmailAddress> user) {
+        return EnvironmentContextSharedMap.with(
+            canLog,
             CHARSET,
             CURRENCY,
             INDENTATION,
