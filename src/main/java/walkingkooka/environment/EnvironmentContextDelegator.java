@@ -187,6 +187,7 @@ public interface EnvironmentContextDelegator extends EnvironmentContext,
             .addEnvironmentWatcherOnce(watcher);
     }
 
+    @Override
     EnvironmentContext environmentContext();
 
     // CanParseEnvironmentValueNameDelegator............................................................................
