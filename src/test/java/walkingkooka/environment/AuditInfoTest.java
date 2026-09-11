@@ -25,6 +25,7 @@ import walkingkooka.props.HasPropertiesTesting;
 import walkingkooka.props.Properties;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.ThrowableTesting;
 import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.time.LocalDateTime;
@@ -37,6 +38,7 @@ public final class AuditInfoTest implements HasLastModifiedTesting,
     HasPropertiesTesting,
     HashCodeEqualsDefinedTesting2<AuditInfo>,
     ClassTesting2<AuditInfo>,
+    ThrowableTesting,
     TreePrintableTesting {
 
     private final static EmailAddress CREATED_BY = EmailAddress.parse("created-by@example.com");
@@ -156,10 +158,9 @@ public final class AuditInfoTest implements HasLastModifiedTesting,
             )
         );
 
-        this.checkEquals(
-            "ModifiedTimestamp 1999-12-30T12:58:59 < createdTimestamp 1999-12-31T12:58:59",
-            thrown.getMessage(),
-            "message"
+        this.getMessageAndCheck(
+            thrown,
+            "ModifiedTimestamp 1999-12-30T12:58:59 < createdTimestamp 1999-12-31T12:58:59"
         );
     }
 
