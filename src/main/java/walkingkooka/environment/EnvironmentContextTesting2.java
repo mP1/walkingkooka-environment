@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.ContextTesting;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
+import walkingkooka.logging.LoggingContextTesting2;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.FieldAttributes;
 import walkingkooka.reflect.JavaVisibility;
@@ -44,7 +46,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public interface EnvironmentContextTesting2<C extends EnvironmentContext> extends EnvironmentContextTesting,
     CanParseEnvironmentValueNameTesting2<C>,
     ContextTesting<C>,
-    HasEnvironmentContextTesting {
+    HasEnvironmentContextTesting,
+    LoggingContextTesting2<C> {
 
     // constants........................................................................................................
 
@@ -127,11 +130,13 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final C before = this.createContext();
 
         final EnvironmentContext environmentContext = EnvironmentContexts.map(
+            before, // CanLog
             before.charset(),
             before.currency(),
             before.indentation(),
             before.lineEnding(),
             before.locale(),
+            before.loggingLevel(),
             before, // HasNow
             before.user()
         );
@@ -396,6 +401,67 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         this.setLocaleAndCheck(
             context,
             locale
+        );
+
+        this.checkEquals(
+            true,
+            fired.get()
+        );
+    }
+
+    // setLoggingLevel....................................................................................................
+
+    @Test
+    default void testSetLoggingLevelWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .setLoggingLevel(null)
+        );
+    }
+
+    @Test
+    default void testSetLoggingLevelWithDifferentAndWatcher() {
+        final C context = this.createContext();
+
+        LoggingLevel loggingLevel = LoggingLevel.DEBUG;
+        if (context.loggingLevel().equals(loggingLevel)) {
+            loggingLevel = LoggingLevel.INFO;
+        }
+
+        final LoggingLevel oldLoggingLevel = context.loggingLevel();
+        final LoggingLevel newLoggingLevel = loggingLevel;
+
+        final AtomicBoolean fired = new AtomicBoolean();
+
+        context.addEnvironmentWatcher(
+            new EnvironmentWatcher() {
+                @Override
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.LOGGING_LEVEL.setValue(oldLoggingLevel)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.LOGGING_LEVEL.setValue(newLoggingLevel)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
+
+                    fired.set(true);
+                }
+            }
+        );
+
+        this.setLoggingLevelAndCheck(
+            context,
+            loggingLevel
         );
 
         this.checkEquals(

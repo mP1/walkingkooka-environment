@@ -214,6 +214,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
             EnvironmentContext.INDENTATION,
             EnvironmentContext.LINE_ENDING,
             EnvironmentContext.LOCALE,
+            EnvironmentContext.LOGGING_LEVEL,
             EnvironmentContext.NOW,
             EnvironmentContext.TIME_OFFSET,
             EnvironmentContext.USER
@@ -269,7 +270,7 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", hello.123=Gday, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=NONE, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -291,6 +292,8 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
                 "      \"\\n\"\n" +
                 "    locale\n" +
                 "      en_AU (java.util.Locale)\n" +
+                "    loggingLevel\n" +
+                "      NONE\n" +
                 "    now\n" +
                 "      1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "    timeOffset\n" +

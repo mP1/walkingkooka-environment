@@ -17,6 +17,8 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.logging.FakeLoggingContext;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -29,7 +31,8 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
-public class FakeEnvironmentContext implements EnvironmentContext {
+public class FakeEnvironmentContext extends FakeLoggingContext
+    implements EnvironmentContext {
 
     @Override
     public Charset charset() {
@@ -57,6 +60,11 @@ public class FakeEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public LoggingLevel loggingLevel() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void setCharset(final Charset charset) {
         throw new UnsupportedOperationException();
     }
@@ -78,6 +86,11 @@ public class FakeEnvironmentContext implements EnvironmentContext {
 
     @Override
     public void setLocale(final Locale locale) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setLoggingLevel(final LoggingLevel loggingLevel) {
         throw new UnsupportedOperationException();
     }
 

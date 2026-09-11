@@ -171,6 +171,11 @@ public final class EnvironmentEnvironmentContextTest implements EnvironmentConte
     }
 
     @Override
+    public void testSetLoggingLevelWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void testSetTimeOffsetWithDifferentAndWatcher() {
         throw new UnsupportedOperationException();
     }
@@ -203,6 +208,9 @@ public final class EnvironmentEnvironmentContextTest implements EnvironmentConte
                     EnvironmentValueName.LOCALE,
                     LOCALE
                 ).set(
+                    EnvironmentValueName.LOGGING_LEVEL,
+                    LOGGING_LEVEL
+                ).set(
                     EnvironmentValueName.NOW,
                     NOW
                 ).set(
@@ -221,7 +229,7 @@ public final class EnvironmentEnvironmentContextTest implements EnvironmentConte
         this.toStringAndCheck(
             this.createContext(),
             "{charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\n" +
-                "\", locale=en_AU, Magic=\"123\", now=1999-12-31T12:58:59, timeOffset=Z, user=user123@example.com}"
+                "\", locale=en_AU, loggingLevel=NONE, Magic=\"123\", now=1999-12-31T12:58:59, timeOffset=Z, user=user123@example.com}"
         );
     }
 

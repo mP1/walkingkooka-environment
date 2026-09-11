@@ -17,6 +17,8 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.logging.LoggingContext;
+import walkingkooka.logging.LoggingContextDelegator;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
@@ -31,7 +33,8 @@ import java.util.function.Predicate;
  * Note {@link #cloneEnvironment()} returns a clone not the original, which may not be read-only.
  * If the wrapped {@link EnvironmentContext} allows modification then the clone will allow modifications.
  */
-final class EnvironmentContextSharedReadOnly extends EnvironmentContextShared {
+final class EnvironmentContextSharedReadOnly extends EnvironmentContextShared
+    implements LoggingContextDelegator {
 
     static EnvironmentContextSharedReadOnly with(final Predicate<EnvironmentValueName<?>> readOnlyNames,
                                                  final EnvironmentContext context) {
@@ -143,6 +146,13 @@ final class EnvironmentContextSharedReadOnly extends EnvironmentContextShared {
     @Override
     public EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
         return this.context.parseEnvironmentValueName(value);
+    }
+
+    // LoggingContextDelegator..........................................................................................
+
+    @Override
+    public LoggingContext loggingContext() {
+        return this.context;
     }
 
     // Object...........................................................................................................

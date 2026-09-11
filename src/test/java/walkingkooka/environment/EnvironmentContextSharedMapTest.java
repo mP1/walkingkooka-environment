@@ -46,15 +46,35 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     private final static String VALUE = "Gday";
 
     @Test
+    public void testWithNullCanLogFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentContextSharedMap.with(
+                null,
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                LOGGING_LEVEL,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
     public void testWithNullCharsetFails() {
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentContextSharedMap.with(
+                CAN_LOG,
                 null,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
+                LOGGING_LEVEL,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             )
@@ -66,11 +86,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentContextSharedMap.with(
+                CAN_LOG,
                 CHARSET,
                 null,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
+                LOGGING_LEVEL,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             )
@@ -82,11 +104,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentContextSharedMap.with(
+                CAN_LOG,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
                 null,
                 LOCALE,
+                LOGGING_LEVEL,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             )
@@ -98,11 +122,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentContextSharedMap.with(
+                CAN_LOG,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
                 null,
                 LOCALE,
+                LOGGING_LEVEL,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             )
@@ -114,10 +140,30 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentContextSharedMap.with(
+                CAN_LOG,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
+                null,
+                LOGGING_LEVEL,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullLoggingLevelFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentContextSharedMap.with(
+                CAN_LOG,
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
                 null,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
@@ -130,11 +176,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentContextSharedMap.with(
+                CAN_LOG,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
+                LOGGING_LEVEL,
                 null,
                 EnvironmentContext.ANONYMOUS
             )
@@ -146,11 +194,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentContextSharedMap.with(
+                CAN_LOG,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
+                LOGGING_LEVEL,
                 HAS_NOW,
                 null
             )
@@ -277,6 +327,24 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
     }
 
+    // loggingLevel.....................................................................................................
+
+    @Test
+    public void testLoggingLevel() {
+        this.loggingLevelAndCheck(
+            this.createContext(),
+            LOGGING_LEVEL
+        );
+    }
+
+    @Test
+    public void testSetLoggingLevel() {
+        this.setLoggingLevelAndCheck(
+            this.createContext(),
+            DIFFERENT_LOGGING_LEVEL
+        );
+    }
+    
     // environmentValue.................................................................................................
 
     @Test
@@ -427,6 +495,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
+            EnvironmentValueName.LOGGING_LEVEL,
             EnvironmentValueName.NOW,
             EnvironmentValueName.TIME_OFFSET,
             name1,
@@ -481,6 +550,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             EnvironmentValueName.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentValueName.LOCALE,
+            EnvironmentValueName.LOGGING_LEVEL,
             EnvironmentValueName.NOW,
             EnvironmentValueName.TIME_OFFSET,
             EnvironmentValueName.USER,
@@ -593,11 +663,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     public EnvironmentContextSharedMap createContext(final Optional<EmailAddress> user) {
         return EnvironmentContextSharedMap.with(
+            CAN_LOG,
             CHARSET,
             CURRENCY,
             INDENTATION,
             LINE_ENDING,
             LOCALE,
+            LOGGING_LEVEL,
             HAS_NOW,
             user
         );
@@ -625,6 +697,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                 ).set(
                     EnvironmentValueName.LOCALE,
                     LOCALE
+                ).set(
+                    EnvironmentValueName.LOGGING_LEVEL,
+                    LOGGING_LEVEL
                 ).set(
                     EnvironmentValueName.NOW,
                     NOW
@@ -665,6 +740,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                 ).set(
                     EnvironmentValueName.LOCALE,
                     LOCALE
+                ).set(
+                    EnvironmentValueName.LOGGING_LEVEL,
+                    LOGGING_LEVEL
                 ).set(
                     EnvironmentValueName.NOW,
                     NOW
@@ -716,20 +794,24 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     public void testEqualsDifferentContext() {
         this.checkNotEquals(
             EnvironmentContextSharedMap.with(
+                CAN_LOG,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 Locale.FRANCE,
+                LOGGING_LEVEL,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ),
             EnvironmentContextSharedMap.with(
+                CAN_LOG,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 Locale.GERMAN,
+                LOGGING_LEVEL,
                 HAS_NOW,
                 Optional.of(DIFFERENT_USER)
             )
@@ -778,7 +860,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{charset=UTF-8, currency=AUD, hello.123=\"Gday\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z}"
+            "{charset=UTF-8, currency=AUD, hello.123=\"Gday\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=NONE, timeOffset=Z}"
         );
     }
 
@@ -797,7 +879,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
         this.toStringAndCheck(
             context,
-            "{charset=UTF-8, currency=AUD, hello.123=\"Gday\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user@example.com}"
+            "{charset=UTF-8, currency=AUD, hello.123=\"Gday\", indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=NONE, timeOffset=Z, user=user@example.com}"
         );
     }
 
@@ -818,6 +900,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                 "    \"\\n\"\n" +
                 "  locale\n" +
                 "    en_AU (java.util.Locale)\n" +
+                "  loggingLevel\n" +
+                "    NONE\n" +
                 "  now\n" +
                 "    1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "  timeOffset\n" +
@@ -851,6 +935,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
                 "    \"\\n\"\n" +
                 "  locale\n" +
                 "    en_AU (java.util.Locale)\n" +
+                "  loggingLevel\n" +
+                "    NONE\n" +
                 "  now\n" +
                 "    1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "  timeOffset\n" +

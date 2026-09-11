@@ -17,6 +17,9 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.logging.LoggingContext;
+import walkingkooka.logging.LoggingContextDelegator;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -31,7 +34,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface EnvironmentContextDelegator extends EnvironmentContext,
-    CanParseEnvironmentValueNameDelegator {
+    CanParseEnvironmentValueNameDelegator,
+    LoggingContextDelegator {
 
     @Override
     default <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
@@ -128,6 +132,19 @@ public interface EnvironmentContextDelegator extends EnvironmentContext,
     }
 
     @Override
+    default LoggingLevel loggingLevel() {
+        return LOGGING_LEVEL.getEnvironmentValueOrFail(this);
+    }
+
+    @Override
+    default void setLoggingLevel(final LoggingLevel loggingLevel) {
+        LOGGING_LEVEL.setEnvironmentValue(
+            loggingLevel,
+            this
+        );
+    }
+
+    @Override
     default LocalDateTime now() {
         return NOW.getEnvironmentValueOrFail(this);
     }
@@ -176,6 +193,13 @@ public interface EnvironmentContextDelegator extends EnvironmentContext,
 
     @Override
     default CanParseEnvironmentValueName canParseEnvironmentValueName() {
+        return this.environmentContext();
+    }
+
+    // LoggingContextDelegator..........................................................................................
+
+    @Override
+    default LoggingContext loggingContext() {
         return this.environmentContext();
     }
 }

@@ -21,6 +21,9 @@ import walkingkooka.Cast;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
+import walkingkooka.logging.LoggingContext;
+import walkingkooka.logging.LoggingContextDelegator;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.props.PropertiesPath;
@@ -43,7 +46,8 @@ import java.util.Set;
 /**
  * An {@link EnvironmentContext} that sources all values from a given {@link Properties}.
  */
-final class EnvironmentContextSharedProperties extends EnvironmentContextShared {
+final class EnvironmentContextSharedProperties extends EnvironmentContextShared
+    implements LoggingContextDelegator {
 
     static EnvironmentContextSharedProperties with(final Properties properties,
                                                    final EnvironmentContext context) {
@@ -109,22 +113,28 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
                                 this.context.locale()
                             );
                         } else {
-                            if (NOW.equals(name)) {
+                            if (LOGGING_LEVEL.equals(name)) {
                                 value = Optional.of(
-                                    this.context.now()
+                                    this.context.loggingLevel()
                                 );
                             } else {
-                                if (TIME_OFFSET.equals(name)) {
+                                if (NOW.equals(name)) {
                                     value = Optional.of(
-                                        this.context.timeOffset()
+                                        this.context.now()
                                     );
                                 } else {
-                                    if (USER.equals(name)) {
-                                        value = this.context.user();
-                                    } else {
-                                        value = this.properties.get(
-                                            PropertiesPath.parse(name.value())
+                                    if (TIME_OFFSET.equals(name)) {
+                                        value = Optional.of(
+                                            this.context.timeOffset()
                                         );
+                                    } else {
+                                        if (USER.equals(name)) {
+                                            value = this.context.user();
+                                        } else {
+                                            value = this.properties.get(
+                                                PropertiesPath.parse(name.value())
+                                            );
+                                        }
                                     }
                                 }
                             }
@@ -177,15 +187,19 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
                         if (LOCALE.equals(name)) {
                             this.context.setLocale((Locale) value);
                         } else {
-                            if (TIME_OFFSET.equals(name)) {
-                                this.context.setTimeOffset((ZoneOffset) value);
+                            if (LOGGING_LEVEL.equals(name)) {
+                                this.context.setLoggingLevel((LoggingLevel) value);
                             } else {
-                                if (USER.equals(name)) {
-                                    this.context.setUser(
-                                        Optional.of((EmailAddress) value)
-                                    );
+                                if (TIME_OFFSET.equals(name)) {
+                                    this.context.setTimeOffset((ZoneOffset) value);
                                 } else {
-                                    throw name.readOnlyEnvironmentValueException();
+                                    if (USER.equals(name)) {
+                                        this.context.setUser(
+                                            Optional.of((EmailAddress) value)
+                                        );
+                                    } else {
+                                        throw name.readOnlyEnvironmentValueException();
+                                    }
                                 }
                             }
                         }
@@ -231,6 +245,13 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
     @Override
     public EnvironmentValueName<?> parseEnvironmentValueName(final String value) {
         return this.context.parseEnvironmentValueName(value);
+    }
+
+    // LoggingContextDelegator..........................................................................................
+
+    @Override
+    public LoggingContext loggingContext() {
+        return this.context;
     }
 
     // Object...........................................................................................................
@@ -301,6 +322,11 @@ final class EnvironmentContextSharedProperties extends EnvironmentContextShared 
         map.put(
             LOCALE,
             this.locale()
+        );
+
+        map.put(
+            LOGGING_LEVEL,
+            this.loggingLevel()
         );
 
         map.put(

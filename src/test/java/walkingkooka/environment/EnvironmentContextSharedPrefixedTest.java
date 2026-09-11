@@ -351,6 +351,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
             EnvironmentContext.INDENTATION,
             EnvironmentValueName.LINE_ENDING,
             EnvironmentContext.LOCALE,
+            EnvironmentContext.LOGGING_LEVEL,
             EnvironmentContext.NOW,
             EnvironmentContext.TIME_OFFSET,
             EnvironmentValueName.USER
@@ -421,7 +422,7 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", key111=value111, lineEnding=\"\\n\", locale=en_AU, timeOffset=Z, user=user123@example.com}"
+            "{charset=\"UTF-8\", currency=\"AUD\", indentation=\"  \", key111=value111, lineEnding=\"\\n\", locale=en_AU, loggingLevel=NONE, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -447,6 +448,8 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
                 "          \"\\n\"\n" +
                 "        locale\n" +
                 "          en_AU (java.util.Locale)\n" +
+                "        loggingLevel\n" +
+                "          NONE\n" +
                 "        now\n" +
                 "          1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "        timeOffset\n" +

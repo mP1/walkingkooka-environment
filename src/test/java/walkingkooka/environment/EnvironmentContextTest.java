@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.HasCharsetTesting;
 import walkingkooka.currency.CurrencyLocaleContextTesting;
 import walkingkooka.datetime.DateTimeContextTesting;
+import walkingkooka.logging.LoggingContextTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
@@ -34,9 +35,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentContextTest implements ClassTesting<EnvironmentContext>,
     BinaryTextContextTesting,
+    CurrencyLocaleContextTesting,
     DateTimeContextTesting,
     HasCharsetTesting,
-    CurrencyLocaleContextTesting,
+    LoggingContextTesting,
     ThrowableTesting {
 
     // environmentValueOrFail...........................................................................................
@@ -46,11 +48,13 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
         final MissingEnvironmentValueException thrown = assertThrows(
             MissingEnvironmentValueException.class,
             () -> EnvironmentContexts.map(
+                CAN_LOG,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
+                LOGGING_LEVEL,
                 HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ).environmentValueOrFail(EnvironmentValueName.with(

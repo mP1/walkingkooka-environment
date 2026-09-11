@@ -32,11 +32,13 @@ public final class CanParseEnvironmentValueNameDelegatorTest implements CanParse
         @Override
         public CanParseEnvironmentValueName canParseEnvironmentValueName() {
             return EnvironmentContexts.map(
+                CAN_LOG,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
                 LINE_ENDING,
                 LOCALE,
+                LOGGING_LEVEL,
                 HAS_NOW,
                 OPTIONAL_USER
             );

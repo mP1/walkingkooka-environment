@@ -18,6 +18,8 @@
 package walkingkooka.environment;
 
 import walkingkooka.datetime.HasNow;
+import walkingkooka.logging.CanLog;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.Properties;
 import walkingkooka.reflect.PublicStaticHelper;
@@ -45,19 +47,23 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     /**
      * {@see EnvironmentContextSharedMap}
      */
-    public static EnvironmentContext map(final Charset charset,
+    public static EnvironmentContext map(final CanLog canLog,
+                                         final Charset charset,
                                          final Currency currency,
                                          final Indentation indentation,
                                          final LineEnding lineEnding,
                                          final Locale locale,
+                                         final LoggingLevel loggingLevel,
                                          final HasNow hasNow,
                                          final Optional<EmailAddress> user) {
         return EnvironmentContextSharedMap.with(
+            canLog,
             charset,
             currency,
             indentation,
             lineEnding,
             locale,
+            loggingLevel,
             hasNow,
             user
         );

@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -117,6 +118,21 @@ abstract class EnvironmentContextShared implements EnvironmentContext,
         this.setEnvironmentValue(
             LOCALE,
             locale
+        );
+    }
+
+    // HasLoggingLevel..................................................................................................
+
+    @Override
+    public final LoggingLevel loggingLevel() {
+        return this.environmentValueOrFail(LOGGING_LEVEL);
+    }
+
+    @Override
+    public final void setLoggingLevel(final LoggingLevel loggingLevel) {
+        this.setEnvironmentValue(
+            LOGGING_LEVEL,
+            loggingLevel
         );
     }
 

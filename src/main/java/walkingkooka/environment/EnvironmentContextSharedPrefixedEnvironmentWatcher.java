@@ -55,7 +55,7 @@ final class EnvironmentContextSharedPrefixedEnvironmentWatcher implements Enviro
             nv -> {
                 EnvironmentValueName<?> name = nv.name();
 
-                if(name.equals(EnvironmentContext.CURRENCY) || name.equals(EnvironmentContext.INDENTATION) || name.equals(EnvironmentContext.LINE_ENDING) || name.equals(EnvironmentContext.LOCALE) || name.equals(EnvironmentContext.TIME_OFFSET) || name.equals(EnvironmentContext.USER)) {
+                if(name.equals(EnvironmentContext.CURRENCY) || name.equals(EnvironmentContext.INDENTATION) || name.equals(EnvironmentContext.LINE_ENDING) || name.equals(EnvironmentContext.LOCALE) || name.equals(EnvironmentContext.LOGGING_LEVEL) || name.equals(EnvironmentContext.TIME_OFFSET) || name.equals(EnvironmentContext.USER)) {
                     // nop
                 } else {
                     name = EnvironmentValueName.with(
