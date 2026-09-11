@@ -21,6 +21,7 @@ import walkingkooka.Cast;
 import walkingkooka.Context;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.datetime.HasNow;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.BinaryTextContext;
 import walkingkooka.text.Indentation;
@@ -64,6 +65,8 @@ public interface EnvironmentContext extends Context,
     EnvironmentValueName<LineEnding> LINE_ENDING = EnvironmentValueName.LINE_ENDING;
 
     EnvironmentValueName<Locale> LOCALE = EnvironmentValueName.LOCALE;
+
+    EnvironmentValueName<LoggingLevel> LOGGING_LEVEL = EnvironmentValueName.LOGGING_LEVEL;
 
     EnvironmentValueName<LocalDateTime> NOW = EnvironmentValueName.NOW;
 
