@@ -19,6 +19,9 @@ package walkingkooka.environment;
 
 import walkingkooka.Cast;
 import walkingkooka.collect.set.SortedSets;
+import walkingkooka.logging.LoggingContext;
+import walkingkooka.logging.LoggingContextDelegator;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
@@ -38,7 +41,8 @@ import java.util.SortedSet;
 /**
  * A {@link EnvironmentContext} that expects and removes a prefix before performing a lookup.
  */
-final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
+final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared
+    implements LoggingContextDelegator {
 
     static EnvironmentContextSharedPrefixed with(final EnvironmentValueName<?> prefix,
                                                  final EnvironmentContext context) {
@@ -135,20 +139,26 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
                                     this.context.locale()
                                 );
                             } else {
-                                if (NOW.equals(name)) {
+                                if (LOGGING_LEVEL.equals(name)) {
                                     value = Optional.of(
-                                        this.context.now()
+                                        this.context.loggingLevel()
                                     );
                                 } else {
-                                    if (TIME_OFFSET.equals(name)) {
+                                    if (NOW.equals(name)) {
                                         value = Optional.of(
-                                            this.context.timeOffset()
+                                            this.context.now()
                                         );
                                     } else {
-                                        if (USER.equals(name)) {
-                                            value = this.context.user();
+                                        if (TIME_OFFSET.equals(name)) {
+                                            value = Optional.of(
+                                                this.context.timeOffset()
+                                            );
                                         } else {
-                                            value = Optional.empty();
+                                            if (USER.equals(name)) {
+                                                value = this.context.user();
+                                            } else {
+                                                value = Optional.empty();
+                                            }
                                         }
                                     }
                                 }
@@ -172,6 +182,7 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
         names.add(INDENTATION);
         names.add(LINE_ENDING);
         names.add(LOCALE);
+        names.add(LOGGING_LEVEL);
         names.add(NOW);
         names.add(TIME_OFFSET);
 
@@ -180,7 +191,7 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
         }
 
         for (final EnvironmentValueName<?> name : this.context.environmentValueNames()) {
-            if (CHARSET.equals(name) || CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || TIME_OFFSET.equals(name) || USER.equals(name)) {
+            if (CHARSET.equals(name) || CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || LOGGING_LEVEL.equals(name) || TIME_OFFSET.equals(name) || USER.equals(name)) {
                 continue;
             }
             names.add(
@@ -217,15 +228,19 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
                         if (LOCALE.equals(name)) {
                             this.context.setLocale((Locale) value);
                         } else {
-                            if (TIME_OFFSET.equals(name)) {
-                                this.context.setTimeOffset((ZoneOffset) value);
+                            if (LOGGING_LEVEL.equals(name)) {
+                                this.context.setLoggingLevel((LoggingLevel) value);
                             } else {
-                                if (USER.equals(name)) {
-                                    this.context.setUser(
-                                        Optional.of((EmailAddress) value)
-                                    );
+                                if (TIME_OFFSET.equals(name)) {
+                                    this.context.setTimeOffset((ZoneOffset) value);
                                 } else {
-                                    throw new UnsupportedOperationException();
+                                    if (USER.equals(name)) {
+                                        this.context.setUser(
+                                            Optional.of((EmailAddress) value)
+                                        );
+                                    } else {
+                                        throw new UnsupportedOperationException();
+                                    }
                                 }
                             }
                         }
@@ -271,6 +286,13 @@ final class EnvironmentContextSharedPrefixed extends EnvironmentContextShared {
 
     // @VisibleForTesting
     final EnvironmentContext context;
+
+    // LoggingContextDelegator..........................................................................................
+
+    @Override
+    public LoggingContext loggingContext() {
+        return this.context;
+    }
 
     // Object...........................................................................................................
 

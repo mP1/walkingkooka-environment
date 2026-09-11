@@ -18,6 +18,9 @@
 package walkingkooka.environment;
 
 import walkingkooka.collect.set.Sets;
+import walkingkooka.logging.LoggingContext;
+import walkingkooka.logging.LoggingContextDelegator;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -34,16 +37,23 @@ import java.util.Set;
 /**
  * A {@link EnvironmentContext} around the parent {@link Environment}.
  */
-final class EnvironmentEnvironmentContext implements EnvironmentContext {
+final class EnvironmentEnvironmentContext implements EnvironmentContext,
+    LoggingContextDelegator {
 
-    static EnvironmentEnvironmentContext with(final Environment environment) {
-        return new EnvironmentEnvironmentContext(environment);
+    static EnvironmentEnvironmentContext with(final Environment environment,
+                                              final LoggingContext loggingContext) {
+        return new EnvironmentEnvironmentContext(
+            environment,
+            loggingContext
+        );
     }
 
-    private EnvironmentEnvironmentContext(final Environment environment) {
+    private EnvironmentEnvironmentContext(final Environment environment,
+                                          final LoggingContext loggingContext) {
         super();
 
         this.environment = environment;
+        this.loggingContext = loggingContext;
     }
 
     @Override
@@ -149,6 +159,18 @@ final class EnvironmentEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public LoggingLevel loggingLevel() {
+        return this.environmentValueOrFail(LOGGING_LEVEL);
+    }
+
+    @Override
+    public void setLoggingLevel(final LoggingLevel loggingLevel) {
+        Objects.requireNonNull(loggingLevel, "loggingLevel");
+
+        throw LOGGING_LEVEL.readOnlyEnvironmentValueException();
+    }
+    
+    @Override
     public LocalDateTime now() {
         return this.environmentValueOrFail(NOW);
     }
@@ -206,6 +228,15 @@ final class EnvironmentEnvironmentContext implements EnvironmentContext {
     }
 
     private final Environment environment;
+
+    // LoggingContextDelegator..........................................................................................
+
+    @Override
+    public LoggingContext loggingContext() {
+        return this.loggingContext;
+    }
+
+    private final LoggingContext loggingContext;
 
     // Object...........................................................................................................
 

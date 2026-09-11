@@ -115,6 +115,7 @@ public final class EnvironmentConverterEnvironmentToStringTest extends Environme
                 "indentation=\"  \"\n" +
                 "lineEnding=\"\\n\"\n" +
                 "locale=en-AU\n" +
+                "loggingLevel=NONE\n" +
                 "now=1999-12-31T12:58:59\n" +
                 "timeOffset=Z\n" +
                 "user=user123@example.com\n"

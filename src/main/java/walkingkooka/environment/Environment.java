@@ -27,6 +27,11 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtension;
+import walkingkooka.logging.CanLog;
+import walkingkooka.logging.CanLogs;
+import walkingkooka.logging.HasLoggingLevel;
+import walkingkooka.logging.LoggingContexts;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.net.header.HasContentType;
 import walkingkooka.net.header.MediaType;
@@ -60,6 +65,7 @@ public final class Environment implements BinaryTextContext,
     HasIndentation,
     HasLineEnding,
     HasLocale,
+    HasLoggingLevel,
     HasTimeOffset,
     HasUser,
     UsesToStringBuilder {
@@ -74,14 +80,17 @@ public final class Environment implements BinaryTextContext,
      */
     public static Environment empty() {
         return new Environment(
-            Maps.sorted()
+            Maps.sorted(),
+            CanLogs.nullCanLog()
         );
     }
 
-    private Environment(final Map<EnvironmentValueName<?>, Object> values) {
+    private Environment(final Map<EnvironmentValueName<?>, Object> values,
+                        final CanLog canLog) {
         super();
 
         this.values = values;
+        this.canLog = canLog;
     }
 
     public <T> Optional<T> get(final EnvironmentValueName<T> name) {
@@ -127,7 +136,10 @@ public final class Environment implements BinaryTextContext,
     private Environment setValues(final Map<EnvironmentValueName<?>, Object> values) {
         return this.values.equals(values) ?
             this :
-            new Environment(values);
+            new Environment(
+                values,
+                this.canLog
+            );
     }
 
     public Set<EnvironmentValueName<?>> names() {
@@ -179,6 +191,13 @@ public final class Environment implements BinaryTextContext,
     @Override
     public Locale locale() {
         return this.getOrFail(EnvironmentValueName.LOCALE);
+    }
+
+    // HasLoggingLevel........................................................................................................
+
+    @Override
+    public LoggingLevel loggingLevel() {
+        return this.getOrFail(EnvironmentValueName.LOGGING_LEVEL);
     }
 
     // HasTimeOffset....................................................................................................
@@ -249,8 +268,29 @@ public final class Environment implements BinaryTextContext,
 
     @Override
     public EnvironmentContext environmentContext() {
-        return EnvironmentEnvironmentContext.with(this);
+        return EnvironmentEnvironmentContext.with(
+            this,
+            LoggingContexts.canLog(
+                this, // HasLoggingLevel
+                this.canLog
+            )
+        );
     }
+
+    // setLoggingContext................................................................................................
+
+    public Environment setCanLog(final CanLog canLog) {
+        Objects.requireNonNull(canLog, "canLog");
+
+        return this.canLog.equals(canLog) ?
+            this :
+            new Environment(
+                this.values,
+                canLog
+            );
+    }
+
+    private final CanLog canLog;
 
     // HasFileExtension.................................................................................................
 

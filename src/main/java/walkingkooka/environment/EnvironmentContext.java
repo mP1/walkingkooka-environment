@@ -21,6 +21,7 @@ import walkingkooka.Cast;
 import walkingkooka.Context;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.datetime.HasNow;
+import walkingkooka.logging.LoggingContext;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.BinaryTextContext;
@@ -50,7 +51,8 @@ public interface EnvironmentContext extends Context,
     HasLocale,
     HasNow,
     HasTimeOffset,
-    HasUser {
+    HasUser,
+    LoggingContext {
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
@@ -159,6 +161,11 @@ public interface EnvironmentContext extends Context,
      * Sets or replaces the current {@link Locale}
      */
     void setLocale(final Locale locale);
+
+    /**
+     * Sets or replaces the current {@link LoggingLevel}
+     */
+    void setLoggingLevel(final LoggingLevel loggingLevel);
 
     /**
      * Sets or replaces the current {@link Locale}

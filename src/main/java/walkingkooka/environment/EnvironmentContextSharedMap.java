@@ -25,6 +25,11 @@ import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.datetime.HasNow;
+import walkingkooka.logging.CanLog;
+import walkingkooka.logging.LoggingContext;
+import walkingkooka.logging.LoggingContextDelegator;
+import walkingkooka.logging.LoggingContexts;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
@@ -45,20 +50,25 @@ import java.util.Set;
  */
 final class EnvironmentContextSharedMap extends EnvironmentContextShared
     implements HasEnvironmentWatchers,
+    LoggingContextDelegator,
     UsesToStringBuilder {
 
-    static EnvironmentContextSharedMap with(final Charset charset,
+    static EnvironmentContextSharedMap with(final CanLog canLog,
+                                            final Charset charset,
                                             final Currency currency,
                                             final Indentation indentation,
                                             final LineEnding lineEnding,
                                             final Locale locale,
+                                            final LoggingLevel loggingLevel,
                                             final HasNow hasNow,
                                             final Optional<EmailAddress> user) {
+        Objects.requireNonNull(canLog, "canLog");
         Objects.requireNonNull(charset, "charset");
         Objects.requireNonNull(currency, "currency");
         Objects.requireNonNull(indentation, "indentation");
         Objects.requireNonNull(lineEnding, "lineEnding");
         Objects.requireNonNull(locale, "locale");
+        Objects.requireNonNull(loggingLevel, "loggingLevel");
         Objects.requireNonNull(hasNow, "hasNow");
         Objects.requireNonNull(user, "user");
 
@@ -99,6 +109,13 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
             )
         );
         values.put(
+            EnvironmentValueName.LOGGING_LEVEL,
+            EnvironmentContextSharedMapValue.with(
+                EnvironmentValueName.LOGGING_LEVEL,
+                loggingLevel
+            )
+        );
+        values.put(
             EnvironmentValueName.TIME_OFFSET,
             EnvironmentContextSharedMapValue.with(
                 EnvironmentValueName.TIME_OFFSET,
@@ -117,16 +134,29 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
         return new EnvironmentContextSharedMap(
             values,
-            hasNow
+            hasNow,
+            canLog,
+            null // LoggingContext
         );
     }
 
     private EnvironmentContextSharedMap(final Map<EnvironmentValueName<?>, EnvironmentContextSharedMapValue<?>> values,
-                                        final HasNow hasNow) {
+                                        final HasNow hasNow,
+                                        final CanLog canLog,
+                                        final LoggingContext loggingContext) {
         super();
 
         this.values = values;
         this.hasNow = hasNow;
+
+        this.canLog = canLog;
+
+        this.loggingContext = null == loggingContext ?
+            LoggingContexts.canLog(
+                this, // HasLoggingLevel
+                canLog
+            ) :
+            loggingContext;
     }
 
     @Override
@@ -142,7 +172,9 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
         return new EnvironmentContextSharedMap(
             values,
-            this.hasNow
+            this.hasNow,
+            this.canLog,
+            this.loggingContext // will not be null
         );
     }
 
@@ -248,7 +280,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     public void removeEnvironmentValue(final EnvironmentValueName<?> name) {
         Objects.requireNonNull(name, "name");
 
-        if (CHARSET.equals(name) || CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name)) {
+        if (CHARSET.equals(name) || CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || LOGGING_LEVEL.equals(name) || NOW.equals(name)) {
             throw name.readOnlyEnvironmentValueException();
         }
 
@@ -304,13 +336,25 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         return environmentValueName;
     }
 
+    // LoggingContextDelegator..........................................................................................
+
+    @Override
+    public LoggingContext loggingContext() {
+        return this.loggingContext;
+    }
+
+    private final LoggingContext loggingContext;
+
+    private final CanLog canLog;
+
     // Object...........................................................................................................
 
     @Override
     public int hashCode() {
         return Objects.hash(
             this.values,
-            this.hasNow
+            this.hasNow,
+            this.canLog
         );
     }
 
@@ -323,7 +367,8 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
     private boolean equals0(final EnvironmentContextSharedMap other) {
         return this.values.equals(other.values) &&
-            this.hasNow.equals(other.hasNow);
+            this.hasNow.equals(other.hasNow) &&
+            this.canLog.equals(other.canLog);
     }
 
     @Override

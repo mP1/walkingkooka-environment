@@ -25,6 +25,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.currency.HasCurrencyTesting;
 import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtensionTesting;
+import walkingkooka.logging.CanLogs;
 import walkingkooka.net.header.HasContentTypeTesting;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.reflect.ClassTesting;
@@ -348,12 +349,25 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     // hashCode/equals..................................................................................................
 
     @Test
-    public void testEqualsDifferent() {
+    public void testEqualsDifferentValues() {
         this.checkNotEquals(
             Environment.empty()
                 .set(
                     EnvironmentValueName.CURRENCY,
                     DIFFERENT_CURRENCY
+                )
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentCanLog() {
+        this.checkNotEquals(
+            Environment.empty()
+                .set(
+                    EnvironmentValueName.CURRENCY,
+                    DIFFERENT_CURRENCY
+                ).setCanLog(
+                    CanLogs.fake()
                 )
         );
     }

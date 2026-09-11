@@ -17,6 +17,8 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.logging.FakeLoggingContext;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
@@ -33,7 +35,8 @@ import java.util.Set;
 
 public final class HasEnvironmentWatchersTest implements ClassTesting2<HasEnvironmentWatchers> {
 
-    final static class TestHasEnvironmentWatchers implements HasEnvironmentWatchers {
+    final static class TestHasEnvironmentWatchers extends FakeLoggingContext
+        implements HasEnvironmentWatchers {
 
         @Override
         public Charset charset() {
@@ -61,6 +64,11 @@ public final class HasEnvironmentWatchersTest implements ClassTesting2<HasEnviro
         }
 
         @Override
+        public LoggingLevel loggingLevel() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public void setCharset(final Charset charset) {
             throw new UnsupportedOperationException();
         }
@@ -82,6 +90,11 @@ public final class HasEnvironmentWatchersTest implements ClassTesting2<HasEnviro
 
         @Override
         public void setLocale(final Locale locale) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setLoggingLevel(final LoggingLevel loggingLevel) {
             throw new UnsupportedOperationException();
         }
 

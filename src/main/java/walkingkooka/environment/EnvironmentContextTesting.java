@@ -22,6 +22,8 @@ import walkingkooka.collect.set.SortedSets;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.currency.HasCurrencyTesting;
 import walkingkooka.datetime.HasNowTesting;
+import walkingkooka.logging.LoggingContextTesting;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.predicate.Predicates;
 import walkingkooka.text.BinaryTextContextTesting;
@@ -49,6 +51,7 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     HasNowTesting,
     HasTimeOffsetTesting,
     HasUserTesting,
+    LoggingContextTesting,
     TreePrintableTesting {
 
     /**
@@ -57,11 +60,13 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     EnvironmentContext ENVIRONMENT_CONTEXT = EnvironmentContexts.readOnly(
         Predicates.always(), // all values are read-only
         EnvironmentContexts.map(
+            CAN_LOG,
             CHARSET,
             CURRENCY,
             INDENTATION,
             LINE_ENDING,
             LOCALE,
+            LOGGING_LEVEL,
             HAS_NOW,
             OPTIONAL_USER
         )
@@ -73,11 +78,13 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     EnvironmentContext DIFFERENT_ENVIRONMENT_CONTEXT = EnvironmentContexts.readOnly(
         Predicates.always(), // all values are read-only
         EnvironmentContexts.map(
+            CAN_LOG,
             DIFFERENT_CHARSET,
             DIFFERENT_CURRENCY,
             DIFFERENT_INDENTATION,
             DIFFERENT_LINE_ENDING,
             DIFFERENT_LOCALE,
+            DIFFERENT_LOGGING_LEVEL,
             HAS_NOW,
             Optional.of(DIFFERENT_USER)
         )
@@ -261,6 +268,18 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
         this.lineEndingAndCheck(
             context,
             lineEnding
+        );
+    }
+
+    // setLoggingLevel..................................................................................................
+
+    default void setLoggingLevelAndCheck(final EnvironmentContext context,
+                                         final LoggingLevel loggingLevel) {
+        context.setLoggingLevel(loggingLevel);
+
+        this.loggingLevelAndCheck(
+            context,
+            loggingLevel
         );
     }
 
