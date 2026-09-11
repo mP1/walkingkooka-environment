@@ -58,7 +58,17 @@ final class EnvironmentEnvironmentContext implements EnvironmentContext,
 
     @Override
     public EnvironmentContext cloneEnvironment() {
-        throw new UnsupportedOperationException();
+        return EnvironmentContexts.map(
+            this.loggingContext, // CanLog
+            this.charset(),
+            this.currency(),
+            this.indentation(),
+            this.lineEnding(),
+            this.locale(),
+            this.loggingLevel(),
+            this, // HasNow
+            this.user()
+        );
     }
 
     /**

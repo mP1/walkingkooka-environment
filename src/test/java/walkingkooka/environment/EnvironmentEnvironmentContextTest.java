@@ -89,12 +89,92 @@ public final class EnvironmentEnvironmentContextTest implements EnvironmentConte
         );
     }
 
+    // cloneEnvironment.................................................................................................
+
     @Test
-    public void testCloneEnvironmentFails() {
-        assertThrows(
-            UnsupportedOperationException.class,
-            () -> this.createContext()
-                .cloneEnvironment()
+    public void testCloneEnvironment() {
+        final EnvironmentEnvironmentContext environmentEnvironmentContext = this.createContext();
+        final EnvironmentContext cloned = environmentEnvironmentContext.cloneEnvironment();
+
+        this.charsetAndCheck(
+            cloned,
+            environmentEnvironmentContext.charset()
+        );
+
+        this.currencyAndCheck(
+            cloned,
+            environmentEnvironmentContext.currency()
+        );
+
+        this.indentationAndCheck(
+            cloned,
+            environmentEnvironmentContext.indentation()
+        );
+
+        this.lineEndingAndCheck(
+            cloned,
+            environmentEnvironmentContext.lineEnding()
+        );
+
+        this.loggingLevelAndCheck(
+            cloned,
+            environmentEnvironmentContext.loggingLevel()
+        );
+
+        this.timeOffsetAndCheck(
+            cloned,
+            environmentEnvironmentContext.timeOffset()
+        );
+
+        this.userAndCheck(
+            cloned,
+            environmentEnvironmentContext.user()
+        );
+    }
+
+    @Test
+    public void testCloneEnvironmentNotReadOnly() {
+        final EnvironmentEnvironmentContext environmentEnvironmentContext = this.createContext();
+        final EnvironmentContext cloned = environmentEnvironmentContext.cloneEnvironment();
+
+        this.setCharsetAndCheck(
+            cloned,
+            DIFFERENT_CHARSET
+        );
+
+        this.setCurrencyAndCheck(
+            cloned,
+            DIFFERENT_CURRENCY
+        );
+
+        this.setIndentationAndCheck(
+            cloned,
+            DIFFERENT_INDENTATION
+        );
+
+        this.setLineEndingAndCheck(
+            cloned,
+            DIFFERENT_LINE_ENDING
+        );
+
+        this.setLocaleAndCheck(
+            cloned,
+            DIFFERENT_LOCALE
+        );
+
+        this.setLoggingLevelAndCheck(
+            cloned,
+            DIFFERENT_LOGGING_LEVEL
+        );
+
+        this.setTimeOffsetAndCheck(
+            cloned,
+            TIME_OFFSET
+        );
+
+        this.setUserAndCheck(
+            cloned,
+            DIFFERENT_USER
         );
     }
 
