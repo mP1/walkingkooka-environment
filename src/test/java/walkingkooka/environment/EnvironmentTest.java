@@ -36,7 +36,6 @@ import walkingkooka.text.CharSequences;
 import walkingkooka.text.HasIndentationTesting;
 import walkingkooka.text.HasLineEndingTesting;
 
-import java.time.ZoneOffset;
 import java.util.Optional;
 import java.util.Set;
 
@@ -555,8 +554,6 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
 
     // HasTimeOffset....................................................................................................
 
-    private final static ZoneOffset TIME_OFFSET = ZoneOffset.UTC;
-
     @Test
     public void testTimeOffset() {
         this.timeOffsetAndCheck(
@@ -568,8 +565,6 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
             TIME_OFFSET
         );
     }
-
-    private final static ZoneOffset DIFFERENT_TIME_OFFSET = ZoneOffset.ofHours(12);
 
     @Test
     public void testTimeOffset2() {

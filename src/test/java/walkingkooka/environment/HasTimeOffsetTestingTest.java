@@ -28,8 +28,8 @@ public final class HasTimeOffsetTestingTest implements HasTimeOffsetTesting,
     @Test
     public void testConstants() {
         this.checkNotEquals(
-            ZONE_OFFSET,
-            DIFFERENT_ZONE_OFFSET
+            TIME_OFFSET,
+            DIFFERENT_TIME_OFFSET
         );
     }
 
