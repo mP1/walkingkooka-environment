@@ -18,21 +18,24 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.HasCharsetTesting;
+import walkingkooka.currency.CurrencyLocaleContextTesting;
+import walkingkooka.datetime.DateTimeContextTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
+import walkingkooka.text.BinaryTextContextTesting;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Currency;
-import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentContextTest implements ClassTesting<EnvironmentContext> {
+public final class EnvironmentContextTest implements ClassTesting<EnvironmentContext>,
+    BinaryTextContextTesting,
+    DateTimeContextTesting,
+    HasCharsetTesting,
+    CurrencyLocaleContextTesting {
 
     // environmentValueOrFail...........................................................................................
 
@@ -41,12 +44,12 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
         final MissingEnvironmentValueException thrown = assertThrows(
             MissingEnvironmentValueException.class,
             () -> EnvironmentContexts.map(
-                StandardCharsets.UTF_8,
-                Currency.getInstance("AUD"),
-                Indentation.SPACES4,
-                LineEnding.NL,
-                Locale.ENGLISH,
-                () -> LocalDateTime.MAX,
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                HAS_NOW,
                 EnvironmentContext.ANONYMOUS
             ).environmentValueOrFail(EnvironmentValueName.with(
                     "Hello",
@@ -66,26 +69,18 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
     @Test
     public void testCreatedAuditInfo() {
         final EmailAddress email = EmailAddress.parse("test@example.com");
-        final LocalDateTime now = LocalDateTime.of(
-            1999,
-            12,
-            31,
-            12,
-            58,
-            59
-        );
 
         this.checkEquals(
             AuditInfo.with(
                 email,
-                now,
+                DIFFERENT_NOW,
                 email,
-                now
+                DIFFERENT_NOW
             ),
             new FakeEnvironmentContext() {
                 @Override
                 public LocalDateTime now() {
-                    return now;
+                    return DIFFERENT_NOW;
                 }
 
                 @Override
@@ -101,36 +96,20 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
     @Test
     public void testRefreshModifiedAuditInfo() {
         final EmailAddress createdUser = EmailAddress.parse("created@example.com");
-        final LocalDateTime createdTimestamp = LocalDateTime.of(
-            1999,
-            12,
-            31,
-            12,
-            58,
-            59
-        );
 
         final EmailAddress updatedUser = EmailAddress.parse("modified@example.com");
-        final LocalDateTime updatedTimestamp = LocalDateTime.of(
-            2000,
-            1,
-            2,
-            3,
-            4,
-            5
-        );
 
         this.checkEquals(
             AuditInfo.with(
                 createdUser,
-                createdTimestamp,
+                NOW,
                 updatedUser,
-                updatedTimestamp
+                DIFFERENT_NOW
             ),
             new FakeEnvironmentContext() {
                 @Override
                 public LocalDateTime now() {
-                    return updatedTimestamp;
+                    return DIFFERENT_NOW;
                 }
 
                 @Override
@@ -140,9 +119,9 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
             }.refreshModifiedAuditInfo(
                 AuditInfo.with(
                     createdUser,
-                    createdTimestamp,
+                    NOW,
                     createdUser,
-                    createdTimestamp
+                    NOW
                 )
             )
         );
