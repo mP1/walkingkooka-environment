@@ -24,6 +24,7 @@ import walkingkooka.datetime.DateTimeContextTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.ThrowableTesting;
 import walkingkooka.text.BinaryTextContextTesting;
 
 import java.time.LocalDateTime;
@@ -35,7 +36,8 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
     BinaryTextContextTesting,
     DateTimeContextTesting,
     HasCharsetTesting,
-    CurrencyLocaleContextTesting {
+    CurrencyLocaleContextTesting,
+    ThrowableTesting {
 
     // environmentValueOrFail...........................................................................................
 
@@ -58,9 +60,9 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
             )
         );
 
-        this.checkEquals(
-            "Missing environment value \"Hello\"",
-            thrown.getMessage()
+        this.getMessageAndCheck(
+            thrown,
+            "Missing environment value \"Hello\""
         );
     }
 
