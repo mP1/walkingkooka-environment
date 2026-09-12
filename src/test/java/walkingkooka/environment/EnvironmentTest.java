@@ -639,6 +639,18 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     // EnvironmentContext...............................................................................................
 
     @Test
+    public void testEnvironmentContextReadOnly() {
+        final Environment environment = Environment.empty();
+
+        final EnvironmentContext context = environment.environmentContext();
+
+        assertThrows(
+            ReadOnlyEnvironmentValueException.class,
+            () -> context.setCharset(DIFFERENT_CHARSET)
+        );
+    }
+
+    @Test
     public void testEnvironmentContext() {
         final Environment environment = Environment.empty()
             .set(
