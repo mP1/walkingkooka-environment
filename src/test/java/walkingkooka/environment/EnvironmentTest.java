@@ -636,6 +636,74 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         );
     }
 
+    // EnvironmentContext...............................................................................................
+
+    @Test
+    public void testEnvironmentContext() {
+        final Environment environment = Environment.empty()
+            .set(
+                EnvironmentValueName.CHARSET,
+                CHARSET
+            ).set(
+                EnvironmentValueName.CURRENCY,
+                CURRENCY
+            ).set(
+                EnvironmentValueName.INDENTATION,
+                INDENTATION
+            ).set(
+                EnvironmentValueName.LINE_ENDING,
+                LINE_ENDING
+            ).set(
+                EnvironmentValueName.LOCALE,
+                LOCALE
+            ).set(
+                EnvironmentValueName.LOGGING_LEVEL,
+                LoggingLevel.NONE
+            ).set(
+                EnvironmentValueName.NOW,
+                NOW
+            ).set(
+                EnvironmentValueName.USER,
+                USER
+            );
+
+        final EnvironmentContext context = environment.environmentContext()
+            .cloneEnvironment();
+
+        this.charsetAndCheck(
+            context,
+            CHARSET
+        );
+        this.currencyAndCheck(
+            context,
+            CURRENCY
+        );
+        this.indentationAndCheck(
+            context,
+            INDENTATION
+        );
+        this.lineEndingAndCheck(
+            context,
+            LINE_ENDING
+        );
+        this.localeAndCheck(
+            context,
+            LOCALE
+        );
+        this.loggingLevelAndCheck(
+            context,
+            LOGGING_LEVEL
+        );
+        this.nowAndCheck(
+            context,
+            NOW
+        );
+        this.userAndCheck(
+            context,
+            USER
+        );
+    }
+
     // EnvironmentContextLog.............................................................................................
 
     private final static String MESSAGE1 = "Message111";
