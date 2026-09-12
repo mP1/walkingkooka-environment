@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.Cast;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.logging.CanLog;
 import walkingkooka.logging.LoggingContext;
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Currency;
 import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -60,7 +62,7 @@ final class EnvironmentEnvironmentContext implements EnvironmentContext,
 
     @Override
     public EnvironmentContext cloneEnvironment() {
-        return EnvironmentContexts.map(
+        final EnvironmentContext environmentContext = EnvironmentContexts.map(
             this.canLog, // CanLog
             this.charset(),
             this.currency(),
@@ -71,6 +73,24 @@ final class EnvironmentEnvironmentContext implements EnvironmentContext,
             this, // HasNow
             this.user()
         );
+
+        // copy other values
+        for (Entry<EnvironmentValueName<?>, Object> nameAndValue : this.environment.values.entrySet()) {
+            final EnvironmentValueName<?> name = nameAndValue.getKey();
+
+            if (CHARSET.equals(name) || CURRENCY.equals(name) || INDENTATION.equals(name) || LINE_ENDING.equals(name) || LOCALE.equals(name) || NOW.equals(name) || USER.equals(name)) {
+                continue;
+            }
+
+            environmentContext.setEnvironmentValue(
+                Cast.to(name),
+                name.cast(
+                    nameAndValue.getValue()
+                )
+            );
+        }
+
+        return environmentContext;
     }
 
     /**
