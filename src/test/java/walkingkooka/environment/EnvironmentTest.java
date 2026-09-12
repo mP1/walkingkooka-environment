@@ -716,6 +716,86 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         );
     }
 
+    @Test
+    public void testEnvironmentContextNonStandardValue() {
+        final EnvironmentValueName<String> hello = EnvironmentValueName.with(
+            "hello",
+            String.class
+        );
+        final String value = "World123!";
+
+        final Environment environment = Environment.empty()
+            .set(
+                EnvironmentValueName.CHARSET,
+                CHARSET
+            ).set(
+                EnvironmentValueName.CURRENCY,
+                CURRENCY
+            ).set(
+                EnvironmentValueName.INDENTATION,
+                INDENTATION
+            ).set(
+                EnvironmentValueName.LINE_ENDING,
+                LINE_ENDING
+            ).set(
+                EnvironmentValueName.LOCALE,
+                LOCALE
+            ).set(
+                EnvironmentValueName.LOGGING_LEVEL,
+                LoggingLevel.NONE
+            ).set(
+                EnvironmentValueName.NOW,
+                NOW
+            ).set(
+                EnvironmentValueName.USER,
+                USER
+            ).set(
+                hello,
+                value
+            );
+
+        final EnvironmentContext context = environment.environmentContext();
+
+        this.charsetAndCheck(
+            context,
+            CHARSET
+        );
+        this.currencyAndCheck(
+            context,
+            CURRENCY
+        );
+        this.indentationAndCheck(
+            context,
+            INDENTATION
+        );
+        this.lineEndingAndCheck(
+            context,
+            LINE_ENDING
+        );
+        this.localeAndCheck(
+            context,
+            LOCALE
+        );
+        this.loggingLevelAndCheck(
+            context,
+            LOGGING_LEVEL
+        );
+        this.nowAndCheck(
+            context,
+            NOW
+        );
+        this.userAndCheck(
+            context,
+            USER
+        );
+
+        this.environmentValueAndCheck(
+            context,
+            hello,
+            value
+        );
+    }
+
     // EnvironmentContextLog.............................................................................................
 
     private final static String MESSAGE1 = "Message111";
