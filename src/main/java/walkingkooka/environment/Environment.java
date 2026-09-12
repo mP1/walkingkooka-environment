@@ -30,7 +30,6 @@ import walkingkooka.io.HasFileExtension;
 import walkingkooka.logging.CanLog;
 import walkingkooka.logging.CanLogs;
 import walkingkooka.logging.HasLoggingLevel;
-import walkingkooka.logging.LoggingContexts;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.net.header.HasContentType;
@@ -270,10 +269,7 @@ public final class Environment implements BinaryTextContext,
     public EnvironmentContext environmentContext() {
         return EnvironmentEnvironmentContext.with(
             this,
-            LoggingContexts.canLog(
-                this, // HasLoggingLevel
-                this.canLog
-            )
+            this.canLog
         );
     }
 
