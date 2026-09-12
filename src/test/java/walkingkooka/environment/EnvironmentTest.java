@@ -26,6 +26,7 @@ import walkingkooka.currency.HasCurrencyTesting;
 import walkingkooka.io.FileExtension;
 import walkingkooka.io.HasFileExtensionTesting;
 import walkingkooka.logging.CanLogs;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.header.HasContentTypeTesting;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.reflect.ClassTesting;
@@ -35,6 +36,7 @@ import walkingkooka.text.BinaryTextContextTesting;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.HasIndentationTesting;
 import walkingkooka.text.HasLineEndingTesting;
+import walkingkooka.text.printer.Printers;
 
 import java.util.Optional;
 import java.util.Set;
@@ -631,6 +633,110 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         this.lineEndingAndCheck(
             binaryTextContext,
             LINE_ENDING
+        );
+    }
+
+    // EnvironmentContextLog.............................................................................................
+
+    private final static String MESSAGE1 = "Message111";
+
+    private final static String MESSAGE2 = "Message222";
+
+    @Test
+    public void testEnvironmentContextLog() {
+        final StringBuilder printed = new StringBuilder();
+
+        final Environment environment = Environment.empty()
+            .set(
+                EnvironmentValueName.CHARSET,
+                CHARSET
+            ).set(
+                EnvironmentValueName.CURRENCY,
+                CURRENCY
+            ).set(
+                EnvironmentValueName.INDENTATION,
+                INDENTATION
+            ).set(
+                EnvironmentValueName.LINE_ENDING,
+                LINE_ENDING
+            ).set(
+                EnvironmentValueName.LOCALE,
+                LOCALE
+            ).set(
+                EnvironmentValueName.LOGGING_LEVEL,
+                LoggingLevel.NONE
+            ).set(
+                EnvironmentValueName.NOW,
+                NOW
+            ).setCanLog(
+                CanLogs.printer(
+                    Printers.stringBuilder(
+                        printed,
+                        LINE_ENDING
+                    )
+                )
+            );
+
+        final EnvironmentContext context = environment.environmentContext()
+            .cloneEnvironment();
+
+        context.setLoggingLevel(LoggingLevel.DEBUG);
+
+        context.debug(MESSAGE1);
+
+        this.checkEquals(
+            MESSAGE1 + LINE_ENDING,
+            printed.toString()
+        );
+    }
+
+    @Test
+    public void testEnvironmentContextLogChangedLoggingLevel() {
+        final StringBuilder printed = new StringBuilder();
+
+        final Environment environment = Environment.empty()
+            .set(
+                EnvironmentValueName.CHARSET,
+                CHARSET
+            ).set(
+                EnvironmentValueName.CURRENCY,
+                CURRENCY
+            ).set(
+                EnvironmentValueName.INDENTATION,
+                INDENTATION
+            ).set(
+                EnvironmentValueName.LINE_ENDING,
+                LINE_ENDING
+            ).set(
+                EnvironmentValueName.LOCALE,
+                LOCALE
+            ).set(
+                EnvironmentValueName.LOGGING_LEVEL,
+                LoggingLevel.NONE
+            ).set(
+                EnvironmentValueName.NOW,
+                NOW
+            ).setCanLog(
+                CanLogs.printer(
+                    Printers.stringBuilder(
+                        printed,
+                        LINE_ENDING
+                    )
+                )
+            );
+
+        final EnvironmentContext context = environment.environmentContext()
+            .cloneEnvironment();
+
+        context.setLoggingLevel(LoggingLevel.INFO);
+        context.debug(MESSAGE1);
+
+        context.setLoggingLevel(LoggingLevel.DEBUG);
+        context.debug(MESSAGE2);
+
+        this.checkEquals(
+            MESSAGE2 + LINE_ENDING,
+            printed.toString()
         );
     }
 

@@ -18,8 +18,10 @@
 package walkingkooka.environment;
 
 import walkingkooka.collect.set.Sets;
+import walkingkooka.logging.CanLog;
 import walkingkooka.logging.LoggingContext;
 import walkingkooka.logging.LoggingContextDelegator;
+import walkingkooka.logging.LoggingContexts;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.Indentation;
@@ -41,25 +43,25 @@ final class EnvironmentEnvironmentContext implements EnvironmentContext,
     LoggingContextDelegator {
 
     static EnvironmentEnvironmentContext with(final Environment environment,
-                                              final LoggingContext loggingContext) {
+                                              final CanLog canLog) {
         return new EnvironmentEnvironmentContext(
             environment,
-            loggingContext
+            canLog
         );
     }
 
     private EnvironmentEnvironmentContext(final Environment environment,
-                                          final LoggingContext loggingContext) {
+                                          final CanLog canLog) {
         super();
 
         this.environment = environment;
-        this.loggingContext = loggingContext;
+        this.canLog = canLog;
     }
 
     @Override
     public EnvironmentContext cloneEnvironment() {
         return EnvironmentContexts.map(
-            this.loggingContext, // CanLog
+            this.canLog, // CanLog
             this.charset(),
             this.currency(),
             this.indentation(),
@@ -243,10 +245,18 @@ final class EnvironmentEnvironmentContext implements EnvironmentContext,
 
     @Override
     public LoggingContext loggingContext() {
+        if (null == this.loggingContext) {
+            this.loggingContext = LoggingContexts.canLog(
+                this,
+                this.canLog
+            );
+        }
         return this.loggingContext;
     }
 
-    private final LoggingContext loggingContext;
+    private final CanLog canLog;
+
+    private LoggingContext loggingContext;
 
     // Object...........................................................................................................
 
