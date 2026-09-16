@@ -70,7 +70,7 @@ public final class EnvironmentContextLineEndingCanLog implements CanLog {
         );
     }
 
-    public void setCanLog(final CanLog canLog) {
+    private void setCanLog(final CanLog canLog) {
         Objects.requireNonNull(canLog, "canLog");
 
         this.canLog = canLog;
