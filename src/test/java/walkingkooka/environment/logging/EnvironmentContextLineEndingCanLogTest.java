@@ -21,9 +21,12 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentContextTesting;
 import walkingkooka.logging.CanLogTesting2;
+import walkingkooka.logging.CanLogs;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.PublicClassTesting;
+import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.Printers;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -46,7 +49,14 @@ public final class EnvironmentContextLineEndingCanLogTest implements CanLogTesti
     public void testLog() {
         final StringBuilder b = new StringBuilder();
 
-        EnvironmentContextLineEndingCanLog canLog = EnvironmentContextLineEndingCanLog.with(b);
+        final EnvironmentContextLineEndingCanLog canLog = EnvironmentContextLineEndingCanLog.with(
+            (final LineEnding lineEnding) -> CanLogs.printer(
+                Printers.stringBuilder(
+                    b,
+                    lineEnding
+                )
+            )
+        );
 
         final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
         canLog.setEnvironmentContext(environmentContext);
@@ -72,7 +82,14 @@ public final class EnvironmentContextLineEndingCanLogTest implements CanLogTesti
     public void testLogChangeLineEnding() {
         final StringBuilder b = new StringBuilder();
 
-        EnvironmentContextLineEndingCanLog canLog = EnvironmentContextLineEndingCanLog.with(b);
+        final EnvironmentContextLineEndingCanLog canLog = EnvironmentContextLineEndingCanLog.with(
+            (LineEnding lineEnding) -> CanLogs.printer(
+                Printers.stringBuilder(
+                    b,
+                    lineEnding
+                )
+            )
+        );
 
         final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
         canLog.setEnvironmentContext(environmentContext);
@@ -99,7 +116,12 @@ public final class EnvironmentContextLineEndingCanLogTest implements CanLogTesti
     @Override
     public EnvironmentContextLineEndingCanLog createCanLog() {
         return EnvironmentContextLineEndingCanLog.with(
-            new StringBuilder()
+            (LineEnding lineEnding) -> CanLogs.printer(
+                Printers.stringBuilder(
+                    new StringBuilder(),
+                    lineEnding
+                )
+            )
         );
     }
 
