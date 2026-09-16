@@ -35,7 +35,7 @@ public final class EnvironmentContextLineEndingCanLogTest implements CanLogTesti
     EnvironmentContextTesting {
 
     @Test
-    public void testWithNullStringBuilderFails() {
+    public void testWithNullCanLogFactoryFails() {
         assertThrows(
             NullPointerException.class,
             () -> EnvironmentContextLineEndingCanLog.with(null)

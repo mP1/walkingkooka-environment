@@ -34,15 +34,15 @@ import java.util.function.Function;
  */
 public final class EnvironmentContextLineEndingCanLog implements CanLog {
 
-    public static EnvironmentContextLineEndingCanLog with(final Function<LineEnding, CanLog> lineEndingSetter) {
+    public static EnvironmentContextLineEndingCanLog with(final Function<LineEnding, CanLog> canLogFactory) {
         return new EnvironmentContextLineEndingCanLog(
-            Objects.requireNonNull(lineEndingSetter, "lineEndingSetter")
+            Objects.requireNonNull(canLogFactory, "canLogFactory")
         );
     }
 
-    private EnvironmentContextLineEndingCanLog(final Function<LineEnding, CanLog> lineEndingSetter) {
+    private EnvironmentContextLineEndingCanLog(final Function<LineEnding, CanLog> canLogFactory) {
         super();
-        this.lineEndingSetter = lineEndingSetter;
+        this.canLogFactory = canLogFactory;
     }
 
     // CanLog...........................................................................................................
@@ -60,7 +60,7 @@ public final class EnvironmentContextLineEndingCanLog implements CanLog {
 
     private void setLineEnding(final LineEnding lineEnding) {
         this.setCanLog(
-            this.lineEndingSetter.apply(lineEnding)
+            this.canLogFactory.apply(lineEnding)
         );
     }
 
@@ -102,12 +102,12 @@ public final class EnvironmentContextLineEndingCanLog implements CanLog {
     /**
      * The backing {@link Function<LineEnding, CanLog>} that will be wrapped by a new {@link walkingkooka.text.printer.Printer} with the latest {@link walkingkooka.text.LineEnding}.
      */
-    private final Function<LineEnding, CanLog> lineEndingSetter;
+    private final Function<LineEnding, CanLog> canLogFactory;
 
     // Object...........................................................................................................
 
     @Override
     public String toString() {
-        return this.lineEndingSetter.toString();
+        return this.canLogFactory.toString();
     }
 }
