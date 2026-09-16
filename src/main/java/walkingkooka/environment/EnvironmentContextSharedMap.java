@@ -45,8 +45,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A {@link EnvironmentContext} that cascade gets, trying the wrapped {@link EnvironmentContext} and then the internal
- * {@link Map}.
+ * A {@link EnvironmentContext} that uses a {@link Map} to hold values.
  */
 final class EnvironmentContextSharedMap extends EnvironmentContextShared
     implements HasEnvironmentWatchers,
