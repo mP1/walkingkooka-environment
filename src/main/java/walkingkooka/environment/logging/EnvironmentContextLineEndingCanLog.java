@@ -22,28 +22,27 @@ import walkingkooka.environment.EnvironmentContext;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.environment.EnvironmentValueNameAndValue;
 import walkingkooka.logging.CanLog;
-import walkingkooka.logging.CanLogs;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.text.LineEnding;
-import walkingkooka.text.printer.Printers;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * A {@link CanLog} that watches {@link walkingkooka.text.LineEnding} changes to a given {@link EnvironmentContext}.
  */
 public final class EnvironmentContextLineEndingCanLog implements CanLog {
 
-    public static EnvironmentContextLineEndingCanLog with(final StringBuilder builder) {
+    public static EnvironmentContextLineEndingCanLog with(final Function<LineEnding, CanLog> lineEndingSetter) {
         return new EnvironmentContextLineEndingCanLog(
-            Objects.requireNonNull(builder, "builder")
+            Objects.requireNonNull(lineEndingSetter, "lineEndingSetter")
         );
     }
 
-    private EnvironmentContextLineEndingCanLog(final StringBuilder builder) {
+    private EnvironmentContextLineEndingCanLog(final Function<LineEnding, CanLog> lineEndingSetter) {
         super();
-        this.builder = builder;
+        this.lineEndingSetter = lineEndingSetter;
     }
 
     // CanLog...........................................................................................................
@@ -61,12 +60,7 @@ public final class EnvironmentContextLineEndingCanLog implements CanLog {
 
     private void setLineEnding(final LineEnding lineEnding) {
         this.setCanLog(
-            CanLogs.printer(
-                Printers.stringBuilder(
-                    this.builder,
-                    lineEnding
-                )
-            )
+            this.lineEndingSetter.apply(lineEnding)
         );
     }
 
@@ -106,14 +100,14 @@ public final class EnvironmentContextLineEndingCanLog implements CanLog {
     }
 
     /**
-     * The backing {@link StringBuilder} that will be wrapped by a new {@link walkingkooka.text.printer.Printer} with the latest {@link walkingkooka.text.LineEnding}.
+     * The backing {@link Function<LineEnding, CanLog>} that will be wrapped by a new {@link walkingkooka.text.printer.Printer} with the latest {@link walkingkooka.text.LineEnding}.
      */
-    private final StringBuilder builder;
+    private final Function<LineEnding, CanLog> lineEndingSetter;
 
     // Object...........................................................................................................
 
     @Override
     public String toString() {
-        return this.builder.toString();
+        return this.lineEndingSetter.toString();
     }
 }
