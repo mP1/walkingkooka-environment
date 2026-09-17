@@ -30,6 +30,8 @@ public interface HasUserTesting extends TreePrintableTesting {
 
     EmailAddress DIFFERENT_USER = EmailAddress.parse("different-user-456@example.com");
 
+    Optional<EmailAddress> OPTIONAL_DIFFERENT_USER = Optional.of(DIFFERENT_USER);
+
     HasUser HAS_USER = () -> OPTIONAL_USER;
 
     // user.............................................................................................................
