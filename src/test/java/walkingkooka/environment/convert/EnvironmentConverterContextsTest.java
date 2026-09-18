@@ -17,7 +17,6 @@
 
 package walkingkooka.environment.convert;
 
-import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.PublicStaticHelperTesting;
 
 import java.lang.reflect.Method;
@@ -27,11 +26,6 @@ public final class EnvironmentConverterContextsTest implements PublicStaticHelpe
     @Override
     public Class<EnvironmentConverterContexts> type() {
         return EnvironmentConverterContexts.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 
     @Override

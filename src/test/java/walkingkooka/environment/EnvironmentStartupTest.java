@@ -17,7 +17,6 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.PublicStaticHelperTesting;
 
 import java.lang.reflect.Method;
@@ -32,10 +31,5 @@ public final class EnvironmentStartupTest implements PublicStaticHelperTesting<E
     @Override
     public Class<EnvironmentStartup> type() {
         return EnvironmentStartup.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }
