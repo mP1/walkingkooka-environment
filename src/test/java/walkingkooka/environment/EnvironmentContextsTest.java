@@ -17,7 +17,6 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.PublicStaticHelperTesting;
 
 import java.lang.reflect.Method;
@@ -27,11 +26,6 @@ public final class EnvironmentContextsTest implements PublicStaticHelperTesting<
     @Override
     public Class<EnvironmentContexts> type() {
         return EnvironmentContexts.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 
     @Override
