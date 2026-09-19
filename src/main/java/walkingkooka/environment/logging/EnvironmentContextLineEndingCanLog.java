@@ -19,6 +19,7 @@ package walkingkooka.environment.logging;
 
 import walkingkooka.Cast;
 import walkingkooka.environment.EnvironmentContext;
+import walkingkooka.environment.EnvironmentContextAware;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.environment.EnvironmentValueNameAndValue;
 import walkingkooka.logging.CanLog;
@@ -32,7 +33,8 @@ import java.util.function.Function;
 /**
  * A {@link CanLog} that watches {@link walkingkooka.text.LineEnding} changes to a given {@link EnvironmentContext}.
  */
-public final class EnvironmentContextLineEndingCanLog implements CanLog {
+public final class EnvironmentContextLineEndingCanLog implements CanLog,
+    EnvironmentContextAware {
 
     public static EnvironmentContextLineEndingCanLog with(final Function<LineEnding, CanLog> canLogFactory) {
         return new EnvironmentContextLineEndingCanLog(
@@ -72,8 +74,9 @@ public final class EnvironmentContextLineEndingCanLog implements CanLog {
 
     private CanLog canLog;
 
-    // setEnvironmentContext............................................................................................
+    // EnvironmentContextAware..........................................................................................
 
+    @Override
     public void setEnvironmentContext(final EnvironmentContext environmentContext) {
         Objects.requireNonNull(environmentContext, "environmentContext");
 

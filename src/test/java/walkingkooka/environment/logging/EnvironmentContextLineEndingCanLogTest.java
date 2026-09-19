@@ -19,6 +19,7 @@ package walkingkooka.environment.logging;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.environment.EnvironmentContext;
+import walkingkooka.environment.EnvironmentContextAwareTesting2;
 import walkingkooka.environment.EnvironmentContextTesting;
 import walkingkooka.logging.CanLogTesting2;
 import walkingkooka.logging.CanLogs;
@@ -32,7 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentContextLineEndingCanLogTest implements CanLogTesting2<EnvironmentContextLineEndingCanLog>,
     PublicClassTesting<EnvironmentContextLineEndingCanLog>,
-    EnvironmentContextTesting {
+    EnvironmentContextTesting,
+    EnvironmentContextAwareTesting2<EnvironmentContextLineEndingCanLog> {
 
     @Test
     public void testWithNullCanLogFactoryFails() {
@@ -123,6 +125,11 @@ public final class EnvironmentContextLineEndingCanLogTest implements CanLogTesti
                 )
             )
         );
+    }
+
+    @Override
+    public EnvironmentContextLineEndingCanLog createEnvironmentContextAware() {
+        return this.createCanLog();
     }
 
     // class............................................................................................................
