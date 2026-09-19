@@ -17,10 +17,23 @@
 
 package walkingkooka.environment;
 
+import java.util.Objects;
+
 /**
  * Callback useful for any component that might be given too a {@link EnvironmentContext} and needs a instance.
  */
 public interface EnvironmentContextAware {
+
+    static void trySetEnvironmentContextAware(final Object maybe,
+                                              final EnvironmentContext environmentContext) {
+        Objects.requireNonNull(maybe, "maybe");
+        Objects.requireNonNull(environmentContext, "environmentContext");
+
+        if (maybe instanceof EnvironmentContextAware) {
+            ((EnvironmentContextAware) maybe)
+                .setEnvironmentContext(environmentContext);
+        }
+    }
 
     void setEnvironmentContext(final EnvironmentContext context);
 }
