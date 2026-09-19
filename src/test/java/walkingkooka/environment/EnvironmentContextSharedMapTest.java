@@ -231,7 +231,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING,
+            "DEBUG " + MESSAGE1 + LINE_ENDING,
             b.toString()
         );
     }
@@ -250,7 +250,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING,
+            "WARN " + MESSAGE1 + LINE_ENDING,
             b.toString()
         );
     }
@@ -268,7 +268,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING,
+            "DEBUG " + MESSAGE1 + LINE_ENDING,
             b.toString()
         );
     }
@@ -286,7 +286,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING,
+            "INFO " + MESSAGE1 + LINE_ENDING,
             b.toString()
         );
     }
@@ -304,7 +304,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING,
+            "WARN " + MESSAGE1 + LINE_ENDING,
             b.toString()
         );
     }
@@ -322,7 +322,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING,
+            "ERROR " + MESSAGE1 + LINE_ENDING,
             b.toString()
         );
     }
@@ -372,8 +372,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING +
-                MESSAGE3 + LINE_ENDING,
+            "DEBUG " + MESSAGE1 + LINE_ENDING +
+                "ERROR " + MESSAGE3 + LINE_ENDING,
             b.toString()
         );
     }
