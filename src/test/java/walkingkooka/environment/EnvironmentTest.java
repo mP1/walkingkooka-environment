@@ -845,7 +845,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         context.debug(MESSAGE1);
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING,
+            "DEBUG " + MESSAGE1 + LINE_ENDING,
             printed.toString()
         );
     }
@@ -895,7 +895,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         context.debug(MESSAGE2);
 
         this.checkEquals(
-            MESSAGE2 + LINE_ENDING,
+            "DEBUG " + MESSAGE2 + LINE_ENDING,
             printed.toString()
         );
     }

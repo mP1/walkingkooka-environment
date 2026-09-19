@@ -72,8 +72,8 @@ public final class EnvironmentContextLineEndingCanLogTest implements CanLogTesti
         );
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING +
-                MESSAGE2 + LINE_ENDING,
+            "DEBUG " + MESSAGE1 + LINE_ENDING +
+                "DEBUG " + MESSAGE2 + LINE_ENDING,
             b.toString()
         );
     }
@@ -107,8 +107,8 @@ public final class EnvironmentContextLineEndingCanLogTest implements CanLogTesti
         );
 
         this.checkEquals(
-            MESSAGE1 + LINE_ENDING +
-                MESSAGE2 + DIFFERENT_LINE_ENDING,
+            "DEBUG " + MESSAGE1 + LINE_ENDING +
+                "DEBUG " + MESSAGE2 + DIFFERENT_LINE_ENDING,
             b.toString()
         );
     }
