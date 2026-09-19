@@ -156,6 +156,11 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
                 canLog
             ) :
             loggingContext;
+
+        EnvironmentContextAware.trySetEnvironmentContextAware(
+            canLog,
+            this
+        );
     }
 
     @Override
