@@ -116,6 +116,11 @@ public final class EnvironmentContextLineEndingCanLogTest implements CanLogTesti
     }
 
     @Override
+    public void testLogExitWithoutLogEnter() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public EnvironmentContextLineEndingCanLog createCanLog() {
         return EnvironmentContextLineEndingCanLog.with(
             (LineEnding lineEnding) -> CanLogs.printer(
