@@ -23,6 +23,7 @@ import walkingkooka.environment.EnvironmentContextAware;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.environment.EnvironmentValueNameAndValue;
 import walkingkooka.logging.CanLog;
+import walkingkooka.logging.LoggerPath;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.text.LineEnding;
 
@@ -48,6 +49,16 @@ public final class EnvironmentContextLineEndingCanLog implements CanLog,
     }
 
     // CanLog...........................................................................................................
+
+    @Override
+    public void logEnter(final LoggerPath logger) {
+        this.canLog.logEnter(logger);
+    }
+
+    @Override
+    public void logExit() {
+        this.canLog.logExit();
+    }
 
     @Override
     public void log(final LoggingLevel loggingLevel,
