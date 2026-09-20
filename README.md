@@ -22,6 +22,7 @@ This is intended primarily to support custom values to a component(s) such as a 
 - [indentation](https://github.com/mP1/walkingkooka/blob/master/src/main/java/walkingkooka/text/Indentation.java): Indentation mostly used for "printing" multi-line structure like json.
 - [lineEnding](https://github.com/mP1/walkingkooka/blob/master/src/main/java/walkingkooka/text/LineEnding.java): The current line-ending used by functions when printing lines of text
 - locale: The current locale for the current user, eg "en-AU".
+- [loggingLevel](https://github.com/mP1/walkingkooka-logging/blob/master/src/main/java/walkingkooka/logging/LoggingLevel.java) Control the minimum logging level for messages
 - now: The current date/time`java.time.LocalDateTime`
 - timeOffset: An offset that is used to adjust the current system time to match the locality of the current user.
 - [user](https://github.com/mP1/walkingkooka-net/blob/master/src/main/java/walkingkooka/net/email/EmailAddress.java): The email address identifying the current user
