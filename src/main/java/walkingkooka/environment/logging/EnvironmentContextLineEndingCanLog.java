@@ -47,20 +47,6 @@ public final class EnvironmentContextLineEndingCanLog implements CanLogDelegator
         this.canLogFactory = canLogFactory;
     }
 
-    // CanLog...........................................................................................................
-
-    private void setLineEnding(final LineEnding lineEnding) {
-        this.setCanLog(
-            this.canLogFactory.apply(lineEnding)
-        );
-    }
-
-    private void setCanLog(final CanLog canLog) {
-        Objects.requireNonNull(canLog, "canLog");
-
-        this.canLog = canLog;
-    }
-
     // CanLogDelegator..................................................................................................
 
     @Override
@@ -96,6 +82,18 @@ public final class EnvironmentContextLineEndingCanLog implements CanLogDelegator
         this.setLineEnding(
             environmentContext.lineEnding()
         );
+    }
+
+    private void setLineEnding(final LineEnding lineEnding) {
+        this.setCanLog(
+            this.canLogFactory.apply(lineEnding)
+        );
+    }
+
+    private void setCanLog(final CanLog canLog) {
+        Objects.requireNonNull(canLog, "canLog");
+
+        this.canLog = canLog;
     }
 
     /**
