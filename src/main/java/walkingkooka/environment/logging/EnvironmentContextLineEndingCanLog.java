@@ -23,8 +23,7 @@ import walkingkooka.environment.EnvironmentContextAware;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.environment.EnvironmentValueNameAndValue;
 import walkingkooka.logging.CanLog;
-import walkingkooka.logging.LoggerPath;
-import walkingkooka.logging.LoggingLevel;
+import walkingkooka.logging.CanLogDelegator;
 import walkingkooka.text.LineEnding;
 
 import java.util.Objects;
@@ -34,7 +33,7 @@ import java.util.function.Function;
 /**
  * A {@link CanLog} that watches {@link walkingkooka.text.LineEnding} changes to a given {@link EnvironmentContext}.
  */
-public final class EnvironmentContextLineEndingCanLog implements CanLog,
+public final class EnvironmentContextLineEndingCanLog implements CanLogDelegator,
     EnvironmentContextAware {
 
     public static EnvironmentContextLineEndingCanLog with(final Function<LineEnding, CanLog> canLogFactory) {
@@ -50,27 +49,6 @@ public final class EnvironmentContextLineEndingCanLog implements CanLog,
 
     // CanLog...........................................................................................................
 
-    @Override
-    public void logEnter(final LoggerPath logger) {
-        this.canLog.logEnter(logger);
-    }
-
-    @Override
-    public void logExit() {
-        this.canLog.logExit();
-    }
-
-    @Override
-    public void log(final LoggingLevel loggingLevel,
-                    final String message,
-                    final Throwable throwable) {
-        this.canLog.log(
-            loggingLevel,
-            message,
-            throwable
-        );
-    }
-
     private void setLineEnding(final LineEnding lineEnding) {
         this.setCanLog(
             this.canLogFactory.apply(lineEnding)
@@ -81,6 +59,13 @@ public final class EnvironmentContextLineEndingCanLog implements CanLog,
         Objects.requireNonNull(canLog, "canLog");
 
         this.canLog = canLog;
+    }
+
+    // CanLogDelegator..................................................................................................
+
+    @Override
+    public CanLog canLog() {
+        return this.canLog;
     }
 
     private CanLog canLog;
