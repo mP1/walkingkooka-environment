@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 /**
- * A {@link CanLog} that watches {@link walkingkooka.text.LineEnding} changes to a given {@link EnvironmentContext}.
+ * A {@link CanLog} that watches {@link LineEnding} changes to a given {@link EnvironmentContext}.
  */
 public final class EnvironmentContextLineEndingCanLog implements CanLogDelegator,
     EnvironmentContextAware {
