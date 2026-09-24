@@ -429,4 +429,15 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
             emailAddress
         );
     }
+
+    // environmentContextMissingValues..................................................................................
+
+    default void environmentContextMissingValuesAndCheck(final EnvironmentContext context,
+                                                         final EnvironmentContextMissingValues expected) {
+        this.checkEquals(
+            expected,
+            context.environmentContextMissingValues(),
+            context::toString
+        );
+    }
 }
