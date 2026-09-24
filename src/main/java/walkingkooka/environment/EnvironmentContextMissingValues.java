@@ -20,6 +20,7 @@ import walkingkooka.ToStringBuilder;
 import walkingkooka.UsesToStringBuilder;
 import walkingkooka.collect.set.SortedSets;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -63,6 +64,26 @@ public final class EnvironmentContextMissingValues implements UsesToStringBuilde
     final Set<EnvironmentValueName<?>> missing = SortedSets.tree();
 
     // Object...........................................................................................................
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            this.missing,
+            this.context
+        );
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        return this == other ||
+            (other instanceof EnvironmentContextMissingValues &&
+                this.equals0((EnvironmentContextMissingValues) other));
+    }
+
+    private boolean equals0(final EnvironmentContextMissingValues other) {
+        return this.missing.equals(other.missing) &&
+            this.context.equals(other.context);
+    }
 
     @Override
     public String toString() {

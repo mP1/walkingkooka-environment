@@ -17,6 +17,7 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.reflect.ClassTesting2;
@@ -25,6 +26,7 @@ import walkingkooka.reflect.JavaVisibility;
 import java.util.Set;
 
 public final class EnvironmentContextMissingValuesTest implements EnvironmentContextTesting,
+    HashCodeEqualsDefinedTesting2<EnvironmentContextMissingValues>,
     ToStringTesting<EnvironmentContextMissingValues>,
     ClassTesting2<EnvironmentContextMissingValues> {
 
@@ -153,6 +155,29 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
             missing,
             "environmentContext={charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=NONE, timeOffset=Z, user=user123@example.com}"
         );
+    }
+
+    // hashCode/Equals..................................................................................................
+
+    @Test
+    public void testEqualsDifferentMissingValues() {
+        final EnvironmentContextMissingValues environmentContextMissingValues = EnvironmentContextMissingValues.with(DIFFERENT_ENVIRONMENT_CONTEXT);
+        environmentContextMissingValues.getOrNull(EnvironmentValueName.with("hello", String.class));
+        this.checkNotEquals(
+            environmentContextMissingValues
+        );
+    }
+
+    @Test
+    public void testEqualsDifferentEnvironmentContext() {
+        this.checkNotEquals(
+            EnvironmentContextMissingValues.with(DIFFERENT_ENVIRONMENT_CONTEXT)
+        );
+    }
+
+    @Override
+    public EnvironmentContextMissingValues createObject() {
+        return EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
     }
 
     // class............................................................................................................
