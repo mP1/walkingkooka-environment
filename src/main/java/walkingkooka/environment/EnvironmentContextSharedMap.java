@@ -244,38 +244,35 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
             throw name.readOnlyEnvironmentValueException();
         }
 
-        final T oldValue;
-
         final Map<EnvironmentValueName<?>, EnvironmentContextSharedMapValue<?>> values = this.values;
 
-        final EnvironmentContextSharedMapValue<T> environmentContextSharedMapValue = Cast.to(
+        EnvironmentContextSharedMapValue<T> environmentContextSharedMapValue = Cast.to(
             values.get(name)
         );
+
+        EnvironmentValueNameAndValue<T> oldValue;
+
         if (null == environmentContextSharedMapValue) {
+            oldValue = null;
+            environmentContextSharedMapValue = EnvironmentContextSharedMapValue.with(
+                name,
+                value
+            );
+
             this.values.put(
                 name,
-                EnvironmentContextSharedMapValue.with(
-                    name,
-                    value
-                )
+                environmentContextSharedMapValue
             );
-            oldValue = null;
+
         } else {
-            oldValue = environmentContextSharedMapValue.value;
+            oldValue = environmentContextSharedMapValue.environmentValueNameAndValue();
             environmentContextSharedMapValue.value = Cast.to(value);
         }
 
         this.watchers.onValueChange(
-            Optional.ofNullable(
-                null != oldValue ?
-                    EnvironmentValueNameAndValue.with(
-                        name,
-                        oldValue
-                    ) :
-                    null
-            ),
+            Optional.ofNullable(oldValue),
             Optional.of(
-                name.setValue(value)
+                environmentContextSharedMapValue.environmentValueNameAndValue()
             )
         );
     }
@@ -288,15 +285,12 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
             throw name.readOnlyEnvironmentValueException();
         }
 
-        final Object oldValue = this.values.remove(name);
+        final EnvironmentContextSharedMapValue<?> oldValue = this.values.remove(name);
 
         this.watchers.onValueChange(
             Optional.ofNullable(
                 null != oldValue ?
-                    EnvironmentValueNameAndValue.with(
-                        name,
-                        Cast.to(oldValue)
-                    ) :
+                    oldValue.environmentValueNameAndValue() :
                     null
             ),
             Optional.empty()

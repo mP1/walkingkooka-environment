@@ -813,6 +813,98 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         fail("EnvironmentValueName " + MAGIC + " missing from environmentValueNames");
     }
 
+    @Test
+    public void testSetEnvironmentValueWithEnvironmentWatcherNewValue() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        this.fired = false;
+
+        context.addEnvironmentWatcher(
+            new EnvironmentWatcher() {
+                @Override
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.empty(),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            MAGIC.setValue(VALUE)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
+                    EnvironmentContextSharedMapTest.this.fired = true;
+                }
+            }
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            MAGIC,
+            VALUE
+        );
+
+        this.checkEquals(
+            true,
+            this.fired,
+            "fired"
+        );
+    }
+
+    @Test
+    public void testSetEnvironmentValueWithEnvironmentWatcherValueChanged() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            MAGIC,
+            VALUE
+        );
+
+        this.fired = false;
+
+        final String value = "Value222";
+
+        context.addEnvironmentWatcher(
+            new EnvironmentWatcher() {
+                @Override
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            MAGIC.setValue(VALUE)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            MAGIC.setValue(value)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
+                    EnvironmentContextSharedMapTest.this.fired = true;
+                }
+            }
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            MAGIC,
+            value
+        );
+
+        this.checkEquals(
+            true,
+            this.fired,
+            "fired"
+        );
+    }
+
     // removeEnvironmentValue...........................................................................................
 
     @Test
@@ -829,6 +921,53 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             MAGIC
         );
     }
+
+    @Test
+    public void testRemoveEnvironmentValueWithEnvironmentWatcher() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        context.setEnvironmentValue(
+            MAGIC,
+            VALUE
+        );
+
+        this.fired = false;
+
+        context.addEnvironmentWatcher(
+            new EnvironmentWatcher() {
+                @Override
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            MAGIC.setValue(VALUE)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.empty(),
+                        newValue,
+                        "newValue"
+                    );
+                    EnvironmentContextSharedMapTest.this.fired = true;
+                }
+            }
+        );
+
+        this.removeEnvironmentValueAndCheck(
+            context,
+            MAGIC
+        );
+
+        this.checkEquals(
+            true,
+            this.fired,
+            "fired"
+        );
+    }
+
+    private boolean fired;
 
     // CanParseEnvironmentValueName.....................................................................................
 

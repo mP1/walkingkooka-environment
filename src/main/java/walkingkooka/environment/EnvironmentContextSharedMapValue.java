@@ -41,7 +41,7 @@ final class EnvironmentContextSharedMapValue<T> {
         this.value = value;
     }
 
-    EnvironmentValueName<?> environmentValueName;
+    EnvironmentValueName<T> environmentValueName;
 
     T value;
 
@@ -50,6 +50,10 @@ final class EnvironmentContextSharedMapValue<T> {
             this.environmentValueName,
             this.value
         );
+    }
+
+    EnvironmentValueNameAndValue<T> environmentValueNameAndValue() {
+        return this.environmentValueName.setValue(this.value);
     }
 
     // Object...........................................................................................................
