@@ -21,6 +21,7 @@ import walkingkooka.Cast;
 import walkingkooka.Context;
 import walkingkooka.currency.HasCurrency;
 import walkingkooka.datetime.HasNow;
+import walkingkooka.logging.LoggerPath;
 import walkingkooka.logging.LoggingContext;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
@@ -53,6 +54,8 @@ public interface EnvironmentContext extends Context,
     HasTimeOffset,
     HasUser,
     LoggingContext {
+
+    LoggerPath ENVIRONMENT_LOGGER = LoggerPath.parse("environment");
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
