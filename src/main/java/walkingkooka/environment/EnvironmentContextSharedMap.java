@@ -289,14 +289,14 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
         final EnvironmentContextSharedMapValue<?> oldValue = this.values.remove(name);
 
-        this.watchers.onValueChange(
-            Optional.ofNullable(
-                null != oldValue ?
-                    oldValue.environmentValueNameAndValue() :
-                    null
-            ),
-            Optional.empty()
-        );
+        if (null != oldValue) {
+            this.watchers.onValueChange(
+                Optional.of(
+                    oldValue.environmentValueNameAndValue()
+                ),
+                Optional.empty()
+            );
+        }
     }
 
     // @VisibleForTesting
