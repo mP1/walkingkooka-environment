@@ -47,6 +47,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         String.class
     );
 
+    private final static EnvironmentValueName<String> MAGIC = EnvironmentValueName.with("MAGIC", String.class);
+
     private final static String VALUE = "Gday";
 
     @Test
@@ -771,13 +773,22 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     // setEnvironmentValueName..........................................................................................
 
     @Test
+    public void testSetEnvironmentValueName() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            MAGIC,
+            VALUE
+        );
+    }
+
+    @Test
     public void testSetEnvironmentValueNameDifferentName() {
         final EnvironmentContextSharedMap context = this.createContext();
 
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("MAGIC", String.class);
-
         context.setEnvironmentValue(
-            name,
+            MAGIC,
             VALUE
         );
 
@@ -789,9 +800,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         for (final EnvironmentValueName<?> possible : context.environmentValueNames()) {
-            if (possible.equals(name)) {
+            if (possible.equals(MAGIC)) {
                 assertSame(
-                    name,
+                    MAGIC,
                     possible
                 );
                 return;
@@ -799,7 +810,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         }
 
         // first $name was overwritten
-        fail("EnvironmentValueName " + name + " missing from environmentValueNames");
+        fail("EnvironmentValueName " + MAGIC + " missing from environmentValueNames");
     }
 
     // removeEnvironmentValue...........................................................................................
@@ -808,16 +819,14 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     public void testRemoveEnvironmentValue() {
         final EnvironmentContextSharedMap context = this.createContext();
 
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("MAGIC", String.class);
-
         context.setEnvironmentValue(
-            name,
+            MAGIC,
             VALUE
         );
 
         this.removeEnvironmentValueAndCheck(
             context,
-            name
+            MAGIC
         );
     }
 
@@ -930,7 +939,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     public void testEnvironment2() {
         final EnvironmentContextSharedMap context = this.createContext();
 
-        final EnvironmentValueName<String> name = EnvironmentValueName.with("MAGIC", String.class);
+        final EnvironmentValueName<String> name = MAGIC;
         final String value = "123";
 
         context.setEnvironmentValue(
