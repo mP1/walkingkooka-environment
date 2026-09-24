@@ -41,6 +41,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface EnvironmentContextTesting extends BinaryTextContextTesting,
@@ -439,5 +440,25 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
             context.environmentContextMissingValues(),
             context::toString
         );
+    }
+
+    // setEnvironmentContext............................................................................................
+
+    default void setEnvironmentContextAndCheck(final EnvironmentContext context,
+                                               final EnvironmentContext set,
+                                               final EnvironmentContext expected) {
+        final EnvironmentContext actual = context.setEnvironmentContext(set);
+
+        if (actual.equals(expected)) {
+            assertSame(
+                expected,
+                actual
+            );
+        } else {
+            this.checkEquals(
+                expected,
+                actual
+            );
+        }
     }
 }
