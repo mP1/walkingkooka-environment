@@ -188,9 +188,10 @@ public final class EnvironmentContextSharedPrefixedTest extends EnvironmentConte
     public void testSetEnvironmentContext() {
         final EnvironmentContextSharedPrefixed context = this.createContext();
 
-        assertSame(
+        this.setEnvironmentContextAndCheck(
+            context,
             DIFFERENT_ENVIRONMENT_CONTEXT,
-            context.setEnvironmentContext(DIFFERENT_ENVIRONMENT_CONTEXT)
+            DIFFERENT_ENVIRONMENT_CONTEXT
         );
     }
 
