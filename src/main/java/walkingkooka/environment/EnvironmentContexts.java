@@ -45,6 +45,13 @@ public final class EnvironmentContexts implements PublicStaticHelper {
     }
 
     /**
+     * {@see EnvironmentContextSharedLogging}
+     */
+    public static EnvironmentContext logging(final EnvironmentContext context) {
+        return EnvironmentContextSharedLogging.with(context);
+    }
+
+    /**
      * {@see EnvironmentContextSharedMap}
      */
     public static EnvironmentContext map(final CanLog canLog,
