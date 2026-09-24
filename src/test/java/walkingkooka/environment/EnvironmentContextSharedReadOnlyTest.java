@@ -185,8 +185,9 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             map
         );
 
-        assertSame(
-            readOnly.setEnvironmentContext(map),
+        this.setEnvironmentContextAndCheck(
+            readOnly,
+            map,
             map
         );
     }
@@ -226,11 +227,10 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
             different
         );
 
-        final EnvironmentContext set = readOnly.setEnvironmentContext(different);
-
-        assertSame(
+        this.setEnvironmentContextAndCheck(
+            readOnly,
             different,
-            set
+            different
         );
     }
 
