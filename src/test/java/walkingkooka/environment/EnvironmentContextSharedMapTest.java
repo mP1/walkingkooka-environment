@@ -764,9 +764,10 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
             different
         );
 
-        assertSame(
+        this.setEnvironmentContextAndCheck(
+            context,
             different,
-            context.setEnvironmentContext(different)
+            different
         );
     }
 
