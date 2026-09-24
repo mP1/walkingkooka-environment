@@ -814,6 +814,33 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     }
 
     @Test
+    public void testSetEnvironmentValueWithEnvironmentWatcherSameValue() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            MAGIC,
+            VALUE
+        );
+
+        context.addEnvironmentWatcher(
+            new EnvironmentWatcher() {
+                @Override
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    throw new UnsupportedOperationException();
+                }
+            }
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            MAGIC,
+            VALUE
+        );
+    }
+
+    @Test
     public void testSetEnvironmentValueWithEnvironmentWatcherNewValue() {
         final EnvironmentContextSharedMap context = this.createContext();
 

@@ -269,12 +269,14 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
             environmentContextSharedMapValue.value = Cast.to(value);
         }
 
-        this.watchers.onValueChange(
-            Optional.ofNullable(oldValue),
-            Optional.of(
-                environmentContextSharedMapValue.environmentValueNameAndValue()
-            )
-        );
+        if (false == Objects.equals(oldValue, environmentContextSharedMapValue.value)) {
+            this.watchers.onValueChange(
+                Optional.ofNullable(oldValue),
+                Optional.of(
+                    environmentContextSharedMapValue.environmentValueNameAndValue()
+                )
+            );
+        }
     }
 
     @Override
