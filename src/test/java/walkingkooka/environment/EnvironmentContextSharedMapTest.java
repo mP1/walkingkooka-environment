@@ -784,7 +784,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     }
 
     @Test
-    public void testSetEnvironmentValueNameDifferentName() {
+    public void testSetEnvironmentValueNameDifferentCase() {
         final EnvironmentContextSharedMap context = this.createContext();
 
         context.setEnvironmentValue(
