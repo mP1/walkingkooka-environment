@@ -836,4 +836,15 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             context
         );
     }
+
+    // setEnvironmentContext............................................................................................
+
+    default void setEnvironmentContextAndCheck(final EnvironmentContext set,
+                                               final EnvironmentContext expected) {
+        this.setEnvironmentContextAndCheck(
+            this.createContext(),
+            set,
+            expected
+        );
+    }
 }
