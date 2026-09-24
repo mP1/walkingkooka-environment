@@ -806,6 +806,18 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
+    // environmentContextMissingValues..................................................................................
+
+    @Test
+    default void testEnvironmentContextMissingValues() {
+        final C context = this.createContext();
+
+        this.checkEquals(
+            context.environmentContextMissingValues(),
+            EnvironmentContextMissingValues.with(context)
+        );
+    }
+
     // CanParseEnvironmentValueNameTesting2.............................................................................
 
     @Override
