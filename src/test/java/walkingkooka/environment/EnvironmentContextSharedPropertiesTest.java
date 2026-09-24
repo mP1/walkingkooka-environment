@@ -28,7 +28,6 @@ import java.util.Currency;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentContextSharedPropertiesTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedProperties>
@@ -90,14 +89,10 @@ public final class EnvironmentContextSharedPropertiesTest extends EnvironmentCon
         final EnvironmentContext different = this.createContext();
         different.setLineEnding(LineEnding.CRNL);
 
-        assertNotSame(
+        this.setEnvironmentContextAndCheck(
             context,
-            different
-        );
-
-        assertSame(
             different,
-            context.setEnvironmentContext(different)
+            different
         );
     }
 
