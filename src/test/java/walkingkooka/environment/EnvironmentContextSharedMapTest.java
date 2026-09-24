@@ -802,6 +802,25 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         fail("EnvironmentValueName " + name + " missing from environmentValueNames");
     }
 
+    // removeEnvironmentValue...........................................................................................
+
+    @Test
+    public void testRemoveEnvironmentValue() {
+        final EnvironmentContextSharedMap context = this.createContext();
+
+        final EnvironmentValueName<String> name = EnvironmentValueName.with("MAGIC", String.class);
+
+        context.setEnvironmentValue(
+            name,
+            VALUE
+        );
+
+        this.removeEnvironmentValueAndCheck(
+            context,
+            name
+        );
+    }
+
     // CanParseEnvironmentValueName.....................................................................................
 
     @Test
