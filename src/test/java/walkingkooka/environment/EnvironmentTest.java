@@ -29,8 +29,7 @@ import walkingkooka.logging.CanLogs;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.header.HasContentTypeTesting;
 import walkingkooka.net.header.MediaType;
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.text.BinaryTextContext;
 import walkingkooka.text.BinaryTextContextTesting;
 import walkingkooka.text.CharSequences;
@@ -47,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Environment>,
     BinaryTextContextTesting,
     CanBeEmptyTesting,
-    ClassTesting<Environment>,
+    PublicClassTesting<Environment>,
     HasContentTypeTesting,
     HasCurrencyTesting,
     HasEnvironmentTesting,
@@ -907,10 +906,5 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     @Override
     public Class<Environment> type() {
         return Environment.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }
