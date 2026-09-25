@@ -845,7 +845,8 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         context.debug(MESSAGE1);
 
         this.checkEquals(
-            "DEBUG " + MESSAGE1 + LINE_ENDING,
+            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
+                "DEBUG Message111\n",
             printed.toString()
         );
     }
@@ -895,7 +896,8 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
         context.debug(MESSAGE2);
 
         this.checkEquals(
-            "DEBUG " + MESSAGE2 + LINE_ENDING,
+            "DEBUG fire value change loggingLevel=INFO to loggingLevel=DEBUG\n" +
+                "DEBUG Message222\n",
             printed.toString()
         );
     }
