@@ -27,9 +27,6 @@ import walkingkooka.net.email.EmailAddress;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.Printers;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -410,21 +407,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     @Test
     public void testSetCharset() {
-        final EnvironmentContextSharedMap context = this.createContext();
-
-        final Charset charset = StandardCharsets.ISO_8859_1;
-        this.checkNotEquals(
-            CHARSET,
-            charset
-        );
-
         this.setCharsetAndCheck(
-            context,
-            charset
+            this.createContext(),
+            DIFFERENT_CHARSET
         );
     }
 
-    // currency...........................................................................................................
+    // currency.........................................................................................................
 
     @Test
     public void testCurrency() {
@@ -436,21 +425,13 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     @Test
     public void testSetCurrency() {
-        final EnvironmentContextSharedMap context = this.createContext();
-
-        final Currency currency = Currency.getInstance("NZD");
-        this.checkNotEquals(
-            CURRENCY,
-            currency
-        );
-
         this.setCurrencyAndCheck(
-            context,
-            currency
+            this.createContext(),
+            DIFFERENT_CURRENCY
         );
     }
 
-    // lineEnding...........................................................................................................
+    // lineEnding.......................................................................................................
 
     @Test
     public void testLineEnding() {
@@ -462,17 +443,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
 
     @Test
     public void testSetLineEnding() {
-        final EnvironmentContextSharedMap context = this.createContext();
-
-        final LineEnding lineEnding = LineEnding.CR;
-        this.checkNotEquals(
-            LINE_ENDING,
-            lineEnding
-        );
-
         this.setLineEndingAndCheck(
-            context,
-            lineEnding
+            this.createContext(),
+            DIFFERENT_LINE_ENDING
         );
     }
 
@@ -490,13 +463,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     public void testSetLocale() {
         final EnvironmentContextSharedMap context = this.createContext();
 
-        final Locale locale = Locale.GERMANY;
-
-        context.setLocale(locale);
-
-        this.localeAndCheck(
+        this.setLocaleAndCheck(
             context,
-            locale
+            DIFFERENT_LOCALE
         );
     }
 
