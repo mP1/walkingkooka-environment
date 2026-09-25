@@ -230,7 +230,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG " + MESSAGE1 + LINE_ENDING,
+            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
+                "DEBUG Message111\n",
             b.toString()
         );
     }
@@ -267,7 +268,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG " + MESSAGE1 + LINE_ENDING,
+            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
+                "DEBUG Message111\n",
             b.toString()
         );
     }
@@ -371,8 +373,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG " + MESSAGE1 + LINE_ENDING +
-                "ERROR " + MESSAGE3 + LINE_ENDING,
+            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
+                "DEBUG Message111\n" +
+                "ERROR Message333\n",
             b.toString()
         );
     }
@@ -810,6 +813,69 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
     }
 
+    @Test
+    public void testSetEnvironmentValueWithEnvironmentWatcherValueChangedWithWatcher() {
+        final StringBuilder log = new StringBuilder();
+
+        final EnvironmentContextSharedMap context = this.createContext(log);
+
+        context.setLoggingLevel(LoggingLevel.DEBUG);
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            MAGIC,
+            VALUE
+        );
+
+        this.fired = false;
+
+        final String value = "Value222";
+
+        context.addEnvironmentWatcher(
+            new EnvironmentWatcher() {
+                @Override
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            MAGIC.setValue(VALUE)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            MAGIC.setValue(value)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
+                    EnvironmentContextSharedMapTest.this.fired = true;
+                }
+            }
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            MAGIC,
+            value
+        );
+
+        this.checkEquals(
+            true,
+            this.fired,
+            "fired"
+        );
+
+        this.checkEquals(
+            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
+                "DEBUG fire value change null to MAGIC=Gday\n" +
+                "DEBUG fire value change MAGIC=Gday to MAGIC=Value222\n",
+            log.toString(),
+            "logged"
+        );
+    }
+
     // removeEnvironmentValue...........................................................................................
 
     @Test
@@ -893,6 +959,31 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
     }
 
     private boolean fired;
+
+    @Test
+    public void testRemoveEnvironmentValueLog() {
+        final StringBuilder log = new StringBuilder();
+        final EnvironmentContextSharedMap context = this.createContext(log);
+        context.setLoggingLevel(LoggingLevel.DEBUG);
+
+        context.setEnvironmentValue(
+            MAGIC,
+            VALUE
+        );
+
+        this.removeEnvironmentValueAndCheck(
+            context,
+            MAGIC
+        );
+
+        this.checkEquals(
+            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
+                "DEBUG fire value change null to MAGIC=Gday\n" +
+                "DEBUG fire value change \"Gday\" to null\n",
+            log.toString(),
+            "logged"
+        );
+    }
 
     // CanParseEnvironmentValueName.....................................................................................
 

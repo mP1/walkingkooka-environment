@@ -271,6 +271,10 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
         final EnvironmentValueNameAndValue<T> newValue = environmentContextSharedMapValue.environmentValueNameAndValue();
         if (false == Objects.equals(oldValue, newValue)) {
+            if (this.isDebugEnabled()) {
+                this.debug("fire value change " + oldValue + " to " + newValue);
+            }
+
             this.watchers.onValueChange(
                 Optional.ofNullable(oldValue),
                 Optional.of(newValue)
@@ -289,6 +293,10 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         final EnvironmentContextSharedMapValue<?> oldValue = this.values.remove(name);
 
         if (null != oldValue) {
+            if (this.isDebugEnabled()) {
+                this.debug("fire value change " + oldValue + " to " + null);
+            }
+
             this.watchers.onValueChange(
                 Optional.of(
                     oldValue.environmentValueNameAndValue()
