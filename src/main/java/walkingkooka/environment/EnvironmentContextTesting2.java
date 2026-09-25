@@ -22,18 +22,13 @@ import walkingkooka.ContextTesting;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.logging.LoggingContextTesting2;
-import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.reflect.FieldAttributes;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseKind;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -149,7 +144,33 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
-    // setCurrency...................................................................................................
+    // charset..........................................................................................................
+
+    @Test
+    default void testCharset() {
+        this.charsetAndCheck(
+            this.createContext(),
+            CHARSET
+        );
+    }
+
+    @Test
+    default void testSetCharset() {
+        this.setCharsetAndCheck(
+            this.createContext(),
+            DIFFERENT_CHARSET
+        );
+    }
+
+    // currency.........................................................................................................
+
+    @Test
+    default void testCurrency() {
+        this.currencyAndCheck(
+            this.createContext(),
+            CURRENCY
+        );
+    }
 
     @Test
     default void testSetCurrencyWithNullFails() {
@@ -161,16 +182,16 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     }
 
     @Test
+    default void testSetCurrency() {
+        this.setCurrencyAndCheck(
+            this.createContext(),
+            DIFFERENT_CURRENCY
+        );
+    }
+
+    @Test
     default void testSetCurrencyWithDifferentAndWatcher() {
         final C context = this.createContext();
-
-        Currency currency = CURRENCY;
-        if (context.currency().equals(currency)) {
-            currency = DIFFERENT_CURRENCY;
-        }
-
-        final Currency oldCurrency = context.currency();
-        final Currency newCurrency = currency;
 
         final AtomicBoolean fired = new AtomicBoolean();
 
@@ -181,14 +202,14 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
                                           final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.CURRENCY.setValue(oldCurrency)
+                            EnvironmentValueName.CURRENCY.setValue(CURRENCY)
                         ),
                         oldValue,
                         "oldValue"
                     );
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.CURRENCY.setValue(newCurrency)
+                            EnvironmentValueName.CURRENCY.setValue(DIFFERENT_CURRENCY)
                         ),
                         newValue,
                         "newValue"
@@ -201,7 +222,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         this.setCurrencyAndCheck(
             context,
-            currency
+            DIFFERENT_CURRENCY
         );
 
         this.checkEquals(
@@ -209,8 +230,16 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             fired.get()
         );
     }
-    
+
     // setIndentation...................................................................................................
+
+    @Test
+    default void testIndentation() {
+        this.indentationAndCheck(
+            this.createContext(),
+            INDENTATION
+        );
+    }
 
     @Test
     default void testSetIndentationWithNullFails() {
@@ -222,16 +251,16 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     }
 
     @Test
+    default void testSetIndentation() {
+        this.setIndentationAndCheck(
+            this.createContext(),
+            DIFFERENT_INDENTATION
+        );
+    }
+
+    @Test
     default void testSetIndentationWithDifferentAndWatcher() {
         final C context = this.createContext();
-
-        Indentation indentation = Indentation.SPACES2;
-        if (context.indentation().equals(indentation)) {
-            indentation = Indentation.SPACES4;
-        }
-
-        final Indentation oldIndentation = context.indentation();
-        final Indentation newIndentation = indentation;
 
         final AtomicBoolean fired = new AtomicBoolean();
 
@@ -242,14 +271,14 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
                                           final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.INDENTATION.setValue(oldIndentation)
+                            EnvironmentValueName.INDENTATION.setValue(INDENTATION)
                         ),
                         oldValue,
                         "oldValue"
                     );
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.INDENTATION.setValue(newIndentation)
+                            EnvironmentValueName.INDENTATION.setValue(DIFFERENT_INDENTATION)
                         ),
                         newValue,
                         "newValue"
@@ -262,7 +291,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         this.setIndentationAndCheck(
             context,
-            indentation
+            DIFFERENT_INDENTATION
         );
 
         this.checkEquals(
@@ -271,8 +300,15 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
+    // lineEnding.......................................................................................................
 
-    // setLineEnding....................................................................................................
+    @Test
+    default void testLineEnding() {
+        this.lineEndingAndCheck(
+            this.createContext(),
+            LINE_ENDING
+        );
+    }
 
     @Test
     default void testSetLineEndingWithNullFails() {
@@ -284,16 +320,16 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     }
 
     @Test
+    default void testSetLineEnding() {
+        this.setLineEndingAndCheck(
+            this.createContext(),
+            DIFFERENT_LINE_ENDING
+        );
+    }
+
+    @Test
     default void testSetLineEndingWithDifferentAndWatcher() {
         final C context = this.createContext();
-
-        LineEnding lineEnding = LineEnding.CRNL;
-        if (context.lineEnding().equals(lineEnding)) {
-            lineEnding = LineEnding.CR;
-        }
-
-        final LineEnding oldLineEnding = context.lineEnding();
-        final LineEnding newLineEnding = lineEnding;
 
         final AtomicBoolean fired = new AtomicBoolean();
 
@@ -304,14 +340,14 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
                                           final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.LINE_ENDING.setValue(oldLineEnding)
+                            EnvironmentValueName.LINE_ENDING.setValue(LINE_ENDING)
                         ),
                         oldValue,
                         "oldValue"
                     );
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.LINE_ENDING.setValue(newLineEnding)
+                            EnvironmentValueName.LINE_ENDING.setValue(DIFFERENT_LINE_ENDING)
                         ),
                         newValue,
                         "newValue"
@@ -324,7 +360,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         this.setLineEndingAndCheck(
             context,
-            lineEnding
+            DIFFERENT_LINE_ENDING
         );
 
         this.checkEquals(
@@ -332,8 +368,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             fired.get()
         );
     }
-    
-    // setLocale........................................................................................................
+
+    // locale...........................................................................................................
 
     @Test
     default void testSetLocaleWithNullFails() {
@@ -349,7 +385,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final C context = this.createContext();
 
         Locale locale = Locale.FRENCH;
-        if(context.locale().equals(locale)) {
+        if (context.locale().equals(locale)) {
             locale = Locale.GERMAN;
         }
 
@@ -363,14 +399,6 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     default void testSetLocaleWithDifferentAndWatcher() {
         final C context = this.createContext();
 
-        Locale locale = Locale.FRENCH;
-        if (context.locale().equals(locale)) {
-            locale = Locale.GERMAN;
-        }
-
-        final Locale oldLocale = context.locale();
-        final Locale newLocale = locale;
-
         final AtomicBoolean fired = new AtomicBoolean();
 
         context.addEnvironmentWatcher(
@@ -380,14 +408,14 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
                                           final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.LOCALE.setValue(oldLocale)
+                            EnvironmentValueName.LOCALE.setValue(LOCALE)
                         ),
                         oldValue,
                         "oldValue"
                     );
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.LOCALE.setValue(newLocale)
+                            EnvironmentValueName.LOCALE.setValue(DIFFERENT_LOCALE)
                         ),
                         newValue,
                         "newValue"
@@ -397,10 +425,10 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
                 }
             }
         );
-        
+
         this.setLocaleAndCheck(
             context,
-            locale
+            DIFFERENT_LOCALE
         );
 
         this.checkEquals(
@@ -409,7 +437,15 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
-    // setLoggingLevel....................................................................................................
+    // loggingLevel.....................................................................................................
+
+    @Test
+    default void testLoggingLevel() {
+        this.loggingLevelAndCheck(
+            this.createContext(),
+            LOGGING_LEVEL
+        );
+    }
 
     @Test
     default void testSetLoggingLevelWithNullFails() {
@@ -421,16 +457,16 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     }
 
     @Test
+    default void testSetLoggingLevel() {
+        this.setLoggingLevelAndCheck(
+            this.createContext(),
+            DIFFERENT_LOGGING_LEVEL
+        );
+    }
+
+    @Test
     default void testSetLoggingLevelWithDifferentAndWatcher() {
         final C context = this.createContext();
-
-        LoggingLevel loggingLevel = LoggingLevel.DEBUG;
-        if (context.loggingLevel().equals(loggingLevel)) {
-            loggingLevel = LoggingLevel.INFO;
-        }
-
-        final LoggingLevel oldLoggingLevel = context.loggingLevel();
-        final LoggingLevel newLoggingLevel = loggingLevel;
 
         final AtomicBoolean fired = new AtomicBoolean();
 
@@ -441,14 +477,14 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
                                           final Optional<EnvironmentValueNameAndValue<?>> newValue) {
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.LOGGING_LEVEL.setValue(oldLoggingLevel)
+                            EnvironmentValueName.LOGGING_LEVEL.setValue(LOGGING_LEVEL)
                         ),
                         oldValue,
                         "oldValue"
                     );
                     checkEquals(
                         Optional.of(
-                            EnvironmentValueName.LOGGING_LEVEL.setValue(newLoggingLevel)
+                            EnvironmentValueName.LOGGING_LEVEL.setValue(DIFFERENT_LOGGING_LEVEL)
                         ),
                         newValue,
                         "newValue"
@@ -461,7 +497,152 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
 
         this.setLoggingLevelAndCheck(
             context,
-            loggingLevel
+            DIFFERENT_LOGGING_LEVEL
+        );
+
+        this.checkEquals(
+            true,
+            fired.get()
+        );
+    }
+
+    // timeOffset.......................................................................................................
+
+    @Test
+    default void testSetTimeOffsetWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> this.createContext()
+                .setTimeOffset(null)
+        );
+    }
+
+    @Test
+    default void testSetTimeOffsetWithDifferent() {
+        this.setTimeOffsetAndCheck(
+            this.createContext(),
+            DIFFERENT_TIME_OFFSET
+        );
+    }
+
+    @Test
+    default void testSetTimeOffsetWithDifferentAndWatcher() {
+        final C context = this.createContext();
+
+        final AtomicBoolean fired = new AtomicBoolean();
+
+        context.addEnvironmentWatcher(
+            new EnvironmentWatcher() {
+                @Override
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.TIME_OFFSET.setValue(TIME_OFFSET)
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        Optional.of(
+                            EnvironmentValueName.TIME_OFFSET.setValue(DIFFERENT_TIME_OFFSET)
+                        ),
+                        newValue,
+                        "newValue"
+                    );
+
+                    fired.set(true);
+                }
+            }
+        );
+
+        this.setTimeOffsetAndCheck(
+            context,
+            DIFFERENT_TIME_OFFSET
+        );
+
+        this.checkEquals(
+            true,
+            fired.get()
+        );
+    }
+
+    // user.............................................................................................................
+
+    @Test
+    default void testUserNotNull() {
+        this.checkNotEquals(
+            null,
+            this.createContext().user()
+        );
+    }
+
+    default void userAndCheck() {
+        this.userAndCheck(
+            this.createContext()
+        );
+    }
+
+    default void userAndCheck(final EmailAddress expected) {
+        this.userAndCheck(
+            this.createContext(),
+            expected
+        );
+    }
+
+    default void userAndCheck(final Optional<EmailAddress> expected) {
+        this.userAndCheck(
+            this.createContext(),
+            expected
+        );
+    }
+
+    // setUser..........................................................................................................
+
+    @Test
+    default void testSetUserWithDifferentAndWatcher() {
+        final C context = this.createContext();
+
+        Optional<EmailAddress> user = Optional.of(DIFFERENT_USER);
+        if (context.user().equals(user)) {
+            user = Optional.of(
+                EmailAddress.parse("different2@example.com")
+            );
+        }
+
+        final Optional<EmailAddress> oldUser = context.user();
+        final Optional<EmailAddress> newUser = user;
+
+        final AtomicBoolean fired = new AtomicBoolean();
+
+        context.addEnvironmentWatcher(
+            new EnvironmentWatcher() {
+                @Override
+                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
+                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
+                    checkEquals(
+                        oldUser.map(
+                            EnvironmentValueName.USER::setValue
+                        ),
+                        oldValue,
+                        "oldValue"
+                    );
+                    checkEquals(
+                        newUser.map(
+                            EnvironmentValueName.USER::setValue
+                        ),
+                        newValue,
+                        "newValue"
+                    );
+
+                    fired.set(true);
+                }
+            }
+        );
+
+        this.setUserAndCheck(
+            context,
+            user
         );
 
         this.checkEquals(
@@ -490,7 +671,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             context.lineEnding()
         );
     }
-    
+
     @Test
     default void testEnvironmentValueLocaleEqualsLocale() {
         final C context = this.createContext();
@@ -501,7 +682,7 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
             context.locale()
         );
     }
-    
+
     @Test
     default void testEnvironmentValueNowEqualsNow() {
         final C context = this.createContext();
@@ -628,151 +809,6 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         );
     }
 
-    // setTimeOffset....................................................................................................
-
-    @Test
-    default void testSetTimeOffsetWithNullFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> this.createContext()
-                .setTimeOffset(null)
-        );
-    }
-
-    @Test
-    default void testSetTimeOffsetWithDifferentAndWatcher() {
-        final C context = this.createContext();
-
-        ZoneOffset timeOffset = ZoneOffset.UTC;
-        if (context.timeOffset().equals(timeOffset)) {
-            timeOffset = ZoneOffset.ofHours(1);
-        }
-
-        final ZoneOffset oldTimeOffset = context.timeOffset();
-        final ZoneOffset newTimeOffset = timeOffset;
-
-        final AtomicBoolean fired = new AtomicBoolean();
-
-        context.addEnvironmentWatcher(
-            new EnvironmentWatcher() {
-                @Override
-                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
-                    checkEquals(
-                        Optional.of(
-                            EnvironmentValueName.TIME_OFFSET.setValue(oldTimeOffset)
-                        ),
-                        oldValue,
-                        "oldValue"
-                    );
-                    checkEquals(
-                        Optional.of(
-                            EnvironmentValueName.TIME_OFFSET.setValue(newTimeOffset)
-                        ),
-                        newValue,
-                        "newValue"
-                    );
-
-                    fired.set(true);
-                }
-            }
-        );
-
-        this.setTimeOffsetAndCheck(
-            context,
-            timeOffset
-        );
-
-        this.checkEquals(
-            true,
-            fired.get()
-        );
-    }
-    
-    // user.............................................................................................................
-
-    @Test
-    default void testUserNotNull() {
-        this.checkNotEquals(
-            null,
-            this.createContext().user()
-        );
-    }
-
-    default void userAndCheck() {
-        this.userAndCheck(
-            this.createContext()
-        );
-    }
-
-    default void userAndCheck(final EmailAddress expected) {
-        this.userAndCheck(
-            this.createContext(),
-            expected
-        );
-    }
-
-    default void userAndCheck(final Optional<EmailAddress> expected) {
-        this.userAndCheck(
-            this.createContext(),
-            expected
-        );
-    }
-
-    // setUser..........................................................................................................
-
-    @Test
-    default void testSetUserWithDifferentAndWatcher() {
-        final C context = this.createContext();
-
-        Optional<EmailAddress> user = Optional.of(DIFFERENT_USER);
-        if (context.user().equals(user)) {
-            user = Optional.of(
-                EmailAddress.parse("different2@example.com")
-            );
-        }
-
-        final Optional<EmailAddress> oldUser = context.user();
-        final Optional<EmailAddress> newUser = user;
-
-        final AtomicBoolean fired = new AtomicBoolean();
-
-        context.addEnvironmentWatcher(
-            new EnvironmentWatcher() {
-                @Override
-                public void onValueChange(final Optional<EnvironmentValueNameAndValue<?>> oldValue,
-                                          final Optional<EnvironmentValueNameAndValue<?>> newValue) {
-                    checkEquals(
-                        oldUser.map(
-                            EnvironmentValueName.USER::setValue
-                        ),
-                        oldValue,
-                        "oldValue"
-                    );
-                    checkEquals(
-                        newUser.map(
-                            EnvironmentValueName.USER::setValue
-                        ),
-                        newValue,
-                        "newValue"
-                    );
-
-                    fired.set(true);
-                }
-            }
-        );
-
-        this.setUserAndCheck(
-            context,
-            user
-        );
-
-        this.checkEquals(
-            true,
-            fired.get()
-        );
-    }
-    
     // addEnvironmentWatcher............................................................................................
 
     @Test

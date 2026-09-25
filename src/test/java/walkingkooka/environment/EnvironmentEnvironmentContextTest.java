@@ -90,6 +90,36 @@ public final class EnvironmentEnvironmentContextTest implements EnvironmentConte
         );
     }
 
+    @Override
+    public void testSetCharset() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetCurrency() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetIndentation() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetLineEnding() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetLoggingLevel() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetTimeOffsetWithDifferent() {
+        throw new UnsupportedOperationException();
+    }
+
     // cloneEnvironment.................................................................................................
 
     @Test
