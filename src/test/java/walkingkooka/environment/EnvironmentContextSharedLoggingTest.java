@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentContextSharedLoggingTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedLogging> {
 
     private final static LoggingLevel LOGGING_LEVEL = LoggingLevel.INFO;
+    private final static LoggingLevel DIFFERENT_LOGGING_LEVEL = LoggingLevel.WARN;
 
     @Test
     public void testWithNullContextFails() {
@@ -299,6 +300,29 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
             "environment INFO addWatcherOnce EnvironmentWatcher123\n",
             b.toString()
         );
+    }
+
+    @Test
+    @Override
+    public void testLoggingLevel() {
+        this.loggingLevelAndCheck(
+            this.createContext(),
+            LOGGING_LEVEL
+        );
+    }
+
+    @Test
+    @Override
+    public void testSetLoggingLevel() {
+        this.setLoggingLevelAndCheck(
+            this.createContext(),
+            DIFFERENT_LOGGING_LEVEL
+        );
+    }
+
+    @Override
+    public void testSetLoggingLevelWithDifferentAndWatcher() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
