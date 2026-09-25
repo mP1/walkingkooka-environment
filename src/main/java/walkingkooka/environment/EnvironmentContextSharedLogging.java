@@ -73,9 +73,9 @@ final class EnvironmentContextSharedLogging extends EnvironmentContextShared
         return this.logEnterAndExitEnvironment(
             () -> {
                 final Optional<T> value = this.context.environmentValue(name);
-                if (this.isDebugEnabled()) {
+                if (this.isInfoEnabled()) {
                     // get CHARSET = "UTF-8"
-                    this.debug("get " + name + "=" + CharSequences.quoteIfChars(value.orElse(null)));
+                    this.info("get " + name + "=" + CharSequences.quoteIfChars(value.orElse(null)));
                 }
                 return value;
             }
@@ -88,9 +88,9 @@ final class EnvironmentContextSharedLogging extends EnvironmentContextShared
             () -> {
                 final Set<EnvironmentValueName<?>> names = this.context.environmentValueNames();
 
-                if (this.isDebugEnabled()) {
+                if (this.isInfoEnabled()) {
                     // A, B, C
-                    this.debug("names=" + names);
+                    this.info("names=" + names);
                 }
                 return names;
             }
@@ -105,9 +105,9 @@ final class EnvironmentContextSharedLogging extends EnvironmentContextShared
 
         this.logEnterAndExitEnvironment(
             () -> {
-                if (this.isDebugEnabled()) {
+                if (this.isInfoEnabled()) {
                     // set CHARSET = "UTF-8"
-                    this.debug("set " + name + "=" + CharSequences.quoteIfChars(value));
+                    this.info("set " + name + "=" + CharSequences.quoteIfChars(value));
                 }
 
                 this.context.setEnvironmentValue(
@@ -125,8 +125,8 @@ final class EnvironmentContextSharedLogging extends EnvironmentContextShared
 
         this.logEnterAndExitEnvironment(
             () -> {
-                if (this.isDebugEnabled()) {
-                    this.debug("remove " + name);
+                if (this.isInfoEnabled()) {
+                    this.info("remove " + name);
                 }
 
                 this.context.removeEnvironmentValue(name);
@@ -139,8 +139,8 @@ final class EnvironmentContextSharedLogging extends EnvironmentContextShared
     public Runnable addEnvironmentWatcher(final EnvironmentWatcher watcher) {
         return this.logEnterAndExitEnvironment(
             () -> {
-                if (this.isDebugEnabled()) {
-                    this.debug("addWatcher " + watcher);
+                if (this.isInfoEnabled()) {
+                    this.info("addWatcher " + watcher);
                 }
 
                 return EnvironmentContextDelegator.super.addEnvironmentWatcher(watcher);
@@ -152,8 +152,8 @@ final class EnvironmentContextSharedLogging extends EnvironmentContextShared
     public Runnable addEnvironmentWatcherOnce(final EnvironmentWatcher watcher) {
         return this.logEnterAndExitEnvironment(
             () -> {
-                if (this.isDebugEnabled()) {
-                    this.debug("addWatcherOnce " + watcher);
+                if (this.isInfoEnabled()) {
+                    this.info("addWatcherOnce " + watcher);
                 }
 
                 return EnvironmentContextDelegator.super.addEnvironmentWatcherOnce(watcher);
