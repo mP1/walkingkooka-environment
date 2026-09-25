@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentContextSharedLoggingTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedLogging> {
 
-    private final static LoggingLevel LOGGING_LEVEL = LoggingLevel.DEBUG;
+    private final static LoggingLevel LOGGING_LEVEL = LoggingLevel.INFO;
 
     @Test
     public void testWithNullContextFails() {
@@ -135,7 +135,7 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
         );
         
         this.checkEquals(
-            "environment DEBUG get MAGIC=null\n",
+            "environment INFO get MAGIC=null\n",
             b.toString()
         );
    }
@@ -151,7 +151,7 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
         );
 
         this.checkEquals(
-            "environment DEBUG get lineEnding=\"\\n\"\n",
+            "environment INFO get lineEnding=\"\\n\"\n",
             b.toString()
         );
     }
@@ -169,8 +169,8 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
         );
 
         this.checkEquals(
-            "environment DEBUG set locale=en_NZ\n" +
-                "environment DEBUG get locale=en_NZ\n",
+            "environment INFO set locale=en_NZ\n" +
+                "environment INFO get locale=en_NZ\n",
             b.toString()
         );
     }
@@ -186,8 +186,8 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
         );
 
         this.checkEquals(
-            "environment DEBUG set locale=en_AU\n" +
-                "environment DEBUG get locale=en_AU\n",
+            "environment INFO set locale=en_AU\n" +
+                "environment INFO get locale=en_AU\n",
             b.toString()
         );
     }
@@ -202,9 +202,9 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
         );
 
         this.checkEquals(
-            "environment DEBUG set locale=en_NZ\n" +
-                "environment DEBUG get locale=en_NZ\n" +
-                "environment DEBUG get locale=en_NZ\n",
+            "environment INFO set locale=en_NZ\n" +
+                "environment INFO get locale=en_NZ\n" +
+                "environment INFO get locale=en_NZ\n",
             b.toString()
         );
     }
@@ -224,8 +224,8 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
         );
 
         this.checkEquals(
-            "environment DEBUG remove Missing\n" +
-                "environment DEBUG get Missing=null\n",
+            "environment INFO remove Missing\n" +
+                "environment INFO get Missing=null\n",
             b.toString()
         );
     }
@@ -242,7 +242,7 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
         );
 
         this.checkEquals(
-            "environment DEBUG names=[charset, currency, indentation, lineEnding, locale, loggingLevel, now, timeOffset, user]\n",
+            "environment INFO names=[charset, currency, indentation, lineEnding, locale, loggingLevel, now, timeOffset, user]\n",
             b.toString()
         );
     }
@@ -270,7 +270,7 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
             );
 
         this.checkEquals(
-            "environment DEBUG addWatcher EnvironmentWatcher123\n",
+            "environment INFO addWatcher EnvironmentWatcher123\n",
             b.toString()
         );
     }
@@ -296,7 +296,7 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
             );
 
         this.checkEquals(
-            "environment DEBUG addWatcherOnce EnvironmentWatcher123\n",
+            "environment INFO addWatcherOnce EnvironmentWatcher123\n",
             b.toString()
         );
     }
@@ -333,7 +333,7 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            "{charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=DEBUG, timeOffset=Z, user=user123@example.com}"
+            "{charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=INFO, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -356,7 +356,7 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
                 "    locale\n" +
                 "      en_AU (java.util.Locale)\n" +
                 "    loggingLevel\n" +
-                "      DEBUG\n" +
+                "      INFO\n" +
                 "    now\n" +
                 "      1999-12-31T12:58:59 (java.time.LocalDateTime)\n" +
                 "    timeOffset\n" +
