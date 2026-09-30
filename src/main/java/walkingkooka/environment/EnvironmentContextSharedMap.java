@@ -25,6 +25,7 @@ import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
 import walkingkooka.datetime.HasNow;
+import walkingkooka.locale.LocaleLanguageTag;
 import walkingkooka.logging.CanLog;
 import walkingkooka.logging.LoggingContext;
 import walkingkooka.logging.LoggingContextDelegator;
@@ -239,6 +240,10 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
                                         final T value) {
         Objects.requireNonNull(name, "name");
         Objects.requireNonNull(value, "value");
+
+        if (EnvironmentValueName.LOCALE.equals(name)) {
+            LocaleLanguageTag.requireValidLocale((Locale) value);
+        }
 
         if (EnvironmentValueName.NOW.equals(name)) {
             throw name.readOnlyEnvironmentValueException();

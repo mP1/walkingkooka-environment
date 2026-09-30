@@ -381,6 +381,39 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
     }
 
     @Test
+    default void testSetLocaleWithEmptyFails() {
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> this.createContext()
+                .setLocale(
+                    new Locale("")
+                )
+        );
+    }
+
+    @Test
+    default void testSetLocaleWithUndFails() {
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> this.createContext()
+                .setLocale(
+                    new Locale("und")
+                )
+        );
+    }
+
+    @Test
+    default void testSetLocaleWithUndFails2() {
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> this.createContext()
+                .setLocale(
+                    new Locale("UND")
+                )
+        );
+    }
+
+    @Test
     default void testSetLocaleWithDifferent() {
         final C context = this.createContext();
 
