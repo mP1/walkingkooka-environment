@@ -43,7 +43,8 @@ import java.util.Set;
  * A {@link Context} that includes methods to get/set/remove environment values including the locale and the {@link EmailAddress}
  * of the current user.
  */
-public interface EnvironmentContext extends Context,
+public interface EnvironmentContext extends EnvironmentLike,
+    Context,
     BinaryTextContext,
     CanParseEnvironmentValueName,
     HasCurrency,
@@ -92,53 +93,9 @@ public interface EnvironmentContext extends Context,
     EnvironmentContext setEnvironmentContext(final EnvironmentContext context);
 
     /**
-     * Returns the value for the given {@link EnvironmentValueName}.
-     */
-    <T> Optional<T> environmentValue(final EnvironmentValueName<T> name);
-
-    /**
-     * Returns the value for the given {@link EnvironmentValueName} throwing a {@link IllegalArgumentException} if
-     * the value is unknown or missing.
-     */
-    default <T> T environmentValueOrFail(final EnvironmentValueName<T> name) {
-        return this.environmentValue(name)
-            .orElseThrow(name::missingEnvironmentValueException);
-    }
-
-    /**
      * Returns a read-only view of all {@link EnvironmentValueName names}.
      */
     Set<EnvironmentValueName<?>> environmentValueNames();
-
-    /**
-     * Sets or replaces the given environment variable with a new value.
-     */
-    <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
-                                 final T value);
-
-    /**
-     * Accepts an {@link Optional} value calling the {@link #setEnvironmentValue(EnvironmentValueName, Object)} if
-     * a value is present or {@link #removeEnvironmentValue(EnvironmentValueName)} if one is missing.
-     */
-    default <T> void setOrRemoveEnvironmentValue(final EnvironmentValueName<T> name,
-                                                 final Optional<T> value) {
-        Objects.requireNonNull(name, "name");
-        Objects.requireNonNull(value, name.value());
-
-        if (value.isPresent()) {
-            this.setEnvironmentValue(
-                name,
-                value.get()
-            );
-        } else {
-            this.removeEnvironmentValue(name);
-        }
-    }
-
-    /**
-     * Removes the value with the given {@link EnvironmentValueName}.
-     */
-    void removeEnvironmentValue(final EnvironmentValueName<?> name);
 
     /**
      * Sets or replaces the current {@link Charset}
