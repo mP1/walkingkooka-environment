@@ -30,7 +30,6 @@ import walkingkooka.text.BinaryTextContextTesting;
 import walkingkooka.text.HasIndentation;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
-import walkingkooka.text.printer.TreePrintableTesting;
 import walkingkooka.util.HasLocale;
 import walkingkooka.util.HasLocaleTesting;
 
@@ -44,7 +43,8 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public interface EnvironmentContextTesting extends BinaryTextContextTesting,
+public interface EnvironmentContextTesting extends EnvironmentLikeTesting,
+    BinaryTextContextTesting,
     CanParseEnvironmentValueNameTesting,
     HasCurrencyTesting,
     HasEnvironmentTesting,
@@ -52,8 +52,7 @@ public interface EnvironmentContextTesting extends BinaryTextContextTesting,
     HasNowTesting,
     HasTimeOffsetTesting,
     HasUserTesting,
-    LoggingContextTesting,
-    TreePrintableTesting {
+    LoggingContextTesting {
 
     /**
      * A read only {@link EnvironmentContext}. If a mutable copy is required it must be {@link EnvironmentContext#cloneEnvironment()}.
