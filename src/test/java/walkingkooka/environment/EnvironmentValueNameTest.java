@@ -379,7 +379,15 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     // getEnvironmentValue..............................................................................................
 
     @Test
-    public void testGetValue() {
+    public void testGetValueWithEnvironment() {
+        this.checkEquals(
+            EnvironmentValueName.LINE_ENDING.getEnvironmentValue(ENVIRONMENT_CONTEXT.environment()),
+            Optional.of(LINE_ENDING)
+        );
+    }
+
+    @Test
+    public void testGetValueWithEnvironmentContext() {
         this.checkEquals(
             EnvironmentValueName.LINE_ENDING.getEnvironmentValue(ENVIRONMENT_CONTEXT),
             Optional.of(LINE_ENDING)

@@ -55,6 +55,7 @@ import java.util.Set;
  */
 public final class Environment implements BinaryTextContext,
     CanBeEmpty,
+    EnvironmentLike,
     HasCharset,
     HasContentType,
     HasCurrency,
@@ -295,5 +296,12 @@ public final class Environment implements BinaryTextContext,
     @Override
     public Optional<FileExtension> fileExtension() {
         return Optional.of(FILE_EXTENSION);
+    }
+
+    // EnvironmentLike..................................................................................................
+
+    @Override
+    public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
+        return this.get(name);
     }
 }
