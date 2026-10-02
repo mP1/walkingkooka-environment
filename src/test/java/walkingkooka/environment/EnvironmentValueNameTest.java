@@ -31,6 +31,7 @@ import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.util.Currency;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -38,6 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentValueName<String>, EnvironmentValueName<String>>,
     ComparableTesting2<EnvironmentValueName<String>>,
+    EnvironmentContextTesting,
     ThrowableTesting,
     TreePrintableTesting,
     ConstantsTesting<EnvironmentValueName<String>> {
@@ -371,6 +373,16 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
                 value
             ),
             name.setValue(value)
+        );
+    }
+
+    // getEnvironmentValue..............................................................................................
+
+    @Test
+    public void testGetValue() {
+        this.checkEquals(
+            EnvironmentValueName.LINE_ENDING.getEnvironmentValue(ENVIRONMENT_CONTEXT),
+            Optional.of(LINE_ENDING)
         );
     }
 
