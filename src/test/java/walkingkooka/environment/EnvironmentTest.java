@@ -46,6 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Environment>,
     BinaryTextContextTesting,
     CanBeEmptyTesting,
+    EnvironmentLikeTesting,
     PublicClassTesting<Environment>,
     HasContentTypeTesting,
     HasCurrencyTesting,

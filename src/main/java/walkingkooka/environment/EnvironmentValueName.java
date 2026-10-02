@@ -207,9 +207,9 @@ final public class EnvironmentValueName<T> implements Name,
     /**
      * Gets the value for this name.
      */
-    public Optional<T> getEnvironmentValue(final EnvironmentContext context) {
-        Objects.requireNonNull(context, "context");
-        return context.environmentValue(this);
+    public Optional<T> getEnvironmentValue(final EnvironmentLike environmentLike) {
+        Objects.requireNonNull(environmentLike, "environmentLike");
+        return environmentLike.environmentValue(this);
     }
 
     /**
