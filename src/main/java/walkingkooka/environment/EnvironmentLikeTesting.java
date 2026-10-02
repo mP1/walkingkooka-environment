@@ -56,35 +56,6 @@ public interface EnvironmentLikeTesting extends TreePrintableTesting {
         );
     }
 
-    // setEnvironmentValue..............................................................................................
-
-    default <T> void setEnvironmentValueAndCheck(final EnvironmentLike environmentLike,
-                                                 final EnvironmentValueName<T> name,
-                                                 final T value) {
-        environmentLike.setEnvironmentValue(
-            name,
-            value
-        );
-        this.environmentValueAndCheck(
-            environmentLike,
-            name,
-            value
-        );
-    }
-
-    // removeEnvironmentValue...........................................................................................
-
-    default <T> void removeEnvironmentValueAndCheck(final EnvironmentLike environmentLike,
-                                                    final EnvironmentValueName<T> name) {
-        environmentLike.removeEnvironmentValue(
-            name
-        );
-        this.environmentValueAndCheck(
-            environmentLike,
-            name
-        );
-    }
-
     // environmentValueOrFail...........................................................................................
 
     default void environmentValueOrFailAndCheck(final EnvironmentLike environmentLike,

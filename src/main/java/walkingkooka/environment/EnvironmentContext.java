@@ -97,6 +97,37 @@ public interface EnvironmentContext extends EnvironmentLike,
      */
     Set<EnvironmentValueName<?>> environmentValueNames();
 
+
+    /**
+     * Sets or replaces the given environment variable with a new value.
+     */
+    <T> void setEnvironmentValue(final EnvironmentValueName<T> name,
+                                 final T value);
+
+    /**
+     * Accepts an {@link Optional} value calling the {@link #setEnvironmentValue(EnvironmentValueName, Object)} if
+     * a value is present or {@link #removeEnvironmentValue(EnvironmentValueName)} if one is missing.
+     */
+    default <T> void setOrRemoveEnvironmentValue(final EnvironmentValueName<T> name,
+                                                 final Optional<T> value) {
+        Objects.requireNonNull(name, "name");
+        Objects.requireNonNull(value, name.value());
+
+        if (value.isPresent()) {
+            this.setEnvironmentValue(
+                name,
+                value.get()
+            );
+        } else {
+            this.removeEnvironmentValue(name);
+        }
+    }
+
+    /**
+     * Removes the value with the given {@link EnvironmentValueName}.
+     */
+    void removeEnvironmentValue(final EnvironmentValueName<?> name);
+
     /**
      * Sets or replaces the current {@link Charset}
      */
