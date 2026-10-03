@@ -25,7 +25,7 @@ import walkingkooka.convert.Converters;
 import walkingkooka.environment.EnvironmentContextTesting;
 import walkingkooka.environment.EnvironmentValueName;
 
-public final class EnvironmentConverterStringToEnvironmentValueNameTest extends EnvironmentConverterTestCase<EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext>>
+public final class EnvironmentConverterTextToEnvironmentValueNameTest extends EnvironmentConverterTestCase<EnvironmentConverterTextToEnvironmentValueName<FakeEnvironmentConverterContext>>
     implements EnvironmentContextTesting {
 
     @Test
@@ -63,8 +63,8 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest extends 
     }
 
     @Override
-    public EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext> createConverter() {
-        return EnvironmentConverterStringToEnvironmentValueName.instance();
+    public EnvironmentConverterTextToEnvironmentValueName<FakeEnvironmentConverterContext> createConverter() {
+        return EnvironmentConverterTextToEnvironmentValueName.instance();
     }
 
     @Override
@@ -105,13 +105,13 @@ public final class EnvironmentConverterStringToEnvironmentValueNameTest extends 
     @Test
     public void testToString() {
         this.toStringAndCheck(
-            EnvironmentConverterStringToEnvironmentValueName.instance(),
+            EnvironmentConverterTextToEnvironmentValueName.instance(),
             "TEXT to EnvironmentValueName"
         );
     }
 
     @Override
-    public Class<EnvironmentConverterStringToEnvironmentValueName<FakeEnvironmentConverterContext>> type() {
-        return Cast.to(EnvironmentConverterStringToEnvironmentValueName.class);
+    public Class<EnvironmentConverterTextToEnvironmentValueName<FakeEnvironmentConverterContext>> type() {
+        return Cast.to(EnvironmentConverterTextToEnvironmentValueName.class);
     }
 }
