@@ -34,7 +34,7 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.Optional;
 
-public final class EnvironmentConverterStringToEnvironmentTest extends EnvironmentConverterTestCase<EnvironmentConverterStringToEnvironment<FakeEnvironmentConverterContext>>
+public final class EnvironmentConverterTextToEnvironmentTest extends EnvironmentConverterTestCase<EnvironmentConverterTextToEnvironment<FakeEnvironmentConverterContext>>
     implements CurrencyContextTesting,
     EnvironmentContextTesting {
 
@@ -390,8 +390,8 @@ public final class EnvironmentConverterStringToEnvironmentTest extends Environme
     }
 
     @Override
-    public EnvironmentConverterStringToEnvironment<FakeEnvironmentConverterContext> createConverter() {
-        return EnvironmentConverterStringToEnvironment.instance();
+    public EnvironmentConverterTextToEnvironment<FakeEnvironmentConverterContext> createConverter() {
+        return EnvironmentConverterTextToEnvironment.instance();
     }
 
     @Override
@@ -455,7 +455,7 @@ public final class EnvironmentConverterStringToEnvironmentTest extends Environme
     @Test
     public void testToString() {
         this.toStringAndCheck(
-            EnvironmentConverterStringToEnvironment.instance(),
+            EnvironmentConverterTextToEnvironment.instance(),
             "TEXT to Environment"
         );
     }
@@ -463,7 +463,7 @@ public final class EnvironmentConverterStringToEnvironmentTest extends Environme
     // class............................................................................................................
 
     @Override
-    public Class<EnvironmentConverterStringToEnvironment<FakeEnvironmentConverterContext>> type() {
-        return Cast.to(EnvironmentConverterStringToEnvironment.class);
+    public Class<EnvironmentConverterTextToEnvironment<FakeEnvironmentConverterContext>> type() {
+        return Cast.to(EnvironmentConverterTextToEnvironment.class);
     }
 }
