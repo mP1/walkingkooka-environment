@@ -24,20 +24,20 @@ import walkingkooka.environment.EnvironmentValueName;
 /**
  * A converter that converts a {@link String} or text like value into a {@link EnvironmentValueName} using {@link EnvironmentConverterContext#parseEnvironmentValueName(String)}.
  */
-final class EnvironmentConverterStringToEnvironmentValueName<C extends EnvironmentConverterContext> extends EnvironmentConverter<C>
+final class EnvironmentConverterTextToEnvironmentValueName<C extends EnvironmentConverterContext> extends EnvironmentConverter<C>
     implements TextToTryingShortCircuitingConverter<C> {
 
     /**
      * Type-safe getter.
      */
-    static <C extends EnvironmentConverterContext> EnvironmentConverterStringToEnvironmentValueName<C> instance() {
+    static <C extends EnvironmentConverterContext> EnvironmentConverterTextToEnvironmentValueName<C> instance() {
         return Cast.to(INSTANCE);
     }
 
     /**
      * Singleton
      */
-    private final static EnvironmentConverterStringToEnvironmentValueName<?> INSTANCE = new EnvironmentConverterStringToEnvironmentValueName<>();
+    private final static EnvironmentConverterTextToEnvironmentValueName<?> INSTANCE = new EnvironmentConverterTextToEnvironmentValueName<>();
 
 
     @Override
