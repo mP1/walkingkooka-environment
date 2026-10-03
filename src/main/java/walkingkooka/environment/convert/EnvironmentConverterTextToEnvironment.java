@@ -31,20 +31,20 @@ import walkingkooka.text.cursor.TextCursors;
 /**
  * A {@link walkingkooka.convert.Converter} that converts a {@link String} or text like value into a {@link EnvironmentValueName} using {@link EnvironmentConverterContext#parseEnvironmentValueName(String)}.
  */
-final class EnvironmentConverterStringToEnvironment<C extends EnvironmentConverterContext> extends EnvironmentConverter<C>
+final class EnvironmentConverterTextToEnvironment<C extends EnvironmentConverterContext> extends EnvironmentConverter<C>
     implements TextToTryingShortCircuitingConverter<C> {
 
     /**
      * Type-safe getter.
      */
-    static <C extends EnvironmentConverterContext> EnvironmentConverterStringToEnvironment<C> instance() {
+    static <C extends EnvironmentConverterContext> EnvironmentConverterTextToEnvironment<C> instance() {
         return Cast.to(INSTANCE);
     }
 
     /**
      * Singleton
      */
-    private final static EnvironmentConverterStringToEnvironment<?> INSTANCE = new EnvironmentConverterStringToEnvironment<>();
+    private final static EnvironmentConverterTextToEnvironment<?> INSTANCE = new EnvironmentConverterTextToEnvironment<>();
 
     @Override
     public boolean isTargetType(final Object value,
