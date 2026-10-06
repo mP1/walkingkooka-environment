@@ -17,11 +17,62 @@
 
 package walkingkooka.environment.convert;
 
+import org.junit.jupiter.api.Test;
+import walkingkooka.collect.list.Lists;
+import walkingkooka.convert.Converter;
+import walkingkooka.convert.ConverterContext;
+import walkingkooka.convert.Converters;
+import walkingkooka.reflect.MethodAttributes;
 import walkingkooka.reflect.PublicStaticHelperTesting;
+import walkingkooka.text.printer.TreePrintable;
+import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
-public final class EnvironmentConvertersTest implements PublicStaticHelperTesting<EnvironmentConverters> {
+public final class EnvironmentConvertersTest implements PublicStaticHelperTesting<EnvironmentConverters>,
+    TreePrintableTesting {
+
+    @Test
+    public void testConverterCollectionWithAllConvertersPrintTree() throws Exception {
+        final List<Converter<ConverterContext>> converters = Lists.array();
+
+        for (final Method method : EnvironmentConverters.class.getMethods()) {
+            if (false == MethodAttributes.STATIC.is(method)) {
+                continue;
+            }
+
+            if (false == method.getReturnType().equals(Converter.class)) {
+                continue;
+            }
+
+            if (method.getParameterCount() != 0) {
+                continue;
+            }
+
+            if (method.getName().equals("fake")) {
+                continue;
+            }
+
+            converters.add(
+                (Converter<ConverterContext>) method.invoke(null)
+            );
+        }
+
+        converters.sort(
+            (Converter<?> left, Converter<?> right) -> left.toString().compareTo(right.toString())
+        );
+
+        this.treePrintAndCheck(
+            (TreePrintable) Converters.collection(converters),
+            "ConverterCollection\n" +
+                "  Environment to Binary (walkingkooka.environment.convert.EnvironmentConverterEnvironmentToBinary)\n" +
+                "  Environment to TEXT (walkingkooka.environment.convert.EnvironmentConverterEnvironmentToString)\n" +
+                "  TEXT to Environment (walkingkooka.environment.convert.EnvironmentConverterTextToEnvironment)\n" +
+                "  TEXT to EnvironmentValueName (walkingkooka.environment.convert.EnvironmentConverterTextToEnvironmentValueName)\n" +
+                "  to Environment (walkingkooka.environment.convert.EnvironmentConverterToEnvironment)\n"
+        );
+    }
 
     // class............................................................................................................
 
