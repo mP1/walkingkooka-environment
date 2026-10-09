@@ -86,7 +86,7 @@ public interface EnvironmentContextTesting extends EnvironmentLikeTesting,
             DIFFERENT_LOCALE,
             DIFFERENT_LOGGING_LEVEL,
             HAS_NOW,
-            Optional.of(DIFFERENT_USER)
+            OPTIONAL_DIFFERENT_USER
         )
     );
 
