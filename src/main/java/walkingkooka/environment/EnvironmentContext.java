@@ -42,6 +42,19 @@ import java.util.Set;
 /**
  * A {@link Context} that includes methods to get/set/remove environment values including the locale and the {@link EmailAddress}
  * of the current user.
+ * <br>
+ * The following {@link EnvironmentValueName} are supported by {@link #parseEnvironmentValueName(String)}.
+ * <ul>
+ *     <li>{@link #CHARSET}</li>
+ *     <li>{@link #CURRENCY}</li>
+ *     <li>{@link #INDENTATION}</li>
+ *     <li>{@link #LINE_ENDING}</li>
+ *     <li>{@link #LOCALE}</li>
+ *     <li>{@link #LOGGING_LEVEL}</li>
+ *     <li>{@link #NOW}</li>
+ *     <li>{@link #TIME_OFFSET}</li>
+ *     <li>{@link #USER}</li>
+ * </ul>
  */
 public interface EnvironmentContext extends EnvironmentLike,
     Context,
