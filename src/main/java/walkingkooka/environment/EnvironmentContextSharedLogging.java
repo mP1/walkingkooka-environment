@@ -27,7 +27,16 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 /**
- * Wraps another {@link EnvironmentContext} and logs all operations inputs and outputs.
+ * A {@link EnvironmentContext} that wraps another and logs a few key methods, because most other eventually forward
+ * to these:
+ * <ul>
+ *     <li>{@link #environmentValue(EnvironmentValueName)}</li>
+ *     <li>{@link #removeEnvironmentValue(EnvironmentValueName)}</li>
+ *     <li>{@link #setEnvironmentValue(EnvironmentValueName, Object)}<li>
+ *     <li>{@link #environmentValueNames()}</li>
+ *     <li>{@link #addEnvironmentWatcher(EnvironmentWatcher)}</li>
+ *     <li>{@link #addEnvironmentWatcherOnce(EnvironmentWatcher)}</li>
+ * </ul>
  */
 final class EnvironmentContextSharedLogging extends EnvironmentContextShared
     implements EnvironmentContextDelegator {
