@@ -43,42 +43,42 @@ public interface CanParseEnvironmentValueNameTesting2<C extends CanParseEnvironm
 
     @Test
     default void testParseEnvironmentValueNameWithCharset() {
-        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.CHARSET);
+        this.parseEnvironmentValueNameAndCachedCheck(EnvironmentValueName.CHARSET);
     }
 
     @Test
     default void testParseEnvironmentValueNameWithCurrency() {
-        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.CURRENCY);
+        this.parseEnvironmentValueNameAndCachedCheck(EnvironmentValueName.CURRENCY);
     }
 
     @Test
     default void testParseEnvironmentValueNameWithIndentation() {
-        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.INDENTATION);
+        this.parseEnvironmentValueNameAndCachedCheck(EnvironmentValueName.INDENTATION);
     }
 
     @Test
     default void testParseEnvironmentValueNameWithLineEnding() {
-        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.LINE_ENDING);
+        this.parseEnvironmentValueNameAndCachedCheck(EnvironmentValueName.LINE_ENDING);
     }
 
     @Test
     default void testParseEnvironmentValueNameWithLocale() {
-        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.LOCALE);
+        this.parseEnvironmentValueNameAndCachedCheck(EnvironmentValueName.LOCALE);
     }
 
     @Test
     default void testParseEnvironmentValueNameWithNow() {
-        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.NOW);
+        this.parseEnvironmentValueNameAndCachedCheck(EnvironmentValueName.NOW);
     }
 
     @Test
     default void testParseEnvironmentValueNameWithTimeOffset() {
-        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.TIME_OFFSET);
+        this.parseEnvironmentValueNameAndCachedCheck(EnvironmentValueName.TIME_OFFSET);
     }
 
     @Test
     default void testParseEnvironmentValueNameWithUser() {
-        this.parseEnvironmentValueNameAndCheck(EnvironmentValueName.USER);
+        this.parseEnvironmentValueNameAndCachedCheck(EnvironmentValueName.USER);
     }
 
     default void parseEnvironmentValueNameAndCheck(final EnvironmentValueName<?> expected) {
