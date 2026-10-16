@@ -17,7 +17,10 @@
 
 package walkingkooka.environment;
 
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.printer.TreePrintableTesting;
+
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public interface CanParseEnvironmentValueNameTesting extends TreePrintableTesting {
 
@@ -50,6 +53,31 @@ public interface CanParseEnvironmentValueNameTesting extends TreePrintableTestin
             expected,
             can.parseEnvironmentValueName(name),
             name
+        );
+    }
+
+    default void parseEnvironmentValueNameAndCachedCheck(final CanParseEnvironmentValueName can,
+                                                         final EnvironmentValueName<?> expected) {
+        this.parseEnvironmentValueNameAndCachedCheck(
+            can,
+            expected.value(),
+            expected
+        );
+    }
+
+    default void parseEnvironmentValueNameAndCachedCheck(final CanParseEnvironmentValueName can,
+                                                   final String name,
+                                                   final EnvironmentValueName<?> expected) {
+        this.parseEnvironmentValueNameAndCheck(
+            can,
+            name,
+            expected
+        );
+
+        assertSame(
+            can.parseEnvironmentValueName(name),
+            can.parseEnvironmentValueName(name),
+            () -> "parseEnvironmentValueName " + CharSequences.quoteIfChars(name) + " not cached"
         );
     }
 }
