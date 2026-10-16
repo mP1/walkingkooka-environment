@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.logging.CanLog;
 import walkingkooka.logging.CanLogs;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.text.printer.Printers;
@@ -142,7 +143,7 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
    }
 
     @Test
-    public void testGetEnvironmentValue() {
+    public void testGetEnvironmentValueWithNotLoggingLevel() {
         final StringBuilder b = new StringBuilder();
 
         this.environmentValueAndCheck(
@@ -154,6 +155,17 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
         this.checkEquals(
             "environment INFO get lineEnding=\"\\n\"\n",
             b.toString()
+        );
+    }
+
+    @Test
+    public void testGetEnvironmentValueWithLoggingLevel() {
+        this.environmentValueAndCheck(
+            this.createContext(
+                CanLogs.fake()
+            ),
+            EnvironmentValueName.LOGGING_LEVEL,
+            LOGGING_LEVEL
         );
     }
     
@@ -331,14 +343,20 @@ public final class EnvironmentContextSharedLoggingTest extends EnvironmentContex
     }
 
     private EnvironmentContextSharedLogging createContext(final StringBuilder logging) {
+        return this.createContext(
+            CanLogs.printer(
+                Printers.stringBuilder(
+                    logging,
+                    LINE_ENDING
+                )
+            )
+        );
+    }
+
+    private EnvironmentContextSharedLogging createContext(final CanLog canLog) {
         return EnvironmentContextSharedLogging.with(
             EnvironmentContexts.map(
-                CanLogs.printer(
-                    Printers.stringBuilder(
-                        logging,
-                        LINE_ENDING
-                    )
-                ),
+                canLog,
                 CHARSET,
                 CURRENCY,
                 INDENTATION,
