@@ -66,8 +66,8 @@ public interface CanParseEnvironmentValueNameTesting extends TreePrintableTestin
     }
 
     default void parseEnvironmentValueNameAndCachedCheck(final CanParseEnvironmentValueName can,
-                                                   final String name,
-                                                   final EnvironmentValueName<?> expected) {
+                                                         final String name,
+                                                         final EnvironmentValueName<?> expected) {
         this.parseEnvironmentValueNameAndCheck(
             can,
             name,
