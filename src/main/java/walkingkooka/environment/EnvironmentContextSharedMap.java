@@ -47,6 +47,9 @@ import java.util.Set;
 
 /**
  * A {@link EnvironmentContext} that uses a {@link Map} to hold values.
+ * <br>
+ * Only mutator methods {@link #setEnvironmentValue(EnvironmentValueName, Object)} and {@link #removeEnvironmentValue(EnvironmentValueName)}
+ * log {@link LoggingLevel#DEBUG} messages. None of the other methods log.
  */
 final class EnvironmentContextSharedMap extends EnvironmentContextShared
     implements HasEnvironmentWatchers,
