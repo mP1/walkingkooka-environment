@@ -37,6 +37,7 @@ import java.util.function.Supplier;
  *     <li>{@link #addEnvironmentWatcher(EnvironmentWatcher)}</li>
  *     <li>{@link #addEnvironmentWatcherOnce(EnvironmentWatcher)}</li>
  * </ul>
+ * Note getting a {@link #LOGGING_LEVEL} never logs because the log would get filled with many logging level tests.
  */
 final class EnvironmentContextSharedLogging extends EnvironmentContextShared
     implements EnvironmentContextDelegator {
@@ -79,16 +80,21 @@ final class EnvironmentContextSharedLogging extends EnvironmentContextShared
 
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
-        return this.logEnterAndExitEnvironment(
-            () -> {
-                final Optional<T> value = this.context.environmentValue(name);
-                if (this.isInfoEnabled()) {
-                    // get CHARSET = "UTF-8"
-                    this.info("get " + name + "=" + CharSequences.quoteIfChars(value.orElse(null)));
+        Objects.requireNonNull(name, "name");
+
+        // never log LOGGING_LEVEL gets
+        return LOGGING_LEVEL.equals(name) ?
+            this.context.environmentValue(name) :
+            this.logEnterAndExitEnvironment(
+                () -> {
+                    final Optional<T> value = this.context.environmentValue(name);
+                    if (this.isInfoEnabled()) {
+                        // get CHARSET = "UTF-8"
+                        this.info("get " + name + "=" + CharSequences.quoteIfChars(value.orElse(null)));
+                    }
+                    return value;
                 }
-                return value;
-            }
-        );
+            );
     }
 
     @Override
