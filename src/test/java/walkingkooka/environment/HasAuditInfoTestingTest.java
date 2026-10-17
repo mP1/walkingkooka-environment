@@ -22,6 +22,46 @@ import org.junit.jupiter.api.Test;
 public final class HasAuditInfoTestingTest implements HasAuditInfoTesting {
 
     @Test
+    public void testConstantsDifferent() {
+        this.checkNotEquals(
+            AUDIT_INFO,
+            DIFFERENT_AUDIT_INFO
+        );
+    }
+
+    @Test
+    public void testConstantsDifferentCreatedBy() {
+        this.checkNotEquals(
+            AUDIT_INFO.createdBy(),
+            DIFFERENT_AUDIT_INFO.createdBy()
+        );
+    }
+
+    @Test
+    public void testConstantsDifferentCreateTimestamp() {
+        this.checkNotEquals(
+            AUDIT_INFO.createdTimestamp(),
+            DIFFERENT_AUDIT_INFO.createdTimestamp()
+        );
+    }
+
+    @Test
+    public void testConstantsDifferentModifiedBy() {
+        this.checkNotEquals(
+            AUDIT_INFO.modifiedBy(),
+            DIFFERENT_AUDIT_INFO.modifiedBy()
+        );
+    }
+
+    @Test
+    public void testConstantsDifferentModifiedTimestamp() {
+        this.checkNotEquals(
+            AUDIT_INFO.modifiedTimestamp(),
+            DIFFERENT_AUDIT_INFO.modifiedTimestamp()
+        );
+    }
+
+    @Test
     public void testAuditInfoAndCheck() {
         this.auditInfoAndCheck(
             HAS_AUDIT_INFO,
