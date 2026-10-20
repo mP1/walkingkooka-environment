@@ -17,18 +17,12 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PackagePrivateClassTesting;
 
-public final class EnvironmentContextSharedPrefixedEnvironmentWatcherTest implements ClassTesting<EnvironmentContextSharedPrefixedEnvironmentWatcher> {
+public final class EnvironmentContextSharedPrefixedEnvironmentWatcherTest implements PackagePrivateClassTesting<EnvironmentContextSharedPrefixedEnvironmentWatcher> {
 
     @Override
     public Class<EnvironmentContextSharedPrefixedEnvironmentWatcher> type() {
         return EnvironmentContextSharedPrefixedEnvironmentWatcher.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PACKAGE_PRIVATE;
     }
 }

@@ -23,8 +23,7 @@ import walkingkooka.datetime.HasLastModifiedTesting;
 import walkingkooka.net.email.EmailAddress;
 import walkingkooka.props.HasPropertiesTesting;
 import walkingkooka.props.Properties;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.reflect.ThrowableTesting;
 import walkingkooka.text.printer.TreePrintableTesting;
 
@@ -37,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class AuditInfoTest implements HasLastModifiedTesting,
     HasPropertiesTesting,
     HashCodeEqualsDefinedTesting2<AuditInfo>,
-    ClassTesting2<AuditInfo>,
+    PublicClassTesting<AuditInfo>,
     ThrowableTesting,
     TreePrintableTesting {
 
@@ -548,10 +547,5 @@ public final class AuditInfoTest implements HasLastModifiedTesting,
     @Override
     public Class<AuditInfo> type() {
         return AuditInfo.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }

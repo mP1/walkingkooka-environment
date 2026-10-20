@@ -17,14 +17,9 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PackagePrivateClassTesting;
 
-public final class EnvironmentContextSharedTest implements ClassTesting<EnvironmentContextShared> {
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PACKAGE_PRIVATE;
-    }
+public final class EnvironmentContextSharedTest implements PackagePrivateClassTesting<EnvironmentContextShared> {
 
     @Override
     public Class<EnvironmentContextShared> type() {

@@ -20,8 +20,7 @@ package walkingkooka.environment;
 import walkingkooka.logging.FakeLoggingContext;
 import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.email.EmailAddress;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
@@ -33,7 +32,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
-public final class HasEnvironmentWatchersTest implements ClassTesting2<HasEnvironmentWatchers> {
+public final class HasEnvironmentWatchersTest implements PublicClassTesting<HasEnvironmentWatchers> {
 
     final static class TestHasEnvironmentWatchers extends FakeLoggingContext
         implements HasEnvironmentWatchers {
@@ -170,10 +169,5 @@ public final class HasEnvironmentWatchersTest implements ClassTesting2<HasEnviro
     @Override
     public Class<HasEnvironmentWatchers> type() {
         return HasEnvironmentWatchers.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }

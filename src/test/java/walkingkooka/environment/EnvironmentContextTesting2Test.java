@@ -20,12 +20,11 @@ package walkingkooka.environment;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 
 import java.util.Locale;
 
-public final class EnvironmentContextTesting2Test implements ClassTesting2<EnvironmentContextTesting2<?>> {
+public final class EnvironmentContextTesting2Test implements PublicClassTesting<EnvironmentContextTesting2<?>> {
 
     @Test
     public void testEnvironmentValueNameConstantsKebabCaseIgnoresNonEnvironmentValueName() throws Exception {
@@ -157,10 +156,5 @@ public final class EnvironmentContextTesting2Test implements ClassTesting2<Envir
     @Override
     public Class<EnvironmentContextTesting2<?>> type() {
         return Cast.to(EnvironmentContextTesting2.class);
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }
