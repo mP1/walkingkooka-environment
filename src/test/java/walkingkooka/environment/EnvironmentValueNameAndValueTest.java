@@ -23,8 +23,7 @@ import walkingkooka.HasValueTesting;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.naming.HasNameTesting;
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.text.LineEnding;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -35,7 +34,7 @@ public final class EnvironmentValueNameAndValueTest implements HasNameTesting,
     HasValueTesting,
     HashCodeEqualsDefinedTesting2<EnvironmentValueNameAndValue<LineEnding>>,
     ToStringTesting<EnvironmentValueNameAndValue<LineEnding>>,
-    ClassTesting<EnvironmentValueNameAndValue<LineEnding>> {
+    PublicClassTesting<EnvironmentValueNameAndValue<LineEnding>> {
 
 
     private final static EnvironmentValueName<LineEnding> NAME = EnvironmentValueName.LINE_ENDING;
@@ -185,10 +184,5 @@ public final class EnvironmentValueNameAndValueTest implements HasNameTesting,
     @Override
     public Class<EnvironmentValueNameAndValue<LineEnding>> type() {
         return Cast.to(EnvironmentValueNameAndValue.class);
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }

@@ -18,15 +18,14 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 
 import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWatchers> {
+public final class EnvironmentWatchersTest implements PublicClassTesting<EnvironmentWatchers> {
 
     @Test
     public void testAddWithNullFails() {
@@ -164,15 +163,10 @@ public final class EnvironmentWatchersTest implements ClassTesting<EnvironmentWa
 
     private boolean fired = false;
 
-    // ClassTesting....................................................................................................
+    // Class............................................................................................................
 
     @Override
     public Class<EnvironmentWatchers> type() {
         return EnvironmentWatchers.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }

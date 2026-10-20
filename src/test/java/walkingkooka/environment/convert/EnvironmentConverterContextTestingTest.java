@@ -17,20 +17,14 @@
 
 package walkingkooka.environment.convert;
 
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 
 public final class EnvironmentConverterContextTestingTest implements EnvironmentConverterContextTesting,
-    ClassTesting<EnvironmentConverterContext> {
+    PublicClassTesting<EnvironmentConverterContext> {
 
     @Override
     public Class<EnvironmentConverterContext> type() {
         return EnvironmentConverterContext.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 
     @Override

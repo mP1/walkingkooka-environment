@@ -20,15 +20,14 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.set.Sets;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 
 import java.util.Set;
 
 public final class EnvironmentContextMissingValuesTest implements EnvironmentContextTesting,
     HashCodeEqualsDefinedTesting2<EnvironmentContextMissingValues>,
     ToStringTesting<EnvironmentContextMissingValues>,
-    ClassTesting2<EnvironmentContextMissingValues> {
+    PublicClassTesting<EnvironmentContextMissingValues> {
 
     @Test
     public void testMissingWhenOne() {
@@ -185,10 +184,5 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
     @Override
     public Class<EnvironmentContextMissingValues> type() {
         return EnvironmentContextMissingValues.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }

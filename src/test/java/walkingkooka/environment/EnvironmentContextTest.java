@@ -23,8 +23,7 @@ import walkingkooka.currency.CurrencyLocaleContextTesting;
 import walkingkooka.datetime.DateTimeContextTesting;
 import walkingkooka.logging.LoggingContextTesting;
 import walkingkooka.net.email.EmailAddress;
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.reflect.ThrowableTesting;
 import walkingkooka.text.BinaryTextContextTesting;
 
@@ -33,7 +32,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentContextTest implements ClassTesting<EnvironmentContext>,
+public final class EnvironmentContextTest implements PublicClassTesting<EnvironmentContext>,
     BinaryTextContextTesting,
     CurrencyLocaleContextTesting,
     DateTimeContextTesting,
@@ -138,10 +137,5 @@ public final class EnvironmentContextTest implements ClassTesting<EnvironmentCon
     @Override
     public Class<EnvironmentContext> type() {
         return EnvironmentContext.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }

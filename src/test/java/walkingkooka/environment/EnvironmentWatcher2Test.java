@@ -18,15 +18,14 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 
 import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentWatcher2Test implements ClassTesting2<EnvironmentWatcher2> {
+public final class EnvironmentWatcher2Test implements PublicClassTesting<EnvironmentWatcher2> {
 
     // onValueChange....................................................................................................
 
@@ -189,10 +188,5 @@ public final class EnvironmentWatcher2Test implements ClassTesting2<EnvironmentW
     @Override
     public Class<EnvironmentWatcher2> type() {
         return EnvironmentWatcher2.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }

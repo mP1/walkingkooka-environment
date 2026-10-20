@@ -18,18 +18,12 @@
 package walkingkooka.environment;
 
 import walkingkooka.Cast;
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PackagePrivateClassTesting;
 
-public final class EnvironmentContextSharedMapValueTest implements ClassTesting<EnvironmentContextSharedMapValue<?>> {
+public final class EnvironmentContextSharedMapValueTest implements PackagePrivateClassTesting<EnvironmentContextSharedMapValue<?>> {
 
     @Override
     public Class<EnvironmentContextSharedMapValue<?>> type() {
         return Cast.to(EnvironmentContextSharedMapValue.class);
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PACKAGE_PRIVATE;
     }
 }

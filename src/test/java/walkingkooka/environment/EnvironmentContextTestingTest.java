@@ -18,10 +18,9 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 
-public final class EnvironmentContextTestingTest implements ClassTesting<EnvironmentContextTesting> {
+public final class EnvironmentContextTestingTest implements PublicClassTesting<EnvironmentContextTesting> {
 
     @Test
     public void testEnvironmentContextCloneEnvironmentNotReadOnly() {
@@ -43,10 +42,5 @@ public final class EnvironmentContextTestingTest implements ClassTesting<Environ
     @Override
     public Class<EnvironmentContextTesting> type() {
         return EnvironmentContextTesting.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }

@@ -17,18 +17,12 @@
 
 package walkingkooka.environment;
 
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PackagePrivateClassTesting;
 
-public final class EnvironmentValueNameSetParserTest implements ClassTesting<EnvironmentValueNameSetParser> {
+public final class EnvironmentValueNameSetParserTest implements PackagePrivateClassTesting<EnvironmentValueNameSetParser> {
 
     @Override
     public Class<EnvironmentValueNameSetParser> type() {
         return EnvironmentValueNameSetParser.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PACKAGE_PRIVATE;
     }
 }
