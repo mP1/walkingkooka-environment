@@ -262,7 +262,7 @@ public interface EnvironmentContext extends EnvironmentLike,
 
         for (final EnvironmentValueName<?> name : this.environmentValueNames()) {
             final Object valueOrNull = environmentValue(name)
-                .orElseThrow(null);
+                .orElse(null);
 
             if (null != valueOrNull) {
                 environment = environment.set(
