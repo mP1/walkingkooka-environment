@@ -256,6 +256,10 @@ public interface EnvironmentContext extends EnvironmentLike,
 
     // HasEnvironment...................................................................................................
 
+    /**
+     * Uses the {@link #environmentValueNames()} as the source of {@link EnvironmentValueName}, copy each non null value
+     * to the returned {@link Environment}.
+     */
     @Override
     default Environment environment() {
         Environment environment = Environment.empty();
