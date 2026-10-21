@@ -19,6 +19,7 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.HasCharsetTesting;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.currency.CurrencyLocaleContextTesting;
 import walkingkooka.datetime.DateTimeContextTesting;
 import walkingkooka.logging.LoggingContextTesting;
@@ -29,6 +30,7 @@ import walkingkooka.text.BinaryTextContextTesting;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -39,6 +41,24 @@ public final class EnvironmentContextTest implements PublicClassTesting<Environm
     HasCharsetTesting,
     LoggingContextTesting,
     ThrowableTesting {
+
+    // environment......................................................................................................
+
+    @Test
+    public void testEnvironmentWithMissingValue() {
+        new FakeEnvironmentContext() {
+
+            @Override
+            public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
+                return Optional.empty();
+            }
+
+            @Override
+            public Set<EnvironmentValueName<?>> environmentValueNames() {
+                return Sets.of(LINE_ENDING);
+            }
+        }.environment();
+    }
 
     // environmentValueOrFail...........................................................................................
 
