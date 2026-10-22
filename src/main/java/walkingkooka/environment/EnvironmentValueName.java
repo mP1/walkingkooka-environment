@@ -269,6 +269,21 @@ final public class EnvironmentValueName<T> implements Name,
         return Cast.to(value);
     }
 
+    /**
+     * Helper that returns true if this {@link EnvironmentValueName} begins with the given prefix.
+     */
+    public boolean startsWith(final String prefix) {
+        CharSequences.failIfNullOrEmpty(prefix, "prefix");
+
+        final String name = this.name;
+
+        return name.length() > prefix.length() &&
+            CASE_SENSITIVITY.startsWith(
+                name,
+                prefix
+            );
+    }
+
     // Comparable........................................................................................................
 
     @Override

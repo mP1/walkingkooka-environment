@@ -26,6 +26,7 @@ import walkingkooka.naming.NameTesting2;
 import walkingkooka.reflect.ConstantsTesting;
 import walkingkooka.reflect.ThrowableTesting;
 import walkingkooka.text.CaseSensitivity;
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.TreePrintableTesting;
 
@@ -391,6 +392,81 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
         this.checkEquals(
             EnvironmentValueName.LINE_ENDING.getEnvironmentValue(ENVIRONMENT_CONTEXT),
             Optional.of(LINE_ENDING)
+        );
+    }
+
+    // startsWith.......................................................................................................
+
+    @Test
+    public void testStartsWithNullFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> EnvironmentValueName.USER.startsWith(null)
+        );
+    }
+
+    @Test
+    public void testStartsWithEmptyStringFails() {
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> EnvironmentValueName.USER.startsWith("")
+        );
+    }
+
+    @Test
+    public void testStartsWithSame() {
+        this.startsWithAndCheck(
+            EnvironmentValueName.LOCALE,
+            "locale",
+            false
+        );
+    }
+
+    @Test
+    public void testStartsWithTrue() {
+        final String prefix = "hello.";
+
+        this.startsWithAndCheck(
+            EnvironmentValueName.with(
+                prefix + "world",
+                String.class
+            ),
+            prefix,
+            true
+        );
+    }
+
+    @Test
+    public void testStartsWithFalse() {
+        this.startsWithAndCheck(
+            EnvironmentValueName.with(
+                "prefix.world",
+                String.class
+            ),
+            "different",
+            false
+        );
+    }
+
+    @Test
+    public void testStartsWithFalse2() {
+        this.startsWithAndCheck(
+            EnvironmentValueName.with(
+                "prefix",
+                String.class
+            ),
+            "prefix.111",
+            false
+        );
+    }
+
+    private void startsWithAndCheck(final EnvironmentValueName<?> name,
+                                    final String prefix,
+                                    final boolean expected) {
+        this.checkEquals(
+            expected,
+            name.startsWith(prefix),
+            () -> name + " startsWith " + CharSequences.quoteAndEscape(prefix)
         );
     }
 
