@@ -38,8 +38,8 @@ public interface CanParseEnvironmentValueNameTesting extends TreePrintableTestin
         }
     };
 
-    default void parseEnvironmentValueNameAndCheck(final CanParseEnvironmentValueName can,
-                                                   final String environmentValueName) {
+    default EnvironmentValueName<?> parseEnvironmentValueNameAndCheck(final CanParseEnvironmentValueName can,
+                                                                      final String environmentValueName) {
         final EnvironmentValueName<?> expected = can.parseEnvironmentValueName(environmentValueName);
         if (false == EnvironmentValueName.CASE_SENSITIVITY.equals(environmentValueName, expected.value())) {
             throw new AssertionFailedError(
@@ -48,6 +48,7 @@ public interface CanParseEnvironmentValueNameTesting extends TreePrintableTestin
                 expected.value()
             );
         }
+        return expected;
     }
 
     default void parseEnvironmentValueNameAndCheck(final CanParseEnvironmentValueName can,
@@ -66,6 +67,18 @@ public interface CanParseEnvironmentValueNameTesting extends TreePrintableTestin
             expected,
             can.parseEnvironmentValueName(name),
             name
+        );
+    }
+
+    default void parseEnvironmentValueNameAndCachedCheck(final CanParseEnvironmentValueName can,
+                                                         final String environmentValueName) {
+        this.parseEnvironmentValueNameAndCachedCheck(
+            can,
+            environmentValueName,
+            this.parseEnvironmentValueNameAndCheck(
+                can,
+                environmentValueName
+            )
         );
     }
 

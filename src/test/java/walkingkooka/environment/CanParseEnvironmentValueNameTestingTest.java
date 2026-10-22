@@ -93,6 +93,75 @@ public final class CanParseEnvironmentValueNameTestingTest implements CanParseEn
         );
     }
 
+    @Test
+    public void testParseEnvironmentValueNameAndCachedCheckStringFail() {
+        boolean failed;
+
+        try {
+            this.parseEnvironmentValueNameAndCachedCheck(
+                EnvironmentContextSharedMap.with(
+                    CAN_LOG,
+                    CHARSET,
+                    CURRENCY,
+                    INDENTATION,
+                    LINE_ENDING,
+                    LOCALE,
+                    LOGGING_LEVEL,
+                    HAS_NOW,
+                    EnvironmentContext.ANONYMOUS
+                ),
+                "lineEnding",
+                EnvironmentValueName.INDENTATION
+            );
+            failed = false;
+        } catch (final AssertionError e) {
+            failed = true;
+        }
+
+        this.checkEquals(
+            true,
+            failed
+        );
+    }
+
+    @Test
+    public void testParseEnvironmentValueNameAndCachedCheckString() {
+        this.parseEnvironmentValueNameAndCachedCheck(
+            EnvironmentContextSharedMap.with(
+                CAN_LOG,
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                LOGGING_LEVEL,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            "lineEnding",
+            EnvironmentValueName.LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testParseEnvironmentValueNameAndCachedCheckStringDifferentCase() {
+        this.parseEnvironmentValueNameAndCachedCheck(
+            EnvironmentContextSharedMap.with(
+                CAN_LOG,
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                LOGGING_LEVEL,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            "LINEENDING",
+            EnvironmentValueName.LINE_ENDING
+        );
+    }
+
     @Override
     public Class<CanParseEnvironmentValueNameTesting> type() {
         return CanParseEnvironmentValueNameTesting.class;
