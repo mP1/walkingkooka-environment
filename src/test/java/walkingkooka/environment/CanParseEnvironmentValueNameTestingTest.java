@@ -17,9 +17,31 @@
 
 package walkingkooka.environment;
 
+import org.junit.jupiter.api.Test;
 import walkingkooka.reflect.PublicClassTesting;
 
-public final class CanParseEnvironmentValueNameTestingTest implements PublicClassTesting<CanParseEnvironmentValueNameTesting> {
+public final class CanParseEnvironmentValueNameTestingTest implements CanParseEnvironmentValueNameTesting,
+    PublicClassTesting<CanParseEnvironmentValueNameTesting>,
+    EnvironmentContextTesting {
+
+    @Test
+    public void testParseEnvironmentValueNameAndCheckString() {
+        this.parseEnvironmentValueNameAndCheck(
+            EnvironmentContextSharedMap.with(
+                CAN_LOG,
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                LOGGING_LEVEL,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            "lineEnding",
+            EnvironmentValueName.LINE_ENDING
+        );
+    }
 
     @Override
     public Class<CanParseEnvironmentValueNameTesting> type() {
