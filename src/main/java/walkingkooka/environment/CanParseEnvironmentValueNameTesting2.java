@@ -104,10 +104,12 @@ public interface CanParseEnvironmentValueNameTesting2<C extends CanParseEnvironm
         );
     }
 
-    default void parseEnvironmentValueNameAndCachedCheck(final String expected) {
+    default void parseEnvironmentValueNameAndCachedCheck(final String name,
+                                                         final Class<?> type) {
         this.parseEnvironmentValueNameAndCachedCheck(
             this.createCanParseEnvironmentValueName(),
-            expected
+            name,
+            type
         );
     }
 

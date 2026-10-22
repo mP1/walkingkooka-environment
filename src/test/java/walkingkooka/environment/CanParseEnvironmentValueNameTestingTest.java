@@ -19,6 +19,7 @@ package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.reflect.PublicClassTesting;
+import walkingkooka.text.LineEnding;
 
 public final class CanParseEnvironmentValueNameTestingTest implements CanParseEnvironmentValueNameTesting,
     PublicClassTesting<CanParseEnvironmentValueNameTesting>,
@@ -125,6 +126,37 @@ public final class CanParseEnvironmentValueNameTestingTest implements CanParseEn
     }
 
     @Test
+    public void testParseEnvironmentValueNameAndCachedCheckStringClassFail() {
+        boolean failed;
+
+        try {
+            this.parseEnvironmentValueNameAndCachedCheck(
+                EnvironmentContextSharedMap.with(
+                    CAN_LOG,
+                    CHARSET,
+                    CURRENCY,
+                    INDENTATION,
+                    LINE_ENDING,
+                    LOCALE,
+                    LOGGING_LEVEL,
+                    HAS_NOW,
+                    EnvironmentContext.ANONYMOUS
+                ),
+                "lineEnding",
+                Integer.class
+            );
+            failed = false;
+        } catch (final AssertionError e) {
+            failed = true;
+        }
+
+        this.checkEquals(
+            true,
+            failed
+        );
+    }
+
+    @Test
     public void testParseEnvironmentValueNameAndCachedCheckString() {
         this.parseEnvironmentValueNameAndCachedCheck(
             EnvironmentContextSharedMap.with(
@@ -139,7 +171,7 @@ public final class CanParseEnvironmentValueNameTestingTest implements CanParseEn
                 EnvironmentContext.ANONYMOUS
             ),
             "lineEnding",
-            EnvironmentValueName.LINE_ENDING
+            LineEnding.class
         );
     }
 
@@ -158,7 +190,7 @@ public final class CanParseEnvironmentValueNameTestingTest implements CanParseEn
                 EnvironmentContext.ANONYMOUS
             ),
             "LINEENDING",
-            EnvironmentValueName.LINE_ENDING
+            LineEnding.class
         );
     }
 
