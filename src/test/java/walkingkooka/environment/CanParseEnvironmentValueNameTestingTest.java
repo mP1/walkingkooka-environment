@@ -25,6 +25,37 @@ public final class CanParseEnvironmentValueNameTestingTest implements CanParseEn
     EnvironmentContextTesting {
 
     @Test
+    public void testParseEnvironmentValueNameAndCheckStringFail() {
+        boolean failed;
+
+        try {
+            this.parseEnvironmentValueNameAndCheck(
+                EnvironmentContextSharedMap.with(
+                    CAN_LOG,
+                    CHARSET,
+                    CURRENCY,
+                    INDENTATION,
+                    LINE_ENDING,
+                    LOCALE,
+                    LOGGING_LEVEL,
+                    HAS_NOW,
+                    EnvironmentContext.ANONYMOUS
+                ),
+                "lineEnding",
+                EnvironmentValueName.INDENTATION
+            );
+            failed = false;
+        } catch (final AssertionError e) {
+            failed = true;
+        }
+
+        this.checkEquals(
+            true,
+            failed
+        );
+    }
+
+    @Test
     public void testParseEnvironmentValueNameAndCheckString() {
         this.parseEnvironmentValueNameAndCheck(
             EnvironmentContextSharedMap.with(
@@ -39,6 +70,25 @@ public final class CanParseEnvironmentValueNameTestingTest implements CanParseEn
                 EnvironmentContext.ANONYMOUS
             ),
             "lineEnding",
+            EnvironmentValueName.LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testParseEnvironmentValueNameAndCheckStringDifferentCase() {
+        this.parseEnvironmentValueNameAndCheck(
+            EnvironmentContextSharedMap.with(
+                CAN_LOG,
+                CHARSET,
+                CURRENCY,
+                INDENTATION,
+                LINE_ENDING,
+                LOCALE,
+                LOGGING_LEVEL,
+                HAS_NOW,
+                EnvironmentContext.ANONYMOUS
+            ),
+            "LINEENDING",
             EnvironmentValueName.LINE_ENDING
         );
     }

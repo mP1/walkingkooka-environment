@@ -17,6 +17,7 @@
 
 package walkingkooka.environment;
 
+import org.opentest4j.AssertionFailedError;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.printer.TreePrintableTesting;
 
@@ -38,12 +39,15 @@ public interface CanParseEnvironmentValueNameTesting extends TreePrintableTestin
     };
 
     default void parseEnvironmentValueNameAndCheck(final CanParseEnvironmentValueName can,
-                                                   final String expected) {
-        final EnvironmentValueName<?> environmentValueName = can.parseEnvironmentValueName(expected);
-        this.checkEquals(
-            expected,
-            environmentValueName.value()
-        );
+                                                   final String environmentValueName) {
+        final EnvironmentValueName<?> expected = can.parseEnvironmentValueName(environmentValueName);
+        if (false == EnvironmentValueName.CASE_SENSITIVITY.equals(environmentValueName, expected.value())) {
+            throw new AssertionFailedError(
+                null,
+                environmentValueName,
+                expected.value()
+            );
+        }
     }
 
     default void parseEnvironmentValueNameAndCheck(final CanParseEnvironmentValueName can,
