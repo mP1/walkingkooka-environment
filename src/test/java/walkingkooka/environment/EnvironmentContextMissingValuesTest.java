@@ -42,9 +42,10 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
 
-        this.checkEquals(
-            null,
-            missing.getOrNull(name)
+        this.getOrNullAndCheck(
+            missing,
+            name,
+            null
         );
 
         this.missingAndCheck(
@@ -66,14 +67,16 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
 
-        this.checkEquals(
-            null,
-            missing.getOrNull(name1)
+        this.getOrNullAndCheck(
+            missing,
+            name1,
+            null
         );
 
-        this.checkEquals(
-            null,
-            missing.getOrNull(name2)
+        this.getOrNullAndCheck(
+            missing,
+            name2,
+            null
         );
 
         this.missingAndCheck(
@@ -83,7 +86,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
         );
     }
 
-    private final static  EnvironmentValueName<String> NAME = EnvironmentValueName.with(
+    private final static EnvironmentValueName<String> NAME = EnvironmentValueName.with(
         "Hello",
         String.class
     );
@@ -99,9 +102,10 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
 
-        this.checkEquals(
-            VALUE,
-            missing.getOrNull(NAME)
+        this.getOrNullAndCheck(
+            missing,
+            NAME,
+            VALUE
         );
 
         this.missingAndCheck(
@@ -142,9 +146,10 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
         );
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
-        this.checkEquals(
-            VALUE,
-            missing.getOrNull(NAME)
+        this.getOrNullAndCheck(
+            missing,
+            NAME,
+            VALUE
         );
         missing.reportIfMissing();
     }
@@ -158,14 +163,13 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
         );
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
-        this.checkEquals(
-            null,
-            missing.getOrNull(
-                EnvironmentValueName.with(
-                    "missing123",
-                    String.class
-                )
-            )
+        this.getOrNullAndCheck(
+            missing,
+            EnvironmentValueName.with(
+                "missing123",
+                String.class
+            ),
+            null
         );
 
         final MissingEnvironmentValuesException thrown = assertThrows(
@@ -176,6 +180,16 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
         this.getMessageAndCheck(
             thrown,
             "Missing environment value(s): missing123"
+        );
+    }
+
+    private <T> void getOrNullAndCheck(final EnvironmentContextMissingValues missing,
+                                       final EnvironmentValueName<T> name,
+                                       final T expected) {
+        this.checkEquals(
+            expected,
+            missing.getOrNull(name),
+            () -> missing + " " + name
         );
     }
 
