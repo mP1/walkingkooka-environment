@@ -71,4 +71,15 @@ public interface EnvironmentLikeTesting extends TreePrintableTesting {
             thrown
         );
     }
+
+    // environmentLikeMissingValues.....................................................................................
+
+    default void environmentLikeMissingValuesAndCheck(final EnvironmentLike environmentLike,
+                                                      final EnvironmentLikeMissingValues expected) {
+        this.checkEquals(
+            expected,
+            environmentLike.environmentLikeMissingValues(),
+            environmentLike::toString
+        );
+    }
 }

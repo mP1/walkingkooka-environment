@@ -882,8 +882,8 @@ public interface EnvironmentContextTesting2<C extends EnvironmentContext> extend
         final C context = this.createContext();
 
         this.checkEquals(
-            context.environmentContextMissingValues(),
-            EnvironmentContextMissingValues.with(context)
+            context.environmentLikeMissingValues(),
+            EnvironmentLikeMissingValues.with(context)
         );
     }
 

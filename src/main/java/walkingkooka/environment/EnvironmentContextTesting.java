@@ -430,17 +430,6 @@ public interface EnvironmentContextTesting extends EnvironmentLikeTesting,
         );
     }
 
-    // environmentContextMissingValues..................................................................................
-
-    default void environmentContextMissingValuesAndCheck(final EnvironmentContext context,
-                                                         final EnvironmentContextMissingValues expected) {
-        this.checkEquals(
-            expected,
-            context.environmentContextMissingValues(),
-            context::toString
-        );
-    }
-
     // setEnvironmentContext............................................................................................
 
     default void setEnvironmentContextAndCheck(final EnvironmentContext context,
