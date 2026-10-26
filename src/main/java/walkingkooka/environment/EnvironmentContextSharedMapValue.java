@@ -41,7 +41,7 @@ final class EnvironmentContextSharedMapValue<T> {
         this.value = value;
     }
 
-    EnvironmentValueName<T> environmentValueName;
+    final EnvironmentValueName<T> environmentValueName;
 
     T value;
 
