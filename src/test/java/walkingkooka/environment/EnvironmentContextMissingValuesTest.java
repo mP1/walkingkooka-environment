@@ -21,11 +21,15 @@ import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.reflect.PublicClassTesting;
+import walkingkooka.reflect.ThrowableTesting;
 
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public final class EnvironmentContextMissingValuesTest implements EnvironmentContextTesting,
     HashCodeEqualsDefinedTesting2<EnvironmentContextMissingValues>,
+    ThrowableTesting,
     ToStringTesting<EnvironmentContextMissingValues>,
     PublicClassTesting<EnvironmentContextMissingValues> {
 
@@ -79,25 +83,25 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
         );
     }
 
+    private final static  EnvironmentValueName<String> NAME = EnvironmentValueName.with(
+        "Hello",
+        String.class
+    );
+    private final static String VALUE = "world";
+
     @Test
     public void testMissingWhenNone() {
-        final EnvironmentValueName<String> name = EnvironmentValueName.with(
-            "Hello",
-            String.class
-        );
-        final String value = "world";
-
         final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
         environmentContext.setEnvironmentValue(
-            name,
-            value
+            NAME,
+            VALUE
         );
 
         final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
 
         this.checkEquals(
-            value,
-            missing.getOrNull(name)
+            VALUE,
+            missing.getOrNull(NAME)
         );
 
         this.missingAndCheck(
@@ -119,6 +123,59 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
             expected,
             missing.missing,
             missing::toString
+        );
+    }
+
+    @Test
+    public void testReportIfMissingWhenNone() {
+        final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
+        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
+        missing.reportIfMissing();
+    }
+
+    @Test
+    public void testReportIfMissingWhenAllFound() {
+        final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
+        environmentContext.setEnvironmentValue(
+            NAME,
+            VALUE
+        );
+
+        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
+        this.checkEquals(
+            VALUE,
+            missing.getOrNull(NAME)
+        );
+        missing.reportIfMissing();
+    }
+
+    @Test
+    public void testReportIfMissingWhenMissing() {
+        final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
+        environmentContext.setEnvironmentValue(
+            NAME,
+            VALUE
+        );
+
+        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
+        this.checkEquals(
+            null,
+            missing.getOrNull(
+                EnvironmentValueName.with(
+                    "missing123",
+                    String.class
+                )
+            )
+        );
+
+        final MissingEnvironmentValuesException thrown = assertThrows(
+            MissingEnvironmentValuesException.class,
+            () -> missing.reportIfMissing()
+        );
+
+        this.getMessageAndCheck(
+            thrown,
+            "Missing environment value(s): missing123"
         );
     }
 
