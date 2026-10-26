@@ -46,7 +46,7 @@ final class EnvironmentContextSharedMapValue<T> {
     T value;
 
     EnvironmentContextSharedMapValue<T> copy() {
-        return new EnvironmentContextSharedMapValue(
+        return new EnvironmentContextSharedMapValue<>(
             this.environmentValueName,
             this.value
         );
