@@ -27,11 +27,11 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class EnvironmentContextMissingValuesTest implements EnvironmentContextTesting,
-    HashCodeEqualsDefinedTesting2<EnvironmentContextMissingValues>,
+public final class EnvironmentLikeMissingValuesTest implements EnvironmentContextTesting,
+    HashCodeEqualsDefinedTesting2<EnvironmentLikeMissingValues>,
     ThrowableTesting,
-    ToStringTesting<EnvironmentContextMissingValues>,
-    PublicClassTesting<EnvironmentContextMissingValues> {
+    ToStringTesting<EnvironmentLikeMissingValues>,
+    PublicClassTesting<EnvironmentLikeMissingValues> {
 
     @Test
     public void testMissingWhenOne() {
@@ -40,7 +40,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
             String.class
         );
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
+        final EnvironmentLikeMissingValues missing = EnvironmentLikeMissingValues.with(ENVIRONMENT_CONTEXT);
 
         this.getOrNullAndCheck(
             missing,
@@ -65,7 +65,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
             String.class
         );
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
+        final EnvironmentLikeMissingValues missing = EnvironmentLikeMissingValues.with(ENVIRONMENT_CONTEXT);
 
         this.getOrNullAndCheck(
             missing,
@@ -100,7 +100,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
             VALUE
         );
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
+        final EnvironmentLikeMissingValues missing = EnvironmentLikeMissingValues.with(environmentContext);
 
         this.getOrNullAndCheck(
             missing,
@@ -113,7 +113,30 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
         );
     }
 
-    private void missingAndCheck(final EnvironmentContextMissingValues missing,
+    @Test
+    public void testMissingWhenNoneWithEnvironment() {
+        final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
+        environmentContext.setEnvironmentValue(
+            NAME,
+            VALUE
+        );
+
+        final EnvironmentLikeMissingValues missing = EnvironmentLikeMissingValues.with(
+            environmentContext.environment()
+        );
+
+        this.getOrNullAndCheck(
+            missing,
+            NAME,
+            VALUE
+        );
+
+        this.missingAndCheck(
+            missing
+        );
+    }
+
+    private void missingAndCheck(final EnvironmentLikeMissingValues missing,
                                  final EnvironmentValueName<?>... expected) {
         this.missingAndCheck(
             missing,
@@ -121,7 +144,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
         );
     }
 
-    private void missingAndCheck(final EnvironmentContextMissingValues missing,
+    private void missingAndCheck(final EnvironmentLikeMissingValues missing,
                                  final Set<EnvironmentValueName<?>> expected) {
         this.checkEquals(
             expected,
@@ -133,7 +156,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
     @Test
     public void testReportIfMissingWhenNone() {
         final EnvironmentContext environmentContext = ENVIRONMENT_CONTEXT.cloneEnvironment();
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
+        final EnvironmentLikeMissingValues missing = EnvironmentLikeMissingValues.with(environmentContext);
         missing.reportIfMissing();
     }
 
@@ -145,7 +168,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
             VALUE
         );
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
+        final EnvironmentLikeMissingValues missing = EnvironmentLikeMissingValues.with(environmentContext);
         this.getOrNullAndCheck(
             missing,
             NAME,
@@ -162,7 +185,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
             VALUE
         );
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(environmentContext);
+        final EnvironmentLikeMissingValues missing = EnvironmentLikeMissingValues.with(environmentContext);
         this.getOrNullAndCheck(
             missing,
             EnvironmentValueName.with(
@@ -183,7 +206,7 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
         );
     }
 
-    private <T> void getOrNullAndCheck(final EnvironmentContextMissingValues missing,
+    private <T> void getOrNullAndCheck(final EnvironmentLikeMissingValues missing,
                                        final EnvironmentValueName<T> name,
                                        final T expected) {
         this.checkEquals(
@@ -206,24 +229,24 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
             String.class
         );
 
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
+        final EnvironmentLikeMissingValues missing = EnvironmentLikeMissingValues.with(ENVIRONMENT_CONTEXT);
 
         missing.getOrNull(name1);
         missing.getOrNull(name2);
 
         this.toStringAndCheck(
             missing,
-            "missing=Hello1, Hello2 environmentContext={charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=NONE, timeOffset=Z, user=user123@example.com}"
+            "missing=Hello1, Hello2 environmentLike={charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=NONE, timeOffset=Z, user=user123@example.com}"
         );
     }
 
     @Test
     public void testToStringWithoutMissing() {
-        final EnvironmentContextMissingValues missing = EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
+        final EnvironmentLikeMissingValues missing = EnvironmentLikeMissingValues.with(ENVIRONMENT_CONTEXT);
 
         this.toStringAndCheck(
             missing,
-            "environmentContext={charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=NONE, timeOffset=Z, user=user123@example.com}"
+            "environmentLike={charset=UTF-8, currency=AUD, indentation=\"  \", lineEnding=\"\\n\", locale=en_AU, loggingLevel=NONE, timeOffset=Z, user=user123@example.com}"
         );
     }
 
@@ -231,29 +254,29 @@ public final class EnvironmentContextMissingValuesTest implements EnvironmentCon
 
     @Test
     public void testEqualsDifferentMissingValues() {
-        final EnvironmentContextMissingValues environmentContextMissingValues = EnvironmentContextMissingValues.with(DIFFERENT_ENVIRONMENT_CONTEXT);
-        environmentContextMissingValues.getOrNull(EnvironmentValueName.with("hello", String.class));
+        final EnvironmentLikeMissingValues environmentLikeMissingValues = EnvironmentLikeMissingValues.with(DIFFERENT_ENVIRONMENT_CONTEXT);
+        environmentLikeMissingValues.getOrNull(EnvironmentValueName.with("hello", String.class));
         this.checkNotEquals(
-            environmentContextMissingValues
+            environmentLikeMissingValues
         );
     }
 
     @Test
-    public void testEqualsDifferentEnvironmentContext() {
+    public void testEqualsDifferentEnvironmentLike() {
         this.checkNotEquals(
-            EnvironmentContextMissingValues.with(DIFFERENT_ENVIRONMENT_CONTEXT)
+            EnvironmentLikeMissingValues.with(DIFFERENT_ENVIRONMENT_CONTEXT)
         );
     }
 
     @Override
-    public EnvironmentContextMissingValues createObject() {
-        return EnvironmentContextMissingValues.with(ENVIRONMENT_CONTEXT);
+    public EnvironmentLikeMissingValues createObject() {
+        return EnvironmentLikeMissingValues.with(ENVIRONMENT_CONTEXT);
     }
 
     // class............................................................................................................
 
     @Override
-    public Class<EnvironmentContextMissingValues> type() {
-        return EnvironmentContextMissingValues.class;
+    public Class<EnvironmentLikeMissingValues> type() {
+        return EnvironmentLikeMissingValues.class;
     }
 }

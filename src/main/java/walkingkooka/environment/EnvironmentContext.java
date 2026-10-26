@@ -247,13 +247,6 @@ public interface EnvironmentContext extends EnvironmentLike,
         }
     }
 
-    /**
-     * Gives an empty {@link EnvironmentContextMissingValues}.
-     */
-    default EnvironmentContextMissingValues environmentContextMissingValues() {
-        return EnvironmentContextMissingValues.with(this);
-    }
-
     // HasEnvironment...................................................................................................
 
     /**

@@ -25,25 +25,25 @@ import java.util.Set;
 
 /**
  * Used to aggregate that all the required properties are present, tracking those that are missing.
- * This is used only by {@link EnvironmentContext} methods such as getting a {@link walkingkooka.convert.Converter}.
+ * This is used only by {@link EnvironmentLike} methods such as getting a {@link walkingkooka.convert.Converter}.
  */
-public final class EnvironmentContextMissingValues implements UsesToStringBuilder {
+public final class EnvironmentLikeMissingValues implements UsesToStringBuilder {
 
-    static EnvironmentContextMissingValues with(final EnvironmentContext context) {
-        return new EnvironmentContextMissingValues(context);
+    static EnvironmentLikeMissingValues with(final EnvironmentLike environmentLike) {
+        return new EnvironmentLikeMissingValues(environmentLike);
     }
 
-    private EnvironmentContextMissingValues(final EnvironmentContext context) {
+    private EnvironmentLikeMissingValues(final EnvironmentLike environmentLike) {
         super();
-        this.context = context;
+        this.environmentLike = environmentLike;
     }
 
     public <T> T getOrNull(final EnvironmentValueName<T> environmentValueName) {
-        return this.context.environmentValue(environmentValueName)
+        return this.environmentLike.environmentValue(environmentValueName)
             .orElseGet(() -> this.addMissing(environmentValueName));
     }
 
-    final EnvironmentContext context;
+    final EnvironmentLike environmentLike;
 
     private <T> T addMissing(final EnvironmentValueName<?> environmentValueName) {
         this.missing.add(environmentValueName);
@@ -69,20 +69,20 @@ public final class EnvironmentContextMissingValues implements UsesToStringBuilde
     public int hashCode() {
         return Objects.hash(
             this.missing,
-            this.context
+            this.environmentLike
         );
     }
 
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-            (other instanceof EnvironmentContextMissingValues &&
-                this.equals0((EnvironmentContextMissingValues) other));
+            (other instanceof EnvironmentLikeMissingValues &&
+                this.equals0((EnvironmentLikeMissingValues) other));
     }
 
-    private boolean equals0(final EnvironmentContextMissingValues other) {
+    private boolean equals0(final EnvironmentLikeMissingValues other) {
         return this.missing.equals(other.missing) &&
-            this.context.equals(other.context);
+            this.environmentLike.equals(other.environmentLike);
     }
 
     @Override
@@ -96,7 +96,7 @@ public final class EnvironmentContextMissingValues implements UsesToStringBuilde
     public void buildToString(final ToStringBuilder toStringBuilder) {
         toStringBuilder.label("missing")
             .value(this.missing)
-            .label("environmentContext")
-            .value(this.context);
+            .label("environmentLike")
+            .value(this.environmentLike);
     }
 }

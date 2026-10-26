@@ -37,4 +37,11 @@ public interface EnvironmentLike {
         return this.environmentValue(name)
             .orElseThrow(name::missingEnvironmentValueException);
     }
+
+    /**
+     * Gives an empty {@link EnvironmentLikeMissingValues}.
+     */
+    default EnvironmentLikeMissingValues environmentLikeMissingValues() {
+        return EnvironmentLikeMissingValues.with(this);
+    }
 }
