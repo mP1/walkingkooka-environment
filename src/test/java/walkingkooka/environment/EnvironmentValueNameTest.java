@@ -282,7 +282,10 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
     public String possibleValidChars(final int position) {
         return 0 == position ?
             ASCII_LETTERS :
-            ASCII_LETTERS_DIGITS + "-.";
+            // prevent double dot
+            (position & 1) == 0 ?
+                ASCII_LETTERS_DIGITS + "-." :
+                ASCII_LETTERS_DIGITS;
     }
 
     @Override
