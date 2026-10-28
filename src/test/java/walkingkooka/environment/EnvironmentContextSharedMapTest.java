@@ -230,7 +230,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
+            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
                 "DEBUG Message111\n",
             b.toString()
         );
@@ -268,7 +268,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
+            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
                 "DEBUG Message111\n",
             b.toString()
         );
@@ -373,7 +373,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
+            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
                 "DEBUG Message111\n" +
                 "ERROR Message333\n",
             b.toString()
@@ -868,11 +868,36 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
-                "DEBUG fire value change null to MAGIC=Gday\n" +
-                "DEBUG fire value change MAGIC=Gday to MAGIC=Value222\n",
+            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
+                "DEBUG environmentValue MAGIC change null to \"Gday\"\n" +
+                "DEBUG environmentValue MAGIC change \"Gday\" to \"Value222\"\n",
             log.toString(),
             "logged"
+        );
+    }
+
+
+    @Test
+    public void testSetEnvironmentValueNameWithLogging() {
+        final StringBuilder log = new StringBuilder();
+
+        final EnvironmentContextSharedMap context = this.createContext(log);
+
+        this.setLoggingLevelAndCheck(
+            context,
+            LoggingLevel.DEBUG
+        );
+
+        this.setEnvironmentValueAndCheck(
+            context,
+            MAGIC,
+            VALUE
+        );
+
+        this.checkEquals(
+            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
+                "DEBUG environmentValue MAGIC change null to \"Gday\"\n",
+            log.toString()
         );
     }
 
@@ -977,9 +1002,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG fire value change loggingLevel=NONE to loggingLevel=DEBUG\n" +
-                "DEBUG fire value change null to MAGIC=Gday\n" +
-                "DEBUG fire value change \"Gday\" to null\n",
+            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
+                "DEBUG environmentValue MAGIC change null to \"Gday\"\n" +
+                "DEBUG environmentValue MAGIC change \"Gday\" to null\n",
             log.toString(),
             "logged"
         );
