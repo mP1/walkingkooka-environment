@@ -18,8 +18,10 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.reflect.PublicClassTesting;
 
-public final class HasAuditInfoTestingTest implements HasAuditInfoTesting {
+public final class HasAuditInfoTestingTest implements HasAuditInfoTesting,
+    PublicClassTesting<HasAuditInfoTesting> {
 
     @Test
     public void testConstantsDifferent() {
@@ -67,5 +69,12 @@ public final class HasAuditInfoTestingTest implements HasAuditInfoTesting {
             HAS_AUDIT_INFO,
             AUDIT_INFO
         );
+    }
+
+    // class............................................................................................................
+
+    @Override
+    public Class<HasAuditInfoTesting> type() {
+        return HasAuditInfoTesting.class;
     }
 }
