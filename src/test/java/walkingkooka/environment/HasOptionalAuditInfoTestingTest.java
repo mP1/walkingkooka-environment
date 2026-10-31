@@ -18,8 +18,10 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.reflect.PublicClassTesting;
 
-public final class HasOptionalAuditInfoTestingTest implements HasOptionalAuditInfoTesting {
+public final class HasOptionalAuditInfoTestingTest implements HasOptionalAuditInfoTesting,
+    PublicClassTesting<HasOptionalAuditInfoTesting> {
 
     @Test
     public void testAuditInfoAndCheck() {
@@ -35,5 +37,12 @@ public final class HasOptionalAuditInfoTestingTest implements HasOptionalAuditIn
             AUDIT_INFO,
             DIFFERENT_AUDIT_INFO
         );
+    }
+
+    // class............................................................................................................
+
+    @Override
+    public Class<HasOptionalAuditInfoTesting> type() {
+        return HasOptionalAuditInfoTesting.class;
     }
 }
