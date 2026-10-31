@@ -18,8 +18,10 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.reflect.PublicClassTesting;
 
-public final class HasEnvironmentContextTestingTest implements HasEnvironmentContextTesting {
+public final class HasEnvironmentContextTestingTest implements HasEnvironmentContextTesting,
+    PublicClassTesting<HasEnvironmentContextTesting> {
 
     @Test
     public void testEnvironmentContext() {
@@ -29,5 +31,12 @@ public final class HasEnvironmentContextTestingTest implements HasEnvironmentCon
             context,
             context
         );
+    }
+
+    // class............................................................................................................
+
+    @Override
+    public Class<HasEnvironmentContextTesting> type() {
+        return HasEnvironmentContextTesting.class;
     }
 }
