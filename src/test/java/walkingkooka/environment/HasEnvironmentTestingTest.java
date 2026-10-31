@@ -18,10 +18,12 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.util.HasLocaleTesting;
 
 public final class HasEnvironmentTestingTest implements HasEnvironmentTesting,
-    HasLocaleTesting {
+    HasLocaleTesting,
+    PublicClassTesting<HasEnvironmentTesting> {
 
     @Test
     public void testEnvironment() {
@@ -45,5 +47,12 @@ public final class HasEnvironmentTestingTest implements HasEnvironmentTesting,
             environment,
             environment
         );
+    }
+
+    // class............................................................................................................
+
+    @Override
+    public Class<HasEnvironmentTesting> type() {
+        return HasEnvironmentTesting.class;
     }
 }
