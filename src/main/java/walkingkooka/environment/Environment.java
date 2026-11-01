@@ -39,6 +39,8 @@ import walkingkooka.text.HasIndentation;
 import walkingkooka.text.HasLineEnding;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.TreePrintable;
 import walkingkooka.util.HasLocale;
 
 import java.nio.charset.Charset;
@@ -46,6 +48,7 @@ import java.time.ZoneOffset;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -68,6 +71,7 @@ public final class Environment implements BinaryTextContext,
     HasLoggingLevel,
     HasTimeOffset,
     HasUser,
+    TreePrintable,
     UsesToStringBuilder {
 
     /**
@@ -303,5 +307,27 @@ public final class Environment implements BinaryTextContext,
     @Override
     public <T> Optional<T> environmentValue(final EnvironmentValueName<T> name) {
         return this.get(name);
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        printer.println(this.getClass().getSimpleName());
+        printer.indent();
+        {
+            for (final Entry<EnvironmentValueName<?>, Object> nameAndValue : this.values.entrySet()) {
+                printer.println(nameAndValue.getKey().value());
+                printer.indent();
+                {
+                    TreePrintable.printTreeOrToString(
+                        nameAndValue.getValue(),
+                        printer
+                    );
+                }
+                printer.outdent();
+            }
+        }
+        printer.outdent();
     }
 }

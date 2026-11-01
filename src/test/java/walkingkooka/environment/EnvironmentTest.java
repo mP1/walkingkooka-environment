@@ -36,6 +36,7 @@ import walkingkooka.text.CharSequences;
 import walkingkooka.text.HasIndentationTesting;
 import walkingkooka.text.HasLineEndingTesting;
 import walkingkooka.text.printer.Printers;
+import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.util.Optional;
 import java.util.Set;
@@ -57,6 +58,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     HasTimeOffsetTesting,
     HasUserTesting,
     ToStringTesting<Environment>,
+    TreePrintableTesting,
     EnvironmentContextTesting {
 
     // get..............................................................................................................
@@ -899,6 +901,26 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
             "DEBUG environmentValue loggingLevel change INFO to DEBUG\n" +
                 "DEBUG Message222\n",
             printed.toString()
+        );
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Test
+    public void testPrintTreeWhenEmpty() {
+        this.treePrintAndCheck(
+            Environment.empty(),
+            "Environment\n"
+        );
+    }
+
+    @Test
+    public void testPrintTreeWhenNotEmpty() {
+        this.treePrintAndCheck(
+            this.createObject(),
+            "Environment\n" +
+                "  currency\n" +
+                "    AUD (java.util.Currency)\n"
         );
     }
 
