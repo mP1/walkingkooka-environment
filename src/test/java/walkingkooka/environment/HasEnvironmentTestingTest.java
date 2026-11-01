@@ -18,6 +18,7 @@
 package walkingkooka.environment;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.util.HasLocaleTesting;
 
@@ -46,6 +47,27 @@ public final class HasEnvironmentTestingTest implements HasEnvironmentTesting,
         this.environmentAndCheck(
             environment,
             environment
+        );
+    }
+
+    // environmentAndCheck..............................................................................................
+
+    @Test
+    public void testEnvironmentAndCheck() {
+        this.environmentAndCheck(
+            () -> Environment.empty()
+                .set(
+                    EnvironmentValueName.LOGGING_LEVEL,
+                    LoggingLevel.DEBUG
+                ).set(
+                    EnvironmentValueName.LOCALE,
+                    LOCALE
+                ),
+            "Environment\n" +
+                "  locale\n" +
+                "    en_AU (java.util.Locale)\n" +
+                "  loggingLevel\n" +
+                "    DEBUG\n"
         );
     }
 
