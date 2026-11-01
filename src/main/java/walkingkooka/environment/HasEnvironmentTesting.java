@@ -28,4 +28,12 @@ public interface HasEnvironmentTesting extends TreePrintableTesting {
             has.environment()
         );
     }
+
+    default void environmentAndCheck(final HasEnvironment has,
+                                     final String expected) {
+        this.treePrintAndCheck(
+            has.environment(),
+            expected
+        );
+    }
 }
