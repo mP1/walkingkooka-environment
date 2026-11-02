@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * A {@link Context} that includes methods to get/set/remove environment values including the locale and the {@link EmailAddress}
@@ -70,6 +71,13 @@ public interface EnvironmentContext extends EnvironmentLike,
     LoggingContext {
 
     LoggerPath ENVIRONMENT_LOGGER = LoggerPath.parse("environment");
+
+    default <T> T logEnterAndExitEnvironment(final Supplier<T> supplier) {
+        return this.logEnterAndExit(
+            ENVIRONMENT_LOGGER,
+            supplier
+        );
+    }
 
     Optional<EmailAddress> ANONYMOUS = Optional.empty();
 
