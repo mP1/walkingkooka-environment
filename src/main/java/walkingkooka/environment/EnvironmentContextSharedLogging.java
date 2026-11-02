@@ -24,7 +24,6 @@ import walkingkooka.text.printer.TreePrintable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Supplier;
 
 /**
  * A {@link EnvironmentContext} that wraps another and logs a few key methods, because most other eventually forward
@@ -173,13 +172,6 @@ final class EnvironmentContextSharedLogging extends EnvironmentContextShared
 
                 return EnvironmentContextDelegator.super.addEnvironmentWatcherOnce(watcher);
             }
-        );
-    }
-
-    private <T> T logEnterAndExitEnvironment(final Supplier<T> supplier) {
-        return this.logEnterAndExit(
-            ENVIRONMENT_LOGGER,
-            supplier
         );
     }
 
