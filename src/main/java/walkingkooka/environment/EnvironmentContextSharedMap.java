@@ -226,7 +226,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
     public Set<EnvironmentValueName<?>> environmentValueNames() {
         final Set<EnvironmentValueName<?>> names = SortedSets.tree();
 
-        for (EnvironmentContextSharedMapValue<?> value : this.values.values()) {
+        for (final EnvironmentContextSharedMapValue<?> value : this.values.values()) {
             names.add(
                 value.environmentValueName
             );
@@ -345,7 +345,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
                 Object.class
             );
 
-            EnvironmentContextSharedMapValue<?> environmentContextSharedMapValue = this.values.get(environmentValueName);
+            final EnvironmentContextSharedMapValue<?> environmentContextSharedMapValue = this.values.get(environmentValueName);
             if (null != environmentContextSharedMapValue) {
                 environmentValueName = environmentContextSharedMapValue.environmentValueName;
             }
@@ -406,7 +406,7 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         b.append('{');
         b.separator(", ");
 
-        for (EnvironmentContextSharedMapValue<?> value : this.values.values()) {
+        for (final EnvironmentContextSharedMapValue<?> value : this.values.values()) {
             b.label(value.environmentValueName.value());
             b.value(
                 value.value
