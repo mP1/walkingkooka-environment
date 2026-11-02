@@ -230,7 +230,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
+            "environment DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
                 "DEBUG Message111\n",
             b.toString()
         );
@@ -268,7 +268,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
+            "environment DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
                 "DEBUG Message111\n",
             b.toString()
         );
@@ -373,7 +373,7 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
+            "environment DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
                 "DEBUG Message111\n" +
                 "ERROR Message333\n",
             b.toString()
@@ -868,9 +868,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
-                "DEBUG environmentValue MAGIC change null to \"Gday\"\n" +
-                "DEBUG environmentValue MAGIC change \"Gday\" to \"Value222\"\n",
+            "environment DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
+                "environment DEBUG environmentValue MAGIC change null to \"Gday\"\n" +
+                "environment DEBUG environmentValue MAGIC change \"Gday\" to \"Value222\"\n",
             log.toString(),
             "logged"
         );
@@ -895,8 +895,8 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
-                "DEBUG environmentValue MAGIC change null to \"Gday\"\n",
+            "environment DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
+                "environment DEBUG environmentValue MAGIC change null to \"Gday\"\n",
             log.toString()
         );
     }
@@ -1002,9 +1002,9 @@ public final class EnvironmentContextSharedMapTest extends EnvironmentContextSha
         );
 
         this.checkEquals(
-            "DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
-                "DEBUG environmentValue MAGIC change null to \"Gday\"\n" +
-                "DEBUG environmentValue MAGIC change \"Gday\" to null\n",
+            "environment DEBUG environmentValue loggingLevel change NONE to DEBUG\n" +
+                "environment DEBUG environmentValue MAGIC change null to \"Gday\"\n" +
+                "environment DEBUG environmentValue MAGIC change \"Gday\" to null\n",
             log.toString(),
             "logged"
         );
