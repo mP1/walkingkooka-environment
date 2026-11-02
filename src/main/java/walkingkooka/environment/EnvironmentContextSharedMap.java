@@ -280,7 +280,12 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
         final EnvironmentValueNameAndValue<T> newValue = environmentContextSharedMapValue.environmentValueNameAndValue();
         if (false == Objects.equals(oldValue, newValue)) {
             if (this.isDebugEnabled()) {
-                this.debug("environmentValue " + name + " change " + toString(oldValue) + " to " + toString(newValue));
+                this.logEnterAndExitEnvironment(
+                    () -> {
+                        this.debug("environmentValue " + name + " change " + toString(oldValue) + " to " + toString(newValue));
+                        return null;
+                    }
+                );
             }
 
             this.watchers.onValueChange(
@@ -309,7 +314,12 @@ final class EnvironmentContextSharedMap extends EnvironmentContextShared
 
         if (null != oldValue) {
             if (this.isDebugEnabled()) {
-                this.debug("environmentValue " + name + " change " + CharSequences.quoteIfChars(oldValue.value) + " to " + null);
+                this.logEnterAndExitEnvironment(
+                    () -> {
+                        this.debug("environmentValue " + name + " change " + CharSequences.quoteIfChars(oldValue.value) + " to " + null);
+                        return null;
+                    }
+                );
             }
 
             this.watchers.onValueChange(
