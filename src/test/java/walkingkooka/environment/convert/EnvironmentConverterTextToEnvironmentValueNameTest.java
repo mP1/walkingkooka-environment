@@ -91,7 +91,7 @@ public final class EnvironmentConverterTextToEnvironmentValueNameTest extends En
                 );
             }
 
-            private final Converter<FakeEnvironmentConverterContext> converter = Converters.characterOrCharSequenceOrHasTextOrStringToCharacterOrCharSequenceOrString();
+            private final Converter<FakeEnvironmentConverterContext> converter = Converters.toText();
 
             @Override
             public EnvironmentValueName<?> parseEnvironmentValueName(final String name) {

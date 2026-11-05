@@ -420,11 +420,11 @@ public final class EnvironmentConverterTextToEnvironmentTest extends Environment
 
             private final Converter<FakeEnvironmentConverterContext> converter = Converters.collection(
                 Lists.of(
-                    Converters.characterOrCharSequenceOrHasTextOrStringToCharacterOrCharSequenceOrString(),
                     Converters.textToCurrencyCode(),
                     Converters.textToCurrency(),
                     Converters.textToLineEnding(),
-                    Converters.textToLocale()
+                    Converters.textToLocale(),
+                    Converters.toText()
                 )
             );
 
