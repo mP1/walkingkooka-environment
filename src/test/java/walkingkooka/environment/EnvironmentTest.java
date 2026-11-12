@@ -57,7 +57,7 @@ public final class EnvironmentTest implements HashCodeEqualsDefinedTesting2<Envi
     HasLineEndingTesting,
     HasTimeOffsetTesting,
     HasUserTesting,
-    ToStringTesting<Environment>,
+    ToStringTesting,
     TreePrintableTesting,
     EnvironmentContextTesting {
 

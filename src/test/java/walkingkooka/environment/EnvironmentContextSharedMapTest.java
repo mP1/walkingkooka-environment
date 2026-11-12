@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public final class EnvironmentContextSharedMapTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedMap>
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedMap>,
-    ToStringTesting<EnvironmentContextSharedMap> {
+    ToStringTesting {
 
     private final static EnvironmentValueName<String> NAME = EnvironmentValueName.with(
         "hello.123",
