@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class EnvironmentContextSharedPropertiesTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedProperties>
     implements HashCodeEqualsDefinedTesting2<EnvironmentContextSharedProperties>,
-    ToStringTesting<EnvironmentContextSharedProperties> {
+    ToStringTesting {
 
     private final static String NAME = "hello.123";
 

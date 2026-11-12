@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentLikeMissingValuesTest implements EnvironmentContextTesting,
     HashCodeEqualsDefinedTesting2<EnvironmentLikeMissingValues>,
     ThrowableTesting,
-    ToStringTesting<EnvironmentLikeMissingValues>,
+    ToStringTesting,
     PublicClassTesting<EnvironmentLikeMissingValues> {
 
     @Test

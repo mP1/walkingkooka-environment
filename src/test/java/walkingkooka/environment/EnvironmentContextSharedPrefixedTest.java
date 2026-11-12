@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentContextSharedPrefixedTest extends EnvironmentContextSharedTestCase<EnvironmentContextSharedPrefixed>
     implements EnvironmentContextTesting,
     HashCodeEqualsDefinedTesting2<EnvironmentContextSharedPrefixed>,
-    ToStringTesting<EnvironmentContextSharedPrefixed> {
+    ToStringTesting {
 
     private final static EnvironmentValueName<?> PREFIX = EnvironmentValueName.with(
         "prefix111.",

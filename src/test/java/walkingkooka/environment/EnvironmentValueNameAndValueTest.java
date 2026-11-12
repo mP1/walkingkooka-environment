@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class EnvironmentValueNameAndValueTest implements HasNameTesting,
     HasValueTesting,
     HashCodeEqualsDefinedTesting2<EnvironmentValueNameAndValue<LineEnding>>,
-    ToStringTesting<EnvironmentValueNameAndValue<LineEnding>>,
+    ToStringTesting,
     PublicClassTesting<EnvironmentValueNameAndValue<LineEnding>> {
 
 

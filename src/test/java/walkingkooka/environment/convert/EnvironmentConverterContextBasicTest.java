@@ -41,7 +41,7 @@ public final class EnvironmentConverterContextBasicTest implements EnvironmentCo
     DecimalNumberContextTesting,
     DecimalNumberContextDelegator,
     EnvironmentContextTesting,
-    ToStringTesting<EnvironmentConverterContextBasic> {
+    ToStringTesting {
 
     private final static ConverterContext CONVERTER_CONTEXT = ConverterContexts.basic(
         false, // canNumbersHaveGroupSeparator
