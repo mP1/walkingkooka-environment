@@ -872,7 +872,7 @@ public final class EnvironmentContextSharedReadOnlyTest extends EnvironmentConte
                 "      user\n" +
                 "        user123@example.com (walkingkooka.net.email.EmailAddress)\n" +
                 "  readOnlyNames\n" +
-                "    user (walkingkooka.predicate.ObjectEqualityPredicate)\n"
+                "    user (walkingkooka.predicate.PredicateObjectEquality)\n"
         );
     }
 
