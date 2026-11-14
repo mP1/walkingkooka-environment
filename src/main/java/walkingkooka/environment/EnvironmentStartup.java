@@ -18,11 +18,7 @@
 package walkingkooka.environment;
 
 import walkingkooka.reflect.PublicStaticHelper;
-import walkingkooka.tree.json.marshall.JsonNodeContext;
 
-/**
- * Used to force all values types to register their {@link JsonNodeContext#register}
- */
 public final class EnvironmentStartup implements PublicStaticHelper {
 
     static {
