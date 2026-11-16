@@ -175,11 +175,6 @@ public interface EnvironmentContext extends EnvironmentLike,
     void setLocale(final Locale locale);
 
     /**
-     * Sets or replaces the current {@link LoggingLevel}
-     */
-    void setLoggingLevel(final LoggingLevel loggingLevel);
-
-    /**
      * Sets or replaces the current {@link Locale}
      */
     void setTimeOffset(final ZoneOffset timeOffset);
