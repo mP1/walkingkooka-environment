@@ -55,3 +55,23 @@ A collection of converters that are particularly useful within expressions and s
 - [text-to-environment-value-name](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterTextToEnvironmentValueName.java)
 - [to-environment](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/convert/EnvironmentConverterToEnvironment.java)
 
+### [Functions](https://github.com/mP1/walkingkooka-tree/blob/master/src/main/java/walkingkooka/tree/expression/function/ExpressionFunction.java)
+
+Functions that will be useful with terminal session or other similar general environment queries.
+
+- [getCharset](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetCharset.java)
+- [getCurrency](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetCurrency.java)
+- [getEnv](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetEnv.java)
+- [getIndentation](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetIndentation.java)
+- [getLineEnding](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetLineEnding.java)
+- [getLocale](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetLocale.java)
+- [getTimeOffset](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetTimeOffset.java)
+- [getUser](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionGetUser.java)
+- [setCharset](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionSetCharset.java)
+- [setCurrency](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionSetCurrency.java)
+- [setEnv](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionSetEnv.java)
+- [setIndentation](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionSetIndentation.java)
+- [setLineEnding](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionSetLineEnding.java)
+- [setLocale](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionSetLocale.java)
+- [setTimeOffset](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionSetTimeOffset.java)
+- [removeEnv](https://github.com/mP1/walkingkooka-environment/tree/master/src/main/java/walkingkooka/environment/expression/function/EnvironmentExpressionFunctionRemoveEnv.java)
