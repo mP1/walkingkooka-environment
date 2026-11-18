@@ -69,7 +69,7 @@ public final class EnvironmentExpressionFunctionGetCharsetTest extends Environme
     }
 
     @Override
-    public EnvironmentExpressionFunctionGetCharset createBiFunction() {
+    public EnvironmentExpressionFunctionGetCharset<EnvironmentExpressionEvaluationContext> createBiFunction() {
         return EnvironmentExpressionFunctionGetCharset.instance();
     }
 
