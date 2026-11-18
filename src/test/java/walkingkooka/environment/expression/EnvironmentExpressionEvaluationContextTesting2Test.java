@@ -17,12 +17,13 @@
 
 package walkingkooka.environment.expression;
 
+import walkingkooka.Cast;
 import walkingkooka.reflect.PublicClassTesting;
 
-public final class EnvironmentExpressionEvaluationContextTesting2Test implements PublicClassTesting<EnvironmentExpressionEvaluationContextTesting2> {
+public final class EnvironmentExpressionEvaluationContextTesting2Test implements PublicClassTesting<EnvironmentExpressionEvaluationContextTesting2<?>> {
 
     @Override
-    public Class<EnvironmentExpressionEvaluationContextTesting2> type() {
-        return EnvironmentExpressionEvaluationContextTesting2.class;
+    public Class<EnvironmentExpressionEvaluationContextTesting2<?>> type() {
+        return Cast.to(EnvironmentExpressionEvaluationContextTesting2.class);
     }
 }
