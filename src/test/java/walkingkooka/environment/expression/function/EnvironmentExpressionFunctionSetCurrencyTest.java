@@ -70,7 +70,7 @@ public final class EnvironmentExpressionFunctionSetCurrencyTest extends Environm
     }
 
     @Override
-    public EnvironmentExpressionFunctionSetCurrency createBiFunction() {
+    public EnvironmentExpressionFunctionSetCurrency<EnvironmentExpressionEvaluationContext> createBiFunction() {
         return EnvironmentExpressionFunctionSetCurrency.instance();
     }
 

@@ -67,7 +67,7 @@ public final class EnvironmentExpressionFunctionGetLineEndingTest extends Enviro
     }
 
     @Override
-    public EnvironmentExpressionFunctionGetLineEnding createBiFunction() {
+    public EnvironmentExpressionFunctionGetLineEnding<EnvironmentExpressionEvaluationContext> createBiFunction() {
         return EnvironmentExpressionFunctionGetLineEnding.instance();
     }
 

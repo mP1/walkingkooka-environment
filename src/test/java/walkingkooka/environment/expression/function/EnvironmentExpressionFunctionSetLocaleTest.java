@@ -70,7 +70,7 @@ public final class EnvironmentExpressionFunctionSetLocaleTest extends Environmen
     }
 
     @Override
-    public EnvironmentExpressionFunctionSetLocale createBiFunction() {
+    public EnvironmentExpressionFunctionSetLocale<EnvironmentExpressionEvaluationContext> createBiFunction() {
         return EnvironmentExpressionFunctionSetLocale.instance();
     }
 
