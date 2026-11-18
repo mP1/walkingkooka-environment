@@ -68,7 +68,7 @@ public final class EnvironmentExpressionFunctionGetCurrencyTest extends Environm
     }
 
     @Override
-    public EnvironmentExpressionFunctionGetCurrency createBiFunction() {
+    public EnvironmentExpressionFunctionGetCurrency<EnvironmentExpressionEvaluationContext> createBiFunction() {
         return EnvironmentExpressionFunctionGetCurrency.instance();
     }
 
