@@ -66,7 +66,7 @@ public final class EnvironmentExpressionFunctionGetLocaleTest extends Environmen
     }
 
     @Override
-    public EnvironmentExpressionFunctionGetLocale createBiFunction() {
+    public EnvironmentExpressionFunctionGetLocale<EnvironmentExpressionEvaluationContext> createBiFunction() {
         return EnvironmentExpressionFunctionGetLocale.instance();
     }
 

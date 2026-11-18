@@ -71,7 +71,7 @@ public final class EnvironmentExpressionFunctionSetTimeOffsetTest extends Enviro
     }
 
     @Override
-    public EnvironmentExpressionFunctionSetTimeOffset createBiFunction() {
+    public EnvironmentExpressionFunctionSetTimeOffset<EnvironmentExpressionEvaluationContext> createBiFunction() {
         return EnvironmentExpressionFunctionSetTimeOffset.instance();
     }
 

@@ -69,7 +69,7 @@ public final class EnvironmentExpressionFunctionSetIndentationTest extends Envir
     }
 
     @Override
-    public EnvironmentExpressionFunctionSetIndentation createBiFunction() {
+    public EnvironmentExpressionFunctionSetIndentation<EnvironmentExpressionEvaluationContext> createBiFunction() {
         return EnvironmentExpressionFunctionSetIndentation.instance();
     }
 
