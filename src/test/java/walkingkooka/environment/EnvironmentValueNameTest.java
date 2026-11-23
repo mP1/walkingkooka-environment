@@ -57,7 +57,7 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
 
         this.getMessageAndCheck(
             thrown,
-            "Invalid character '1' at 0"
+            "Invalid \"EnvironmentValueName\" character '1' at 0"
         );
     }
 
@@ -73,7 +73,7 @@ final public class EnvironmentValueNameTest implements NameTesting2<EnvironmentV
 
         this.getMessageAndCheck(
             thrown,
-            "Invalid character '$' at 3"
+            "Invalid \"EnvironmentValueName\" character '$' at 3"
         );
     }
 
