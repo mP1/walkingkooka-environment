@@ -149,7 +149,7 @@ final public class EnvironmentValueName<T> implements Name,
                                                    final Class<T> type) {
         CharPredicates.failIfNullOrEmptyOrInitialAndPartFalse(
             name,
-            "name",
+            "EnvironmentValueName",
             INITIAL,
             PART
         );
